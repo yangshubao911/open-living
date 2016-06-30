@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+<!-- 配置连接池 -->
+    <bean id="baseDataSource" class="com.alibaba.druid.pool.DruidDataSource" abstract="true">
+        <property name="filters"><value>stat</value></property>
+        <property name="maxActive"><value>50</value></property>
+        <property name="initialSize"><value>3</value></property>
+        <property name="maxWait"><value>15000</value></property>
+        <property name="minIdle"><value>10</value></property>
+        <property name="timeBetweenEvictionRunsMillis"><value>60000</value></property>
+        <property name="minEvictableIdleTimeMillis"><value>300000</value></property>
+        <property name="validationQuery"><value>SELECT 'x'</value></property>
+        <property name="testWhileIdle"><value>true</value></property>
+        <property name="testOnBorrow"><value>false</value></property>
+        <property name="testOnReturn"><value>false</value></property>
+    </bean>
+    
+	<bean id="livingDataSource" class="com.alibaba.druid.pool.DruidDataSource" parent="baseDataSource">
+		<property name="url">
+			<value>jdbc:mysql://${mysql.living.db.serverport}/${mysql.living.db.database}?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull</value>
+		</property>
+		<property name="username">
+			<value>${mysql.living.db.user}</value>
+		</property>
+		<property name="password">
+			<value>${mysql.living.db.password}</value>
+		</property>
+	</bean>
+	
+	<bean id="livingJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+	 	<property name="dataSource" ref="livingDataSource"/>
+	</bean>
+	
+	  <!-- enable the configuration of transactional behavior based on annotations -->  
+	  <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>  
+	  
+	  <!-- a PlatformTransactionManager is still required -->  
+	  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
+	    <!-- (this dependency is defined somewhere else) -->  
+	    <property name="dataSource" ref="livingDataSource"/>  
+	  </bean> 
+	  
+	  <bean id="activityRedisPollConfig"  class="redis.clients.jedis.JedisPoolConfig">
+        <property name="minIdle" value="5"/>
+        <property name="maxTotal" value="10"/>
+        <property name="blockWhenExhausted" value="1"/>
+        <property name="maxWaitMillis" value="500"/>
+        <property name="lifo" value="false"/>
+
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="numTestsPerEvictionRun" value="-2"/>
+        <property name="timeBetweenEvictionRunsMillis" value="30000"/>
+        <property name="softMinEvictableIdleTimeMillis" value="3600000"/>
+        <property name="minEvictableIdleTimeMillis" value="-1"/>
+    </bean>
+
+    <!-- redis配置 -->
+    <bean id="jedisShard_1" class="redis.clients.jedis.JedisShardInfo">
+        <constructor-arg index="0" value="${redis.openpf.ip_1}"/>
+        <constructor-arg index="1" type="int" value="${redis.openpf.port_1}"/>
+    </bean>
+
+    <bean id="jedisShard_2" class="redis.clients.jedis.JedisShardInfo">
+        <constructor-arg index="0" value="${redis.openpf.ip_2}"/>
+        <constructor-arg index="1" type="int" value="${redis.openpf.port_2}"/>
+    </bean>
+
+    <bean id="sharedJedisPool" class="redis.clients.jedis.ShardedJedisPool" scope="singleton">
+        <constructor-arg index="0" ref="activityRedisPollConfig"/>
+        <constructor-arg index="1">
+            <list>
+                <ref bean="jedisShard_1"/>
+                <ref bean="jedisShard_2"/>
+                <!--<ref bean="jedisShard_3"/>
+                <ref bean="jedisShard_4"/>-->
+            </list>
+        </constructor-arg>
+    </bean>
+	
+</beans>

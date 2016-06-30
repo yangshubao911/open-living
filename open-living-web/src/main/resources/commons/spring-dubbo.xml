@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:bean="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+       
+	<!-- 关闭所有服务的启动时检查：(没有提供者时报错 -->
+	<dubbo:consumer check="false" />
+     <!-- 订单系统-开放平台定制接口 -->
+    <dubbo:reference id="openService" interface="com.shihui.api.order.service.OpenService" init="true" timeout="15000" retries="0" check="false" />
+    <!-- 订单系统-订单接口 -->
+    <dubbo:reference id="omsOrderService" interface="com.shihui.api.order.service.OrderService" init="true" timeout="15000" retries="0" check="false" />
+    <!-- 订单系统-退款接口 -->
+    <dubbo:reference id="orderRefundService" interface="com.shihui.api.order.service.OrderRefundService" init="true" timeout="15000" retries="0" check="false" />
+
+	<!-- 开放平台-小区信息接口 -->
+	<dubbo:reference id="groupManage" interface="com.shihui.openpf.common.service.api.GroupManage"  timeout="5500"/>
+	<!-- 开放平台-供应商地接口 -->
+	<dubbo:reference id="merchantManage"  interface="com.shihui.openpf.common.dubbo.api.MerchantManage" />
+	<!-- 开放平台-供应商服务关联接口 -->
+	<dubbo:reference id="merchantBusinessManage" interface="com.shihui.openpf.common.dubbo.api.MerchantBusinessManage"/>
+	<!-- 开放平台-供应商服务区域接口 -->
+	<dubbo:reference id="merchantAreaManage" interface="com.shihui.openpf.common.dubbo.api.MerchantAreaManage" check="false"/>
+	<!-- 开放平台-业务类型接口 -->
+	<dubbo:reference id="serviceManage" interface="com.shihui.openpf.common.dubbo.api.ServiceManage" check="false"/>
+	<!-- 开放平台-业务类型接口 -->
+	<dubbo:reference id="serviceService" interface="com.shihui.openpf.common.service.api.ServiceService" check="false"/>
+    <!-- 开放平台-活动类型接口 -->
+    <dubbo:reference id="campaignService" interface="com.shihui.openpf.common.service.api.CampaignService" check="false"/>
+    <!-- 用户接口 -->
+     <dubbo:reference id="userServicenew" interface="com.shihui.rpc.user.service.api.UserService" check="false"/>
+    <!-- 实惠现金接口-->
+    <dubbo:reference id="accountDubbo" interface="com.shihui.tradingcenter.commons.dispatcher.currency.AccountDubbo" check="false"/> 
+
+</beans>

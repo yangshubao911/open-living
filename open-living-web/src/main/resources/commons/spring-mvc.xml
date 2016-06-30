@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd" default-lazy-init="false">
+
+    <!-- 配置静态资源访问方式，如image,css,js -->
+    <!--<mvc:resources mapping="/resource/**" location="/WEB-INF/resource/"/>-->
+   <!--  <mvc:resources mapping="/resource/commons/errorPage/**" location="/WEB-INF/resource/commons/errorPage/"/> -->
+
+    <!-- 指定返回视图的路径前置，后缀 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/resource/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!-- 配置项目默认url -->
+    <mvc:view-controller path="/" view-name="forward:/index" />
+
+    <mvc:annotation-driven enable-matrix-variables="true">
+        <mvc:message-converters register-defaults="true">
+            <bean class="com.shihui.commons.OpenpfJSONHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>application/json</value>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+
+
+</beans>
