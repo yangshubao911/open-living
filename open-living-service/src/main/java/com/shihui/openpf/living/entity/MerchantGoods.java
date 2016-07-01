@@ -2,6 +2,7 @@ package com.shihui.openpf.living.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
@@ -11,96 +12,95 @@ import com.alibaba.fastjson.annotation.JSONField;
 /**
  * Created by zhoutc on 2016/1/26.
  */
-@Entity(name = "merchant_goods")
+@Entity(name="merchant_goods")
 public class MerchantGoods implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@JSONField(name = "goods_id")
-	private Long goodsId;
+    @Id
+    @JSONField(name="goods_id")
+    @Column(name="goods_id")
+    private Long goodsId;
+    
+    @Transient
+    @JSONField(name="goods_name")
+    private String goodsName;
 
-	@Transient
-	@JSONField(name = "goods_name")
-	private String goodsName;
+    private Integer status;
 
-	private Integer status;
+    @JSONField(name="settlement")
+    @Column(name="settlement")
+    private String settlement;
+    @Id
+    @JSONField(name="merchant_id")
+    @Column(name="merchant_id")
+    private Integer merchantId;
+    @Id
+    @JSONField(name="service_id")
+    @Column(name="service_id")
+    private Integer serviceId;
 
-	@JSONField(name = "settlement")
-	private String settlement;
-	@Id
-	@JSONField(name = "merchant_id")
-	private Integer merchantId;
-	@Id
-	@JSONField(name = "service_id")
-	private Integer serviceId;
+    @JSONField(name="category_id")
+    @Column(name="category_id")
+    private Integer categoryId;
+    
+    @Transient
+    @JSONField(name="category_name")
+    private String categoryName;
+    
+    @Transient
+    private String price;
+    
+    @Transient
+    @JSONField(name="sh_off_set")
+    private String shOffSet;
 
-	@JSONField(name = "category_id")
-	private Integer categoryId;
+    public Long getGoodsId() {
+        return goodsId;
+    }
 
-	@Transient
-	@JSONField(name = "category_name")
-	private String categoryName;
+    public void setGoodsId(Long goodsId) {
+        this.goodsId = goodsId;
+    }
 
-	@Transient
-	private String price;
+    public Integer getStatus() {
+        return status;
+    }
 
-	@Transient
-	@JSONField(name = "sh_off_set")
-	private String shOffSet;
-	@Transient
-	@JSONField(name = "city_id")
-	private String cityId;
-	@Transient
-	@JSONField(name = "city_name")
-	private String cityName;
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
-	public Long getGoodsId() {
-		return goodsId;
-	}
+    public String getSettlement() {
+        return settlement;
+    }
 
-	public void setGoodsId(Long goodsId) {
-		this.goodsId = goodsId;
-	}
+    public void setSettlement(String settlement) {
+        this.settlement = settlement;
+    }
 
-	public Integer getStatus() {
-		return status;
-	}
+    public Integer getMerchantId() {
+        return merchantId;
+    }
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+    public void setMerchantId(Integer merchantId) {
+        this.merchantId = merchantId;
+    }
 
-	public String getSettlement() {
-		return settlement;
-	}
+    public Integer getServiceId() {
+        return serviceId;
+    }
 
-	public void setSettlement(String settlement) {
-		this.settlement = settlement;
-	}
+    public void setServiceId(Integer serviceId) {
+        this.serviceId = serviceId;
+    }
 
-	public Integer getMerchantId() {
-		return merchantId;
-	}
+    public Integer getCategoryId() {
+        return categoryId;
+    }
 
-	public void setMerchantId(Integer merchantId) {
-		this.merchantId = merchantId;
-	}
-
-	public Integer getServiceId() {
-		return serviceId;
-	}
-
-	public void setServiceId(Integer serviceId) {
-		this.serviceId = serviceId;
-	}
-
-	public Integer getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(Integer categoryId) {
-		this.categoryId = categoryId;
-	}
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
 
 	public String getGoodsName() {
 		return goodsName;
@@ -133,20 +133,5 @@ public class MerchantGoods implements Serializable {
 	public void setShOffSet(String shOffSet) {
 		this.shOffSet = shOffSet;
 	}
-
-	public String getCityId() {
-		return cityId;
-	}
-
-	public void setCityId(String cityId) {
-		this.cityId = cityId;
-	}
-
-	public String getCityName() {
-		return cityName;
-	}
-
-	public void setCityName(String cityName) {
-		this.cityName = cityName;
-	}
 }
+
