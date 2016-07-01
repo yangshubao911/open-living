@@ -25,7 +25,7 @@ import com.shihui.openpf.living.service.CategoryService;
 
 @Controller
 @RequestMapping(path = "/v2/openpf/living/category", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-public class CategoryResource {
+public class CategoryController {
 	
 	@Resource
 	private CategoryService CategoryService;
