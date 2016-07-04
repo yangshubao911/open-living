@@ -34,10 +34,12 @@ public class SimpleResponse {
 		this.msg = msg;
 	}
 	
-	@Override
-	public String toString(){
+//	@Override
+//	public String toString(){
+	public String toJsonString(){
 		StringBuilder sb = new StringBuilder();
 		sb.append("{\"status\":").append(status).append(",\"msg\":\"").append(msg).append("\"}");
 		return sb.toString();
 	}
+
 }

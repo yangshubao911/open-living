@@ -6,8 +6,11 @@ package com.shihui.openpf.living.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
+import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * @author zhouqisheng
@@ -27,10 +30,16 @@ public class BannerAds implements Serializable {
 	private String name;
 	private Integer position;
 	private Integer type;
+	@JSONField(name = "image_id")
+	@Column(name = "image_id")
 	private String imageId;
 	private String url;
 	private String word;
+	@JSONField(name = "create_time")
+	@Column(name = "create_time")
 	private Date createTime;
+	@JSONField(name = "update_time")
+	@Column(name = "update_time")
 	private Date updateTime;
 
 	/**
