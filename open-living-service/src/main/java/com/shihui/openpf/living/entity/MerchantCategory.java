@@ -2,7 +2,6 @@ package com.shihui.openpf.living.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
@@ -18,12 +17,10 @@ public class MerchantCategory implements Serializable {
 
     @Id
     @JSONField(name="merchant_id")
-    @Column(name="merchant_id")
     private Integer merchantId;
 
     @Id
     @JSONField(name="category_id")
-    @Column(name="category_id")
     private Integer categoryId;
     
     @Transient
@@ -31,12 +28,10 @@ public class MerchantCategory implements Serializable {
     private String categoryName;
 
     @JSONField(name="status")
-    @Column(name="status")
     private Integer status;
 
     @Id
     @JSONField(name="service_id")
-    @Column(name="service_id")
     private Integer serviceId;
 
 
@@ -82,4 +77,3 @@ public class MerchantCategory implements Serializable {
 	}
 
 }
-

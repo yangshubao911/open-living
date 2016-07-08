@@ -3,6 +3,8 @@
  */
 package com.shihui.openpf.living.dao;
 
+import java.util.List;
+
 //import javax.annotation.Resource;
 
 //import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,9 +21,9 @@ import com.shihui.openpf.living.entity.BannerAds;
 @Repository
 public class BannerAdsDao extends AbstractDao<BannerAds> {
 	
-//	@Resource(name = "postofficeJdbcTemplate")
-//	public void setJdbcTemplate(JdbcTemplate jdbcTemplate){
-//		this.jdbcTemplate = jdbcTemplate;
-//	}
+	public List<BannerAds> queryForClient(Integer postion){
+		String sql = "select word,image_id,url from `" + this.tableName + "` where position=?";
+		return this.queryForList(sql, postion);
+	}
 
 }

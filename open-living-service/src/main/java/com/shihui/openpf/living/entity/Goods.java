@@ -3,7 +3,6 @@ package com.shihui.openpf.living.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
@@ -21,73 +20,56 @@ public class Goods implements Serializable {
 
 	@Id
 	@JSONField(name="goods_id")
-	@Column(name="goods_id")
 	private Long goodsId;
 
-	@JSONField(name="")
-	@Column(name="category_id")
+	@JSONField(name="category_id")
 	private Integer categoryId;
 
 	@JSONField(name="city_id")
-	@Column(name="city_id")
 	private Integer cityId;
 	
 	@JSONField(name = "city_name")
-	@Column(name="city_name")
 	private String cityName;
 
 	@JSONField(name="create_time", format="yyyy-MM-dd HH:mm:ss")
-	@Column(name="create_time")
 	private Date createTime;
 
 	@JSONField(name="goods_desc")
-	@Column(name="goods_desc")
 	private String goodsDesc;
 
 	@JSONField(name="goods_name")
-	@Column(name="goods_name")
 	private String goodsName;
 
 	@JSONField(name="goods_status")
-	@Column(name="goods_status")
 	private Integer goodsStatus;
 
 	@JSONField(name="goods_version")
-	@Column(name="goods_version")
 	private Integer goodsVersion;
 
 	@JSONField(name="image_id")
-	@Column(name="image_id")
 	private String imageId;
 	
 	@JSONField(name="detail_image")
-	@Column(name="detail_image")
 	private String detailImage;
 
 	private String price;
 
 	@JSONField(name="service_id")
-	@Column(name="service_id")
 	private Integer serviceId;
 
 	@JSONField(name="sh_off_set")
-	@Column(name="sh_off_set")
 	private String shOffSet;
 
 	@JSONField(name="update_time", format="yyyy-MM-dd HH:mm:ss")
-	@Column(name="update_time")
 	private Date updateTime;
 
 	@JSONField(name="attention")
-	@Column(name="attention")
 	private String attention;
 	
 	@JSONField(name="goods_subtitle")
-	@Column(name="goods_subtitle")
 	private String goodsSubtitle;
 	
 	@JSONField(name="first_sh_off_set")
-	@Column(name="first_sh_off_set")
 	private String firstShOffSet;
 	
 	@Transient

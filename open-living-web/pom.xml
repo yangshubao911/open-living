@@ -64,6 +64,11 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.shihui.common</groupId>
+			<artifactId>shihui-common</artifactId>
+		</dependency>
+
 	</dependencies>
   
   

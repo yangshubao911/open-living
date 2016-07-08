@@ -1,12 +1,12 @@
 package com.shihui.openpf.living.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * The persistent class for the category database table.
@@ -19,37 +19,27 @@ public class Category implements Serializable {
 	@Id
 	private Integer id;
 
-	@Column(name="desc")
 	private String desc;
 
-	@Column(name="name")
 	private String name;
 
-	@Column(name="status")
 	private Integer status;
 
 	@JSONField(name = "create_time", format = "yyyy-MM-dd HH:mm:ss")
-	@Column(name = "create_time")
 	private Date createTime;
 
 	@JSONField(name = "image_id")
-	@Column(name = "image_id")
 	private String imageId;
 
 	@JSONField(name = "service_id")
-	@Column(name = "service_id")
 	private Integer serviceId;
 
 	@JSONField(name = "product_id")
-	@Column(name = "product_id")
 	private String productId;
 
-	@JSONField(name = "amount")
-	@Column(name="amount")
 	private Integer amount;
 
 	@JSONField(name = "update_time", format = "yyyy-MM-dd HH:mm:ss")
-	@Column(name = "update_time")
 	private Date updateTime;
 
 
