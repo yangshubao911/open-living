@@ -60,6 +60,9 @@ public class Goods implements Serializable {
 	@JSONField(name="sh_off_set")
 	private String shOffSet;
 
+	@JSONField(name="sh_off_set_max")
+	private String shOffSetMax;
+
 	@JSONField(name="update_time", format="yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
 
@@ -71,11 +74,30 @@ public class Goods implements Serializable {
 	
 	@JSONField(name="first_sh_off_set")
 	private String firstShOffSet;
+
+	@JSONField(name="first_sh_off_set_max")
+	private String firstShOffSetMax;
 	
 	@Transient
 	private Integer serviceMerchantCode;//业务对应商户ID
-
+	//
 	public Goods() {
+	}
+
+	public String getShOffSetMax() {
+		return shOffSetMax;
+	}
+
+	public void setShOffSetMax(String shOffSetMax) {
+		this.shOffSetMax = shOffSetMax;
+	}
+
+	public String getFirstShOffSetMax() {
+		return firstShOffSetMax;
+	}
+
+	public void setFirstShOffSetMax(String firstShOffSetMax) {
+		this.firstShOffSetMax = firstShOffSetMax;
 	}
 
 	public Long getGoodsId() {

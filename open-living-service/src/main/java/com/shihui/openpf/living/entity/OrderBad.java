@@ -17,8 +17,10 @@ public class OrderBad implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@JSONField(name = "order_id")
 	private Long orderId;
 
+	@JSONField(name = "order_status")
 	private Integer orderStatus;
 
 	@JSONField(name = "update_time", format = "yyyy-MM-dd HH:mm:ss")

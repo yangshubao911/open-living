@@ -26,4 +26,12 @@ public class GoodsDao extends AbstractDao<Goods> {
 		return this.queryForList(sql, serviceId, cityId);
 	}
 
+	public List<Goods> queryByService(Integer serviceId){
+		return this.queryForList("SELECT * FROM `goods` WHERE goods_status = 1 and service_id = ?  ORDER BY city_id ASC ", 
+				new Object[]{serviceId});
+	}
+	public List<Goods> queryByCategory(Integer categoryId){
+		return this.queryForList("SELECT * FROM `goods` WHERE goods_status = 1 and category_id = ?  ORDER BY city_id ASC ", 
+				new Object[]{categoryId});
+	}
 }

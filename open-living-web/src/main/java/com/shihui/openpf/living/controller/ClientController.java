@@ -26,25 +26,53 @@ import com.shihui.openpf.living.controller.BasicController;
  *
  */
 @Controller
-@RequestMapping(path = "/v2/openpf/living", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+@RequestMapping(path = "/v2/openpf/living/app", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 public class ClientController extends BasicController {
 	@Resource
 	private ClientService clientService;
 
-	@RequestMapping("/home")
+	@RequestMapping("/homepage")
 	@ResponseBody
 	@Access(type = AccessType.COMMON)
-	public Object home(
-			@RequestParam(required = true) Long userId,
-			@RequestParam(required = true) Integer cityId,
-			@RequestParam(required = false) Integer historyOrderCount) {
-		Map<String, Object> expand = new HashMap<>();
-		expand.put("userId", userId);
-		expand.put("city_id", cityId);
-		expand.put("historyOrderCount", historyOrderCount);
+	public Object homepage(
+			@RequestParam(name="user_id", required = true) Long userId,
+			@RequestParam(name="city_id", required = true) Integer cityId,
+			@RequestParam(name="history_order_count", required = false) Integer historyOrderCount) {
+
+		if(historyOrderCount == null)
+			historyOrderCount = new Integer(5);
 		
-		OperationLogger.log("operation.living.home", RequestContext.getRequestContext(), expand);
-		return clientService.home(userId,cityId, historyOrderCount);
+		return clientService.homepage(userId,cityId, historyOrderCount);
 	}
 
+	@RequestMapping("/queryCity")
+	@ResponseBody
+	@Access(type = AccessType.COMMON)
+	public Object queryCity(
+			@RequestParam(name="category_id", required = true) Integer categoryId) {
+
+		return clientService.queryCity(categoryId);
+	}
+
+	@RequestMapping("/queryCompany")
+	@ResponseBody
+	@Access(type = AccessType.COMMON)
+	public Object queryCity(
+			@RequestParam(name="service_id", required = true) Integer serviceId,
+			@RequestParam(name="city_id", required = true) Integer cityId) {
+
+		return clientService.queryCompany(serviceId, cityId);
+	}
+	/*
+	 * 输入信息验证
+	 */
+	
+	/*
+	 * 查询缴费单
+	 */
+	
+	/*
+	 * 创建订单
+	 */
+	
 }

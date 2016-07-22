@@ -13,8 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shihui.openpf.living.entity.Order;
-import com.shihui.openpf.living.entity.OrderCancelType;
+import com.shihui.openpf.living.entity.support.OrderCancelType;
 
+import com.shihui.openpf.living.entity.Bill;
+import com.shihui.openpf.living.dao.BillDao;
 
 /**
  * Created by zhoutc on 2016/1/25.
@@ -24,6 +26,9 @@ public class OrderService {
 
     @Resource
     OrderDao orderDao;
+
+    @Resource
+    BillDao billDao;
 
     @Resource
     OrderHistoryDao orderHistoryDao;

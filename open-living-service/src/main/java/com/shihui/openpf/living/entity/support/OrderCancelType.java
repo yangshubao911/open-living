@@ -2,7 +2,7 @@
  *
  */
 
-package com.shihui.openpf.living.entity;
+package com.shihui.openpf.living.entity.support;
 
 /**
  * @author zhouqisheng

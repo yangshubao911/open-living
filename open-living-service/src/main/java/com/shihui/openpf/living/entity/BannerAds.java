@@ -30,16 +30,17 @@ public class BannerAds implements Serializable {
 	private String name;
 	private Integer position;
 	private Integer type;
+	
 	@JSONField(name = "image_id")
-	@Column(name = "image_id")
 	private String imageId;
+	
 	private String url;
 	private String word;
-	@JSONField(name = "create_time")
-	@Column(name = "create_time")
+	
+	@JSONField(name = "create_time", format = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
-	@JSONField(name = "update_time")
-	@Column(name = "update_time")
+	
+	@JSONField(name = "update_time", format = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
 
 	/**

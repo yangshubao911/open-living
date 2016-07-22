@@ -44,8 +44,9 @@ public class OrderDao extends AbstractDao<Order> {
 	}
 
 	public List<Order> queryTopN(int count) {
-		return this.queryForList( "select * from `" + this.tableName + "` limit 1, ?", count);
+		return this.queryForList( "SELECT * FROM `order` WHERE order_status = ? ORDER BY update_time DESC  LIMIT ?", new Object[]{OrderStatusEnum.OrderHadReceived.getValue(),count});
 	}
+	
 	public List<Order> queryOrder(Order order, String startTime, String endTime, Integer page, Integer size) {
 		StringBuilder sql = new StringBuilder(
 				"select a.*,b.request_id,c.service_start_time from (`order`a left join `request` b on a.order_id = b.order_id) left join `contact` as c on a.order_id = c.order_id where 1 = 1 ");

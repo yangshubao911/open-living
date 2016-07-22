@@ -18,8 +18,10 @@ public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@JSONField(name = "order_id")
 	private Long orderId;
 
+	@JSONField(name = "campaign_id")
 	private Integer campaignId;
 
 	@JSONField(name = "create_time", format = "yyyy-MM-dd HH:mm:ss")
@@ -29,36 +31,43 @@ public class Order implements Serializable {
 
 	private Long gid;
 
+	@JSONField(name = "goods_id")
 	private Long goodsId;
 
-	private Integer goodsNum;
+//	private Integer goodsNum;
 
+	@JSONField(name = "goods_version")
 	private Integer goodsVersion;
 
+	@JSONField(name = "merchant_id")
 	private Integer merchantId;
 
+	@JSONField(name = "order_status")
 	private Integer orderStatus;
 
 	private String pay;
 
+	@JSONField(name = "payment_type")
 	private Integer paymentType;
 
 	private String price;
 	
 	private String settlement;
 
+	@JSONField(name = "sh_off_set")
 	private String shOffSet;
 
 	@JSONField(name = "update_time", format = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
 
+	@JSONField(name = "user_id")
 	private Long userId;
 
 	private Integer service_id;
 
 	private String remark;
 
-	private String phone;
+//	private String phone;
 	
 	@JSONField(name = "audit_id")
 	private Long auditId;
@@ -69,17 +78,22 @@ public class Order implements Serializable {
 	@JSONField(name = "refund_price")
 	private String refundPrice;
 	
+	@JSONField(name = "app_id")
 	private Integer appId;
 
-    @Transient
-	private String requestId;
-    @Transient
-    private String serviceStartTime;
+//  @Transient
+//	private String requestId;
+//    @Transient
+//    private String serviceStartTime;
     
     private Long mid;
+    @JSONField(name = "pay_time")
     private Date payTime;
+    @JSONField(name = "consume_time")
     private Date consumeTime;
+    @JSONField(name = "trans_id")
     private String transId;
+    @JSONField(name = "device_id")
     private String deviceId;
 
 	public Order() {
@@ -125,13 +139,13 @@ public class Order implements Serializable {
 		this.gid = gid;
 	}
 
-	public Integer getGoodsNum() {
-		return goodsNum;
-	}
-
-	public void setGoodsNum(Integer goodsNum) {
-		this.goodsNum = goodsNum;
-	}
+//	public Integer getGoodsNum() {
+//		return goodsNum;
+//	}
+//
+//	public void setGoodsNum(Integer goodsNum) {
+//		this.goodsNum = goodsNum;
+//	}
 
 	public Integer getGoodsVersion() {
 		return goodsVersion;
@@ -229,13 +243,13 @@ public class Order implements Serializable {
 		this.remark = remark;
 	}
 
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+//	public String getPhone() {
+//		return phone;
+//	}
+//
+//	public void setPhone(String phone) {
+//		this.phone = phone;
+//	}
 
 	public Long getGoodsId() {
 		return goodsId;
@@ -277,21 +291,21 @@ public class Order implements Serializable {
 		this.appId = appId;
 	}
 
-	public String getRequestId() {
-		return requestId;
-	}
-
-	public void setRequestId(String requestId) {
-		this.requestId = requestId;
-	}
-
-	public String getServiceStartTime() {
-		return serviceStartTime;
-	}
-
-	public void setServiceStartTime(String serviceStartTime) {
-		this.serviceStartTime = serviceStartTime;
-	}
+//	public String getRequestId() {
+//		return requestId;
+//	}
+//
+//	public void setRequestId(String requestId) {
+//		this.requestId = requestId;
+//	}
+//
+//	public String getServiceStartTime() {
+//		return serviceStartTime;
+//	}
+//
+//	public void setServiceStartTime(String serviceStartTime) {
+//		this.serviceStartTime = serviceStartTime;
+//	}
 
 	public Long getMid() {
 		return mid;

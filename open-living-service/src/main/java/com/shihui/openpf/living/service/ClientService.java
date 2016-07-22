@@ -37,15 +37,19 @@ import com.shihui.openpf.common.tools.StringUtil;
 //import com.shihui.openpf.living.api.RechargeProcess;
 //import com.shihui.openpf.living.api.bean.ProcessResult;
 import com.shihui.openpf.living.dao.BannerAdsDao;
+import com.shihui.openpf.living.dao.OrderDao;
+import com.shihui.openpf.living.dao.BillDao;
 import com.shihui.openpf.living.dao.GoodsDao;
 import com.shihui.openpf.living.dao.MerchantGoodsDao;
-//import com.shihui.openpf.living.dao.OrderDao;
-//import com.shihui.openpf.living.dao.PhoneSectionDao;
+import com.shihui.openpf.living.dao.CompanyDao;
+import com.shihui.openpf.living.dao.CategoryDao;
 import com.shihui.openpf.living.entity.BannerAds;
 import com.shihui.openpf.living.entity.Goods;
 import com.shihui.openpf.living.entity.MerchantGoods;
 import com.shihui.openpf.living.entity.Order;
-//import com.shihui.openpf.living.entity.PhoneSection;
+import com.shihui.openpf.living.entity.Bill;
+import com.shihui.openpf.living.entity.Company;
+import com.shihui.openpf.living.entity.Category;
 //import com.shihui.openpf.living.entity.Request;
 import com.shihui.openpf.living.entity.support.BannerAdsEnum;
 //import com.shihui.openpf.living.entity.support.PositionMap;
@@ -64,107 +68,237 @@ import com.shihui.tradingcenter.commons.dispatcher.currency.AccountDubbo;
  */
 @Service
 public class ClientService {
+//	@Resource
+//	private BannerAdsDao bannerAdsDao;
+////	@Resource
+////	private PhoneSectionDao phoneSectionDao;
+//	@Resource
+//	private GoodsDao goodsDao;
+//	@Resource
+//	private MerchantGoodsDao merchantGoodsDao;
+////	@Resource
+////	private OrderDao orderDao;
+//	@Resource
+//	private UserService userServicenew;
+//	@Resource
+//	private AccountDubbo accountDubbo;
+//	@Resource
+//	private ServiceManage serviceManage;
+//	@Resource
+//	private ServiceService serviceService;
+//	@Resource
+//	private CampaignService campaignService;
+////	@Resource
+////	private RechargeOrderService rechargeOrderService;
+////	@Resource
+////	private RechargeProcess rechargeProcess;
+////	@Resource
+////	private RechargeRequestService rechargeRequestService;
+//	@Resource
+//	private MerchantBusinessManage merchantBusinessManage;
+//
+//	//private Logger log = LoggerFactory.getLogger(getClass());
+//
+//	public Object home(Long userId, Integer cityId, Integer historyOrderCount) {
+//		JSONObject result = new JSONObject();
+//
+//		// 查询广告
+//		List<BannerAds> adsList = bannerAdsDao.queryForClient(BannerAdsEnum.HOME.getPostion());
+//		result.put("bannerAds", adsList);
+//		//查询服务
+//		JSONArray serviceList = new JSONArray();
+//		result.put("serviceList", serviceList);
+//
+//		com.shihui.openpf.common.model.Service wFreeService, LFreeService, gasFreeService;
+//
+//		wFreeService = getServiceObject(4/*TODO 生活缴费类的服务待定义,水费*/, OrderTypeEnum.Convenient_WFee.getValue());
+//		LFreeService = getServiceObject(5/*TODO 生活缴费类的服务待定义,电费*/, OrderTypeEnum.Convenient_LFee.getValue());
+//		gasFreeService = getServiceObject(6/*TODO 生活缴费类的服务待定义,,煤气费*/, OrderTypeEnum.Convenient_GasFee.getValue());
+//
+//
+//		if(wFreeService != null)
+//			serviceList.add(getServiceInfo(wFreeService, cityId));
+//		if(LFreeService != null)
+//			serviceList.add(getServiceInfo(LFreeService, cityId));
+//		if(gasFreeService != null)
+//			serviceList.add(getServiceInfo(gasFreeService, cityId));
+//		//查询历史订单
+//		int orderCount = (historyOrderCount == null || historyOrderCount==0)? 5 : historyOrderCount;
+//		JSONArray historyOrderList = getHistoryOrderList(userId, orderCount);
+//		if(historyOrderList != null)
+//			result.put("historyOrderList", historyOrderList);
+//		
+//		return result;
+//	}
+//
+//	private com.shihui.openpf.common.model.Service getServiceObject(int type, int orderType) {
+//		List<com.shihui.openpf.common.model.Service> serviceList = serviceService.listBytype(type);
+//		for(com.shihui.openpf.common.model.Service service : serviceList){
+//			if(service.getOrderType().equals(orderType)){
+//				return service;
+//			}
+//		}
+//		return null;
+//	}
+//	
+//	private JSONObject getServiceInfo(com.shihui.openpf.common.model.Service service, Integer cityId) {
+//		JSONObject joService = new JSONObject();
+//		
+//		Integer serviceId = service.getServiceId();
+//		
+//		joService.put("serviceId", service.getServiceId());
+//		joService.put("serviceName", service.getServiceName());
+//		// 查询商品
+//		JSONArray goodsInfo = new JSONArray();
+//		joService.put("goodsInfo", goodsInfo);
+//		List<Goods> goodsList = goodsDao.queryForClient(serviceId, cityId);
+//		if (goodsList.size() != 0) {
+//			for (Goods goods : goodsList) {
+//				JSONObject jo = new JSONObject();
+//				jo.put("goodsId", goods.getGoodsId());
+//				jo.put("goodsName", goods.getGoodsName());
+//				jo.put("desc", goods.getGoodsDesc());
+//				jo.put("subtitle", goods.getGoodsSubtitle());
+//				jo.put("status", goods.getGoodsStatus());
+//				goodsInfo.add(jo);
+//				break;
+//			}
+//		}
+//		return joService;
+//	}
+//	
+//	private JSONArray getHistoryOrderList(Long userId, int orderCount) {
+//		JSONArray ja = new JSONArray();
+//		return ja;
+//	}
+	
 	@Resource
 	private BannerAdsDao bannerAdsDao;
-//	@Resource
-//	private PhoneSectionDao phoneSectionDao;
 	@Resource
-	private GoodsDao goodsDao;
-	@Resource
-	private MerchantGoodsDao merchantGoodsDao;
-//	@Resource
-//	private OrderDao orderDao;
-	@Resource
-	private UserService userServicenew;
-	@Resource
-	private AccountDubbo accountDubbo;
-	@Resource
-	private ServiceManage serviceManage;
+	private BillDao billDao;
 	@Resource
 	private ServiceService serviceService;
 	@Resource
-	private CampaignService campaignService;
-//	@Resource
-//	private RechargeOrderService rechargeOrderService;
-//	@Resource
-//	private RechargeProcess rechargeProcess;
-//	@Resource
-//	private RechargeRequestService rechargeRequestService;
+	private CategoryDao categoryDao;
+	
 	@Resource
-	private MerchantBusinessManage merchantBusinessManage;
-
-	//private Logger log = LoggerFactory.getLogger(getClass());
-
-	public Object home(Long userId, Integer cityId, Integer historyOrderCount) {
+	private GoodsDao goodsDao;
+	
+	@Resource
+	private CompanyDao companyDao;
+	
+	/*
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
+	public Object homepage(Long userId, Integer cityId, Integer historyOrderCount) {
 		JSONObject result = new JSONObject();
-
+		
 		// 查询广告
 		List<BannerAds> adsList = bannerAdsDao.queryForClient(BannerAdsEnum.HOME.getPostion());
 		result.put("bannerAds", adsList);
-		//查询服务
-		JSONArray serviceList = new JSONArray();
-		result.put("serviceList", serviceList);
-
-		com.shihui.openpf.common.model.Service wFreeService, LFreeService, gasFreeService;
-
-		wFreeService = getServiceObject(4/*TODO 生活缴费类的服务待定义,水费*/, OrderTypeEnum.Convenient_WFee.getValue());
-		LFreeService = getServiceObject(5/*TODO 生活缴费类的服务待定义,电费*/, OrderTypeEnum.Convenient_LFee.getValue());
-		gasFreeService = getServiceObject(6/*TODO 生活缴费类的服务待定义,,煤气费*/, OrderTypeEnum.Convenient_GasFee.getValue());
-
-
-		if(wFreeService != null)
-			serviceList.add(getServiceInfo(wFreeService, cityId));
-		if(LFreeService != null)
-			serviceList.add(getServiceInfo(LFreeService, cityId));
-		if(gasFreeService != null)
-			serviceList.add(getServiceInfo(gasFreeService, cityId));
-		//查询历史订单
-		int orderCount = (historyOrderCount == null || historyOrderCount==0)? 5 : historyOrderCount;
-		JSONArray historyOrderList = getHistoryOrderList(userId, orderCount);
-		if(historyOrderList != null)
-			result.put("historyOrderList", historyOrderList);
 		
+		//查询服务
+		result.put("category_list", getCategoryList());
+		
+		//历史订单Top5
+		result.put("bill_list", getBillList(userId, historyOrderCount));
+		
+		//
+		return result;
+	}
+	
+	private JSONArray getCategoryList() {
+		JSONArray ja = new JSONArray();
+		List<Category> categoryList = categoryDao.findAll();
+		for(Category category : categoryList) {
+			JSONObject jo = new JSONObject();
+			jo.put("category_id", category.getId());
+			jo.put("category_name", category.getName());
+			jo.put("image_id", category.getImageId());
+			jo.put("service_id", category.getServiceId());
+			jo.put("category_status", category.getStatus());	
+			jo.put("product_id", category.getProductId());	
+			ja.add(jo);
+		}	
+		return ja;
+	}
+
+	private JSONArray getBillList(long userId, int count) {
+		JSONArray ja = new JSONArray();
+		
+		List<Bill> billList = billDao.queryTopN(userId, count);
+		for(Bill bill : billList) {
+			JSONObject jo = new JSONObject();
+			jo.put("fee_name", bill.getFeeName());
+			jo.put("user_no", bill.getBillKey());
+			ja.add(jo);
+		}
+		return ja;
+	}
+	/*
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
+	public Object queryCity(Integer categoryId) {
+		JSONObject result = new JSONObject();
+		
+		result.put("category_id", categoryId);
+		
+		List<Goods> goodsList = goodsDao.queryByCategory(categoryId);
+		
+		JSONArray ja = new JSONArray();
+		result.put("city_list", ja);
+		
+		for(Goods goods : goodsList) {
+			JSONObject jo = new JSONObject();
+			jo.put("city_id", goods.getCityId());
+			jo.put("city_name", goods.getCityName());
+			ja.add(jo);
+		}
+		return result;
+	}
+	/*
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
+	public Object queryCompany(Integer serviceId, Integer cityId) {
+		JSONObject result = new JSONObject();
+		
+		result.put("service_id", serviceId);
+		result.put("city_id", cityId);
+		
+		List<Company> companyList = companyDao.queryList(cityId,serviceService.findById(serviceId).getOrderType());
+		
+		JSONArray ja = new JSONArray();
+		result.put("company_list", ja);
+		
+		for(Company company : companyList) {
+			JSONObject jo = new JSONObject();
+			jo.put("company_id", company.getCompanyId());
+			jo.put("company_name", company.getCompanyName());
+			jo.put("company_no", company.getCompanyNo());
+			ja.add(jo);
+		}
 		return result;
 	}
 
-	private com.shihui.openpf.common.model.Service getServiceObject(int type, int orderType) {
-		List<com.shihui.openpf.common.model.Service> serviceList = serviceService.listBytype(type);
-		for(com.shihui.openpf.common.model.Service service : serviceList){
-			if(service.getOrderType().equals(orderType)){
-				return service;
-			}
-		}
-		return null;
-	}
+	/*
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
 	
-	private JSONObject getServiceInfo(com.shihui.openpf.common.model.Service service, Integer cityId) {
-		JSONObject joService = new JSONObject();
 		
-		Integer serviceId = service.getServiceId();
-		
-		joService.put("serviceId", service.getServiceId());
-		joService.put("serviceName", service.getServiceName());
-		// 查询商品
-		JSONArray goodsInfo = new JSONArray();
-		joService.put("goodsInfo", goodsInfo);
-		List<Goods> goodsList = goodsDao.queryForClient(serviceId, cityId);
-		if (goodsList.size() != 0) {
-			for (Goods goods : goodsList) {
-				JSONObject jo = new JSONObject();
-				jo.put("goodsId", goods.getGoodsId());
-				jo.put("goodsName", goods.getGoodsName());
-				jo.put("desc", goods.getGoodsDesc());
-				jo.put("subtitle", goods.getGoodsSubtitle());
-				jo.put("status", goods.getGoodsStatus());
-				goodsInfo.add(jo);
-				break;
-			}
-		}
-		return joService;
-	}
-	
-	private JSONArray getHistoryOrderList(Long userId, int orderCount) {
-		JSONArray ja = new JSONArray();
-		return ja;
-	}
 }
