@@ -25,6 +25,9 @@ public class Bill implements Serializable {
 	@JSONField(name="fee_name")
 	private String feeName;
 
+	@JSONField(name="city_name")
+	private String cityName;
+
 	@JSONField(name="bill_key")
 	private String billKey;
 
@@ -114,6 +117,14 @@ public class Bill implements Serializable {
 
 	public void setFeeName(String feeName) {
 		this.feeName = feeName;
+	}
+
+	public String getCityName() {
+		return cityName;
+	}
+
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
 	}
 
 	public String getBillKey() {

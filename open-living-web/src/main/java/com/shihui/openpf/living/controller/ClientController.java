@@ -3,8 +3,8 @@
  */
 package com.shihui.openpf.living.controller;
 
-import java.util.HashMap;
-import java.util.Map;
+//import java.util.HashMap;
+//import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.shihui.api.core.auth.Access;
 import com.shihui.api.core.auth.Access.AccessType;
-import com.shihui.api.core.context.RequestContext;
-import com.shihui.commons.OperationLogger;
+//import com.shihui.api.core.context.RequestContext;
+//import com.shihui.commons.OperationLogger;
 import com.shihui.openpf.living.service.ClientService;
 import com.shihui.openpf.living.controller.BasicController;
 

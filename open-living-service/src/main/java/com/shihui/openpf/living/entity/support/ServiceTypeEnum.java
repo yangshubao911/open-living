@@ -9,9 +9,9 @@ import com.shihui.api.order.common.enums.OrderTypeEnum;
  * Created by zhoutc on 2015/12/16.
  */
 public enum ServiceTypeEnum {
-    PowerRate(OrderTypeEnum.Convenient_LFee.getValue(),"电费"),
-    WaterRate(OrderTypeEnum.Convenient_WFee.getValue(),"水费"),
-	GasRate(OrderTypeEnum.Convenient_GasFee.getValue(),"煤气费");
+    WaterRate(303,"水费"),//OrderTypeEnum.Convenient_WFee
+    PowerRate(304,"电费"),//OrderTypeEnum.Convenient_LFee
+	GasRate(306,"煤气费");//OrderTypeEnum.Convenient_GasFee
 
     private Integer value;
     private String name;

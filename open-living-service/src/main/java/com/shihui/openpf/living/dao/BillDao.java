@@ -2,6 +2,7 @@ package com.shihui.openpf.living.dao;
 
 import com.shihui.openpf.living.entity.support.BillStatusEnum;
 import com.shihui.openpf.living.entity.Bill;
+import com.shihui.openpf.living.entity.Order;
 
 import java.util.List;
 
@@ -18,6 +19,11 @@ public class BillDao extends AbstractDao<Bill> {
 								+" AND orderId in (SELECT orderId FROM `order` WHERE user_id = ? ))"
 								+" ORDER BY pay_time DESC  LIMIT ? ",
 				new Object[]{BillStatusEnum.CheckSuccess.getValue(),userId, count});
+	}
+
+	public Bill findById(Long orderId){
+		String sql = "SELECT * FROM `bill` WHERE order_id = ? ";
+		return queryForObject(sql, orderId);
 	}
 
 }

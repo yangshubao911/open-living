@@ -157,8 +157,8 @@ public class OrderDao extends AbstractDao<Order> {
 	 * @return 异常订单数量
 	 */
 	public int countUnusual() {
-		String sql = "select count(*) from `order` where order_status = ?";
-		return super.queryCount(sql, 8);
+		return super.queryCount("SELECT count(*) FROM `order` WHERE order_status = ? AND update_time < DATE_ADD(NOW(), INTERVAL -24 HOUR) ", 
+				OrderStatusEnum.OrderUnStockOut.getValue());
 	}
 
 	/**
@@ -167,8 +167,8 @@ public class OrderDao extends AbstractDao<Order> {
 	 * @return 异常订单数量
 	 */
 	public List<Order> queryUnusual() {
-		String sql = "select * from `order` where order_status = ?";
-		return super.queryForList(sql, 8);
+		return super.queryForList("SELECT * FROM `order` WHERE order_status = ? AND update_time < DATE_ADD(NOW(), INTERVAL -24 HOUR) ORDER BY update_time DESC ", 
+				OrderStatusEnum.OrderUnStockOut.getValue());
 	}
 
 	/**
