@@ -49,7 +49,9 @@ public class GoodsController {
 			@RequestParam(name = "service_id",			required = true )	Integer		service_id,
 			@RequestParam(name = "goods_status",		required = true )	Integer		goods_status,
 			@RequestParam(name = "sh_off_set",			required = true )	String		sh_off_set,
+			@RequestParam(name = "sh_off_set_max",		required = false)	String		sh_off_set_max,
 			@RequestParam(name = "first_sh_off_set",	required = true )	String		first_sh_off_set,
+			@RequestParam(name = "first_sh_off_set_max",required = false)	String		first_sh_off_set_max,
 			@RequestParam(name = "price",				required = true )	String		price,
 			@RequestParam(name = "goods_subtitle",		required = true )	String		goods_subtitle,
 			@RequestParam(name = "attention",			required = true )	String		attention
@@ -65,7 +67,9 @@ public class GoodsController {
 		goods.setServiceId(service_id);
 		goods.setGoodsStatus(goods_status);
 		goods.setShOffSet(sh_off_set);
+		goods.setShOffSetMax(sh_off_set_max);
 		goods.setFirstShOffSet(first_sh_off_set);
+		goods.setFirstShOffSetMax(first_sh_off_set_max);
 		goods.setPrice(price);
 		goods.setAttention(attention);
 		goods.setGoodsSubtitle(goods_subtitle);
@@ -90,7 +94,9 @@ public class GoodsController {
 			@RequestParam(name = "image_id",			required = false)	String	image_id,
 			@RequestParam(name = "detail_image",		required = false)	String	detail_image,
 			@RequestParam(name = "sh_off_set",			required = false)	String	sh_off_set,
+			@RequestParam(name = "sh_off_set_max",		required = false)	String	sh_off_set_max,
 			@RequestParam(name = "first_sh_off_set",	required = false)	String	first_sh_off_set,
+			@RequestParam(name = "first_sh_off_set_max",required = false)	String	first_sh_off_set_max,
 			@RequestParam(name = "price",				required = false)	String	price,
 			@RequestParam(name = "goods_subtitle",		required = false)	String	goods_subtitle,
 			@RequestParam(name = "attention",			required = false)	String	attention
@@ -102,7 +108,9 @@ public class GoodsController {
 		goods.setImageId(image_id);
 		goods.setDetailImage(detail_image);
 		goods.setShOffSet(sh_off_set);
+		goods.setShOffSetMax(sh_off_set_max);
 		goods.setFirstShOffSet(first_sh_off_set);
+		goods.setFirstShOffSetMax(first_sh_off_set_max);
 		goods.setPrice(price);
 		goods.setGoodsStatus(goods_status);
 		goods.setAttention(attention);
