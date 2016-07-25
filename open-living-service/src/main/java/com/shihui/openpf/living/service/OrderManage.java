@@ -271,35 +271,35 @@ public class OrderManage {
 			if (order == null || bill == null)
 				return null;
 			//
-			result.put("order_id", String.valueOf(orderId));
-			//result.put("consume_time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(order.getConsumeTime()));
-			result.put("user_id", order.getUserId());
+			result.put("orderId", String.valueOf(orderId));
+			//result.put("consumeTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(order.getConsumeTime()));
+			result.put("userId", order.getUserId());
 			result.put("price", order.getPrice());
-			result.put("order_status", OrderStatusEnum.parse(order.getOrderStatus()).getName());
+			result.put("orderStatus", OrderStatusEnum.parse(order.getOrderStatus()).getName());
 			//
-			result.put("fee_name", bill.getFeeName());
-			result.put("city_name", bill.getCityName());
-			result.put("user_address", bill.getUserAddress());
-			result.put("user_no", bill.getBillKey());
-			result.put("user_name", bill.getUserName());
-			result.put("bill_status", bill.getBillStatus() == BillStatusEnum.Refund.getValue() ? "已退款" : "无");
+			result.put("feeName", bill.getFeeName());
+			result.put("cityName", bill.getCityName());
+			result.put("userAddress", bill.getUserAddress());
+			result.put("userNo", bill.getBillKey());
+			result.put("userName", bill.getUserName());
+			result.put("billStatus", bill.getBillStatus() == BillStatusEnum.Refund.getValue() ? "已退款" : "无");
 			//
 			Company company = companyDao.findById(bill.getCompanyId());
-			result.put("company_name", company.getCompanyName());
+			result.put("companyName", company.getCompanyName());
 			//
 			Merchant merchant = merchantManage.getById(order.getMerchantId());
-			result.put("merchant_name", merchant.getMerchantName());
+			result.put("merchantName", merchant.getMerchantName());
 			//
 			SimpleResult simpleResult = orderSystemService.backendOrderDetail(orderId);
 			if(simpleResult.getStatus()==1) {
 				com.shihui.api.order.po.Order order_vo = (com.shihui.api.order.po.Order)simpleResult.getData();
 				PayTypeEnum payType = order_vo.getPayType();
 				if(payType!=null)
-					result.put("pay_type", payType.getValue());
-				result.put("trans_id", String.valueOf(order_vo.getTransId()));
-				result.put("pay_time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(order_vo.getPaymentTime())));
+					result.put("payType", payType.getValue());
+				result.put("transId", String.valueOf(order_vo.getTransId()));
+				result.put("payTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(order_vo.getPaymentTime())));
 				if (order.getOrderStatus() == OrderStatusEnum.OrderHadReceived.getValue()) {
-					result.put("consume_time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(order.getUpdateTime()));
+					result.put("consumeTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(order.getUpdateTime()));
 				}
 			}else {
 				log.info("queryOrder--orderId:" + orderId + " backendOrderDetail status:" + simpleResult.getStatus() + " msg:" + simpleResult.getMsg());
@@ -413,7 +413,7 @@ public class OrderManage {
 			order_json.put("orderId", String.valueOf(order.getOrderId()));
 			order_json.put("userId", order.getUserId());
 			order_json.put("phone", "");
-			order_json.put("serviceId", order.getService_id());
+			order_json.put("serviceId", order.getServiceId());
 
 			order_json.put("price", order.getPrice());
 			order_json.put("shOffset", order.getShOffSet());
@@ -463,7 +463,7 @@ public class OrderManage {
 			list.add(i);
 			list.add(order.getOrderId());
 			list.add(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(order.getCreateTime()));
-			com.shihui.openpf.common.model.Service service = serviceManage.findById(order.getService_id());
+			com.shihui.openpf.common.model.Service service = serviceManage.findById(order.getServiceId());
 			list.add(service.getServiceName());
 			Merchant merchant = merchantManage.getById(order.getMerchantId());
 			list.add(merchant.getMerchantName());
@@ -509,9 +509,9 @@ public class OrderManage {
         if(orderDao.save(order)>0) {
             Date date = new Date();
             OrderHistory orderHistory = new OrderHistory();
-            orderHistory.setChange_time(date);
-            orderHistory.setOrder_id(order.getOrderId());
-            orderHistory.setOrder_status(order.getOrderStatus());
+            orderHistory.setChangeTime(date);
+            orderHistory.setOrderId(order.getOrderId());
+            orderHistory.setOrderStatus(order.getOrderStatus());
             orderHistoryDao.save(orderHistory);
         }
         return JSON.toJSON(result);

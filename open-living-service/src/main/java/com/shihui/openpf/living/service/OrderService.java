@@ -43,9 +43,9 @@ public class OrderService {
         if(orderDao.save(order)>0) {
             Date date = new Date();
             OrderHistory orderHistory = new OrderHistory();
-            orderHistory.setChange_time(date);
-            orderHistory.setOrder_id(order.getOrderId());
-            orderHistory.setOrder_status(order.getOrderStatus());
+            orderHistory.setChangeTime(date);
+            orderHistory.setOrderId(order.getOrderId());
+            orderHistory.setOrderStatus(order.getOrderStatus());
             if (orderHistoryDao.save(orderHistory) > 0) {
                 return true;
             }
@@ -85,9 +85,9 @@ public class OrderService {
 		Date now = new Date();
 		
 		OrderHistory orderHistory = new OrderHistory();
-		orderHistory.setOrder_id(orderId);
-		orderHistory.setOrder_status(status);
-		orderHistory.setChange_time(now);
+		orderHistory.setOrderId(orderId);
+		orderHistory.setOrderStatus(status);
+		orderHistory.setChangeTime(now);
 		this.orderHistoryDao.save(orderHistory);
 		
 		Order order = new Order();
@@ -112,9 +112,9 @@ public class OrderService {
         if(orderDao.update(order)>0) {
             Date date = new Date();
             OrderHistory orderHistory = new OrderHistory();
-            orderHistory.setChange_time(date);
-            orderHistory.setOrder_id(order.getOrderId());
-            orderHistory.setOrder_status(order.getOrderStatus());
+            orderHistory.setChangeTime(date);
+            orderHistory.setOrderId(order.getOrderId());
+            orderHistory.setOrderStatus(order.getOrderStatus());
             if (orderHistoryDao.insert(orderHistory) > 0) {
                 return true;
             }

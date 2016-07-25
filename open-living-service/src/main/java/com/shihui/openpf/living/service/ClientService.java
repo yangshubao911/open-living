@@ -97,10 +97,10 @@ public class ClientService {
 		result.put("bannerAds", adsList);
 		
 		//查询服务
-		result.put("category_list", getCategoryList());
+		result.put("categoryList", getCategoryList());
 		
 		//历史订单Top5
-		result.put("bill_list", getBillList(userId, historyOrderCount));
+		result.put("billList", getBillList(userId, historyOrderCount));
 		
 		//
 		return result;
@@ -111,12 +111,12 @@ public class ClientService {
 		List<Category> categoryList = categoryDao.findAll();
 		for(Category category : categoryList) {
 			JSONObject jo = new JSONObject();
-			jo.put("category_id", category.getId());
-			jo.put("category_name", category.getName());
-			jo.put("image_id", category.getImageId());
-			jo.put("service_id", category.getServiceId());
-			jo.put("category_status", category.getStatus());	
-			jo.put("product_id", category.getProductId());	
+			jo.put("categoryId", category.getId());
+			jo.put("categoryName", category.getName());
+			jo.put("imageId", category.getImageId());
+			jo.put("serviceId", category.getServiceId());
+			jo.put("categoryStatus", category.getStatus());	
+			jo.put("productId", category.getProductId());	
 			ja.add(jo);
 		}	
 		return ja;
@@ -128,8 +128,8 @@ public class ClientService {
 		List<Bill> billList = billDao.queryTopN(userId, count);
 		for(Bill bill : billList) {
 			JSONObject jo = new JSONObject();
-			jo.put("fee_name", bill.getFeeName());
-			jo.put("user_no", bill.getBillKey());
+			jo.put("feeName", bill.getFeeName());
+			jo.put("userNo", bill.getBillKey());
 			ja.add(jo);
 		}
 		return ja;
@@ -144,17 +144,17 @@ public class ClientService {
 	public Object queryCity(Integer categoryId) {
 		JSONObject result = new JSONObject();
 		
-		result.put("category_id", categoryId);
+		result.put("categoryId", categoryId);
 		
 		List<Goods> goodsList = goodsDao.queryByCategory(categoryId);
 		
 		JSONArray ja = new JSONArray();
-		result.put("city_list", ja);
+		result.put("cityList", ja);
 		
 		for(Goods goods : goodsList) {
 			JSONObject jo = new JSONObject();
-			jo.put("city_id", goods.getCityId());
-			jo.put("city_name", goods.getCityName());
+			jo.put("cityId", goods.getCityId());
+			jo.put("cityName", goods.getCityName());
 			ja.add(jo);
 		}
 		return result;
@@ -169,8 +169,8 @@ public class ClientService {
 	public Object queryCompany(Integer serviceId, Integer cityId) {
 		JSONObject result = new JSONObject();
 		
-		result.put("service_id", serviceId);
-		result.put("city_id", cityId);
+		result.put("serviceId", serviceId);
+		result.put("cityId", cityId);
 		
 		List<Company> companyList = companyDao.queryList(cityId,serviceService.findById(serviceId).getOrderType());
 		
@@ -179,9 +179,9 @@ public class ClientService {
 		
 		for(Company company : companyList) {
 			JSONObject jo = new JSONObject();
-			jo.put("company_id", company.getCompanyId());
-			jo.put("company_name", company.getCompanyName());
-			jo.put("company_no", company.getCompanyNo());
+			jo.put("companyId", company.getCompanyId());
+			jo.put("companyName", company.getCompanyName());
+			jo.put("companyNo", company.getCompanyNo());
 			ja.add(jo);
 		}
 		return result;
