@@ -37,11 +37,8 @@ public class ClientController extends BasicController {
 	public Object homepage(
 			@RequestParam(name="user_id", required = true) Long userId,
 			@RequestParam(name="city_id", required = true) Integer cityId,
-			@RequestParam(name="history_order_count", required = false) Integer historyOrderCount) {
+			@RequestParam(name="history_order_count", required = false, defaultValue = "5") int historyOrderCount) {
 
-		if(historyOrderCount == null)
-			historyOrderCount = new Integer(5);
-		
 		return clientService.homepage(userId,cityId, historyOrderCount);
 	}
 

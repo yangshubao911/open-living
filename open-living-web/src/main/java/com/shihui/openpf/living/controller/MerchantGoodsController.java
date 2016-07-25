@@ -33,7 +33,7 @@ public class MerchantGoodsController {
 	@RequestMapping("/list")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-    public String list(
+    public Object list(
     		@RequestParam(name = "merchant_id",		required = true )	Integer merchant_id,
     		@RequestParam(name = "service_id",		required = true )	Integer service_id,
     		@RequestParam(name = "category_id",		required = false )	Integer category_id
@@ -43,16 +43,16 @@ public class MerchantGoodsController {
 			list = merchantGoodsService.findByConditions(merchant_id, service_id, category_id);
 		} catch (Exception e) {
 			log.error("查询商户商品遗产", e);
-			return new SimpleResponse(1, "查询失败").toString();
+			return JSON.toJSON(new SimpleResponse(1, "查询失败").toString());
 		}
-        return JSON.toJSONString(list);
+        return JSON.toJSON(list);
     }
 
 
 	@RequestMapping("/update")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	  public String update(
+	  public Object update(
 			  @RequestParam(name = "merchant_id",	required = false )	Integer	merchant_id,
 			  @RequestParam(name = "goods_id",		required = false )	Long	goods_id,
 			  @RequestParam(name = "status",		required = false )	Integer	status,
@@ -64,13 +64,13 @@ public class MerchantGoodsController {
         merchantGoods.setGoodsId(goods_id);
         merchantGoods.setStatus(status);
         merchantGoods.setSettlement(settlement);
-        return merchantGoodsService.updateMerchantGoods(merchantGoods);
+        return JSON.toJSON(merchantGoodsService.updateMerchantGoods(merchantGoods));
     }
 
 	@RequestMapping("/create")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-    public String create(
+    public Object create(
     		@RequestParam(name = "merchant_id",		required = true )	Integer	merchant_id,
     		@RequestParam(name = "goods_id",		required = true )	Long	goods_id,
     		@RequestParam(name = "category_id",		required = true )	Integer	category_id,
@@ -86,13 +86,13 @@ public class MerchantGoodsController {
         merchantGoods.setServiceId(service_id);
         merchantGoods.setStatus(status);
         merchantGoods.setSettlement(settlement);
-        return merchantGoodsService.createMerchantGoods(merchantGoods);
+        return JSON.toJSON(merchantGoodsService.createMerchantGoods(merchantGoods));
     }
     
 	@RequestMapping("/batchAdd")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-    public String batchAdd(
+    public Object batchAdd(
     		@RequestParam(name = "data",	required = false )	String json
     ){
         List<MerchantGoods> list;
@@ -100,15 +100,15 @@ public class MerchantGoodsController {
 			list = JSON.parseArray(json, MerchantGoods.class);
 		} catch (Exception e) {
 			log.error("批量添加商户商品参数转换异常 param={}", json, e);
-			return new SimpleResponse(1, "参数格式错误").toString();
+			return JSON.toJSON(new SimpleResponse(1, "参数格式错误").toString());
 		}
-        return merchantGoodsService.batchAddGoods(list);
+        return JSON.toJSON(merchantGoodsService.batchAddGoods(list));
     }
     
 	@RequestMapping("/batchUpdate")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-    public String batchUpdate(
+    public Object batchUpdate(
     		@RequestParam(name = "data",	required = false )	String json
     ){
         List<MerchantGoods> list;
@@ -116,8 +116,8 @@ public class MerchantGoodsController {
 			list = JSON.parseArray(json, MerchantGoods.class);
 		} catch (Exception e) {
 			log.error("批量更新商户商品参数转换异常 param={}", json, e);
-			return new SimpleResponse(1, "参数格式错误").toString();
+			return JSON.toJSON(new SimpleResponse(1, "参数格式错误"));
 		}
-        return merchantGoodsService.batchUpdateAddedGoods(list);
+        return JSON.toJSON(merchantGoodsService.batchUpdateAddedGoods(list));
     }
 }

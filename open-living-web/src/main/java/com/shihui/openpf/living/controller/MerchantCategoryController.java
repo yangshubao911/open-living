@@ -34,7 +34,7 @@ public class MerchantCategoryController {
 	@RequestMapping("/list")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-    public String list(
+    public Object list(
     		@RequestParam(name = "service_id",	required = true )	Integer service_id,
     		@RequestParam(name = "merchant_id",	required = true )	Integer merchant_id
     ){
@@ -43,16 +43,16 @@ public class MerchantCategoryController {
 			list = merchantCategoryService.queryByConditions(merchant_id, service_id);
 		} catch (Exception e) {
 			log.error("查询商户商品分类异常", e);
-			return new SimpleResponse(1, "查询失败").toString();
+			return JSON.toJSON(new SimpleResponse(1, "查询失败"));
 		}
-        return JSON.toJSONString(list);
+        return JSON.toJSON(list);
     }
 
 
 	@RequestMapping("/update")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-    public String update(
+    public Object update(
     		@RequestParam(name = "status",		required = true )	Integer status,
     		@RequestParam(name = "merchant_id",	required = true )	Integer merchant_id,
     		@RequestParam(name = "service_id",	required = true )	Integer service_id,
@@ -64,13 +64,13 @@ public class MerchantCategoryController {
         merchantCategory.setServiceId(service_id);
         merchantCategory.setCategoryId(category_id);
         merchantCategory.setStatus(status);
-        return merchantCategoryService.updateCategory(merchantCategory);
+        return JSON.toJSON(merchantCategoryService.updateCategory(merchantCategory));
     }
 
 	@RequestMapping("/create")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-    public String create(
+    public Object create(
     		@RequestParam(name = "status",			required = true )	Integer status,
     		@RequestParam(name = "merchant_id",		required = true )	Integer merchant_id,
     		@RequestParam(name = "service_id",		required = true )	Integer service_id,
@@ -82,13 +82,13 @@ public class MerchantCategoryController {
         merchantCategory.setServiceId(service_id);
         merchantCategory.setCategoryId(category_id);
         merchantCategory.setStatus(status);
-        return merchantCategoryService.create(merchantCategory);
+        return JSON.toJSON(merchantCategoryService.create(merchantCategory));
     }
     
 	@RequestMapping("/batchAdd")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-    public String batchAdd(
+    public Object batchAdd(
     		@RequestParam(name = "data",		required = true )	String json
     ){
         List<MerchantCategory> merchantCategorys;
@@ -96,8 +96,8 @@ public class MerchantCategoryController {
 			merchantCategorys = JSON.parseArray(json, MerchantCategory.class);
 		} catch (Exception e) {
 			log.error("批量绑定商品分类参数错误", e);
-			return JSON.toJSONString(new SimpleResponse(1,"参数格式错误"));
+			return JSON.toJSON(new SimpleResponse(1,"参数格式错误"));
 		}
-        return merchantCategoryService.batchCreate(merchantCategorys);
+        return JSON.toJSON(merchantCategoryService.batchCreate(merchantCategorys));
     }
 }

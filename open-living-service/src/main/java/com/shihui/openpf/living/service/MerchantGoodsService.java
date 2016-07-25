@@ -48,11 +48,11 @@ public class MerchantGoodsService {
      * @return 更新结果
      */
 
-    public String updateMerchantGoods(MerchantGoods merchantGoods) {
+    public Object updateMerchantGoods(MerchantGoods merchantGoods) {
         if(merchantGoodsDao.update(merchantGoods)>0){
-            return JSON.toJSONString(new SimpleResponse(0, "更新成功"));
+            return new SimpleResponse(0, "更新成功");
         }else {
-            return JSON.toJSONString(new SimpleResponse(1, "更新失败"));
+            return new SimpleResponse(1, "更新失败");
         }
     }
 
@@ -63,38 +63,38 @@ public class MerchantGoodsService {
      * @return 创建结果
      */
 
-    public String createMerchantGoods(MerchantGoods merchantGoods) {
+    public Object createMerchantGoods(MerchantGoods merchantGoods) {
         try {
             boolean save = merchantGoodsDao.save(merchantGoods) > 0;
             if (save)
-                return JSON.toJSONString(new SimpleResponse(0, "创建成功"));
+                return new SimpleResponse(0, "创建成功");
 
         } catch (Exception e) {
             log.error("MerchantGoodsService error!!", e);
         }
 
-        return JSON.toJSONString(new SimpleResponse(1, "创建失败"));
+        return new SimpleResponse(1, "创建失败");
     }
 
 
-	public String batchAddGoods(List<MerchantGoods> list) {
+	public Object batchAddGoods(List<MerchantGoods> list) {
 		try {
 			this.merchantGoodsDao.batchSave(list);
-			return JSON.toJSONString(new SimpleResponse(0, "绑定成功"));
+			return new SimpleResponse(0, "绑定成功");
 		} catch (Exception e) {
 			log.error("批量绑定供应商商品异常", e);
-			 return JSON.toJSONString(new SimpleResponse(1, "绑定失败"));
+			 return new SimpleResponse(1, "绑定失败");
 		}
 	}
 
 
-	public String batchUpdateAddedGoods(List<MerchantGoods> list) {
+	public Object batchUpdateAddedGoods(List<MerchantGoods> list) {
 		try {
 			this.merchantGoodsDao.batchUpdate(list);
-			return JSON.toJSONString(new SimpleResponse(0, "更新成功"));
+			return new SimpleResponse(0, "更新成功");
 		} catch (Exception e) {
 			log.error("批量更新已绑定供应商商品异常", e);
-			 return JSON.toJSONString(new SimpleResponse(1, "更新失败"));
+			 return new SimpleResponse(1, "更新失败");
 		}
 	}
 	

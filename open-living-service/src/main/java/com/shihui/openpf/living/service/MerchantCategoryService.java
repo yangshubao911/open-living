@@ -40,11 +40,11 @@ public class MerchantCategoryService {
      * @return 更新结果
      */
 
-    public String updateCategory(MerchantCategory merchantCategory) {
+    public Object updateCategory(MerchantCategory merchantCategory) {
        if(merchantCategoryDao.update(merchantCategory)>0){
-           return JSON.toJSONString(new SimpleResponse(0, "更新成功"));
+           return new SimpleResponse(0, "更新成功");
        }else {
-           return JSON.toJSONString(new SimpleResponse(1, "更新失败"));
+           return new SimpleResponse(1, "更新失败");
        }
     }
 
@@ -55,27 +55,27 @@ public class MerchantCategoryService {
      * @return 创建结果
      */
 
-    public String create(MerchantCategory merchantCategory) {
+    public Object create(MerchantCategory merchantCategory) {
         try {
             boolean result = merchantCategoryDao.save(merchantCategory) > 0;
             if (result)
-                return JSON.toJSONString(new SimpleResponse(0, "创建成功"));
+                return new SimpleResponse(0, "创建成功");
         }catch (Exception e){
             log.error("MerchantCategoryService create error!!",e);
         }
 
-        return JSON.toJSONString(new SimpleResponse(1, "创建失败"));
+        return new SimpleResponse(1, "创建失败");
 
     }
 
 
-	public String batchCreate(List<MerchantCategory> merchantCategorys) { 	 	
+	public Object batchCreate(List<MerchantCategory> merchantCategorys) { 	 	
 		try {
 			int n = this.merchantCategoryDao.batchSave(merchantCategorys);
-			return JSON.toJSONString(new SimpleResponse(0, "绑定成功:" + n + "，失败：" + (merchantCategorys.size() - n)));
+			return new SimpleResponse(0, "绑定成功:" + n + "，失败：" + (merchantCategorys.size() - n));
 		} catch (SQLException e) {
 			log.error("批量绑定供应商商品分类异常", e);
-			 return JSON.toJSONString(new SimpleResponse(1, "绑定失败"));
+			 return new SimpleResponse(1, "绑定失败");
 		}
 	}
 

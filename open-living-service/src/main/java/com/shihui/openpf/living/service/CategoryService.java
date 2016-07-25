@@ -35,7 +35,7 @@ public class CategoryService {
 	 * shihui.openpf.home.dubbo.model.Category)
 	 */
 
-	public String create(Category category) {
+	public Object create(Category category) {
 		Date now = new Date();
 		category.setCreateTime(now);
 		category.setUpdateTime(now);
@@ -44,9 +44,9 @@ public class CategoryService {
 			id = categoryDao.insert(category);
 		} catch (Exception e) {
 			log.error("创建商品类型异常，{}", JSON.toJSONString(category), e);
-			return JSON.toJSONString(new SimpleResponse(1, "创建商品类型失败"));
+			return new SimpleResponse(1, "创建商品类型失败");
 		}
-		return JSON.toJSONString(new SimpleResponse(0, id));
+		return new SimpleResponse(0, id);
 	}
 
 	/*
@@ -56,7 +56,7 @@ public class CategoryService {
 	 * shihui.openpf.home.dubbo.model.Category)
 	 */
 
-	public String update(Category category) {
+	public Object update(Category category) {
 		Date now = new Date();
 		category.setUpdateTime(now);
 		int result = 0;
@@ -67,9 +67,9 @@ public class CategoryService {
 		}
 		
 		if(result > 0){
-			return JSON.toJSONString(new SimpleResponse(0, "更新成功"));
+			return new SimpleResponse(0, "更新成功");
 		}else{
-			return JSON.toJSONString(new SimpleResponse(1, "更新失败"));
+			return new SimpleResponse(1, "更新失败");
 		}
 	}
 

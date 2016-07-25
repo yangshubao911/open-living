@@ -122,7 +122,7 @@ public class OrderManage {
 	 * @return 返回结果
 	 */
 
-	public String queryOrderList(ConditionVo vo) {
+	public Object queryOrderList(ConditionVo vo) {
 
 		JSONObject result = new JSONObject();
 		JSONArray ja = new JSONArray();
@@ -133,12 +133,12 @@ public class OrderManage {
 		result.put("size", vo.getCount());
 		
 		if (total <= 0)
-			return result.toJSONString();
+			return result;
 		
 		List<OrderBill> orderList = obDao.query(vo);
 		result.put("orders", JSON.toJSON(orderList));
 		
-		return result.toJSONString();
+		return result;
 	}
 
 	/**
@@ -148,7 +148,7 @@ public class OrderManage {
 	 * @return 返回结果
 	 */
 
-	public String exportOrderList(ConditionVo vo) {
+	public Object exportOrderList(ConditionVo vo) {
 		JSONObject result = new JSONObject();
 		List<OrderBill> orderList = obDao.query(vo);
 		
@@ -189,7 +189,7 @@ public class OrderManage {
 		} catch (Exception e) {
 			log.error("export order list error!!!",e);
 			result.put("code", 2);
-			return result.toJSONString();
+			return result;
 		}
 		String fileId = "";
 		try {
@@ -197,12 +197,12 @@ public class OrderManage {
 		}catch (Exception e){
 			log.error("upload file error!!!",e);
 			result.put("code",2);
-			return result.toJSONString();
+			return result;
 		}
 
 		result.put("code",1);
 		result.put("fileId", fileId);
-		return result.toJSONString();
+		return result;
 	}
 
 	/**
@@ -210,7 +210,7 @@ public class OrderManage {
 	 *
 	 * @return
 	 */
-	public String uploadFile(String filePath) {
+	private String uploadFile(String filePath) {
 		JSONObject result = null;
 		log.info("开始上传文件：{}", filePath);
 		File file = new File(filePath);
@@ -249,7 +249,7 @@ public class OrderManage {
 	 * @return 返回订单详情
 	 */
 
-	public String queryOrder(long orderId) {
+	public Object queryOrder(long orderId) {
 		try {
 			JSONObject result = new JSONObject();
 			
@@ -293,12 +293,12 @@ public class OrderManage {
 				log.info("queryOrder--orderId:" + orderId + " backendOrderDetail status:" + simpleResult.getStatus() + " msg:" + simpleResult.getMsg());
 			}
 
-			return result.toJSONString();
+			return result;
 		} catch (Exception e) {
 			log.error("OrderManageImpl queryOrder error!!", e);
 		}
 
-		return "";
+		return null;
 	}
 
 	/**
@@ -309,20 +309,20 @@ public class OrderManage {
 	 * @return 返回取消订单结果
 	 */
 
-	public String cancelLocalOrder(long userId, String email, long orderId , String price, String reason, int refundSHCoin, int nowStatus) {
+	public Object cancelLocalOrder(long userId, String email, long orderId , String price, String reason, int refundSHCoin, int nowStatus) {
 		try {
 			Order order = orderDao.queryOrder(orderId);
 			Bill bill = billDao.findById(orderId);
 			if (order == null || bill == null) {
-				return LivingCodeEnum.ORDER_NA.toJSONString();
+				return LivingCodeEnum.ORDER_NA;
 			}
 			if(nowStatus!=order.getOrderStatus()){
-				return LivingCodeEnum.OTHER_NA.toJSONString();
+				return LivingCodeEnum.OTHER_NA;
 			}
 			
 			Merchant merchant = merchantManage.getById(order.getMerchantId());
 			if(merchant == null){
-				return LivingCodeEnum.OTHER_NA.toJSONString("商户信息不存在");
+				return LivingCodeEnum.OTHER_NA;//.toJSONString("商户信息不存在");
 			}
 
 			OrderStatusEnum orderStatus = OrderStatusEnum.parse(order.getOrderStatus());
@@ -346,19 +346,19 @@ public class OrderManage {
 					}else{
 						log.error("后台取消订单，发起退款失败，订单号={}，原订单状态={}", order.getOrderId(), order.getOrderStatus());
 					}
-					return LivingCodeEnum.SUCCESS.toJSONString();
+					return LivingCodeEnum.SUCCESS;
 				}else{
-					return LivingCodeEnum.CANCEL_FAIL.toJSONString("更改订单状态失败");
+					return LivingCodeEnum.CANCEL_FAIL;//.toJSONString("更改订单状态失败");
 				}
 				
 			}
 			else
-				return LivingCodeEnum.CANCEL_FAIL.toJSONString("订单不允许取消");
+				return LivingCodeEnum.CANCEL_FAIL;//.toJSONString("订单不允许取消");
 				
 				
 		} catch (Exception e) {
 			log.error("取消订单异常，订单号={}", orderId, e);
-			return LivingCodeEnum.SYSTEM_ERR.toJSONString();
+			return LivingCodeEnum.SYSTEM_ERR;
 		}
 	}
 
@@ -369,11 +369,11 @@ public class OrderManage {
 	 * @return 返回订单详情
 	 */
 
-	public String countunusual() {
+	public Object countunusual() {
 		int total = orderDao.countUnusual();
 		JSONObject result = new JSONObject();
 		result.put("total", total);
-		return result.toJSONString();
+		return result;
 
 	}
 
@@ -383,7 +383,7 @@ public class OrderManage {
 	 * @return 订单列表
 	 */
 
-	public String queryUnusual() {
+	public Object queryUnusual() {
 
 		List<Order> orders = orderDao.queryUnusual();
 		JSONArray orders_json = (JSONArray)JSON.toJSON(orders);
@@ -392,7 +392,7 @@ public class OrderManage {
 		}
 		JSONObject result = new JSONObject();
 		result.put("orders", orders_json);
-		return result.toJSONString();
+		return result;
 	}
 	
 	private JSONObject buildOrderVo(Order order) {

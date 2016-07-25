@@ -34,7 +34,7 @@ public class BannerAdsController {
 	@RequestMapping(path = "/create", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public String create(int position, 
+	public Object create(int position, 
 			String name,
 			@RequestParam(name = "image_id", required = false) String imageId,
 			@RequestParam(name = "word", required = false) String word,
@@ -47,13 +47,13 @@ public class BannerAdsController {
 		banner.setWord(word);
 		banner.setType(type);
 		banner.setPosition(position);
-		return bannerAdsService.save(banner);
+		return JSON.toJSON(bannerAdsService.save(banner));
 	}
 
 	@RequestMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public String update(int id, @RequestParam(name = "name", required = false) String name,
+	public Object update(int id, @RequestParam(name = "name", required = false) String name,
 			@RequestParam(name = "image_id", required = false) String imageId,
 			@RequestParam(name = "word", required = false) String word,
 			@RequestParam(name = "url", required = false) String url,
@@ -65,33 +65,33 @@ public class BannerAdsController {
 		banner.setUrl(url);
 		banner.setWord(word);
 		banner.setType(type);
-		return bannerAdsService.update(banner);
+		return JSON.toJSON(bannerAdsService.update(banner));
 	}
 	
 	@RequestMapping(path = "/delete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public String update(int id) {
+	public Object update(int id) {
 		BannerAds banner = new BannerAds();
 		banner.setId(id);
-		return bannerAdsService.delete(banner);
+		return JSON.toJSON(bannerAdsService.delete(banner));
 	}
 	
 	@RequestMapping(path = "/findbyid", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public String query(int id){
-		return JSON.toJSONString(bannerAdsService.query(id));
+	public Object query(int id){
+		return JSON.toJSON(bannerAdsService.query(id));
 	}
 	
 	@RequestMapping(path = "/list", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public String list(@RequestParam(required = false) Integer position){
+	public Object list(@RequestParam(required = false) Integer position){
 		List<BannerAds> list = bannerAdsService.list(position);
 		if(list == null)
 			return "[]";
 		
-		return JSON.toJSONString(list);
+		return JSON.toJSON(list);
 	}
 }

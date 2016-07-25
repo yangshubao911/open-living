@@ -34,17 +34,17 @@ public class BannerAdsService {
 	 * @param banner
 	 * @return
 	 */
-	public String save(BannerAds banner){
+	public Object save(BannerAds banner){
 		try {
 			Date now = new Date();
 			banner.setCreateTime(now);
 			banner.setUpdateTime(now);
 			bannerAdsDao.save(banner);
-			return new SimpleResponse(0, "创建成功").toJsonString();
+			return new SimpleResponse(0, "创建成功");
 		} catch (Exception e) {
 			log.error("创建广告位异常，参数={}", JSON.toJSONString(banner), e);
 		}
-		return new SimpleResponse(1, "创建失败").toJsonString();
+		return new SimpleResponse(1, "创建失败");
 	}
 	
 	/**
@@ -52,15 +52,15 @@ public class BannerAdsService {
 	 * @param banner
 	 * @return
 	 */
-	public String update(BannerAds banner){
+	public Object update(BannerAds banner){
 		try {
 			banner.setUpdateTime(new Date());
 			bannerAdsDao.update(banner);
-			return new SimpleResponse(0, "更新成功").toJsonString();
+			return new SimpleResponse(0, "更新成功");
 		} catch (Exception e) {
 			log.error("更新广告位异常，参数={}", JSON.toJSONString(banner), e);
 		}
-		return new SimpleResponse(1, "更新失败").toJsonString();
+		return new SimpleResponse(1, "更新失败");
 	}
 	
 	/**
@@ -68,14 +68,14 @@ public class BannerAdsService {
 	 * @param banner
 	 * @return
 	 */
-	public String delete(BannerAds banner){
+	public Object delete(BannerAds banner){
 		try {
 			bannerAdsDao.delete(banner);
-			return new SimpleResponse(0, "删除成功").toJsonString();
+			return new SimpleResponse(0, "删除成功");
 		} catch (Exception e) {
 			log.error("删除广告位异常，参数={}", JSON.toJSONString(banner), e);
 		}
-		return new SimpleResponse(1, "删除失败").toJsonString();
+		return new SimpleResponse(1, "删除失败");
 	}
 	
 	/**

@@ -40,7 +40,7 @@ public class OrderController {
 	@RequestMapping("/search")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public String listById(
+	public Object listById(
 			@RequestParam(name="start_time",	required = false)						String startTime,
 			@RequestParam(name="end_time",		required = false)						String endTime,
 			@RequestParam(name="city_td",		required = false)						String cityId,
@@ -81,7 +81,7 @@ public class OrderController {
 			vo.setCount(size);
 			vo.setPage(page);
 			
-			return orderManage.queryOrderList(vo);
+			return JSON.toJSON(orderManage.queryOrderList(vo));
 		} catch (Exception e) {
 			log.error("查询订单列表异常，param={}", JSON.toJSONString(vo), e);
 		}
@@ -92,7 +92,7 @@ public class OrderController {
 	@RequestMapping("/export")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public String export(
+	public Object export(
 			@RequestParam(name="start_time",	required = false)	String startTime,
 			@RequestParam(name="end_time",		required = false)	String endTime,
 			@RequestParam(name="city_td",		required = false)	String cityId,
@@ -131,7 +131,7 @@ public class OrderController {
 			vo.setIndex(new Integer(0));
 			vo.setCount(new Integer(-1));
 
-			return orderManage.exportOrderList(vo);
+			return JSON.toJSON(orderManage.exportOrderList(vo));
 		} catch (Exception e) {
 			log.error("查询订单列表异常，param={}", JSON.toJSONString(vo), e);
 		}
@@ -141,15 +141,15 @@ public class OrderController {
 	@RequestMapping("/detail")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public String detail(
+	public Object detail(
 			@RequestParam(name="order_id",		required = true)	long orderId) {
-		return orderManage.queryOrder(orderId);
+		return JSON.toJSON(orderManage.queryOrder(orderId));
 	}
 
 	@RequestMapping("/cancel")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public String cancel(
+	public Object cancel(
 			@RequestParam(name="user_id",		required = true)	int userId,
 			@RequestParam(name="email",		required = true)		String email,
 			@RequestParam(name="order_id",		required = true)	long orderId,
@@ -157,21 +157,21 @@ public class OrderController {
 			@RequestParam(name="reason",		required = true)	String reason,
 			@RequestParam(name="status",		required = true)	int status,
 			@RequestParam(name="refund_sh_coin",		required = true)	Integer refundSHCoin) {//是否退实惠现金，1-是，2-否
-		return orderManage.cancelLocalOrder(userId, email, orderId, price, reason, refundSHCoin, status);
+		return JSON.toJSON(orderManage.cancelLocalOrder(userId, email, orderId, price, reason, refundSHCoin, status));
 	}
 
 	@RequestMapping("/unusualOrder/count")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public String count( ) {
-		return orderManage.countunusual();
+	public Object count( ) {
+		return JSON.toJSON(orderManage.countunusual());
 	}
 
 	@RequestMapping("/unusualOrder/query")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public String query( ) {
-		return orderManage.queryUnusual();
+	public Object query( ) {
+		return JSON.toJSON(orderManage.queryUnusual());
 	}
 
 	@RequestMapping(path = "/unusualOrder/export", produces = { "application/vnd.ms-excel; charset=UTF-8" })

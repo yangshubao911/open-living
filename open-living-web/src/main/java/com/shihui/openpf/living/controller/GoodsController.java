@@ -38,7 +38,7 @@ public class GoodsController {
 	@RequestMapping("/create")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public String create(
+	public Object create(
 			@RequestParam(name = "category_id",			required = true )	Integer		category_id,
 			@RequestParam(name = "city_id",				required = true )	Integer		city_id,
 			@RequestParam(name = "city_name",			required = true )	String		city_name,
@@ -73,12 +73,12 @@ public class GoodsController {
 		goods.setPrice(price);
 		goods.setAttention(attention);
 		goods.setGoodsSubtitle(goods_subtitle);
-		String ret = null;
+		Object ret = null;
 		try {
-			ret = goodsService.create(goods);
+			ret = JSON.toJSON(goodsService.create(goods));
 		} catch (Exception e) {
 			log.error("新增商品异常，{}", JSON.toJSONString(goods), e);
-			return JSON.toJSONString(new SimpleResponse(1, "创建商品失败"));
+			return JSON.toJSON(new SimpleResponse(1, "创建商品失败"));
 		}
 		return ret;
 	}
@@ -86,7 +86,7 @@ public class GoodsController {
 	@RequestMapping("/update")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public String update(
+	public Object update(
 			@RequestParam(name = "goods_id",			required = true )	Long	goods_id,
 			@RequestParam(name = "goods_desc",			required = false)	String	goods_desc,
 			@RequestParam(name = "goods_status",		required = false)	Integer	goods_status,
@@ -115,12 +115,12 @@ public class GoodsController {
 		goods.setGoodsStatus(goods_status);
 		goods.setAttention(attention);
 		goods.setGoodsSubtitle(goods_subtitle);
-		String ret;
+		Object ret;
 		try {
-			ret = goodsService.update(goods);
+			ret = JSON.toJSON(goodsService.update(goods));
 		} catch (Exception e) {
 			log.error("更新商品异常，{}", JSON.toJSONString(goods), e);
-			return JSON.toJSONString(new SimpleResponse(1, "更新商品失败"));
+			return JSON.toJSON(new SimpleResponse(1, "更新商品失败"));
 		}
 		
 		return ret;
@@ -129,26 +129,26 @@ public class GoodsController {
 	@RequestMapping("/list")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public String list(@RequestParam(name = "category_id", required = true) int categoryId) {
-		return JSON.toJSONString(goodsService.list(categoryId));
+	public Object list(@RequestParam(name = "category_id", required = true) int categoryId) {
+		return JSON.toJSON(goodsService.list(categoryId));
 	}
 
 
 	@RequestMapping("/listByCity")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public String listByCity(
+	public Object listByCity(
 			@RequestParam(name = "category_id",	required = true)	int categoryId,
 			@RequestParam(name = "city_id",		required = true)	int cityId) {
-		return JSON.toJSONString(goodsService.findByCity(categoryId, cityId));
+		return JSON.toJSON(goodsService.findByCity(categoryId, cityId));
 	}
 	
 	@RequestMapping("/batchUpdate")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public String batchUpdate( @RequestParam(name = "data", required = true) String json) {
+	public Object batchUpdate( @RequestParam(name = "data", required = true) String json) {
 		List<Goods> goodsList = JSON.parseArray(json, Goods.class);
-		return goodsService.batchUpdate(goodsList);
+		return JSON.toJSON(goodsService.batchUpdate(goodsList));
 	}
 
 }

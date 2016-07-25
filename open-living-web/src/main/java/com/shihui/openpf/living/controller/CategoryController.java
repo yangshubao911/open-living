@@ -33,7 +33,7 @@ public class CategoryController {
 	@RequestMapping("/create")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public String create(
+	public Object create(
 			@RequestParam(name = "desc",		required = true)					String	desc,
 			@RequestParam(name = "name",		required = true)					String	name,
 			@RequestParam(name = "image_id",	required = true)					String	image_id,
@@ -50,13 +50,13 @@ public class CategoryController {
     	category.setStatus(status);
     	category.setAmount(amount);
     	category.setProductId(productId);
-		return CategoryService.create(category);
+		return JSON.toJSON(CategoryService.create(category));
     }
     
 	@RequestMapping("/update")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public String update(
+	public Object update(
 			@RequestParam(name = "desc",		required = false)	String desc,
 			@RequestParam(name = "name",		required = false)	String name,
 			@RequestParam(name = "image_id",	required = false)	String image_id,
@@ -71,16 +71,16 @@ public class CategoryController {
     	category.setName(name);
     	category.setId(id);
     	category.setStatus(status);
-		return CategoryService.update(category);
+		return JSON.toJSON(CategoryService.update(category));
     }
     
 	@RequestMapping("/list")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public String list(
+	public Object list(
 			@RequestParam(name = "service_id",	required = true )	int service_id
 			){
-		return JSON.toJSONString(CategoryService.list(service_id));
+		return JSON.toJSON(CategoryService.list(service_id));
     }
 
 

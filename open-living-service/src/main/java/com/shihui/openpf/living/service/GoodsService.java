@@ -37,10 +37,10 @@ public class GoodsService {
 	 * @see com.shihui.openpf.home.api.GoodsService#create(com.shihui.openpf.home.model.Goods)
 	 */
 
-	public String create(Goods goods) {
+	public Object create(Goods goods) {
 		Goods temp = this.findByCity(goods.getCategoryId(), goods.getCityId());
 		if(temp != null){
-			return JSON.toJSONString(new SimpleResponse(1,"该城市对应此类商品已存在"));
+			return new SimpleResponse(1,"该城市对应此类商品已存在");
 		}
 		
 		Date now = new Date();
@@ -54,7 +54,7 @@ public class GoodsService {
 			id = this.goodsDao.insert(goods);
 		} catch (Exception e) {
 			log.error("创建商品失败，{}", JSON.toJSONString(goods), e);
-			return JSON.toJSONString(new SimpleResponse(1,"创建商品失败"));
+			return new SimpleResponse(1,"创建商品失败");
 		}
 		try {
 			//创建商品快照
@@ -63,7 +63,7 @@ public class GoodsService {
 			
 			Service service = this.serviceManage.findById(goods.getServiceId());
 			if(service == null){
-				return JSON.toJSONString(new SimpleResponse(1,"查询服务类型信息异常"));
+				return new SimpleResponse(1,"查询服务类型信息异常");
 			}
 			
 			goods.setServiceMerchantCode(service.getServiceMerchantId());
@@ -72,28 +72,28 @@ public class GoodsService {
 			if(result == null || result.isEmpty()){
 				this.goodsDao.delete(goods);
 				log.warn("【创建】调用创建商品快照接口失败，删除已创建商品，商品id={}", id);
-				return JSON.toJSONString(new SimpleResponse(1,"创建商品快照失败"));
+				return new SimpleResponse(1,"创建商品快照失败");
 			}
 			JSONObject jo = JSONObject.parseObject(result);
 			boolean status = jo.getBoolean("status");
 			if (!status){
 				this.goodsDao.delete(goods);
 				log.warn("【创建】创建商品快照失败，删除已创建商品，商品id={}", id);
-				return JSON.toJSONString(new SimpleResponse(1,"创建商品快照失败"));
+				return new SimpleResponse(1,"创建商品快照失败");
 			}
 			int version = jo.getIntValue("version_id");
 			goods.setGoodsVersion(version);
 			this.goodsDao.update(goods);
 		} catch (Exception e) {
 			log.error("创建商品快照异常,{}", JSON.toJSONString(goods), e);
-			return JSON.toJSONString(new SimpleResponse(1, "创建商品快照失败"));
+			return new SimpleResponse(1, "创建商品快照失败");
 		}
 		
-		return JSON.toJSONString(new SimpleResponse(0, id));
+		return new SimpleResponse(0, id);
 	}
 
 
-	public String update(Goods goods) {
+	public Object update(Goods goods) {
 		//设置更新时间
 		goods.setUpdateTime(new Date());
 		
@@ -115,19 +115,19 @@ public class GoodsService {
 		oldGoods.setUpdateTime(goods.getUpdateTime());
 		Service service = this.serviceManage.findById(oldGoods.getServiceId());
 		if(service == null){
-			return JSON.toJSONString(new SimpleResponse(1,"查询服务类型信息异常"));
+			return new SimpleResponse(1,"查询服务类型信息异常");
 		}
 		oldGoods.setServiceMerchantCode(service.getServiceMerchantId());
 		String result = SnapShotUtil.sendSnapShot(oldGoods);
 		if(result == null || result.isEmpty()){
 			log.warn("【更新】调用创建商品快照接口失败，商品id={}", goods.getGoodsId());
-			return JSON.toJSONString(new SimpleResponse(1,"创建商品快照失败"));
+			return new SimpleResponse(1,"创建商品快照失败");
 		}
 		JSONObject jo = JSONObject.parseObject(result);
 		boolean status = jo.getBoolean("status");
         if (!status){
 			log.warn("【更新】创建商品快照失败，商品id={}", goods.getGoodsId());
-			return JSON.toJSONString(new SimpleResponse(1,"更新商品快照失败"));
+			return new SimpleResponse(1,"更新商品快照失败");
         }
         int version = jo.getIntValue("version_id");
         goods.setGoodsVersion(version);
@@ -140,9 +140,9 @@ public class GoodsService {
 		}
 		
 		if(ret > 0){
-			return JSON.toJSONString(new SimpleResponse(0, "更新商品信息成功"));
+			return new SimpleResponse(0, "更新商品信息成功");
 		}else{
-			return JSON.toJSONString(new SimpleResponse(1, "更新商品信息失败"));
+			return new SimpleResponse(1, "更新商品信息失败");
 		}
 		
 		
@@ -179,7 +179,7 @@ public class GoodsService {
 	}
 
 
-	public String batchUpdate(List<Goods> goodsList) {
+	public Object batchUpdate(List<Goods> goodsList) {
 		int successCount = 0;
 		Date now = new Date();
 		for(Goods goods : goodsList){
@@ -191,7 +191,7 @@ public class GoodsService {
 				log.error("批量更新商品信息异常，goods_id={}", goods.getGoodsId(), e);
 			}
 		}
-		return JSON.toJSONString(new SimpleResponse(0, "更新商品信息完成，成功"+successCount+"，失败"+ (goodsList.size() - successCount)));
+		return new SimpleResponse(0, "更新商品信息完成，成功"+successCount+"，失败"+ (goodsList.size() - successCount));
 	}
 
 }

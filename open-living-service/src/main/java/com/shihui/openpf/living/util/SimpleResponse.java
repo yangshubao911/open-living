@@ -3,6 +3,8 @@
  */
 package com.shihui.openpf.living.util;
 
+import java.io.Serializable;
+
 /**
  * @author zhouqisheng
  *
