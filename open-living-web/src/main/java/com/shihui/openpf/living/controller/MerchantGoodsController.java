@@ -34,13 +34,13 @@ public class MerchantGoodsController {
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
     public Object list(
-    		@RequestParam(name = "merchant_id",		required = true )	Integer merchant_id,
-    		@RequestParam(name = "service_id",		required = true )	Integer service_id,
-    		@RequestParam(name = "category_id",		required = false )	Integer category_id
+    		@RequestParam(name = "merchantId",		required = true )	Integer merchantId,
+    		@RequestParam(name = "serviceId",		required = true )	Integer serviceId,
+    		@RequestParam(name = "categoryId",		required = false )	Integer categoryId
     ){
         List<MerchantGoods> list;
 		try {
-			list = merchantGoodsService.findByConditions(merchant_id, service_id, category_id);
+			list = merchantGoodsService.findByConditions(merchantId, serviceId, categoryId);
 		} catch (Exception e) {
 			log.error("查询商户商品遗产", e);
 			return JSON.toJSON(new SimpleResponse(1, "查询失败").toString());
@@ -53,15 +53,15 @@ public class MerchantGoodsController {
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
 	  public Object update(
-			  @RequestParam(name = "merchant_id",	required = false )	Integer	merchant_id,
-			  @RequestParam(name = "goods_id",		required = false )	Long	goods_id,
+			  @RequestParam(name = "merchantId",	required = false )	Integer	merchantId,
+			  @RequestParam(name = "goodsId",		required = false )	Long	goodsId,
 			  @RequestParam(name = "status",		required = false )	Integer	status,
 			  @RequestParam(name = "settlement",	required = false )	String	settlement
 
     ){
         MerchantGoods merchantGoods = new MerchantGoods();
-        merchantGoods.setMerchantId(merchant_id);
-        merchantGoods.setGoodsId(goods_id);
+        merchantGoods.setMerchantId(merchantId);
+        merchantGoods.setGoodsId(goodsId);
         merchantGoods.setStatus(status);
         merchantGoods.setSettlement(settlement);
         return JSON.toJSON(merchantGoodsService.updateMerchantGoods(merchantGoods));
@@ -71,19 +71,19 @@ public class MerchantGoodsController {
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
     public Object create(
-    		@RequestParam(name = "merchant_id",		required = true )	Integer	merchant_id,
-    		@RequestParam(name = "goods_id",		required = true )	Long	goods_id,
-    		@RequestParam(name = "category_id",		required = true )	Integer	category_id,
-    		@RequestParam(name = "service_id",		required = true )	Integer	service_id,
+    		@RequestParam(name = "merchantId",		required = true )	Integer	merchantId,
+    		@RequestParam(name = "goodsId",		required = true )	Long	goodsId,
+    		@RequestParam(name = "categoryId",		required = true )	Integer	categoryId,
+    		@RequestParam(name = "serviceId",		required = true )	Integer	serviceId,
     		@RequestParam(name = "status",			required = true )	Integer	status,
     		@RequestParam(name = "settlement",		required = true )	String	settlement
 
     ){
         MerchantGoods merchantGoods = new MerchantGoods();
-        merchantGoods.setCategoryId(category_id);
-        merchantGoods.setMerchantId(merchant_id);
-        merchantGoods.setGoodsId(goods_id);
-        merchantGoods.setServiceId(service_id);
+        merchantGoods.setCategoryId(categoryId);
+        merchantGoods.setMerchantId(merchantId);
+        merchantGoods.setGoodsId(goodsId);
+        merchantGoods.setServiceId(serviceId);
         merchantGoods.setStatus(status);
         merchantGoods.setSettlement(settlement);
         return JSON.toJSON(merchantGoodsService.createMerchantGoods(merchantGoods));

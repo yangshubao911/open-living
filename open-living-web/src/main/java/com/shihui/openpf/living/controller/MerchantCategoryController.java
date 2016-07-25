@@ -35,12 +35,12 @@ public class MerchantCategoryController {
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
     public Object list(
-    		@RequestParam(name = "service_id",	required = true )	Integer service_id,
-    		@RequestParam(name = "merchant_id",	required = true )	Integer merchant_id
+    		@RequestParam(name = "serviceId",	required = true )	Integer serviceId,
+    		@RequestParam(name = "merchantId",	required = true )	Integer merchantId
     ){
     	List<MerchantCategory> list;
 		try {
-			list = merchantCategoryService.queryByConditions(merchant_id, service_id);
+			list = merchantCategoryService.queryByConditions(merchantId, serviceId);
 		} catch (Exception e) {
 			log.error("查询商户商品分类异常", e);
 			return JSON.toJSON(new SimpleResponse(1, "查询失败"));
@@ -54,15 +54,15 @@ public class MerchantCategoryController {
 	@Access(type = AccessType.INTERNAL)
     public Object update(
     		@RequestParam(name = "status",		required = true )	Integer status,
-    		@RequestParam(name = "merchant_id",	required = true )	Integer merchant_id,
-    		@RequestParam(name = "service_id",	required = true )	Integer service_id,
-    		@RequestParam(name = "category_id",	required = true )	Integer category_id
+    		@RequestParam(name = "merchantId",	required = true )	Integer merchantId,
+    		@RequestParam(name = "serviceId",	required = true )	Integer serviceId,
+    		@RequestParam(name = "categoryId",	required = true )	Integer categoryId
 
     ){
        MerchantCategory merchantCategory = new MerchantCategory();
-        merchantCategory.setMerchantId(merchant_id);
-        merchantCategory.setServiceId(service_id);
-        merchantCategory.setCategoryId(category_id);
+        merchantCategory.setMerchantId(merchantId);
+        merchantCategory.setServiceId(serviceId);
+        merchantCategory.setCategoryId(categoryId);
         merchantCategory.setStatus(status);
         return JSON.toJSON(merchantCategoryService.updateCategory(merchantCategory));
     }
@@ -72,15 +72,15 @@ public class MerchantCategoryController {
 	@Access(type = AccessType.INTERNAL)
     public Object create(
     		@RequestParam(name = "status",			required = true )	Integer status,
-    		@RequestParam(name = "merchant_id",		required = true )	Integer merchant_id,
-    		@RequestParam(name = "service_id",		required = true )	Integer service_id,
-    		@RequestParam(name = "category_id",		required = true )	Integer category_id
+    		@RequestParam(name = "merchantId",		required = true )	Integer merchantId,
+    		@RequestParam(name = "serviceId",		required = true )	Integer serviceId,
+    		@RequestParam(name = "categoryId",		required = true )	Integer categoryId
 
     ){
         MerchantCategory merchantCategory = new MerchantCategory();
-        merchantCategory.setMerchantId(merchant_id);
-        merchantCategory.setServiceId(service_id);
-        merchantCategory.setCategoryId(category_id);
+        merchantCategory.setMerchantId(merchantId);
+        merchantCategory.setServiceId(serviceId);
+        merchantCategory.setCategoryId(categoryId);
         merchantCategory.setStatus(status);
         return JSON.toJSON(merchantCategoryService.create(merchantCategory));
     }

@@ -16,42 +16,32 @@ public class MerchantGoods implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@JSONField(name = "goods_id")
 	private Long goodsId;
 
 	@Transient
-	@JSONField(name = "goods_name")
 	private String goodsName;
 
 	private Integer status;
 
-	@JSONField(name = "settlement")
 	private String settlement;
 	@Id
-	@JSONField(name = "merchant_id")
 	private Integer merchantId;
 	@Id
-	@JSONField(name = "service_id")
 	private Integer serviceId;
 
-	@JSONField(name = "category_id")
 	private Integer categoryId;
 
 	@Transient
-	@JSONField(name = "category_name")
 	private String categoryName;
 
 	@Transient
 	private String price;
 
 	@Transient
-	@JSONField(name = "sh_off_set")
 	private String shOffSet;
 	@Transient
-	@JSONField(name = "city_id")
 	private String cityId;
 	@Transient
-	@JSONField(name = "city_name")
 	private String cityName;
 
 	public Long getGoodsId() {

@@ -36,17 +36,17 @@ public class CategoryController {
 	public Object create(
 			@RequestParam(name = "desc",		required = true)					String	desc,
 			@RequestParam(name = "name",		required = true)					String	name,
-			@RequestParam(name = "image_id",	required = true)					String	image_id,
-			@RequestParam(name = "service_id",	required = true)					Integer	service_id,
+			@RequestParam(name = "imageId",		required = true)					String	imageId,
+			@RequestParam(name = "serviceId",	required = true)					Integer	serviceId,
 			@RequestParam(name = "amount",		required = true, defaultValue="1")	Integer	amount,
-			@RequestParam(name = "product_id",	required = true )					String	productId,
+			@RequestParam(name = "productId",	required = true )					String	productId,
 			@RequestParam(name = "status",		required = true)					Integer	status
 			){
     	Category category = new Category();
     	category.setDesc(desc);
-    	category.setImageId(image_id);
+    	category.setImageId(imageId);
     	category.setName(name);
-    	category.setServiceId(service_id);
+    	category.setServiceId(serviceId);
     	category.setStatus(status);
     	category.setAmount(amount);
     	category.setProductId(productId);
@@ -59,15 +59,15 @@ public class CategoryController {
 	public Object update(
 			@RequestParam(name = "desc",		required = false)	String desc,
 			@RequestParam(name = "name",		required = false)	String name,
-			@RequestParam(name = "image_id",	required = false)	String image_id,
+			@RequestParam(name = "imageId",		required = false)	String imageId,
 			@RequestParam(name = "id",			required = true )	Integer id,
 			@RequestParam(name = "amount",		required = false)	Integer amount,
-			@RequestParam(name = "product_id",	required = false)	String productId,
+			@RequestParam(name = "productId",	required = false)	String productId,
 			@RequestParam(name = "status",		required = false)	Integer status
 			){
     	Category category = new Category();
     	category.setDesc(desc);
-    	category.setImageId(image_id);
+    	category.setImageId(imageId);
     	category.setName(name);
     	category.setId(id);
     	category.setStatus(status);
@@ -78,9 +78,9 @@ public class CategoryController {
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
 	public Object list(
-			@RequestParam(name = "service_id",	required = true )	int service_id
+			@RequestParam(name = "serviceId",	required = true )	int serviceId
 			){
-		return JSON.toJSON(CategoryService.list(service_id));
+		return JSON.toJSON(CategoryService.list(serviceId));
     }
 
 

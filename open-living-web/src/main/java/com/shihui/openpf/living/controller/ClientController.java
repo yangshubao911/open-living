@@ -35,9 +35,9 @@ public class ClientController extends BasicController {
 	@ResponseBody
 	@Access(type = AccessType.COMMON)
 	public Object homepage(
-			@RequestParam(name="user_id", required = true) Long userId,
-			@RequestParam(name="city_id", required = true) Integer cityId,
-			@RequestParam(name="history_order_count", required = false, defaultValue = "5") int historyOrderCount) {
+			@RequestParam(name="userId", required = true) Long userId,
+			@RequestParam(name="cityId", required = true) Integer cityId,
+			@RequestParam(name="historyOrderCount", required = false, defaultValue = "5") int historyOrderCount) {
 
 		return clientService.homepage(userId,cityId, historyOrderCount);
 	}
@@ -46,7 +46,7 @@ public class ClientController extends BasicController {
 	@ResponseBody
 	@Access(type = AccessType.COMMON)
 	public Object queryCity(
-			@RequestParam(name="category_id", required = true) Integer categoryId) {
+			@RequestParam(name="categoryId", required = true) Integer categoryId) {
 
 		return clientService.queryCity(categoryId);
 	}
@@ -54,22 +54,24 @@ public class ClientController extends BasicController {
 	@RequestMapping("/queryCompany")
 	@ResponseBody
 	@Access(type = AccessType.COMMON)
-	public Object queryCity(
-			@RequestParam(name="service_id", required = true) Integer serviceId,
-			@RequestParam(name="city_id", required = true) Integer cityId) {
+	public Object queryCompany(
+			@RequestParam(name="serviceId", required = true) Integer serviceId,
+			@RequestParam(name="cityId", required = true) Integer cityId) {
 
 		return clientService.queryCompany(serviceId, cityId);
 	}
 	/*
-	 * 输入信息验证
-	 */
-	
-	/*
 	 * 查询缴费单
 	 */
-	
-	/*
-	 * 创建订单
-	 */
+	@RequestMapping("/queryFee")
+	@ResponseBody
+	@Access(type = AccessType.COMMON)
+	public Object queryFee(
+			@RequestParam(name="userId", required = true) Integer userId,
+			@RequestParam(name="serviceId", required = true) Integer serviceId,
+			@RequestParam(name="cityId", required = true) Integer cityId) {
+
+		return clientService.queryFee(userId, serviceId, cityId);
+	}
 	
 }

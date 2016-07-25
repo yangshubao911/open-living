@@ -13,25 +13,20 @@ import com.alibaba.fastjson.annotation.JSONField;
  */
 @Entity(name="merchant_category")
 public class MerchantCategory implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -1L;
 
     @Id
-    @JSONField(name="merchant_id")
     private Integer merchantId;
 
     @Id
-    @JSONField(name="category_id")
     private Integer categoryId;
     
     @Transient
-    @JSONField(name="category_name")
     private String categoryName;
 
-    @JSONField(name="status")
     private Integer status;
 
     @Id
-    @JSONField(name="service_id")
     private Integer serviceId;
 
 

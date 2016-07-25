@@ -17,40 +17,28 @@ public class Company implements Serializable {
     private static final long serialVersionUID = -1L;
 
     @Id
-	@JSONField(name="company_id")
 	private Integer companyId;
 
-	@JSONField(name="company_no")
 	private String companyNo;
 
-	@JSONField(name="company_name")
 	private String companyName;
 
-	@JSONField(name="service_type")
 	private Integer serviceType;
 
-	@JSONField(name="city_id")
 	private Integer cityId;
 
-	@JSONField(name="fee_type")
 	private Integer feeType;
 
-	@JSONField(name="user_no_leng_min")
-	private Integer userNoLeng_Min;
+	private Integer userNoLengMin;
 	
-	@JSONField(name="user_no_leng_max")
 	private Integer userNoLengMax;
 
-	@JSONField(name="pay_min")
 	private String payMin;
 
-	@JSONField(name="pay_max")
 	private String payMax;
 
-	@JSONField(name="date_choice")
 	private Integer dateChoice;
 
-	@JSONField(name="status")
 	private Integer status;
 	//
 
@@ -102,12 +90,12 @@ public class Company implements Serializable {
 		this.feeType = feeType;
 	}
 
-	public Integer getUserNoLeng_Min() {
-		return userNoLeng_Min;
+	public Integer getUserNoLengMin() {
+		return userNoLengMin;
 	}
 
-	public void setUserNoLeng_Min(Integer userNoLeng_Min) {
-		this.userNoLeng_Min = userNoLeng_Min;
+	public void setUserNoLeng_Min(Integer userNoLengMin) {
+		this.userNoLengMin = userNoLengMin;
 	}
 
 	public Integer getUserNoLengMax() {

@@ -19,31 +19,14 @@ public class Bill implements Serializable {
     private static final long serialVersionUID = -1L;
 
     @Id
-    @JSONField(name="order_id")
     private Long orderId;
-
-	@JSONField(name="fee_name")
 	private String feeName;
-
-	@JSONField(name="city_name")
 	private String cityName;
-
-	@JSONField(name="bill_key")
 	private String billKey;
-
-	@JSONField(name="company_id")
 	private Integer companyId;
-
-	@JSONField(name="user_address")
 	private String userAddress;
-
-	@JSONField(name="bill_date")
 	private String billDate;
-
-	@JSONField(name="fee_type")
 	private Integer feeType;
-
-	@JSONField(name="bill_status")
 	private Integer billStatus;
 
 //
@@ -55,20 +38,13 @@ public class Bill implements Serializable {
 	private String item6;
 	private String item7;
 
-	@JSONField(name="contract_no")
+
 	private String contractNo;
-
-	@JSONField(name="user_name")
 	private String userName;
-
 	private String balance;
-
 	private String payment;
 
-	@JSONField(name = "start_time")
 	private String startTime;
-	
-	@JSONField(name = "end_time")
 	private String endTime;
 
 	private String field1;
@@ -78,28 +54,19 @@ public class Bill implements Serializable {
 	private String field5;
 	
 //
-	@JSONField(name = "serial_no")
-	private String serialNo;
 
-	@JSONField(name = "pay_time")
+	private String serialNo;
 	private String payTime;
 
-	@JSONField(name = "bb_field1")
+
 	private String bbField1;
-	@JSONField(name = "bb_field2")
 	private String bbField2;
-	@JSONField(name = "bb_field3")
 	private String bbField3;
-	@JSONField(name = "bb_field4")
 	private String bbField4;
 
-	@JSONField(name = "bank_bill_no")
 	private String bankBillNo;
-
-	@JSONField(name = "receipt_no")
 	private String receiptNo;
 
-	@JSONField(name = "bank_acct_date")
 	private String bankAcctDate;
 	//
 

@@ -36,7 +36,7 @@ public class BannerAdsController {
 	@Access(type = AccessType.INTERNAL)
 	public Object create(int position, 
 			String name,
-			@RequestParam(name = "image_id", required = false) String imageId,
+			@RequestParam(name = "imageId", required = false) String imageId,
 			@RequestParam(name = "word", required = false) String word,
 			@RequestParam(name = "url", required = false) String url,
 			Integer type){
@@ -54,7 +54,7 @@ public class BannerAdsController {
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
 	public Object update(int id, @RequestParam(name = "name", required = false) String name,
-			@RequestParam(name = "image_id", required = false) String imageId,
+			@RequestParam(name = "imageId", required = false) String imageId,
 			@RequestParam(name = "word", required = false) String word,
 			@RequestParam(name = "url", required = false) String url,
 			@RequestParam(name = "type", required = false) Integer type) {

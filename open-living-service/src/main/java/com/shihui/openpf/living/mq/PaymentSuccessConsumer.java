@@ -136,7 +136,7 @@ public class PaymentSuccessConsumer implements Consumer {
 					orderVo.setMerchantId(order.getMerchantId());
 					orderVo.setOrderId(order.getOrderId());
 					orderVo.setOrderStatus(status.getValue());
-					orderVo.setServiceId(order.getService_id());
+					orderVo.setServiceId(order.getServiceId());
 					orderVo.setPhone("");
 					
 					orderCache.set(orderVo);
@@ -155,9 +155,9 @@ public class PaymentSuccessConsumer implements Consumer {
 						|| status == OrderStatusEnum.BackClose || status == OrderStatusEnum.OrderHadReceived
 						|| status == OrderStatusEnum.PayedCancel){
 					String pushMsg = null;
-					Service service = serviceManage.findById(order.getService_id());
+					Service service = serviceManage.findById(order.getServiceId());
 					if(service == null){
-						log.error("订单处理-push消息：业务信息未查到，serviceId={}, orderId={}, orderStatus={}", order.getService_id(), orderId, order.getOrderStatus());
+						log.error("订单处理-push消息：业务信息未查到，serviceId={}, orderId={}, orderStatus={}", order.getServiceId(), orderId, order.getOrderStatus());
 					} else {
 						if(status == OrderStatusEnum.PayedCancel || status == OrderStatusEnum.BackClose){
 							pushMsg = "非常抱歉，由于当前缴费人员较多，小惠虽然奋力尝试。但还是没能充值成功，我们以为您办理退款，通常需要1-3个工作日到账。订单号：" + orderId ;

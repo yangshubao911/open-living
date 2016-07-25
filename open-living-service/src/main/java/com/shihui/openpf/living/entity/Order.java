@@ -18,67 +18,54 @@ public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@JSONField(name = "order_id")
 	private Long orderId;
 
-	@JSONField(name = "campaign_id")
 	private Integer campaignId;
 
-	@JSONField(name = "create_time", format = "yyyy-MM-dd HH:mm:ss")
+	@JSONField(name = "createTime", format = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
 
 	private String extend;
 
 	private Long gid;
 
-	@JSONField(name = "goods_id")
 	private Long goodsId;
 
 //	private Integer goodsNum;
 
-	@JSONField(name = "goods_version")
 	private Integer goodsVersion;
 
-	@JSONField(name = "merchant_id")
 	private Integer merchantId;
 
-	@JSONField(name = "order_status")
 	private Integer orderStatus;
 
 	private String pay;
 
-	@JSONField(name = "payment_type")
 	private Integer paymentType;
 
 	private String price;
 	
 	private String settlement;
 
-	@JSONField(name = "sh_off_set")
 	private String shOffSet;
 
-	@JSONField(name = "update_time", format = "yyyy-MM-dd HH:mm:ss")
+	@JSONField(name = "updateTime", format = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
 
-	@JSONField(name = "user_id")
 	private Long userId;
 
-	private Integer service_id;
+	private Integer serviceId;
 
 	private String remark;
 
 //	private String phone;
 	
-	@JSONField(name = "audit_id")
 	private Long auditId;
 	
-	@JSONField(name = "refund_type")
 	private Integer refundType;
 	
-	@JSONField(name = "refund_price")
 	private String refundPrice;
 	
-	@JSONField(name = "app_id")
 	private Integer appId;
 
 //  @Transient
@@ -87,13 +74,11 @@ public class Order implements Serializable {
 //    private String serviceStartTime;
     
     private Long mid;
-    @JSONField(name = "pay_time")
+    @JSONField(name = "payTime", format = "yyyy-MM-dd HH:mm:ss")
     private Date payTime;
-    @JSONField(name = "consume_time")
+    @JSONField(name = "consumeTime", format = "yyyy-MM-dd HH:mm:ss")
     private Date consumeTime;
-    @JSONField(name = "trans_id")
     private String transId;
-    @JSONField(name = "device_id")
     private String deviceId;
 
 	public Order() {
@@ -227,12 +212,12 @@ public class Order implements Serializable {
 		this.userId = userId;
 	}
 
-	public Integer getService_id() {
-		return service_id;
+	public Integer getServiceId() {
+		return serviceId;
 	}
 
-	public void setService_id(Integer service_id) {
-		this.service_id = service_id;
+	public void setServiceId(Integer serviceId) {
+		this.serviceId = serviceId;
 	}
 
 	public String getRemark() {

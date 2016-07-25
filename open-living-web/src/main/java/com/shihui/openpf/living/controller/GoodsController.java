@@ -39,40 +39,40 @@ public class GoodsController {
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
 	public Object create(
-			@RequestParam(name = "category_id",			required = true )	Integer		category_id,
-			@RequestParam(name = "city_id",				required = true )	Integer		city_id,
-			@RequestParam(name = "city_name",			required = true )	String		city_name,
-			@RequestParam(name = "goods_desc",			required = true )	String		goods_desc,
-			@RequestParam(name = "goods_name",			required = true )	String		goods_name,
-			@RequestParam(name = "image_id",			required = false)	String		image_id,
-			@RequestParam(name = "detail_image",		required = true )	String		detail_image,
-			@RequestParam(name = "service_id",			required = true )	Integer		service_id,
-			@RequestParam(name = "goods_status",		required = true )	Integer		goods_status,
-			@RequestParam(name = "sh_off_set",			required = true )	String		sh_off_set,
-			@RequestParam(name = "sh_off_set_max",		required = false)	String		sh_off_set_max,
-			@RequestParam(name = "first_sh_off_set",	required = true )	String		first_sh_off_set,
-			@RequestParam(name = "first_sh_off_set_max",required = false)	String		first_sh_off_set_max,
+			@RequestParam(name = "categoryId",			required = true )	Integer		categoryId,
+			@RequestParam(name = "cityId",				required = true )	Integer		cityId,
+			@RequestParam(name = "cityName",			required = true )	String		cityName,
+			@RequestParam(name = "goodsDesc",			required = true )	String		goodsDesc,
+			@RequestParam(name = "goodsName",			required = true )	String		goodsName,
+			@RequestParam(name = "imageId",				required = false)	String		imageId,
+			@RequestParam(name = "detailImage",			required = true )	String		detailImage,
+			@RequestParam(name = "serviceId",			required = true )	Integer		serviceId,
+			@RequestParam(name = "goodsStatus",			required = true )	Integer		goodsStatus,
+			@RequestParam(name = "shOffSet",			required = true )	String		shOffSet,
+			@RequestParam(name = "shOffSetMax",			required = false)	String		shOffSetMax,
+			@RequestParam(name = "firstShOffSet",		required = true )	String		firstShOffSet,
+			@RequestParam(name = "firstShOffSetMax",	required = false)	String		firstShOffSetMax,
 			@RequestParam(name = "price",				required = true )	String		price,
-			@RequestParam(name = "goods_subtitle",		required = true )	String		goods_subtitle,
+			@RequestParam(name = "goodsSubtitle",		required = true )	String		goodsSubtitle,
 			@RequestParam(name = "attention",			required = true )	String		attention
 			) {
 		Goods goods = new Goods();
-		goods.setCategoryId(category_id);
-		goods.setCityId(city_id);
-		goods.setCityName(city_name);
-		goods.setGoodsDesc(goods_desc);
-		goods.setGoodsName(goods_name);
-		goods.setImageId(image_id);
-		goods.setDetailImage(detail_image);
-		goods.setServiceId(service_id);
-		goods.setGoodsStatus(goods_status);
-		goods.setShOffSet(sh_off_set);
-		goods.setShOffSetMax(sh_off_set_max);
-		goods.setFirstShOffSet(first_sh_off_set);
-		goods.setFirstShOffSetMax(first_sh_off_set_max);
+		goods.setCategoryId(categoryId);
+		goods.setCityId(cityId);
+		goods.setCityName(cityName);
+		goods.setGoodsDesc(goodsDesc);
+		goods.setGoodsName(goodsName);
+		goods.setImageId(imageId);
+		goods.setDetailImage(detailImage);
+		goods.setServiceId(serviceId);
+		goods.setGoodsStatus(goodsStatus);
+		goods.setShOffSet(shOffSet);
+		goods.setShOffSetMax(shOffSetMax);
+		goods.setFirstShOffSet(firstShOffSet);
+		goods.setFirstShOffSetMax(firstShOffSetMax);
 		goods.setPrice(price);
 		goods.setAttention(attention);
-		goods.setGoodsSubtitle(goods_subtitle);
+		goods.setGoodsSubtitle(goodsSubtitle);
 		Object ret = null;
 		try {
 			ret = JSON.toJSON(goodsService.create(goods));
@@ -87,34 +87,34 @@ public class GoodsController {
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
 	public Object update(
-			@RequestParam(name = "goods_id",			required = true )	Long	goods_id,
-			@RequestParam(name = "goods_desc",			required = false)	String	goods_desc,
-			@RequestParam(name = "goods_status",		required = false)	Integer	goods_status,
-			@RequestParam(name = "goods_name",			required = false)	String	goods_name,
-			@RequestParam(name = "image_id",			required = false)	String	image_id,
-			@RequestParam(name = "detail_image",		required = false)	String	detail_image,
-			@RequestParam(name = "sh_off_set",			required = false)	String	sh_off_set,
-			@RequestParam(name = "sh_off_set_max",		required = false)	String	sh_off_set_max,
-			@RequestParam(name = "first_sh_off_set",	required = false)	String	first_sh_off_set,
-			@RequestParam(name = "first_sh_off_set_max",required = false)	String	first_sh_off_set_max,
+			@RequestParam(name = "goodsId",				required = true )	Long	goodsId,
+			@RequestParam(name = "goodsDesc",			required = false)	String	goodsDesc,
+			@RequestParam(name = "goodsStatus",			required = false)	Integer	goodsStatus,
+			@RequestParam(name = "goodsName",			required = false)	String	goodsName,
+			@RequestParam(name = "imageId",				required = false)	String	imageId,
+			@RequestParam(name = "detailImage",			required = false)	String	detailImage,
+			@RequestParam(name = "shOffSet",			required = false)	String	shOffSet,
+			@RequestParam(name = "shOffSetMax",			required = false)	String	shOffSetMax,
+			@RequestParam(name = "firstShOffSet",		required = false)	String	firstShOffSet,
+			@RequestParam(name = "firstShOffSetMax",	required = false)	String	firstShOffSetMax,
 			@RequestParam(name = "price",				required = false)	String	price,
-			@RequestParam(name = "goods_subtitle",		required = false)	String	goods_subtitle,
+			@RequestParam(name = "goodsSubtitle",		required = false)	String	goodsSubtitle,
 			@RequestParam(name = "attention",			required = false)	String	attention
 			) {
 		Goods goods = new Goods();
-		goods.setGoodsId(goods_id);
-		goods.setGoodsDesc(goods_desc);
-		goods.setGoodsName(goods_name);
-		goods.setImageId(image_id);
-		goods.setDetailImage(detail_image);
-		goods.setShOffSet(sh_off_set);
-		goods.setShOffSetMax(sh_off_set_max);
-		goods.setFirstShOffSet(first_sh_off_set);
-		goods.setFirstShOffSetMax(first_sh_off_set_max);
+		goods.setGoodsId(goodsId);
+		goods.setGoodsDesc(goodsDesc);
+		goods.setGoodsName(goodsName);
+		goods.setImageId(imageId);
+		goods.setDetailImage(detailImage);
+		goods.setShOffSet(shOffSet);
+		goods.setShOffSetMax(shOffSetMax);
+		goods.setFirstShOffSet(firstShOffSet);
+		goods.setFirstShOffSetMax(firstShOffSetMax);
 		goods.setPrice(price);
-		goods.setGoodsStatus(goods_status);
+		goods.setGoodsStatus(goodsStatus);
 		goods.setAttention(attention);
-		goods.setGoodsSubtitle(goods_subtitle);
+		goods.setGoodsSubtitle(goodsSubtitle);
 		Object ret;
 		try {
 			ret = JSON.toJSON(goodsService.update(goods));
@@ -129,7 +129,7 @@ public class GoodsController {
 	@RequestMapping("/list")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public Object list(@RequestParam(name = "category_id", required = true) int categoryId) {
+	public Object list(@RequestParam(name = "categoryId", required = true) int categoryId) {
 		return JSON.toJSON(goodsService.list(categoryId));
 	}
 
@@ -138,8 +138,8 @@ public class GoodsController {
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
 	public Object listByCity(
-			@RequestParam(name = "category_id",	required = true)	int categoryId,
-			@RequestParam(name = "city_id",		required = true)	int cityId) {
+			@RequestParam(name = "categoryId",	required = true)	int categoryId,
+			@RequestParam(name = "cityId",		required = true)	int cityId) {
 		return JSON.toJSON(goodsService.findByCity(categoryId, cityId));
 	}
 	

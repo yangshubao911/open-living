@@ -40,6 +40,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -48,6 +50,7 @@ import com.shihui.api.order.common.enums.OrderStatusEnum;
 import com.shihui.api.order.common.enums.PayTypeEnum;
 import com.shihui.api.order.emodel.OperatorTypeEnum;
 import com.shihui.api.order.emodel.RefundModeEnum;
+import com.shihui.api.order.vo.ApiResult;
 import com.shihui.api.order.vo.SimpleResult;
 import com.shihui.openpf.common.dubbo.api.MerchantManage;
 import com.shihui.openpf.common.dubbo.api.ServiceManage;
@@ -64,11 +67,16 @@ import com.shihui.openpf.living.dao.OrderBillDao;
 import com.shihui.openpf.living.entity.support.BillStatusEnum;
 import com.shihui.openpf.living.entity.support.ConditionVo;
 import com.shihui.openpf.living.entity.OrderBill;
+import com.shihui.openpf.living.entity.OrderHistory;
 import com.shihui.openpf.living.entity.Bill;
 import com.shihui.openpf.living.entity.Company;
 import com.shihui.openpf.living.dao.CompanyDao;
 import com.shihui.openpf.living.entity.support.LivingCodeEnum;
 import com.shihui.openpf.living.dao.MerchantGoodsDao;
+import com.shihui.openpf.living.dao.OrderHistoryDao;
+
+
+
 /**
  * Created by zhoutc on 2016/1/21.
  */
@@ -85,6 +93,8 @@ public class OrderManage {
 	CompanyDao companyDao;
 	@Resource
 	MerchantGoodsDao merchantGoodsDao;
+	@Resource
+	OrderHistoryDao orderHistoryDao;
 
 	@Resource
 	OrderSystemService orderSystemService;
@@ -136,6 +146,8 @@ public class OrderManage {
 			return result;
 		
 		List<OrderBill> orderList = obDao.query(vo);
+		for(OrderBill ob : orderList)
+			ob.setOrderStatusMsg(OrderStatusEnum.parse(ob.getOrderStatus()).getName());
 		result.put("orders", JSON.toJSON(orderList));
 		
 		return result;
@@ -287,7 +299,7 @@ public class OrderManage {
 				result.put("trans_id", String.valueOf(order_vo.getTransId()));
 				result.put("pay_time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(order_vo.getPaymentTime())));
 				if (order.getOrderStatus() == OrderStatusEnum.OrderHadReceived.getValue()) {
-					result.put("consumeTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(order.getUpdateTime()));
+					result.put("consume_time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(order.getUpdateTime()));
 				}
 			}else {
 				log.info("queryOrder--orderId:" + orderId + " backendOrderDetail status:" + simpleResult.getStatus() + " msg:" + simpleResult.getMsg());
@@ -479,7 +491,31 @@ public class OrderManage {
 		return fileName;
 	}
 
+	public Object confirmOrder(int userId, String tempID, String price) {
+		JSONObject result = new JSONObject();
+//TODO ?????????????????????????????????????????????????????????????  
+		result.put("", "");
+		return result;
+	}
 
+    @Transactional(rollbackFor = Exception.class)
+    public Object createOrder(int userId, String tempID) {
+//TODO ?????????????????????????????????????????????????????????????    	
+    	ApiResult result = new ApiResult();//orderSystemService.submitOrder(singleGoodsCreateOrderParam); Home->ClientServiceImpl.java->orderCreate
+    	if (result.getStatus() != 1) {
+			return JSON.toJSON(result);
+		}
+    	Order order = new Order();
+        if(orderDao.save(order)>0) {
+            Date date = new Date();
+            OrderHistory orderHistory = new OrderHistory();
+            orderHistory.setChange_time(date);
+            orderHistory.setOrder_id(order.getOrderId());
+            orderHistory.setOrder_status(order.getOrderStatus());
+            orderHistoryDao.save(orderHistory);
+        }
+        return JSON.toJSON(result);
+    }
 
 	/**
 	 * 计算签名

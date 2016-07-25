@@ -25,21 +25,18 @@ public class Category implements Serializable {
 
 	private Integer status;
 
-	@JSONField(name = "create_time", format = "yyyy-MM-dd HH:mm:ss")
+	@JSONField(name = "createTime", format = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
 
-	@JSONField(name = "image_id")
 	private String imageId;
 
-	@JSONField(name = "service_id")
 	private Integer serviceId;
 
-	@JSONField(name = "product_id")
 	private String productId;
 
 	private Integer amount;
 
-	@JSONField(name = "update_time", format = "yyyy-MM-dd HH:mm:ss")
+	@JSONField(name = "updateTime", format = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
 
 

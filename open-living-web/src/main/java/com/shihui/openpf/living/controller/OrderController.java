@@ -41,15 +41,15 @@ public class OrderController {
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
 	public Object listById(
-			@RequestParam(name="start_time",	required = false)						String startTime,
-			@RequestParam(name="end_time",		required = false)						String endTime,
-			@RequestParam(name="city_td",		required = false)						String cityId,
-			@RequestParam(name="user_address",	required = false)						String userAddress,
+			@RequestParam(name="startTime",	required = false)							String startTime,
+			@RequestParam(name="endTime",		required = false)						String endTime,
+			@RequestParam(name="cityId",		required = false)						String cityId,
+			@RequestParam(name="userAddress",	required = false)						String userAddress,
 			@RequestParam(name="company_id",	required = false)						String companyId,
-			@RequestParam(name="user_no",		required = false)						String userNo,
-			@RequestParam(name="user_name",		required = false)						String userName,
-			@RequestParam(name="order_id",		required = false)						String orderId,
-			@RequestParam(name="user_id",		required = false)						String userId,
+			@RequestParam(name="userNo",		required = false)						String userNo,
+			@RequestParam(name="userName",		required = false)						String userName,
+			@RequestParam(name="orderId",		required = false)						String orderId,
+			@RequestParam(name="userId",		required = false)						String userId,
 			@RequestParam(name="order_status",	required = false)						String orderStatus,
 			@RequestParam(name="page",			required = false, defaultValue="1")		int page,
 			@RequestParam(name="size",			required = false, defaultValue="10")	int size) {
@@ -93,15 +93,15 @@ public class OrderController {
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
 	public Object export(
-			@RequestParam(name="start_time",	required = false)	String startTime,
-			@RequestParam(name="end_time",		required = false)	String endTime,
-			@RequestParam(name="city_td",		required = false)	String cityId,
-			@RequestParam(name="user_address",	required = false)	String userAddress,
+			@RequestParam(name="startTime",		required = false)	String startTime,
+			@RequestParam(name="endTime",		required = false)	String endTime,
+			@RequestParam(name="cityId",		required = false)	String cityId,
+			@RequestParam(name="userAddress",	required = false)	String userAddress,
 			@RequestParam(name="company_id",	required = false)	String companyId,
-			@RequestParam(name="user_no",		required = false)	String userNo,
-			@RequestParam(name="user_name",		required = false)	String userName,
-			@RequestParam(name="order_id",		required = false)	String orderId,
-			@RequestParam(name="user_id",		required = false)	String userId,
+			@RequestParam(name="userNo",		required = false)	String userNo,
+			@RequestParam(name="userName",		required = false)	String userName,
+			@RequestParam(name="orderId",		required = false)	String orderId,
+			@RequestParam(name="userId",		required = false)	String userId,
 			@RequestParam(name="order_status",	required = false)	String orderStatus) {
 
 		ConditionVo vo = new ConditionVo();
@@ -142,7 +142,7 @@ public class OrderController {
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
 	public Object detail(
-			@RequestParam(name="order_id",		required = true)	long orderId) {
+			@RequestParam(name="orderId",		required = true)	long orderId) {
 		return JSON.toJSON(orderManage.queryOrder(orderId));
 	}
 
@@ -150,13 +150,13 @@ public class OrderController {
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
 	public Object cancel(
-			@RequestParam(name="user_id",		required = true)	int userId,
-			@RequestParam(name="email",		required = true)		String email,
-			@RequestParam(name="order_id",		required = true)	long orderId,
-			@RequestParam(name="price",		required = true)		String price,
-			@RequestParam(name="reason",		required = true)	String reason,
-			@RequestParam(name="status",		required = true)	int status,
-			@RequestParam(name="refund_sh_coin",		required = true)	Integer refundSHCoin) {//是否退实惠现金，1-是，2-否
+			@RequestParam(name="userId",			required = true)		int userId,
+			@RequestParam(name="email",				required = true)		String email,
+			@RequestParam(name="orderId",			required = true)		long orderId,
+			@RequestParam(name="price",				required = true)		String price,
+			@RequestParam(name="reason",			required = true)		String reason,
+			@RequestParam(name="status",			required = true)		int status,
+			@RequestParam(name="refundShCoin",		required = true)		Integer refundSHCoin) {//是否退实惠现金，1-是，2-否
 		return JSON.toJSON(orderManage.cancelLocalOrder(userId, email, orderId, price, reason, refundSHCoin, status));
 	}
 
@@ -187,4 +187,33 @@ public class OrderController {
 		return response.build();
 	}
 
+	/*
+	 * 订单确认
+	 */
+
+	@RequestMapping("/confirm")
+	@ResponseBody
+	@Access(type = AccessType.COMMON)
+	public Object confirmOrder(
+			@RequestParam(name="userId",	required = true)	int userId,
+			@RequestParam(name="tempId",	required = true) 	String tempId,
+			@RequestParam(name="price",	required = true) 		String price) {
+
+		return orderManage.confirmOrder(userId, tempId, price);
+	}
+	
+	/*
+	 * 订单确认
+	 */
+
+	@RequestMapping("/create")
+	@ResponseBody
+	@Access(type = AccessType.COMMON)
+	public Object createOrder(
+			@RequestParam(name="userId",	required = true)	int userId,
+			@RequestParam(name="tempId",	required = true) 	String tempId) {
+
+		return orderManage.createOrder(userId, tempId);
+	}
+	
 }

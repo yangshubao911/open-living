@@ -18,41 +18,43 @@ public class OrderHistory implements Serializable{
     @Id
     private long historyId;
 
-    private long order_id;
+    private long orderId;
 
-    private Date change_time;
+    private Date changeTime;
 
-    private int order_status;
+    private int orderStatus;
+    //
 
-    public long getHistoryId() {
-        return historyId;
-    }
+	public long getHistoryId() {
+		return historyId;
+	}
 
-    public void setHistoryId(long historyId) {
-        this.historyId = historyId;
-    }
+	public void setHistoryId(long historyId) {
+		this.historyId = historyId;
+	}
 
-    public long getOrder_id() {
-        return order_id;
-    }
+	public long getOrderId() {
+		return orderId;
+	}
 
-    public void setOrder_id(long order_id) {
-        this.order_id = order_id;
-    }
+	public void setOrderId(long orderId) {
+		this.orderId = orderId;
+	}
 
-    public Date getChange_time() {
-        return change_time;
-    }
+	public Date getChangeTime() {
+		return changeTime;
+	}
 
-    public void setChange_time(Date change_time) {
-        this.change_time = change_time;
-    }
+	public void setChangeTime(Date changeTime) {
+		this.changeTime = changeTime;
+	}
 
-    public int getOrder_status() {
-        return order_status;
-    }
+	public int getOrderStatus() {
+		return orderStatus;
+	}
 
-    public void setOrder_status(int order_status) {
-        this.order_status = order_status;
-    }
+	public void setOrderStatus(int orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+    
 }

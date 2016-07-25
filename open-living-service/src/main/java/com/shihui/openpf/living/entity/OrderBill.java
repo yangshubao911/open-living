@@ -2,6 +2,7 @@ package com.shihui.openpf.living.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
@@ -17,43 +18,45 @@ public class OrderBill implements Serializable {
 	private static final long serialVersionUID = -1L;
 	
     @Id
-    @JSONField(name="order_id")
     private Long orderId;
     
-	@JSONField(name = "user_id")
 	private Long userId;
 
 	private String price;
 
-    @JSONField(name = "pay_time")
     private Date payTime;
 
-	@JSONField(name = "order_status")
 	private Integer orderStatus;
 
+	@Transient
+	private String orderStatusMsg;
+	
     //
 
-	@JSONField(name="fee_name")
 	private String feeName;
 
-	@JSONField(name="city_name")
 	private String cityName;
 	
 	
-	@JSONField(name="bill_key")
+	@JSONField(name="userNo")
 	private String billKey;
 
-	@JSONField(name="user_address")
 	private String userAddress;
 
-	@JSONField(name="bill_status")
 	private Integer billStatus;
+
+
+	public String getOrderStatusMsg() {
+		return orderStatusMsg;
+	}
+
+	public void setOrderStatusMsg(String orderStatusMsg) {
+		this.orderStatusMsg = orderStatusMsg;
+	}
 
 	@JSONField(name="user_name")
 	private String userName;
 
-	@JSONField(name="user_no")
-	private String userNo;
 
 	//
 	
@@ -143,14 +146,6 @@ public class OrderBill implements Serializable {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
-	}
-	
-    public String getUserNo() {
-		return userNo;
-	}
-
-	public void setUserNo(String userNo) {
-		this.userNo = userNo;
 	}
 
 }
