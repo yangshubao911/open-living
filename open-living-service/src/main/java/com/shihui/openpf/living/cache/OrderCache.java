@@ -25,7 +25,7 @@ import redis.clients.jedis.ShardedJedisPool;
  */
 @Repository
 public class OrderCache {
-	private String ORDER_PREFIX = Constants.REDIS_KEY_PREFIX + Constants.REDIS_KEY_SEPARATOR + "recharge-order";
+	private String ORDER_PREFIX = Constants.REDIS_KEY_PREFIX + Constants.REDIS_KEY_SEPARATOR + "living-order";
     @Resource
     private ShardedJedisPool jedisPool;
     
