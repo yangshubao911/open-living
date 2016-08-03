@@ -52,7 +52,7 @@ public class Order implements Serializable {
 	@JSONField(name = "updateTime", format = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
 
-	private Long userId;
+	private Integer userId;
 
 	private Integer serviceId;
 
@@ -204,11 +204,11 @@ public class Order implements Serializable {
 		this.updateTime = updateTime;
 	}
 
-	public Long getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 

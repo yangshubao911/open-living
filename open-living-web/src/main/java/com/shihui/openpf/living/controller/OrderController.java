@@ -191,29 +191,29 @@ public class OrderController {
 	 * 订单确认
 	 */
 
-	@RequestMapping("/confirm")
-	@ResponseBody
-	@Access(type = AccessType.COMMON)
-	public Object confirmOrder(
-			@RequestParam(name="userId",	required = true)	int userId,
-			@RequestParam(name="tempId",	required = true) 	String tempId,
-			@RequestParam(name="price",	required = true) 		String price) {
-
-		return orderManage.confirmOrder(userId, tempId, price);
-	}
-	
-	/*
-	 * 订单确认
-	 */
-
-	@RequestMapping("/create")
-	@ResponseBody
-	@Access(type = AccessType.COMMON)
-	public Object createOrder(
-			@RequestParam(name="userId",	required = true)	int userId,
-			@RequestParam(name="tempId",	required = true) 	String tempId) {
-
-		return orderManage.createOrder(userId, tempId);
-	}
+//	@RequestMapping("/confirm")
+//	@ResponseBody
+//	@Access(type = AccessType.COMMON)
+//	public Object confirmOrder(
+//			@RequestParam(name="userId",	required = true)	int userId,
+//			@RequestParam(name="tempId",	required = true) 	String tempId,
+//			@RequestParam(name="price",	required = true) 		String price) {
+//
+//		return orderManage.confirmOrder(userId, tempId, price);
+//	}
+//	
+//	/*
+//	 * 订单确认
+//	 */
+//
+//	@RequestMapping("/create")
+//	@ResponseBody
+//	@Access(type = AccessType.COMMON)
+//	public Object createOrder(
+//			@RequestParam(name="userId",	required = true)	int userId,
+//			@RequestParam(name="tempId",	required = true) 	String tempId) {
+//
+//		return orderManage.createOrder(userId, tempId);
+//	}
 	
 }

@@ -1,20 +1,18 @@
 package com.shihui.openpf.living.service;
 
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
 import com.alibaba.fastjson.JSON;
-import com.shihui.api.order.common.enums.OrderStatusEnum;
-import com.shihui.api.order.emodel.OperatorTypeEnum;
 import com.shihui.api.order.emodel.RefundModeEnum;
 import com.shihui.api.order.service.OpenService;
 import com.shihui.api.order.service.OrderRefundService;
-import com.shihui.api.order.service.OrderService;
 import com.shihui.api.order.vo.ApiResult;
 import com.shihui.api.order.vo.MerchantCancelParam;
 import com.shihui.api.order.vo.SimpleResult;
 import com.shihui.api.order.vo.SingleGoodsCreateOrderParam;
 import com.shihui.commons.ApiLogger;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 
 /**
  * Created by zhoutc on 2016/5/5.
@@ -24,14 +22,8 @@ public class OrderSystemService {
     @Resource
     OpenService openService;
 
-    @Resource(name = "omsOrderService")
-    OrderService orderService;
-
     @Resource
     OrderRefundService orderRefundService;
-
-   /* @Resource
-    OrderRefundService orderRefundService;*/
 
     public ApiResult submitOrder(SingleGoodsCreateOrderParam singleGoodsCreateOrderParam) {
 
@@ -108,19 +100,6 @@ public class OrderSystemService {
             ApiLogger.error("order refund exception !!!, order_id="+orderId, e);
         }
         return result;
-    }
-
-    public boolean updateOrderStatus(long orderId, OrderStatusEnum oldStatus, OrderStatusEnum newStatus, OperatorTypeEnum operatorTypeEnum, long operatorId, String adminEmail) {
-        try {
-            int count = orderService.updateOrderStatus(orderId, oldStatus, newStatus, operatorTypeEnum, operatorId, adminEmail);
-            if (count > 0) {
-                return true;
-            }
-
-        } catch (Exception e) {
-            ApiLogger.error("updateOrderStatus -- orderId:" + orderId + " update error!!!", e);
-        }
-        return false;
     }
 
     public OpenService getOpenService() {

@@ -48,6 +48,9 @@ public class CacheDao {
 	private int EXPIRE_TEMPID = 60*60;
 	private int EXPIRE_NOTIFY = 12*60*60;
 	
+	private String FIELD_VO = "vo";
+	private String FIELD_RESPONSE = "response";
+	
     @Resource
     private ShardedJedisPool jedisPool;
     
@@ -84,7 +87,7 @@ public class CacheDao {
      * @return
      */
 
-    public String getTrmSeqNum() {
+    public static String getTrmSeqNum() {
     	return java.util.UUID.randomUUID().toString().replace("-", "");
     }
 
@@ -111,20 +114,40 @@ public class CacheDao {
     	}
     	return false;
     }
-    
+
+    public void newVoByTempId(String tempId, OrderBillVo vo){//tempId = userid+#+CompanyNo+#+userNo
+    	try(ShardedJedis jedis = jedisPool.getResource()){
+    		String key = LIVING_TEMPID + tempId;
+    		jedis.hset(key, FIELD_VO,JSON.toJSONString(vo));
+    		jedis.expire(key, EXPIRE_TEMPID);
+    	}
+    }
+
     public void setVoByTempId(String tempId, OrderBillVo vo){//tempId = userid+#+CompanyNo+#+userNo
     	try(ShardedJedis jedis = jedisPool.getResource()){
     		String key = LIVING_TEMPID + tempId;
-    		jedis.set(key, JSON.toJSONString(vo));
+    		jedis.hset(key, FIELD_VO,JSON.toJSONString(vo));
     		jedis.expire(key, EXPIRE_TEMPID);
     	}
     }
     
     public OrderBillVo getVoByTempId(String tempId){
     	try(ShardedJedis jedis = jedisPool.getResource()){
-    		String voString = jedis.get(LIVING_TEMPID + tempId);
+    		String voString = jedis.hget(LIVING_TEMPID + tempId, FIELD_VO);
 			if(StringUtil.isEmpty(voString))return null;
 			return JSON.parseObject(voString,OrderBillVo.class);
+    	}
+    }
+
+    public void markVoByTempId(String tempId){//tempId = userid+#+CompanyNo+#+userNo
+    	try(ShardedJedis jedis = jedisPool.getResource()){
+    		jedis.hset(LIVING_TEMPID + tempId, FIELD_RESPONSE, "1");
+    	}
+    }
+    public boolean checkMarkedVoByTempId(String tempId){
+    	try(ShardedJedis jedis = jedisPool.getResource()){
+    		String voString = jedis.hget(LIVING_TEMPID + tempId, FIELD_RESPONSE);
+			return (voString == null || StringUtil.isEmpty(voString));
     	}
     }
     public void delVoByTempId(String tempId){
