@@ -461,12 +461,12 @@ trans_id
 			ApiResult apiResult = orderSystemService.submitOrder(singleGoodsCreateOrderParam);
 
 			if (apiResult.getStatus() == 1) {
-			long orderId = Long.parseLong(apiResult.getOrderId().get(0));
-			order.setOrderId(orderId);
-			bill.setOrderId(orderId);
-			
-			orderDao.save(order);
-			billDao.save(bill);
+				long orderId = Long.parseLong(apiResult.getOrderId().get(0));
+				order.setOrderId(orderId);
+				bill.setOrderId(orderId);
+				
+				orderDao.save(order);
+				billDao.save(bill);
 			}
 			
 			result.put("response", new SimpleResponse(2,"创建系统订单失败") );

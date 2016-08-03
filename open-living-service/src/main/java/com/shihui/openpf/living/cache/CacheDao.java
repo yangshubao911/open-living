@@ -37,7 +37,8 @@ public class CacheDao {
 	
 	private String LIVING_TEMPID = ORDER_PREFIX + "tempId" + Constants.REDIS_KEY_SEPARATOR;	//uuid
 	private String LIVING_SERIALNO = ORDER_PREFIX + "serialNo" + Constants.REDIS_KEY_SEPARATOR;		//yymmdd+1234567890
-	private String LIVING_GEN_SERIALNO = ORDER_PREFIX + "serialNo_Gen";	
+	private String LIVING_GEN_SERIALNO_PREFIX = ORDER_PREFIX + "serialNo_gen_prefix";
+	private String LIVING_GEN_SERIALNO = ORDER_PREFIX + "serialNo_gen";	
 	private String LIVING_NOTIFY = ORDER_PREFIX + "notify";	
 	
 	private String LOCK_SERIALNO = ORDER_PREFIX + "lock" +  Constants.REDIS_KEY_SEPARATOR + "serialNo" +  Constants.REDIS_KEY_SEPARATOR;
@@ -94,13 +95,20 @@ public class CacheDao {
     public String getSerialNo() {
     	try(ShardedJedis jedis = jedisPool.getResource()){
     		Long result = jedis.incr(LIVING_GEN_SERIALNO);
-    		return new SimpleDateFormat("yyyyMMdd").format(new Date()).toString() + String.format("%08d", result);
+    		String prefix = jedis.get("LIVING_GEN_SERIALNO_PREFIX");
+    		if(prefix == null) {
+    			prefix = new SimpleDateFormat("yyyyMMdd").format(new Date()).toString();
+    			jedis.set("LIVING_GEN_SERIALNO_PREFIX",prefix);
+    		}
+    		return  prefix + String.format("%08d", result);
     	}
     }
     
     public void resetSerialNo() {
     	try(ShardedJedis jedis = jedisPool.getResource()){
     		jedis.del(LIVING_GEN_SERIALNO);
+    		String prefix = new SimpleDateFormat("yyyyMMdd").format(new Date()).toString();
+			jedis.set("LIVING_GEN_SERIALNO_PREFIX",prefix);
     	}
     }
     
