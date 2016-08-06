@@ -3,7 +3,7 @@ package com.shihui.openpf.living.io3rd;
 import cebenc.softenc.SoftEnc;
 
 public class Codec {
-	private static String LOCK = "cebenc.softenc.SoftEnc";
+	private static final String LOCK = "cebenc.softenc.SoftEnc";
 	private static int PREFIX_LENGTH = 6;
 	private static int SUFFIX_LENGTH = 16;
 
@@ -12,10 +12,12 @@ public class Codec {
 	}
 	
 	public static void writeKey(String macKey, String macKeyCheck, String pinKey, String pinKeyCheck) throws Exception {
-		if(macKey != null && macKeyCheck != null)
-			SoftEnc.WriteMACK(macKey, macKeyCheck);
-		if( pinKey != null && pinKeyCheck != null)
-			SoftEnc.WritePINK(pinKey, pinKeyCheck);
+		synchronized(LOCK) {
+			if(macKey != null && macKeyCheck != null)
+				SoftEnc.WriteMACK(macKey, macKeyCheck);
+			if( pinKey != null && pinKeyCheck != null)
+				SoftEnc.WritePINK(pinKey, pinKeyCheck);
+		}
 	}
 	
 	private static String genMac(String xml) throws Exception {
@@ -39,7 +41,7 @@ public class Codec {
 		return head + xml + mac;
 	}
 	
-	public static String decode(StringBuilder xml) throws Exception {
+	public static String decode(String xml) throws Exception {
 		if( xml.charAt(xml.length() - 1) == '>') {
 			return xml.substring(PREFIX_LENGTH);
 		}

@@ -72,6 +72,10 @@ import com.shihui.openpf.living.entity.Bill;
 import com.shihui.openpf.living.entity.Company;
 import com.shihui.openpf.living.dao.CompanyDao;
 import com.shihui.openpf.living.entity.support.LivingCodeEnum;
+import com.shihui.openpf.living.io3rd.PacketError;
+import com.shihui.openpf.living.io3rd.PacketNotify;
+import com.shihui.openpf.living.io3rd.ResPay;
+import com.shihui.openpf.living.io3rd.ResQuery;
 import com.shihui.openpf.living.dao.MerchantGoodsDao;
 import com.shihui.openpf.living.dao.OrderHistoryDao;
 
@@ -135,7 +139,6 @@ public class OrderManage {
 	public Object queryOrderList(ConditionVo vo) {
 
 		JSONObject result = new JSONObject();
-		JSONArray ja = new JSONArray();
 
 		int total = obDao.queryCount(vo);
 		result.put("total", total);
@@ -490,32 +493,32 @@ public class OrderManage {
 
 		return fileName;
 	}
-
-	public Object confirmOrder(int userId, String tempID, String price) {
-		JSONObject result = new JSONObject();
-//TODO ?????????????????????????????????????????????????????????????  
-		result.put("", "");
-		return result;
-	}
-
-    @Transactional(rollbackFor = Exception.class)
-    public Object createOrder(int userId, String tempID) {
-//TODO ?????????????????????????????????????????????????????????????    	
-    	ApiResult result = new ApiResult();//orderSystemService.submitOrder(singleGoodsCreateOrderParam); Home->ClientServiceImpl.java->orderCreate
-    	if (result.getStatus() != 1) {
-			return JSON.toJSON(result);
-		}
-    	Order order = new Order();
-        if(orderDao.save(order)>0) {
-            Date date = new Date();
-            OrderHistory orderHistory = new OrderHistory();
-            orderHistory.setChangeTime(date);
-            orderHistory.setOrderId(order.getOrderId());
-            orderHistory.setOrderStatus(order.getOrderStatus());
-            orderHistoryDao.save(orderHistory);
-        }
-        return JSON.toJSON(result);
-    }
+    
+//	public Object confirmOrder(int userId, String tempID, String price) {
+//		JSONObject result = new JSONObject();
+////TODO ?????????????????????????????????????????????????????????????  
+//		result.put("", "");
+//		return result;
+//	}
+//
+//    @Transactional(rollbackFor = Exception.class)
+//    public Object createOrder(int userId, String tempID) {
+////TODO ?????????????????????????????????????????????????????????????    	
+//    	ApiResult result = new ApiResult();//orderSystemService.submitOrder(singleGoodsCreateOrderParam); Home->ClientServiceImpl.java->orderCreate
+//    	if (result.getStatus() != 1) {
+//			return JSON.toJSON(result);
+//		}
+//    	Order order = new Order();
+//        if(orderDao.save(order)>0) {
+//            Date date = new Date();
+//            OrderHistory orderHistory = new OrderHistory();
+//            orderHistory.setChangeTime(date);
+//            orderHistory.setOrderId(order.getOrderId());
+//            orderHistory.setOrderStatus(order.getOrderStatus());
+//            orderHistoryDao.save(orderHistory);
+//        }
+//        return JSON.toJSON(result);
+//    }
 
 	/**
 	 * 计算签名

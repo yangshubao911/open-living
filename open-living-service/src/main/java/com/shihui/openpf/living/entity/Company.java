@@ -38,9 +38,23 @@ public class Company implements Serializable {
 	private String payMax;
 
 	private Integer dateChoice;
+	
+	private Integer barcode;
 
 	private Integer status;
 	//
+
+	public Integer getBarcode() {
+		return barcode;
+	}
+
+	public void setBarcode(Integer barcode) {
+		this.barcode = barcode;
+	}
+
+	public void setUserNoLengMin(Integer userNoLengMin) {
+		this.userNoLengMin = userNoLengMin;
+	}
 
 	public Integer getCompanyId() {
 		return companyId;

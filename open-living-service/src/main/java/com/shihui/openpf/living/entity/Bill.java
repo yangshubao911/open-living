@@ -20,6 +20,8 @@ public class Bill implements Serializable {
 
     @Id
     private Long orderId;
+    private Integer serviceId;
+	private Integer categoryId;
 	private String feeName;
 	private String cityName;
 	private String billKey;
@@ -28,7 +30,6 @@ public class Bill implements Serializable {
 	private String billDate;
 	private Integer feeType;
 	private Integer billStatus;
-
 //
 	private String item1;
 	private String item2;
@@ -37,36 +38,32 @@ public class Bill implements Serializable {
 	private String item5;
 	private String item6;
 	private String item7;
-
-
+//
 	private String contractNo;
 	private String userName;
 	private String balance;
 	private String payment;
-
+//
 	private String startTime;
 	private String endTime;
-
+//
 	private String field1;
 	private String field2;
 	private String field3;
 	private String field4;
-	private String field5;
-	
+	private String field5;	
 //
-
 	private String serialNo;
 	private String payTime;
-
-
+//
 	private String bbField1;
 	private String bbField2;
 	private String bbField3;
 	private String bbField4;
-
+//
 	private String bankBillNo;
 	private String receiptNo;
-
+//
 	private String bankAcctDate;
 	//
 
@@ -78,6 +75,22 @@ public class Bill implements Serializable {
 		this.orderId = orderId;
 	}
 
+    public Integer getServiceId() {
+		return serviceId;
+	}
+
+	public void setServiceId(Integer serviceId) {
+		this.serviceId = serviceId;
+	}
+
+	public Integer getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Integer categoryId) {
+		this.categoryId = categoryId;
+	}
+	
 	public String getFeeName() {
 		return feeName;
 	}

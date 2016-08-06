@@ -19,4 +19,8 @@
         <constructor-arg index="1" value="${mq.all.consumer.nameserver}"/>
     </bean>
 
+	<bean id="livingRocketProducer" class="com.shihui.commons.mq.RocketProducer">
+		<constructor-arg index="0" value="v2LivingRocketProducer" />
+		<constructor-arg index="1" value="${mq.open.living.producer.nameserver}" />
+	</bean>
 </beans>

@@ -1,38 +1,28 @@
 package com.shihui.openpf.living.mq;
 
-//import java.util.List;
-//import com.shihui.openpf.living.api.RechargeProcess;
-//import com.shihui.openpf.living.dao.RequestDao;
-//import com.shihui.openpf.living.entity.Request;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import javax.annotation.PostConstruct;
+
 import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import com.alibaba.fastjson.JSONObject;
 
+import com.alibaba.fastjson.JSONObject;
 import com.shihui.api.order.common.enums.OrderStatusEnum;
 import com.shihui.api.order.common.enums.OrderTypeEnum;
 import com.shihui.api.order.common.enums.PayTypeEnum;
 import com.shihui.api.order.service.OpenService;
 import com.shihui.api.order.vo.SimpleResult;
-import com.shihui.commons.ApacheHttpClient;
-import com.shihui.commons.ApiHttpClient;
 import com.shihui.commons.mq.annotation.ConsumerConfig;
 import com.shihui.commons.mq.api.Consumer;
 import com.shihui.commons.mq.api.Topic;
 import com.shihui.openpf.common.dubbo.api.MerchantManage;
 import com.shihui.openpf.common.dubbo.api.ServiceManage;
 import com.shihui.openpf.common.model.Service;
-//import com.shihui.openpf.living.api.bean.ProcessResult;
 import com.shihui.openpf.living.cache.OrderCache;
-import com.shihui.openpf.living.entity.Goods;
+//import com.shihui.openpf.living.entity.Goods;
 import com.shihui.openpf.living.entity.Order;
 import com.shihui.openpf.living.entity.support.OrderVo;
 import com.shihui.openpf.living.service.GoodsService;
@@ -46,7 +36,7 @@ import com.shihui.openpf.living.service.OrderService;
  * 订单消息消费者
  */
 @Component("paymentSuccessConsumer")
-@ConsumerConfig(consumerName = "rechargeFlowConsumer", topic = Topic.UPDATE_ORDER_STATUS)
+@ConsumerConfig(consumerName = "livingOrderConsumer", topic = Topic.UPDATE_ORDER_STATUS)
 public class PaymentSuccessConsumer implements Consumer {
 	private Logger log = LoggerFactory.getLogger(getClass());
 
@@ -62,18 +52,11 @@ public class PaymentSuccessConsumer implements Consumer {
 	private OrderCache orderCache;
 	@Resource
 	private OpenService openService;
-	
-	private ApiHttpClient httpClient;
-	
-	@Value("${app_push_url}")
-	private String appPushUrl;
-	
-	@PostConstruct
-	public void init(){
-		this.httpClient = new ApacheHttpClient();
-	}
+	@Resource
+	AppNotice appNotice;
 
-	public void PaymentSuccessConsumer(){
+	
+	public PaymentSuccessConsumer(){
 		log.info("---------------------------PaymentSuccessConsumer------------------------------");
 	}
 
@@ -127,7 +110,7 @@ public class PaymentSuccessConsumer implements Consumer {
 
 					
 					
-					Goods goods = goodsService.findById(order.getGoodsId());
+					//Goods goods = goodsService.findById(order.getGoodsId());
 
 					//缓存订单信息
 					OrderVo orderVo = new OrderVo();
@@ -171,7 +154,7 @@ public class PaymentSuccessConsumer implements Consumer {
 						}
 					}
 					if(pushMsg != null){
-						this.pushMsg(pushMsg, order.getUserId(), service.getServiceMerchantCode());
+						appNotice.pushMsg(pushMsg, order.getUserId(), service.getServiceMerchantCode());
 					}
 				}
 				return true;// 默认消息正确处理
@@ -181,29 +164,6 @@ public class PaymentSuccessConsumer implements Consumer {
 		}
 
 		return false;
-	}
-	
-	/**
-	 * push app通知
-	 * @param msg
-	 * @param userId
-	 * @param merchantCode
-	 */
-	private void pushMsg(String msg, long userId, long merchantCode) {
-		try {
-			Map<String, Object> param = new HashMap<>();
-			
-			param.put("touid", userId);
-			param.put("dataid", "10001");
-			param.put("data", msg);
-			param.put("fromuid", merchantCode);
-
-			String result = httpClient.buildPost(appPushUrl).withHeader("X-Matrix-UID", "1000")
-			.withParam(param).execute();
-			log.info("push app消息 uid:{} result:{}",userId,result);
-		} catch (Exception e) {
-			log.error("push app消息异常", e);
-		}
 	}
 
 }
