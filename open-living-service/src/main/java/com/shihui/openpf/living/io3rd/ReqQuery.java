@@ -10,7 +10,7 @@ public class ReqQuery {
 		public String billKey;
 		public String companyId;
 		public int beginNum = 1;
-		public int queryNum = 6;
+		public int queryNum = 1;
 		public String field1;
 		public String field2;
 		public String field3;

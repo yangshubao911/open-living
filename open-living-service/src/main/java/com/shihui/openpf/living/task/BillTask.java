@@ -30,6 +30,8 @@ import com.shihui.openpf.living.dao.MerchantGoodsDao;
 import com.shihui.openpf.living.dao.OrderDao;
 import com.shihui.openpf.living.entity.support.OrderVo;
 import com.shihui.openpf.living.entity.support.QueryOrderBillVo;
+import com.shihui.openpf.living.io3rd.GuangdaResponse;
+
 
 @Component
 public class BillTask {
@@ -61,7 +63,8 @@ public class BillTask {
 //	@Resource
 //	GoodsService goodsService;
 	
-
+	@Resource
+	GuangdaResponse guangdaResponse;
 
 	@PostConstruct
 	public void init() {
@@ -71,6 +74,14 @@ public class BillTask {
 	@Scheduled(cron = "0 30 2 * * ?")
 	public void billCheckNotify() {
 
+		
+		
+		
+		
+		
+		
+		//更换密钥
+		guangdaResponse.doReqKey();
 	}
 
 }

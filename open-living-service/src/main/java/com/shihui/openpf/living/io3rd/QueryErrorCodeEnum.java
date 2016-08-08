@@ -3,6 +3,9 @@
  */
 package com.shihui.openpf.living.io3rd;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author zhouqisheng
  *
@@ -47,6 +50,21 @@ public enum QueryErrorCodeEnum {
 		this.tip = tip;
 	}
 
+    private static Map<String, QueryErrorCodeEnum> values = new HashMap<>();
+    static{
+        for(QueryErrorCodeEnum qece: QueryErrorCodeEnum.values()){
+            values.put(qece.code,qece);
+        }
+    }
+
+    public static QueryErrorCodeEnum parse(String errorCode){
+        return values.get(errorCode);
+    }
+
+	public static String getErrorMessage(String errorCode) {
+		return parse(errorCode).getTip();
+	}
+	
 	public int getIndex() {
 		return index;
 	}
@@ -78,6 +96,5 @@ public enum QueryErrorCodeEnum {
 	public void setTip(String tip) {
 		this.tip = tip;
 	}
-
 
 }

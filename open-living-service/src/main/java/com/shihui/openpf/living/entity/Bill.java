@@ -30,7 +30,9 @@ public class Bill implements Serializable {
 	private String billDate;
 	private Integer feeType;
 	private Integer billStatus;
-//
+	private Date updateTime;
+
+	//---
 	private String item1;
 	private String item2;
 	private String item3;
@@ -52,7 +54,7 @@ public class Bill implements Serializable {
 	private String field3;
 	private String field4;
 	private String field5;	
-//
+//---
 	private String serialNo;
 	private String payTime;
 //
@@ -60,7 +62,7 @@ public class Bill implements Serializable {
 	private String bbField2;
 	private String bbField3;
 	private String bbField4;
-//
+//**
 	private String bankBillNo;
 	private String receiptNo;
 //
@@ -155,6 +157,14 @@ public class Bill implements Serializable {
 		this.billStatus = billStatus;
 	}
 
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+	
 	public String getItem1() {
 		return item1;
 	}

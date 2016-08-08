@@ -1,12 +1,14 @@
 package com.shihui.openpf.living.entity.support;
 
 import com.shihui.openpf.living.entity.Bill;
+import com.shihui.openpf.living.entity.Company;
 import com.shihui.openpf.living.entity.Order;
 
 public class OrderBillVo {
 	
 	private Order order;
 	private Bill bill;
+	private Company company;
 	//
 
 	public OrderBillVo() {
@@ -28,6 +30,14 @@ public class OrderBillVo {
 
 	public void setBill(Bill bill) {
 		this.bill = bill;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
 }

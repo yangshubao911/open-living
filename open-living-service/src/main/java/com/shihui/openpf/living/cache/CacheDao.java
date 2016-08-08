@@ -5,6 +5,7 @@ package com.shihui.openpf.living.cache;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +17,14 @@ import org.springframework.stereotype.Repository;
 import com.alibaba.fastjson.JSON;
 import com.shihui.openpf.common.tools.Constants;
 import com.shihui.openpf.common.tools.StringUtil;
+import com.shihui.openpf.living.entity.Goods;
 import com.shihui.openpf.living.entity.support.OrderBillVo;
 import com.shihui.openpf.living.entity.support.QueryOrderBillVo;
 import com.shihui.openpf.living.io3rd.PacketNotify;
+import com.shihui.openpf.common.model.Campaign;
+import com.shihui.openpf.common.model.Service;
+import com.shihui.openpf.common.model.Group;
+import com.shihui.openpf.common.model.Merchant;
 
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
@@ -33,22 +39,111 @@ public class CacheDao {
     @Resource
     private ShardedJedisPool jedisPool;
 
+    //
+    private static final int EXPIRE_SYS = 4*60*60;
 	//
 	private static final String BANNERADS = CACHE_PREFIX + "bannerAds";
 	//
-	private static final String CITY_PREFIX = CACHE_PREFIX + "city";
+	private static final String MERCHANT = CACHE_PREFIX + "merchant";
+	public void setMerchant(int merchantId, Merchant merchant) {
+		hset(MERCHANT, String.valueOf(merchantId), merchant, EXPIRE_SYS);
+	}
+	public Merchant getMerchant(int merchantId) {
+		return (Merchant)hgetObject(MERCHANT, String.valueOf(merchantId), Merchant.class);
+	}
 	//
-	private static final String COMPANY_PREFIX = CACHE_PREFIX + "company";
+	private static final String GROUP = CACHE_PREFIX + "group";
+	public void setGroup(long groupId, Group group) {
+		hset(GROUP, String.valueOf(groupId), group, EXPIRE_SYS);
+	}
+	public Group getGroup(long groupId) {
+		return (Group)hgetObject(GROUP, String.valueOf(groupId), Group.class);
+	}
 	//
-	private static final String SERVICE_LIST = CACHE_PREFIX + "service";
+	private static final String CITY = CACHE_PREFIX + "city";
+	public void setCity(int categoryId, String value) {
+		hset(CITY, String.valueOf(categoryId), value, EXPIRE_SYS);
+	}
+	public String getCity(int categoryId) {
+		return hgetString(CITY, String.valueOf(categoryId));
+	}
+
 	//
-	private static final String CATEGORY_PREFIX = CACHE_PREFIX + "category";
+	private static final String COMPANY_PREFIX = CACHE_PREFIX + "company" + Constants.REDIS_KEY_SEPARATOR;
+	public void setCompany(int serviceId, int cityId, String value) {
+		hset(COMPANY_PREFIX + serviceId, String.valueOf(cityId), value, EXPIRE_SYS);
+	}
+	public String getCompany(Integer serviceId, Integer cityId) {
+		return hgetString(COMPANY_PREFIX + serviceId, String.valueOf(cityId));
+	}
+	//
+	private static final String SERVICE_PREFIX = CACHE_PREFIX + "service";
+	public void setService(int serviceId, Service value) {
+		set(SERVICE_PREFIX + serviceId, value, EXPIRE_SYS);
+	}
+	public Service getService(int serviceId) {
+		return (Service)getObject(SERVICE_PREFIX + serviceId, Service.class);
+	}
+	//
+	private static final String CATEGORY = CACHE_PREFIX + "category";
+	public void setCategory(String value) {
+		set(CATEGORY,  value, EXPIRE_SYS);
+	}
+	public String getCategory() {
+		return getString(CATEGORY);
+	}
+	
 	//
 	private static final String GOODS_PREFIX = CACHE_PREFIX + "goods";
+	public void setGoods(int category, long goodsId, Goods goods) {
+		hset(GOODS_PREFIX + category, String.valueOf(goodsId), goods, EXPIRE_SYS);
+	}
+	public Goods getGoods(int category, long goodsId) {
+		return (Goods)hgetObject(GOODS_PREFIX + category, String.valueOf(goodsId),Goods.class);
+	}
 	//
-	private static final String CAMPAIGN_LIST = CACHE_PREFIX + "campaign";
+	private static final String CAMPAIGN_LIST = CACHE_PREFIX + "campaignList";
+	public void setCampaignList(int serviceId, List<Campaign> campaignList) {
+		hset(CAMPAIGN_LIST, String.valueOf(serviceId), campaignList, EXPIRE_SYS);
+	}
+	public List<Campaign> getCampaignList(int serviceId) {
+		return (List<Campaign>)hgetObject(CAMPAIGN_LIST, String.valueOf(serviceId), Campaign.class);
+	}
 	//
-	private static final String FIELD_TOPN = "topN";
+	private static final String USER_HOME_PREFIX = CACHE_PREFIX + "user_home" + Constants.REDIS_KEY_SEPARATOR;
+	private static final String FIELD_HOME = "home";
+	private static final int EXPIRE_USER = 60*60;
+	public void setUserHome(long userId, String value) {
+		hset(USER_HOME_PREFIX + userId, FIELD_HOME, value, EXPIRE_USER);
+	}
+	public String getUserHome(long userId) {
+		return hgetString(USER_HOME_PREFIX + userId, FIELD_HOME);
+	}
+	//
+	private static final String KEY_GUANGDA = CACHE_PREFIX + "key_guangda";
+	private static final String KEY_DATE_GUANGDA = CACHE_PREFIX + "key_date_guangda";
+	private static final int EXPIRE_KEY = 5*60;
+	public boolean lockKey() {
+		return lock(KEY_GUANGDA, EXPIRE_KEY);
+	}
+	public void setKeyDate() {
+		set(KEY_DATE_GUANGDA,String.valueOf(new Date().getTime()));
+	}
+	public boolean checkKeyDateExpired() {
+		String value = getString(KEY_DATE_GUANGDA);
+		if( value != null) {
+			Calendar keyDate = Calendar.getInstance();
+			keyDate.setTimeInMillis(Long.parseLong(value));
+			Calendar nowDate = Calendar.getInstance();
+			nowDate.setTime(new Date());
+			return !( keyDate.get(Calendar.YEAR) == nowDate.get(Calendar.YEAR)
+					&& keyDate.get(Calendar.MONTH) == nowDate.get(Calendar.MONTH)
+					&& keyDate.get(Calendar.DAY_OF_MONTH) == nowDate.get(Calendar.DAY_OF_MONTH)
+					);
+				
+		}
+		return true;
+	}
 	//
 	private static final String LIVING_GEN_SERIALNO_PREFIX = CACHE_PREFIX + "serialNo_gen_prefix";
 	private static final String LIVING_GEN_SERIALNO = CACHE_PREFIX + "serialNo_gen";	
@@ -103,14 +198,23 @@ public class CacheDao {
 	private static final String ORDERBILLVO_PREFIX = CACHE_PREFIX + "obvo" + Constants.REDIS_KEY_SEPARATOR;
 	private static final int EXPIRE_ORDERBILLVO = 60*60*24*3;
 	
+    public void setOrderBillVo(String orderId, OrderBillVo vo){
+    	set(ORDERBILLVO_PREFIX + orderId, vo, EXPIRE_ORDERBILLVO);
+    }
     public void setOrderBillVo(long orderId, OrderBillVo vo){
     	set(ORDERBILLVO_PREFIX + orderId, vo, EXPIRE_ORDERBILLVO);
     }
     
+    public OrderBillVo getOrderBillVo(String orderId){
+    	return (OrderBillVo)getObject(ORDERBILLVO_PREFIX + orderId, OrderBillVo.class);
+    }
     public OrderBillVo getOrderBillVo(long orderId){
     	return (OrderBillVo)getObject(ORDERBILLVO_PREFIX + orderId, OrderBillVo.class);
     }
 
+    public void delOrderBillVo(String orderId){
+    	del(ORDERBILLVO_PREFIX + orderId);
+    }
     public void delOrderBillVo(long orderId){
     	del(ORDERBILLVO_PREFIX + orderId);
     }
@@ -142,18 +246,11 @@ public class CacheDao {
     //
     //
     //
-    
-    public String getTrmSeqNum() {
-    	return java.util.UUID.randomUUID().toString().replace("-", "");
+    private void set(String key, String value) {
+    	try(ShardedJedis jedis = jedisPool.getResource()){
+    		jedis.set(key, value);
+    	}   	
     }
-    
-    public String getUUID() {
-    	return java.util.UUID.randomUUID().toString();
-    }
-    
-    //
-    //
-    //
     
     private void set(String key, String value, int expire) {
     	try(ShardedJedis jedis = jedisPool.getResource()){
@@ -193,13 +290,24 @@ public class CacheDao {
     //
     //
     
-    private void set(String key, String field, String value){
+    private void hset(String key, String field, String value, int expire){
+    	try(ShardedJedis jedis = jedisPool.getResource()){
+    		jedis.hset(key, field, value);
+    		jedis.expire(key, expire);
+    	}
+    }
+    private void hset(String key, String field, String value){
     	try(ShardedJedis jedis = jedisPool.getResource()){
     		jedis.hset(key, field, value);
     	}
-    }
-    
-    private void set(String key, String field, Object object){
+    }    
+    private void hset(String key, String field, Object object, int expire){
+    	try(ShardedJedis jedis = jedisPool.getResource()){
+    		jedis.hset(key, field, JSON.toJSONString(object));
+    		jedis.expire(key, expire);
+    	}
+    }    
+    private void hset(String key, String field, Object object){
     	try(ShardedJedis jedis = jedisPool.getResource()){
     		jedis.hset(key, field, JSON.toJSONString(object));
     	}

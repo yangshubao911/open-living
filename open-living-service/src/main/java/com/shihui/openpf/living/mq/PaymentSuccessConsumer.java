@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.shihui.api.order.common.enums.OrderStatusEnum;
 import com.shihui.api.order.common.enums.OrderTypeEnum;
@@ -21,13 +22,17 @@ import com.shihui.commons.mq.api.Topic;
 import com.shihui.openpf.common.dubbo.api.MerchantManage;
 import com.shihui.openpf.common.dubbo.api.ServiceManage;
 import com.shihui.openpf.common.model.Service;
-import com.shihui.openpf.living.cache.OrderCache;
-//import com.shihui.openpf.living.entity.Goods;
+import com.shihui.openpf.living.cache.CacheDao;
+import com.shihui.openpf.living.dao.BillDao;
 import com.shihui.openpf.living.entity.Order;
-import com.shihui.openpf.living.entity.support.OrderVo;
+import com.shihui.openpf.living.entity.support.OrderBillVo;
 import com.shihui.openpf.living.service.GoodsService;
 import com.shihui.openpf.living.service.OrderService;
-
+import com.shihui.openpf.living.io3rd.ReqPay;
+import com.shihui.openpf.living.dao.CompanyDao;
+import com.shihui.openpf.living.entity.Bill;
+import com.shihui.openpf.living.util.LivingUtil;
+import com.shihui.openpf.living.mq.LivingMqProducer;
 /**
  * Created by zhoutc on 2016/3/3.
  */
@@ -49,17 +54,39 @@ public class PaymentSuccessConsumer implements Consumer {
 	@Resource
 	private MerchantManage merchantManage;
 	@Resource
-	private OrderCache orderCache;
+	private BillDao billDao;
 	@Resource
 	private OpenService openService;
 	@Resource
 	AppNotice appNotice;
+	@Resource
+	CacheDao cacheDao;
+	@Resource
+	CompanyDao companyDao;
+	@Resource
+	LivingMqProducer mqProducer;
 
 	
 	public PaymentSuccessConsumer(){
 		log.info("---------------------------PaymentSuccessConsumer------------------------------");
 	}
 
+	private void doReqPay(OrderBillVo obvo) {
+		Bill bill = obvo.getBill();
+		Order order = obvo.getOrder();
+		String tempId = LivingUtil.getRechargeTrmSeqNum(order.getOrderId());
+		ReqPay reqPay = ReqPay.instance(
+				tempId, 
+				bill.getBillKey(), 
+				obvo.getCompany().getCompanyNo(), 
+				cacheDao.getSerialNo(), 
+				order.getPrice(),
+				bill.getUserName(), 
+				bill.getContractNo(), 
+				null,null,null,null/*field1, filed2, filed3, filed4*/);
+		mqProducer.sendRechargeRequest(tempId, JSON.toJSONString(reqPay));
+	}
+	
 	@Override
 	public boolean doit(String topic, String tags, String key, String msg) {
 		try {
@@ -82,7 +109,21 @@ public class PaymentSuccessConsumer implements Consumer {
 				return true;
 			}
 
-			Order order = orderService.getOrderById(orderId);
+			//Order order = orderService.getOrderById(orderId);
+			Order order;
+			OrderBillVo obvo = cacheDao.getOrderBillVo(orderId);
+			if(obvo == null) {
+				obvo = new OrderBillVo();
+				order = orderService.getOrderById(orderId);
+				Bill bill = billDao.findById(orderId);
+				obvo.setBill(bill);
+				obvo.setOrder(order);
+				obvo.setCompany(companyDao.findById(bill.getCompanyId()));
+			}
+			else {
+				order = obvo.getOrder();
+			}
+			
 			if (order == null) {
 				return true;
 			} else {
@@ -90,6 +131,8 @@ public class PaymentSuccessConsumer implements Consumer {
 
 				// 更新订单状态
 				orderService.updateOrderStatus(orderId, status.getValue());
+				order.setOrderStatus(status.getValue());
+				order.setUpdateTime(new Date());
 				
 				if(status == OrderStatusEnum.OrderUnStockOut){
 					SimpleResult simpleResult = openService.backendOrderDetail(orderId);
@@ -106,24 +149,28 @@ public class PaymentSuccessConsumer implements Consumer {
 					    orderUpdate.setTransId(transId);
 					    orderUpdate.setUpdateTime(new Date());
 						orderService.updateOrderByOrderId(orderUpdate);
+						//TODO
+						order.setPaymentType(orderUpdate.getPaymentType());
+						order.setPayTime(orderUpdate.getPayTime());
+						order.setTransId(orderUpdate.getTransId());
+						order.setUpdateTime(orderUpdate.getUpdateTime());
 					}
 
-					
-					
 					//Goods goods = goodsService.findById(order.getGoodsId());
 
-					//缓存订单信息
-					OrderVo orderVo = new OrderVo();
-					orderVo.setPayTime(new Date(order_vo.getPaymentTime()));
-					orderVo.setGoodsId(order.getGoodsId());
-					orderVo.setMerchantId(order.getMerchantId());
-					orderVo.setOrderId(order.getOrderId());
-					orderVo.setOrderStatus(status.getValue());
-					orderVo.setServiceId(order.getServiceId());
-					orderVo.setPhone("");
-					
-					orderCache.set(orderVo);
-
+//					//缓存订单信息
+//					OrderVo orderVo = new OrderVo();
+//					orderVo.setPayTime(new Date(order_vo.getPaymentTime()));
+//					orderVo.setGoodsId(order.getGoodsId());
+//					orderVo.setMerchantId(order.getMerchantId());
+//					orderVo.setOrderId(order.getOrderId());
+//					orderVo.setOrderStatus(status.getValue());
+//					orderVo.setServiceId(order.getServiceId());
+//					orderVo.setPhone("");
+//					
+//					orderCache.set(orderVo);
+					cacheDao.setOrderBillVo(orderId, obvo);
+					doReqPay(obvo);
 				} else if(status == OrderStatusEnum.OrderHadReceived){
 					//更新订单消费时间
 				    Order orderUpdate = new Order();
@@ -131,8 +178,15 @@ public class PaymentSuccessConsumer implements Consumer {
 				    orderUpdate.setConsumeTime(new Date(order_vo.getLastStatusTime()));
 				    orderUpdate.setUpdateTime(new Date());
 					orderService.updateOrderByOrderId(orderUpdate);
+					//TODO
+					order.setConsumeTime(orderUpdate.getConsumeTime());
+					order.setUpdateTime(orderUpdate.getUpdateTime());
+					cacheDao.setOrderBillVo(orderId, obvo);
 				}
+				else
+					cacheDao.setOrderBillVo(orderId, obvo);
 
+				//
 				//推送客户端消息
 				if(status == OrderStatusEnum.OrderUnStockOut
 						|| status == OrderStatusEnum.BackClose || status == OrderStatusEnum.OrderHadReceived

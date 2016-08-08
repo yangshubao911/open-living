@@ -10,6 +10,7 @@ import com.shihui.commons.mq.api.Consumer;
 import com.shihui.commons.mq.api.Topic;
 import com.shihui.openpf.living.io3rd.GuangdaDao;
 import com.shihui.openpf.living.io3rd.ReqQuery;
+import com.shihui.openpf.living.cache.CacheDao;
 
 import me.weimi.api.commons.util.ApiLogger;
 
@@ -19,6 +20,8 @@ public class QueryRequestConsumer implements Consumer {
 
 	@Resource
 	private GuangdaDao guangdaDao;
+	@Resource
+	private CacheDao cacheDao;
 
 	public QueryRequestConsumer(){
 	}

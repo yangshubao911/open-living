@@ -3,6 +3,9 @@
  */
 package com.shihui.openpf.living.io3rd;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author zhouqisheng
  *
@@ -50,6 +53,21 @@ public enum PayErrorCodeEnum {
 		this.tip = tip;
 	}
 
+    private static Map<String, PayErrorCodeEnum> values = new HashMap<>();
+    static{
+        for(PayErrorCodeEnum qece: PayErrorCodeEnum.values()){
+            values.put(qece.code,qece);
+        }
+    }
+
+    public static PayErrorCodeEnum parse(String errorCode){
+        return values.get(errorCode);
+    }
+
+	public static String getErrorMessage(String errorCode) {
+		return parse(errorCode).getTip();
+	}
+	
 	public int getIndex() {
 		return index;
 	}

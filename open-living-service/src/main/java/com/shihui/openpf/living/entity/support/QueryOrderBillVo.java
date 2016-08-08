@@ -14,7 +14,7 @@ public class QueryOrderBillVo {
 	private String tempId;
 	private int categoryId;
 	private String companyNo;
-	private long groupId;
+	//private long groupId;
 
 	private Order order;
 	private Bill bill;
@@ -103,13 +103,13 @@ public class QueryOrderBillVo {
 		this.bill = bill;
 	}
 	
-	public long getGroupId() {
-		return groupId;
-	}
-
-	public void setGroupId(long groupId) {
-		this.groupId = groupId;
-	}
+//	public long getGroupId() {
+//		return groupId;
+//	}
+//
+//	public void setGroupId(long groupId) {
+//		this.groupId = groupId;
+//	}
 	
 	public int getCategoryId() {
 		return categoryId;

@@ -14,11 +14,11 @@ public class ResQuery implements PacketCheck{
 		public double payAmount;
 		public String beginDate;
 		public String endDate;
-		public String filed1;
-		public String filed2;
-		public String filed3;
-		public String filed4;
-		public String filed5;
+		public String field1;
+		public String field2;
+		public String field3;
+		public String field4;
+		public String field5;
 	}
 
 	public class Tout {

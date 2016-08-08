@@ -1,48 +1,295 @@
 package com.shihui.openpf.living.io3rd;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.shihui.openpf.common.dubbo.api.MerchantManage;
+import com.shihui.openpf.common.dubbo.api.ServiceManage;
+import com.shihui.openpf.common.model.Campaign;
+import com.shihui.openpf.common.model.Group;
+import com.shihui.openpf.common.service.api.CampaignService;
+import com.shihui.openpf.common.service.api.GroupManage;
+import com.shihui.openpf.common.service.api.ServiceService;
+import com.shihui.openpf.living.cache.CacheDao;
+import com.shihui.openpf.living.dao.BillDao;
+import com.shihui.openpf.living.dao.CompanyDao;
+import com.shihui.openpf.living.dao.GoodsDao;
+import com.shihui.openpf.living.entity.Bill;
+import com.shihui.openpf.living.entity.Company;
+import com.shihui.openpf.living.entity.Goods;
+import com.shihui.openpf.living.entity.Order;
+import com.shihui.openpf.living.entity.support.BillStatusEnum;
+import com.shihui.openpf.living.entity.support.FeeTypeEnum;
+import com.shihui.openpf.living.entity.support.OrderBillVo;
+import com.shihui.openpf.living.entity.support.QueryOrderBillVo;
+import com.shihui.openpf.living.mq.AppNotice;
+import com.shihui.openpf.living.mq.LivingMqProducer;
+import com.shihui.openpf.living.util.LivingUtil;
+import com.shihui.openpf.living.util.PacketTypeEnum;
+import com.shihui.openpf.living.util.SimpleResponse;
+import com.shihui.openpf.common.model.Merchant;
 
 import me.weimi.api.commons.util.ApiLogger;
 
 @Component
 public class GuangdaResponse {
 
+	@Resource
+	private CacheDao cacheDao;
+	@Resource
+	AppNotice appNotice;
+	@Resource
+	BillDao billDao;
+	@Resource
+	LivingMqProducer mqProducer;
+	@Resource
+	CompanyDao companyDao;
+	@Resource
+	GoodsDao goodsDao;
+	@Resource
+	private ServiceService serviceService;
+	@Resource
+	CampaignService campaignService;
+	@Resource
+	MerchantManage merchantManage;
+	@Resource
+	ServiceManage serviceManage;
+	@Resource
+	GroupManage groupManage;
+	
+	
 	@PostConstruct
 	public void init() {
-		
+		doReqKey();
 	}
 
+	private void resPay2Vo(ResPay resPay, OrderBillVo vo) {
+		Bill bill = vo.getBill();
+		bill.setBankBillNo(resPay.tout.bankBillNo);
+		bill.setReceiptNo(resPay.tout.receiptNo);
+		bill.setBankAcctDate(resPay.tout.acctDate);
+		//
+		bill.setBillStatus(BillStatusEnum.BuySuccess.getValue());
+		bill.setUpdateTime(new Date());
+		billDao.update(bill);
+	}
     public void doResPay(ResPay resPay) {
     	//TODO
+    	String tempId = resPay.head.TrmSeqNum;
+    	OrderBillVo vo = cacheDao.getOrderBillVo(tempId);
+    	if( vo != null) {
+    		resPay2Vo(resPay, vo);
+    		cacheDao.setOrderBillVo(tempId, vo);
+    	}
     }
-    
+
+    private void resQuery2Vo(ResQuery resQuery, QueryOrderBillVo vo) {
+    	Bill bill = vo.getBill();
+		bill.setItem1(resQuery.tout.item1);
+		bill.setItem2(resQuery.tout.item2);
+		bill.setItem3(resQuery.tout.item3);
+		bill.setItem4(resQuery.tout.item4);
+		bill.setItem5(resQuery.tout.item5);
+		bill.setItem6(resQuery.tout.item6);
+		bill.setItem7(resQuery.tout.item7);
+		
+		ResQuery.ToutData td = resQuery.tout.dataList.get(0);
+		bill.setContractNo(td.contractNo);
+		bill.setUserName(td.customerName);
+		bill.setBalance(String.valueOf(td.balance));
+		bill.setPayment(String.valueOf(td.payAmount));
+
+		bill.setStartTime(td.beginDate);
+		bill.setEndTime(td.endDate);
+
+		bill.setField1(td.field1);
+		bill.setField2(td.field2);
+		bill.setField3(td.field3);
+		bill.setField4(td.field4);
+		bill.setField5(td.field5);
+    	//
+		bill.setBillDate(vo.getCompany().getDateChoice() == 0 ? td.beginDate : td.endDate);
+    }
+	private void noticeApp(QueryOrderBillVo vo) {
+		JSONObject result = new JSONObject();
+		//
+		result.put("tempId", vo.getTempId());
+		Bill bill = vo.getBill();
+		Order order = vo.getOrder();
+		result.put("billDate", bill.getBillDate());
+		
+		Goods goods = vo.getGoods();
+		result.put("shOffSet", goods.getShOffSet());
+		result.put("shOffSetMax", goods.getShOffSetMax());
+		result.put("firstShOffSet", goods.getFirstShOffSet());
+		result.put("firstShOffSetMax", goods.getFirstShOffSetMax());
+
+		if( bill.getFeeType() == FeeTypeEnum.Default.getValue() ) {
+			result.put("price", order.getPrice());
+			result.put("pay", order.getPay());
+		} else {
+			result.put("balance", bill.getBalance());
+		}
+
+		result.put("feeType", bill.getFeeType());
+		result.put("feeName", bill.getFeeName());
+		result.put("userNo", bill.getBillKey());
+		result.put("userAddress", bill.getUserAddress());
+		result.put("userName", bill.getUserName());
+		
+		Company company = vo.getCompany();
+		result.put("companyName", company.getCompanyName());
+		
+		result.put("campaignId", order.getCampaignId());
+		result.put("serviceType", company.getServiceType());
+		
+		result.put("response", new SimpleResponse(1,"查询成功") );
+		//
+		appNotice.pushQueryResult(order.getUserId(), result);
+	}
+	private void load_vo_elements(QueryOrderBillVo vo) {
+		Order order = vo.getOrder();		
+		Bill bill = vo.getBill();
+		vo.setCompany(companyDao.findById(bill.getCompanyId()));
+		
+		Goods goods = cacheDao.getGoods(vo.getCategoryId(), order.getGoodsId());
+		if( goods == null) {
+			goods = goodsDao.findById(order.getGoodsId());
+			cacheDao.setGoods(vo.getCategoryId(), order.getGoodsId(), goods);
+		}
+		vo.setGoods(goods);
+		//
+		Campaign campaign;
+		List<Campaign> campaigns = cacheDao.getCampaignList(goods.getServiceId());
+		if(campaigns == null) {
+			campaign = new Campaign();
+			campaign.setServiceId(goods.getServiceId());
+			campaigns = campaignService.findByCondition(campaign);
+			cacheDao.setCampaignList(goods.getServiceId(), campaigns);
+		}
+		if (campaigns != null && campaigns.size() > 0) {
+			// 默认活动就一个首单优惠
+			campaign = campaigns.get(0);
+			Date now = new Date();
+			if (campaign.getStatus() == 1 && campaign.getStartTime().before(now) && campaign.getEndTime().after(now)) {
+				vo.setCampaign(campaign);
+			}
+		}
+		//
+		com.shihui.openpf.common.model.Service service = cacheDao.getService(order.getServiceId());
+		if(service == null) {
+			service = serviceManage.findById(order.getServiceId());
+			cacheDao.setService(order.getServiceId(), service);
+		}
+		vo.setService(service);
+		
+		Merchant merchant = cacheDao.getMerchant(service.getServiceMerchantId());
+		if(merchant == null) {
+			merchant = merchantManage.getById(service.getServiceMerchantId());
+			cacheDao.setMerchant(merchant.getMerchantId(), merchant);
+		}
+		vo.setMerchant(merchant);
+		
+		Group group = cacheDao.getGroup(order.getGid());
+		if( group == null) {
+			group = groupManage.getGroupInfoByGid(order.getGid());
+			cacheDao.setGroup(group.getGid(), group);
+		}
+		vo.setGroup(group);
+	}
     public void doResQuery(ResQuery resQuery) {
     	//TODO
+    	ApiLogger.info(">>>GuangdaResponse : doResQuery()");
+    	String tempId = resQuery.head.TrmSeqNum;
+    	QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(tempId);
+    	if(vo != null && Integer.parseInt(resQuery.tout.totalNum) > 0 ) {
+    		resQuery2Vo(resQuery, vo);
+    		cacheDao.setQueryOrderBillVo(tempId, vo);
+    		//
+    		load_vo_elements(vo);
+    		//
+    		noticeApp(vo);
+    		ApiLogger.info("OK: GuangdaResponse : resQuery()");
+    	} else {
+    		ApiLogger.info("ERR: GuangdaResponse : resQuery() : {vo != null && Integer.parseInt(resQuery.tout.totalNum) > 0}");
+    	}
+    	ApiLogger.info("<<<GuangdaResponse : doResQuery() : OK");
     }
     
     public void doPacketError(PacketError packetError) {
     	//TODO
+    	ApiLogger.info(">>>GuangdaResponse : doPacketError()");
+    	String tempId = packetError.head.TrmSeqNum;
+    	int packetType = Integer.parseInt(tempId.substring(0,1));
+    	if(packetType == PacketTypeEnum.QUERY.getType()) {
+    		QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(tempId);
+        	if(vo != null) {
+	    		JSONObject result = new JSONObject();
+	    		result.put("response", new SimpleResponse(0,QueryErrorCodeEnum.getErrorMessage(packetError.tout.errorCode)));
+	    		appNotice.pushQueryResult(vo.getOrder().getUserId(), result);
+	    		cacheDao.delQueryOrderBillVo(tempId);
+	    		ApiLogger.info("OK: GuangdaResponse : doPacketError() : QUERY : " + result.toJSONString());
+        	} else {
+        		ApiLogger.info("ERR: GuangdaResponse : doPacketError() : QUERY : QueryOrderBillVo vo == null");
+        	}
+    	} else if(packetType == PacketTypeEnum.RECHARGE.getType()) {
+    		long orderId = Long.parseLong(tempId.substring(1));
+    		OrderBillVo vo = cacheDao.getOrderBillVo(orderId);
+        	if(vo != null) {
+        		Bill bill = vo.getBill();
+        		bill.setBillStatus(BillStatusEnum.BuyFail.getValue());
+        		bill.setUpdateTime(new Date());
+        		billDao.update(bill);
+        		cacheDao.setOrderBillVo(tempId, vo);
+        		ApiLogger.info("OK: GuangdaResponse : doPacketError() : RECHARGE : OK");
+        	} else {
+        		ApiLogger.info("ERR: GuangdaResponse : doPacketError() : RECHARGE : OrderBillVo vo == null");
+        	}
+    	} else if(packetType == PacketTypeEnum.KEY.getType()) {
+    		doReqKey();
+    	}
+    	ApiLogger.info("<<<GuangdaResponse : doPacketError() : OK");
     }
     
     public void doPacketNotify(PacketNotify packetNotify) {
-    	//TODO
+    	ApiLogger.info(">>>GuangdaResponse : doPacketNotify()");
+    	cacheDao.setPacketNotify(packetNotify);
+    	ApiLogger.info("<<<GuangdaResponse : doPacketNotify() : OK");
     }
     
     public void doResKey(ResKey resKey) {
+    	ApiLogger.info(">>>GuangdaResponse doResKey()");
     	for(int i=0; i< 3; i++) {
 	    	try {
 	    		Codec.writeKey(resKey.tout.keyValue, resKey.tout.verifyValue, resKey.tout.keyValue1, resKey.tout.verifyValue1);
+	    		cacheDao.setKeyDate();
+	    		ApiLogger.info("OK: GuangdaResponse doResKey() : OK");
 	    		return;
 	    	}catch(Exception e) {
-	    		ApiLogger.info("!!!ExecuteAnalysePacketTask Exception : doResKey() : " + e.getMessage());
+	    		ApiLogger.info("ERR: GuangdaResponse Exception : doResKey() : " + e.getMessage());
 	    	}
 	    	try {
 	    		Thread.sleep(3000);
 	    	}catch(Exception e) {
 	    	}
     	}
+    }
+
+    public void doReqKey() {  
+    	ApiLogger.info(">>>GuangdaResponse doReqKey()");
+    	if(cacheDao.checkKeyDateExpired() && cacheDao.lockKey()) {
+	    	ReqKey reqKey = ReqKey.instance(LivingUtil.getKeyTrmSeqNum());
+	    	mqProducer.sendKeyRequest(JSON.toJSONString(reqKey));
+	    	ApiLogger.info("OK: GuangdaResponse : doReqKey()");
+    	}
+    	ApiLogger.info("<<<GuangdaResponse : doReqKey()");
     }
 
 }

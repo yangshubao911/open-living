@@ -44,6 +44,7 @@ import com.shihui.openpf.living.entity.support.QueryOrderBillVo;
 import com.shihui.openpf.living.io3rd.GuangdaDao;
 import com.shihui.openpf.living.io3rd.ReqQuery;
 import com.shihui.openpf.living.mq.LivingMqProducer;
+import com.shihui.openpf.living.util.LivingUtil;
 import com.shihui.openpf.living.util.SimpleResponse;
 import com.shihui.tradingcenter.commons.dispatcher.currency.AccountDubbo;
 
@@ -87,6 +88,10 @@ public class ClientService {
 	 * 
 	 */
 	public Object homepage(Long userId, Integer cityId, Integer historyOrderCount) {
+		String info = cacheDao.getUserHome(userId);
+		if(info != null)
+			return JSON.parse(info);
+		//
 		JSONObject result = new JSONObject();
 		
 		// 查询广告
@@ -100,10 +105,16 @@ public class ClientService {
 		result.put("billList", getBillList(userId, historyOrderCount));
 		
 		//
+		cacheDao.setUserHome(userId, result.toJSONString());
 		return result;
+
 	}
 	
 	private JSONArray getCategoryList() {
+		String info = cacheDao.getCategory();
+		if(info != null)
+			return (JSONArray)JSON.parse(info);
+		//
 		JSONArray ja = new JSONArray();
 		List<Category> categoryList = categoryDao.findAll();
 		for(Category category : categoryList) {
@@ -116,7 +127,9 @@ public class ClientService {
 			jo.put("productId", category.getProductId());	
 			ja.add(jo);
 		}	
+		cacheDao.setCategory(ja.toJSONString());
 		return ja;
+
 	}
 
 	private JSONArray getBillList(long userId, int count) {
@@ -137,6 +150,10 @@ public class ClientService {
 	 * 
 	 */
 	public Object queryCity(Integer categoryId) {
+		String info = cacheDao.getCity(categoryId);
+		if(info != null)
+			return JSON.parse(info);
+		//
 		JSONObject result = new JSONObject();
 		
 		result.put("categoryId", categoryId);
@@ -154,12 +171,17 @@ public class ClientService {
 			jo.put("goodsVersion", goods.getGoodsVersion());
 			ja.add(jo);
 		}
+		cacheDao.setCity(categoryId, result.toJSONString());
 		return result;
 	}
 	/*
 	 * 
 	 */
 	public Object queryCompany(Integer serviceId, Integer cityId) {
+		String info = cacheDao.getCompany(serviceId, cityId);
+		if(info != null)	
+			return JSON.parse(info);
+		
 		JSONObject result = new JSONObject();
 		
 		result.put("serviceId", serviceId);
@@ -183,6 +205,7 @@ public class ClientService {
 			jo.put("barcode", company.getBarcode());
 			ja.add(jo);
 		}
+		cacheDao.setCompany(serviceId, cityId, result.toJSONString());
 		return result;
 	}
 
@@ -195,87 +218,90 @@ public class ClientService {
 			String deviceId, int appId) {
 		JSONObject result = new JSONObject();
 
-		String tempId = cacheDao.getTrmSeqNum();
+		String tempId = LivingUtil.getQueryTrmSeqNum(userId);
 		
 		ReqQuery reqQuery = ReqQuery.instance( 
 				tempId, 
 				userNo, 
 				companyNo, null, null, null, null);
 		
+		//TODO
+		QueryOrderBillVo vo = new QueryOrderBillVo();
+		vo.setTempId(tempId);
+		//vo.setGroupId(groupId);
+		Order order = new Order();
+		Bill bill = new Bill();
+		order.setUserId(userId);
+		order.setGid(groupId);
+		order.setMid(mid);
+		order.setServiceId(serviceId);
+		order.setGoodsId(goodsId);
+		order.setGoodsVersion(goodsVersion);
+		order.setDeviceId(deviceId);
+		order.setAppId(appId);
+		bill.setCompanyId(companyId);
+		bill.setBillKey(userNo);
+		bill.setServiceId(serviceId);
+		bill.setCategoryId(categoryId);
+		vo.setOrder(order);
+		vo.setBill(bill);
+		vo.setCompanyNo(companyNo);
+		vo.setCategoryId(categoryId);
+		cacheDao.setQueryOrderBillVo(tempId, vo);
+		//
 		if(mqProducer.sendQueryRequest(tempId, JSON.toJSONString(reqQuery))) {
 			result.put("tempId", tempId);
 			result.put("response", new SimpleResponse(1,"已提交查询，请等待查询结果") );
-			//TODO
-			QueryOrderBillVo vo = new QueryOrderBillVo();
-			vo.setTempId(tempId);
-			vo.setGroupId(groupId);
-			Order order = new Order();
-			Bill bill = new Bill();
-			order.setUserId(userId);
-			order.setMid(mid);
-			order.setServiceId(serviceId);
-			order.setGoodsId(goodsId);
-			order.setGoodsVersion(goodsVersion);
-			order.setDeviceId(deviceId);
-			order.setAppId(appId);
-			bill.setCompanyId(companyId);
-			bill.setBillKey(userNo);
-			bill.setServiceId(serviceId);
-			bill.setCategoryId(categoryId);
-			vo.setOrder(order);
-			vo.setBill(bill);
-			vo.setCompanyNo(companyNo);
-			vo.setCategoryId(categoryId);
-			cacheDao.setQueryOrderBillVo(tempId, vo);
 		}
 		else {
+			cacheDao.delQueryOrderBillVo(tempId);
 			result.put("response", new SimpleResponse(0,"业务繁忙，查询失败，请稍侯再试") );
 		}
 
 		return result;
 	}
 	
-	public Object checkQuery(int userId, String tempId) {
-		JSONObject result = new JSONObject();
-
-		QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(tempId);
-		if( vo == null) {
-			result.put("response", new SimpleResponse(0,"查询中，请耐心等待") );
-		} else {
-			result.put("tempId", vo.getTempId());
-			Bill bill = vo.getBill();
-			Order order = vo.getOrder();
-			result.put("billDate", bill.getBillDate());
-			
-			Goods goods = vo.getGoods();
-			result.put("shOffSet", goods.getShOffSet());
-			result.put("shOffSetMax", goods.getShOffSetMax());
-			result.put("firstShOffSet", goods.getFirstShOffSet());
-			result.put("firstShOffSetMax", goods.getFirstShOffSetMax());
-
-			if( bill.getFeeType() == FeeTypeEnum.Default.getValue() ) {
-				result.put("price", order.getPrice());
-				result.put("pay", order.getPay());
-			} else {
-				result.put("balance", bill.getBalance());
-			}
-
-			result.put("feeType", bill.getFeeType());
-			result.put("feeName", bill.getFeeName());
-			result.put("userNo", bill.getBillKey());
-			result.put("userAddress", bill.getUserAddress());
-			result.put("userName", bill.getUserName());
-			
-			Company company = vo.getCompany();
-			result.put("companyName", company.getCompanyName());
-			
-			result.put("campaignId", order.getCampaignId());
-			result.put("serviceType", company.getServiceType());
-			
-			result.put("response", new SimpleResponse(1,"查询成功") );
-		}
-		return result;
-	}
+//	public Object checkQuery(int userId, String tempId) {
+//		JSONObject result = new JSONObject();
+//
+//		QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(tempId);
+//		if( vo == null) {
+//			result.put("response", new SimpleResponse(0,"查询中，请耐心等待") );
+//		} else {
+//			result.put("tempId", vo.getTempId());
+//			Bill bill = vo.getBill();
+//			Order order = vo.getOrder();
+//			result.put("billDate", bill.getBillDate());
+//			
+//			Goods goods = vo.getGoods();
+//			result.put("shOffSet", goods.getShOffSet());
+//			result.put("shOffSetMax", goods.getShOffSetMax());
+//			result.put("firstShOffSet", goods.getFirstShOffSet());
+//			result.put("firstShOffSetMax", goods.getFirstShOffSetMax());
+//
+//			if( bill.getFeeType() == FeeTypeEnum.Default.getValue() ) {
+//				result.put("price", order.getPrice());
+//				result.put("pay", order.getPay());
+//			} else {
+//				result.put("balance", bill.getBalance());
+//			}
+//
+//			result.put("feeType", bill.getFeeType());
+//			result.put("feeName", bill.getFeeName());
+//			result.put("userNo", bill.getBillKey());
+//			result.put("userAddress", bill.getUserAddress());
+//			result.put("userName", bill.getUserName());
+//			
+//			Company company = vo.getCompany();
+//			result.put("companyName", company.getCompanyName());
+//			
+//			result.put("campaignId", order.getCampaignId());
+//			result.put("serviceType", company.getServiceType());
+//			
+//			result.put("response", new SimpleResponse(1,"查询成功") );
+//		}
+//		return result;
+//	}
 	
 	private void calculateOffSet(QueryOrderBillVo vo) {
 		
@@ -474,6 +500,7 @@ trans_id
 				OrderBillVo obvo = new OrderBillVo();
 				obvo.setOrder(order);
 				obvo.setBill(bill);
+				obvo.setCompany(vo.getCompany());
 				cacheDao.setOrderBillVo(orderId, obvo);
 			}			
 		}

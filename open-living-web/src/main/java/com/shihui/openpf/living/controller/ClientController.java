@@ -3,9 +3,6 @@
  */
 package com.shihui.openpf.living.controller;
 
-//import java.util.HashMap;
-//import java.util.Map;
-
 import javax.annotation.Resource;
 
 import org.springframework.http.MediaType;
@@ -20,11 +17,8 @@ import com.shihui.api.core.auth.Access.AccessType;
 //import com.shihui.commons.OperationLogger;
 import com.shihui.openpf.living.service.ClientService;
 
-import me.weimi.api.swarm.annotations.ParamDesc;
-
 import com.shihui.openpf.living.controller.BasicController;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.QueryParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -95,15 +89,15 @@ public class ClientController extends BasicController {
 				request.getIntHeader("X-APP-ID"));
 	}
 
-	@RequestMapping("/checkQuery")
-	@ResponseBody
-	@Access(type = AccessType.COMMON)
-	public Object checkQuery(
-			@RequestParam(name="userId", required = true) Integer userId,
-			@RequestParam(name="tempId", required = true) String tempId) {
-
-		return clientService.checkQuery(userId, tempId);
-	}
+//	@RequestMapping("/checkQuery")
+//	@ResponseBody
+//	@Access(type = AccessType.COMMON)
+//	public Object checkQuery(
+//			@RequestParam(name="userId", required = true) Integer userId,
+//			@RequestParam(name="tempId", required = true) String tempId) {
+//
+//		return clientService.checkQuery(userId, tempId);
+//	}
 	
 	@RequestMapping("/confirmOrder")
 	@ResponseBody
