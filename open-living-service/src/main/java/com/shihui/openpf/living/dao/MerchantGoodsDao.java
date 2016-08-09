@@ -122,5 +122,8 @@ public class MerchantGoodsDao extends AbstractDao<MerchantGoods> {
 		});
 	}
 
+	public MerchantGoods findbyServiceId(int serviceId) {
+		return this.queryForObject("SELECT * FROM merchant_goods WHERE service_id = ?", new Object[]{serviceId});
+	}
 
 }

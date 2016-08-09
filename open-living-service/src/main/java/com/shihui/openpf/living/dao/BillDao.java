@@ -22,8 +22,11 @@ public class BillDao extends AbstractDao<Bill> {
 	}
 
 	public Bill findById(Long orderId){
-		String sql = "SELECT * FROM `bill` WHERE order_id = ? ";
-		return queryForObject(sql, orderId);
+		return queryForObject("SELECT * FROM `bill` WHERE order_id = ? ", orderId);
+	}
+
+	public Bill findByBillNo(String billNo){
+		return queryForObject("SELECT * FROM `bill` WHERE serial_no = ? ", billNo);
 	}
 
 }

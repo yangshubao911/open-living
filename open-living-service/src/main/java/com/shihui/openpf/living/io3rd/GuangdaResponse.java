@@ -35,6 +35,8 @@ import com.shihui.openpf.living.util.LivingUtil;
 import com.shihui.openpf.living.util.PacketTypeEnum;
 import com.shihui.openpf.living.util.SimpleResponse;
 import com.shihui.openpf.common.model.Merchant;
+import com.shihui.openpf.living.entity.MerchantGoods;
+import com.shihui.openpf.living.dao.MerchantGoodsDao;
 
 import me.weimi.api.commons.util.ApiLogger;
 
@@ -63,6 +65,8 @@ public class GuangdaResponse {
 	ServiceManage serviceManage;
 	@Resource
 	GroupManage groupManage;
+	@Resource
+	MerchantGoodsDao merchantGoodsDao;
 	
 	
 	@PostConstruct
@@ -86,7 +90,8 @@ public class GuangdaResponse {
     	OrderBillVo vo = cacheDao.getOrderBillVo(tempId);
     	if( vo != null) {
     		resPay2Vo(resPay, vo);
-    		cacheDao.setOrderBillVo(tempId, vo);
+    		//cacheDao.setOrderBillVo(tempId, vo);
+    		cacheDao.delOrderBillVo(tempId);
     	}
     }
 
@@ -190,7 +195,14 @@ public class GuangdaResponse {
 		}
 		vo.setService(service);
 		
-		Merchant merchant = cacheDao.getMerchant(service.getServiceMerchantId());
+		//Merchant merchant = cacheDao.getMerchant(service.getServiceMerchantId());
+		int serviceId = service.getServiceId();
+		MerchantGoods merchantGoods = cacheDao.getMerchantGoods(serviceId);
+		if(merchantGoods == null) {
+			merchantGoods = merchantGoodsDao.findbyServiceId(serviceId);
+			cacheDao.setMerchantGoods(serviceId, merchantGoods);
+		}
+		Merchant merchant = cacheDao.getMerchant(merchantGoods.getMerchantId());
 		if(merchant == null) {
 			merchant = merchantManage.getById(service.getServiceMerchantId());
 			cacheDao.setMerchant(merchant.getMerchantId(), merchant);
@@ -211,9 +223,8 @@ public class GuangdaResponse {
     	QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(tempId);
     	if(vo != null && Integer.parseInt(resQuery.tout.totalNum) > 0 ) {
     		resQuery2Vo(resQuery, vo);
-    		cacheDao.setQueryOrderBillVo(tempId, vo);
-    		//
     		load_vo_elements(vo);
+    		cacheDao.setQueryOrderBillVo(tempId, vo);
     		//
     		noticeApp(vo);
     		ApiLogger.info("OK: GuangdaResponse : resQuery()");

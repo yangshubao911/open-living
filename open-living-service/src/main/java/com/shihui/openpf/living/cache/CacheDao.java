@@ -25,6 +25,7 @@ import com.shihui.openpf.common.model.Campaign;
 import com.shihui.openpf.common.model.Service;
 import com.shihui.openpf.common.model.Group;
 import com.shihui.openpf.common.model.Merchant;
+import com.shihui.openpf.living.entity.MerchantGoods;
 
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
@@ -43,6 +44,14 @@ public class CacheDao {
     private static final int EXPIRE_SYS = 4*60*60;
 	//
 	private static final String BANNERADS = CACHE_PREFIX + "bannerAds";
+	//
+	private static final String MERCHANT_GOODS = CACHE_PREFIX + "merchant_goods";
+	public void setMerchantGoods(int serviceId, MerchantGoods merchant) {
+		hset(MERCHANT_GOODS, String.valueOf(serviceId), merchant, EXPIRE_SYS);
+	}
+	public MerchantGoods getMerchantGoods(int serviceId) {
+		return (MerchantGoods)hgetObject(MERCHANT_GOODS, String.valueOf(serviceId), MerchantGoods.class);
+	}
 	//
 	private static final String MERCHANT = CACHE_PREFIX + "merchant";
 	public void setMerchant(int merchantId, Merchant merchant) {
@@ -196,7 +205,7 @@ public class CacheDao {
     
 	//
 	private static final String ORDERBILLVO_PREFIX = CACHE_PREFIX + "obvo" + Constants.REDIS_KEY_SEPARATOR;
-	private static final int EXPIRE_ORDERBILLVO = 60*60*24*3;
+	private static final int EXPIRE_ORDERBILLVO = 60*60*24;
 	
     public void setOrderBillVo(String orderId, OrderBillVo vo){
     	set(ORDERBILLVO_PREFIX + orderId, vo, EXPIRE_ORDERBILLVO);

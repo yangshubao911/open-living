@@ -15,7 +15,8 @@ public enum  BillStatusEnum {
     BuySuccess(3,"销账返回成功"),
     BuyFail(4,"销账返回失败"),
     CheckSuccess(5,"对账成功"),
-    Refund(6,"退账"),
+    CheckFail(6,"对账失败"),
+    Refund(7,"退账"),
     Close(-1,"关闭");
 
     private Integer value;
