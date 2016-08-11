@@ -13,7 +13,10 @@
     <bean id="consumerMQMain" class="com.shihui.commons.mq.ConsumerMain">
         <constructor-arg index="0">
             <list>
-            <ref bean="paymentSuccessConsumer"/>
+            	<ref bean="paymentSuccessConsumer"/>
+            	<ref bean="queryConsumerRequest"/>
+            	<ref bean="rechargeRequestConsumer"/>
+            	<ref bean="responseConsumer"/>
             </list>
         </constructor-arg>
         <constructor-arg index="1" value="${mq.all.consumer.nameserver}"/>
