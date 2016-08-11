@@ -83,7 +83,6 @@ public class CacheDao {
 	public String getCity(int categoryId) {
 		return hgetString(CITY, String.valueOf(categoryId));
 	}
-
 	//
 	private static final String COMPANY_PREFIX = CACHE_PREFIX + "company" + Constants.REDIS_KEY_SEPARATOR;
 	public void setCompany(int serviceId, int cityId, String value) {

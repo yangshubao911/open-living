@@ -12,9 +12,8 @@ import com.shihui.openpf.common.model.Service;
 public class QueryOrderBillVo {
 	
 	private String tempId;
-	private int categoryId;
+//	private int categoryId;
 	private String companyNo;
-	//private long groupId;
 
 	private Order order;
 	private Bill bill;
@@ -22,7 +21,7 @@ public class QueryOrderBillVo {
 	private Goods goods;
 	private Campaign campaign;
 	private Merchant merchant;
-	private Group group;// = groupManage.getGroupInfoByGid(orderForm.getGroupId());
+	private Group group;// = groupManage.getGroupInfoByGid(order.getGroupId());
 	private Service service;
 	//
 
@@ -103,21 +102,13 @@ public class QueryOrderBillVo {
 		this.bill = bill;
 	}
 	
-//	public long getGroupId() {
-//		return groupId;
+//	public int getCategoryId() {
+//		return categoryId;
 //	}
 //
-//	public void setGroupId(long groupId) {
-//		this.groupId = groupId;
+//	public void setCategoryId(int categoryId) {
+//		this.categoryId = categoryId;
 //	}
-	
-	public int getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
-	}
 
 	public String getCompanyNo() {
 		return companyNo;

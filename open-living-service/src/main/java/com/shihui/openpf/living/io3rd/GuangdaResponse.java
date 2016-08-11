@@ -162,12 +162,13 @@ public class GuangdaResponse {
 	private void load_vo_elements(QueryOrderBillVo vo) {
 		Order order = vo.getOrder();		
 		Bill bill = vo.getBill();
-		vo.setCompany(companyDao.findById(bill.getCompanyId()));
+		Company company = companyDao.findById(bill.getCompanyId());
+		vo.setCompany(company);
 		
-		Goods goods = cacheDao.getGoods(vo.getCategoryId(), order.getGoodsId());
+		Goods goods = cacheDao.getGoods(bill.getCategoryId(), order.getGoodsId());
 		if( goods == null) {
 			goods = goodsDao.findById(order.getGoodsId());
-			cacheDao.setGoods(vo.getCategoryId(), order.getGoodsId(), goods);
+			cacheDao.setGoods(bill.getCategoryId(), order.getGoodsId(), goods);
 		}
 		vo.setGoods(goods);
 		//
@@ -215,6 +216,12 @@ public class GuangdaResponse {
 			cacheDao.setGroup(group.getGid(), group);
 		}
 		vo.setGroup(group);
+		//
+		//
+		//
+		bill.setFeeName(service.getServiceName());
+		bill.setCityName(goods.getCityName());
+		bill.setFeeType(company.getFeeType());
 	}
     public void doResQuery(ResQuery resQuery) {
     	//TODO
@@ -222,12 +229,12 @@ public class GuangdaResponse {
     	String tempId = resQuery.head.TrmSeqNum;
     	QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(tempId);
     	if(vo != null && Integer.parseInt(resQuery.tout.totalNum) > 0 ) {
-    		resQuery2Vo(resQuery, vo);
-    		load_vo_elements(vo);
-    		cacheDao.setQueryOrderBillVo(tempId, vo);
-    		//
-    		noticeApp(vo);
-    		ApiLogger.info("OK: GuangdaResponse : resQuery()");
+	    		resQuery2Vo(resQuery, vo);
+	    		load_vo_elements(vo);
+	    		cacheDao.setQueryOrderBillVo(tempId, vo);
+	    		//
+	    		noticeApp(vo);
+	    		ApiLogger.info("OK: GuangdaResponse : resQuery()");
     	} else {
     		ApiLogger.info("ERR: GuangdaResponse : resQuery() : {vo != null && Integer.parseInt(resQuery.tout.totalNum) > 0}");
     	}
@@ -243,7 +250,13 @@ public class GuangdaResponse {
     		QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(tempId);
         	if(vo != null) {
 	    		JSONObject result = new JSONObject();
-	    		result.put("response", new SimpleResponse(0,QueryErrorCodeEnum.getErrorMessage(packetError.tout.errorCode)));
+	    		if(packetError.tout.errorCode.compareTo(QueryErrorCodeEnum.DEF0002.getCode()) == 0)
+	    			result.put("response", new SimpleResponse(2,QueryErrorCodeEnum.getErrorMessage(packetError.tout.errorCode)));
+	    		else if(packetError.tout.errorCode.compareTo(QueryErrorCodeEnum.DEF0010.getCode()) == 0)
+	    			result.put("response", new SimpleResponse(0,QueryErrorCodeEnum.getErrorMessage(packetError.tout.errorCode)));
+	    		else
+	    			result.put("response", new SimpleResponse(3,QueryErrorCodeEnum.getErrorMessage(packetError.tout.errorCode)));
+	    		
 	    		appNotice.pushQueryResult(vo.getOrder().getUserId(), result);
 	    		cacheDao.delQueryOrderBillVo(tempId);
 	    		ApiLogger.info("OK: GuangdaResponse : doPacketError() : QUERY : " + result.toJSONString());
@@ -251,15 +264,25 @@ public class GuangdaResponse {
         		ApiLogger.info("ERR: GuangdaResponse : doPacketError() : QUERY : QueryOrderBillVo vo == null");
         	}
     	} else if(packetType == PacketTypeEnum.RECHARGE.getType()) {
-    		long orderId = Long.parseLong(tempId.substring(1));
-    		OrderBillVo vo = cacheDao.getOrderBillVo(orderId);
+    		OrderBillVo vo = cacheDao.getOrderBillVo(tempId);
         	if(vo != null) {
-        		Bill bill = vo.getBill();
-        		bill.setBillStatus(BillStatusEnum.BuyFail.getValue());
-        		bill.setUpdateTime(new Date());
-        		billDao.update(bill);
+        		if(packetError.tout.errorCode.compareTo(PayErrorCodeEnum.NPP0003.getCode()) == 0
+        				|| packetError.tout.errorCode.compareTo(PayErrorCodeEnum.NPP0005.getCode()) == 0
+        				|| packetError.tout.errorCode.compareTo(PayErrorCodeEnum.DEF0003.getCode()) == 0
+        				|| packetError.tout.errorCode.compareTo(PayErrorCodeEnum.DEF0011.getCode()) == 0 ) {
+        			
+	        		Bill bill = vo.getBill();
+	        		bill.setBillStatus(BillStatusEnum.Process.getValue());
+	        		bill.setUpdateTime(new Date());
+	        		billDao.updateBillStatus(bill.getOrderId(), BillStatusEnum.BuyFail.getValue());
+        		} else {
+	        		Bill bill = vo.getBill();
+	        		bill.setBillStatus(BillStatusEnum.BuyFail.getValue());
+	        		bill.setUpdateTime(new Date());
+	        		billDao.updateBillStatus(bill.getOrderId(), BillStatusEnum.BuyFail.getValue());
+        		}
         		cacheDao.setOrderBillVo(tempId, vo);
-        		ApiLogger.info("OK: GuangdaResponse : doPacketError() : RECHARGE : OK");
+        		ApiLogger.info("OK: GuangdaResponse : doPacketError() : RECHARGE");
         	} else {
         		ApiLogger.info("ERR: GuangdaResponse : doPacketError() : RECHARGE : OrderBillVo vo == null");
         	}

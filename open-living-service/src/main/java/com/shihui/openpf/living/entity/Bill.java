@@ -23,6 +23,7 @@ public class Bill implements Serializable {
     private Integer serviceId;
 	private Integer categoryId;
 	private String feeName;
+	private Integer cityId;
 	private String cityName;
 	private String billKey;
 	private Integer companyId;
@@ -99,6 +100,14 @@ public class Bill implements Serializable {
 
 	public void setFeeName(String feeName) {
 		this.feeName = feeName;
+	}
+
+	public Integer getCityId() {
+		return cityId;
+	}
+
+	public void setCityId(Integer cityId) {
+		this.cityId = cityId;
 	}
 
 	public String getCityName() {

@@ -83,10 +83,6 @@ public class ClientService {
 	LivingMqProducer mqProducer;
 	/*
 	 * 
-	 * 
-	 * 
-	 * 
-	 * 
 	 */
 	public Object homepage(Long userId, Integer cityId, Integer historyOrderCount) {
 		String info = cacheDao.getUserHome(userId);
@@ -191,7 +187,7 @@ public class ClientService {
 		List<Company> companyList = companyDao.queryList(cityId,serviceService.findById(serviceId).getOrderType());
 		
 		JSONArray ja = new JSONArray();
-		result.put("company_list", ja);
+		result.put("companyList", ja);
 		for(Company company : companyList) {
 			JSONObject jo = new JSONObject();
 			jo.put("companyId", company.getCompanyId());
@@ -229,7 +225,9 @@ public class ClientService {
 		//TODO
 		QueryOrderBillVo vo = new QueryOrderBillVo();
 		vo.setTempId(tempId);
-		//vo.setGroupId(groupId);
+		vo.setCompanyNo(companyNo);
+//		vo.setCategoryId(categoryId);
+		
 		Order order = new Order();
 		Bill bill = new Bill();
 		order.setUserId(userId);
@@ -244,10 +242,10 @@ public class ClientService {
 		bill.setBillKey(userNo);
 		bill.setServiceId(serviceId);
 		bill.setCategoryId(categoryId);
+		bill.setCityId(cityId);
+
 		vo.setOrder(order);
 		vo.setBill(bill);
-		vo.setCompanyNo(companyNo);
-		vo.setCategoryId(categoryId);
 		cacheDao.setQueryOrderBillVo(tempId, vo);
 		//
 		if(mqProducer.sendQueryRequest(tempId, JSON.toJSONString(reqQuery))) {
@@ -328,7 +326,7 @@ public class ClientService {
 		BigDecimal bdPrice = new BigDecimal(order.getPrice());
 		BigDecimal bdOffSet = new BigDecimal(offSet);
 		BigDecimal bdOffSetMax = new BigDecimal(offSetMax);
-		BigDecimal t = bdPrice.multiply(bdOffSet);
+		BigDecimal t = bdPrice.multiply(bdOffSet).divide( new BigDecimal("100")).setScale(2, BigDecimal.ROUND_HALF_UP);
 		t = t.min(bdOffSetMax);
 		
 		long balance = accountDubbo.getUserSHGlodAmount(order.getUserId());
@@ -351,7 +349,7 @@ public class ClientService {
 			result.put("tempId", vo.getTempId());
 			Bill bill = vo.getBill();
 			Order order = vo.getOrder();
-			//
+			//TODO??
 			result.put("billDate", bill.getBillDate());
 			
 			if( bill.getFeeType() == FeeTypeEnum.Prepayment.getValue() ) {
@@ -458,7 +456,7 @@ trans_id
 			JSONObject jo = new JSONObject();
 			jo.put("serviceId", service.getServiceId());
 			jo.put("merchantId", service.getServiceMerchantId());
-			jo.put("categoryId", vo.getCategoryId());
+			jo.put("categoryId", bill.getCategoryId());
 			jo.put("title", service.getServiceName());
 			//String title = "【" + service.getServiceName() + "】" + goods.getGoodsName();
 			String title = "【生活缴费】" + goods.getGoodsName()

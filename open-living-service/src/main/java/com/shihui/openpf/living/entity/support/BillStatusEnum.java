@@ -19,6 +19,7 @@ public enum  BillStatusEnum {
     Refund(7,"退账"),
     Unusual(8,"无对账无退款异常文件"),
     Timeout(9,"超时关闭"),
+    Process(10,"暂不退款错误"),
     Close(-1,"关闭");
 
     private Integer value;
