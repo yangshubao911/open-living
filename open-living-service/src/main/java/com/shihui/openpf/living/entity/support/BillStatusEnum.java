@@ -9,7 +9,7 @@ import java.util.Map;
  * Created by zhoutc on 2015/11/12.
  */
 public enum  BillStatusEnum {
-    NoPaid(0,"未付款"),
+    UnPaid(0,"未付款"),
     Paid(1,"已付款"),
     BuyBill(2,"已发送销账请求"),
     BuySuccess(3,"销账返回成功"),
@@ -17,6 +17,8 @@ public enum  BillStatusEnum {
     CheckSuccess(5,"对账成功"),
     CheckFail(6,"对账失败"),
     Refund(7,"退账"),
+    Unusual(8,"无对账无退款异常文件"),
+    Timeout(9,"超时关闭"),
     Close(-1,"关闭");
 
     private Integer value;

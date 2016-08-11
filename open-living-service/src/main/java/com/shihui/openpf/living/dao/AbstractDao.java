@@ -467,5 +467,17 @@ public abstract class AbstractDao<T> {
 		});
 		return count;
 	}
+	public long queryLongValue(String sql, Object... args){
+		long count  = this.jdbcTemplate.query(sql, args, new ResultSetExtractor<Long>(){
 
+			@Override
+			public Long extractData(ResultSet rs) throws SQLException, DataAccessException {
+				if(rs.next())
+					return rs.getLong(1);
+				return -1L;
+			}
+			
+		});
+		return count;
+	}
 }

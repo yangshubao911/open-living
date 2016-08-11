@@ -25,6 +25,7 @@ import com.shihui.openpf.common.model.Service;
 import com.shihui.openpf.living.cache.CacheDao;
 import com.shihui.openpf.living.dao.BillDao;
 import com.shihui.openpf.living.entity.Order;
+import com.shihui.openpf.living.entity.support.BillStatusEnum;
 import com.shihui.openpf.living.entity.support.OrderBillVo;
 import com.shihui.openpf.living.service.GoodsService;
 import com.shihui.openpf.living.service.OrderService;
@@ -111,20 +112,22 @@ public class PaymentSuccessConsumer implements Consumer {
 
 			//Order order = orderService.getOrderById(orderId);
 			Order order;
+			Bill bill;
 			OrderBillVo obvo = cacheDao.getOrderBillVo(orderId);
 			if(obvo == null) {
 				obvo = new OrderBillVo();
 				order = orderService.getOrderById(orderId);
-				Bill bill = billDao.findById(orderId);
+				bill = billDao.findById(orderId);
 				obvo.setBill(bill);
 				obvo.setOrder(order);
 				obvo.setCompany(companyDao.findById(bill.getCompanyId()));
 			}
 			else {
 				order = obvo.getOrder();
+				bill = obvo.getBill();
 			}
 			
-			if (order == null) {
+			if (order == null || bill == null) {
 				return true;
 			} else {
 				log.info("消费订单状态变更消息 topic:"+ topic +",key:"+ key + ",msg:"+ msg);
@@ -169,7 +172,14 @@ public class PaymentSuccessConsumer implements Consumer {
 //					orderVo.setPhone("");
 //					
 //					orderCache.set(orderVo);
+
+					bill.setBillStatus(BillStatusEnum.Paid.getValue());
+					bill.setUpdateTime(new Date());
+					billDao.updateBillStatus(orderId, bill.getBillStatus());
+
 					cacheDao.setOrderBillVo(orderId, obvo);
+					//
+					//
 					doReqPay(obvo);
 				} else if(status == OrderStatusEnum.OrderHadReceived){
 					//更新订单消费时间
@@ -181,10 +191,25 @@ public class PaymentSuccessConsumer implements Consumer {
 					//TODO
 					order.setConsumeTime(orderUpdate.getConsumeTime());
 					order.setUpdateTime(orderUpdate.getUpdateTime());
-					cacheDao.setOrderBillVo(orderId, obvo);
+					
+					bill.setBillStatus(BillStatusEnum.CheckSuccess.getValue());
+					bill.setUpdateTime(new Date());
+					billDao.updateBillStatus(orderId, bill.getBillStatus());
+					
+					//cacheDao.setOrderBillVo(orderId, obvo);
+					cacheDao.delOrderBillVo(orderId);
 				}
-				else
-					cacheDao.setOrderBillVo(orderId, obvo);
+				else {
+					//TODO
+					if(status == OrderStatusEnum.OrderCloseByOutTime) {
+						billDao.updateBillStatus(orderId, BillStatusEnum.Timeout.getValue());
+						cacheDao.delOrderBillVo(orderId);
+					}
+					else if ( status == OrderStatusEnum.BackClose) {
+						billDao.updateBillStatus(orderId, BillStatusEnum.Close.getValue());
+						cacheDao.delOrderBillVo(orderId);
+					}
+				}
 
 				//
 				//推送客户端消息

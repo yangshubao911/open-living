@@ -6,6 +6,7 @@ package com.shihui.openpf.living.dao;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Transient;
@@ -45,6 +46,10 @@ public class OrderDao extends AbstractDao<Order> {
 
 	public List<Order> queryTopN(int count) {
 		return this.queryForList( "SELECT * FROM `order` WHERE order_status = ? ORDER BY update_time DESC  LIMIT ?", new Object[]{OrderStatusEnum.OrderHadReceived.getValue(),count});
+	}
+
+	public List<Order> queryOrderUnStockOut() {
+		return this.queryForList( "SELECT * FROM `order` WHERE order_status = ? ORDER BY update_time ASC", new Object[]{OrderStatusEnum.OrderUnStockOut.getValue()});
 	}
 	
 	public List<Order> queryOrder(Order order, String startTime, String endTime, Integer page, Integer size) {
@@ -184,5 +189,9 @@ public class OrderDao extends AbstractDao<Order> {
 				+ OrderStatusEnum.OrderUnStockOut.getValue() + "," + OrderStatusEnum.OrderDistribute.getValue() + ","
 				+ OrderStatusEnum.OrderHadReceived.getValue() + ")";
 		return super.queryCount(sql, userId, deviceId, serviceId);
+	}
+	
+	public int updateOrderStatus(long orderId, int status) {
+		return this.jdbcTemplate.update("UPDATE `order` SET order_status = ?, update_time = ? WHERE order_id = ?", new Object[]{status, new Date(), orderId});
 	}
 }

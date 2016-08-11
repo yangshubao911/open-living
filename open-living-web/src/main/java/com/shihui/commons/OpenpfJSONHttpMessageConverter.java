@@ -45,7 +45,7 @@ public class OpenpfJSONHttpMessageConverter extends FastJsonHttpMessageConverter
 		} if (obj instanceof Exception) {
 			writeErrorMsg("系统内部错误！", outputMessage);
 		} else if (wrap) {
-			result.setResult(JSON.toJSONString(obj));
+//			result.setResult(JSON.toJSONString(obj));//com.shihui.commons.core 2.0.2版本有此属性
 			writeJson(obj, outputMessage, apistatus);
 		} else {
 			super.writeInternal(obj, outputMessage);

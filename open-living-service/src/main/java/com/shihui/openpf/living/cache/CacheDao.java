@@ -21,6 +21,7 @@ import com.shihui.openpf.living.entity.Goods;
 import com.shihui.openpf.living.entity.support.OrderBillVo;
 import com.shihui.openpf.living.entity.support.QueryOrderBillVo;
 import com.shihui.openpf.living.io3rd.PacketNotify;
+import com.shihui.openpf.living.util.LivingUtil;
 import com.shihui.openpf.common.model.Campaign;
 import com.shihui.openpf.common.model.Service;
 import com.shihui.openpf.common.model.Group;
@@ -44,6 +45,12 @@ public class CacheDao {
     private static final int EXPIRE_SYS = 4*60*60;
 	//
 	private static final String BANNERADS = CACHE_PREFIX + "bannerAds";
+	//
+	private static final String TASK_0 = CACHE_PREFIX + "task_0";
+	private static final int EXPIRE_TASK_0 = 60*60;
+	public boolean lockTask() {
+		return lock(TASK_0,EXPIRE_TASK_0);
+	}
 	//
 	private static final String MERCHANT_GOODS = CACHE_PREFIX + "merchant_goods";
 	public void setMerchantGoods(int serviceId, MerchantGoods merchant) {
@@ -207,25 +214,25 @@ public class CacheDao {
 	private static final String ORDERBILLVO_PREFIX = CACHE_PREFIX + "obvo" + Constants.REDIS_KEY_SEPARATOR;
 	private static final int EXPIRE_ORDERBILLVO = 60*60*24;
 	
-    public void setOrderBillVo(String orderId, OrderBillVo vo){
-    	set(ORDERBILLVO_PREFIX + orderId, vo, EXPIRE_ORDERBILLVO);
+    public void setOrderBillVo(String tempId, OrderBillVo vo){
+    	set(ORDERBILLVO_PREFIX + tempId, vo, EXPIRE_ORDERBILLVO);
     }
     public void setOrderBillVo(long orderId, OrderBillVo vo){
-    	set(ORDERBILLVO_PREFIX + orderId, vo, EXPIRE_ORDERBILLVO);
+    	set(ORDERBILLVO_PREFIX + LivingUtil.getRechargeTrmSeqNum(orderId), vo, EXPIRE_ORDERBILLVO);
     }
     
-    public OrderBillVo getOrderBillVo(String orderId){
-    	return (OrderBillVo)getObject(ORDERBILLVO_PREFIX + orderId, OrderBillVo.class);
+    public OrderBillVo getOrderBillVo(String tempId){
+    	return (OrderBillVo)getObject(ORDERBILLVO_PREFIX + tempId, OrderBillVo.class);
     }
     public OrderBillVo getOrderBillVo(long orderId){
-    	return (OrderBillVo)getObject(ORDERBILLVO_PREFIX + orderId, OrderBillVo.class);
+    	return (OrderBillVo)getObject(ORDERBILLVO_PREFIX + LivingUtil.getRechargeTrmSeqNum(orderId), OrderBillVo.class);
     }
 
-    public void delOrderBillVo(String orderId){
-    	del(ORDERBILLVO_PREFIX + orderId);
+    public void delOrderBillVo(String tempId){
+    	del(ORDERBILLVO_PREFIX + tempId);
     }
     public void delOrderBillVo(long orderId){
-    	del(ORDERBILLVO_PREFIX + orderId);
+    	del(ORDERBILLVO_PREFIX + LivingUtil.getRechargeTrmSeqNum(orderId));
     }
     
     //

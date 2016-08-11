@@ -1,12 +1,12 @@
 package com.shihui.openpf.living.dao;
 
-import com.shihui.openpf.living.entity.support.BillStatusEnum;
-import com.shihui.openpf.living.entity.Bill;
-import com.shihui.openpf.living.entity.Order;
-
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
+
+import com.shihui.openpf.living.entity.Bill;
+import com.shihui.openpf.living.entity.support.BillStatusEnum;
 
 /**
  * Created by zhoutc on 2015/12/16.
@@ -29,4 +29,11 @@ public class BillDao extends AbstractDao<Bill> {
 		return queryForObject("SELECT * FROM `bill` WHERE serial_no = ? ", billNo);
 	}
 
+	public int updateBillStatus(long orderId, int status) {
+		return this.jdbcTemplate.update("UPDATE `bill SET bill_status = ?, update_time = ? WHERE order_id = ?", new Object[]{status, new Date(), orderId});
+	}
+
+	public long getOrderIdByBillNo(String billNo) {
+		return queryLongValue("SELECT order_id FROM `bill` WHERE serial_no = ? ", new Object[]{billNo});
+	}
 }

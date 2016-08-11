@@ -38,6 +38,7 @@ import com.shihui.openpf.living.entity.Company;
 import com.shihui.openpf.living.entity.Goods;
 import com.shihui.openpf.living.entity.Order;
 import com.shihui.openpf.living.entity.support.BannerAdsEnum;
+import com.shihui.openpf.living.entity.support.BillStatusEnum;
 import com.shihui.openpf.living.entity.support.FeeTypeEnum;
 import com.shihui.openpf.living.entity.support.OrderBillVo;
 import com.shihui.openpf.living.entity.support.QueryOrderBillVo;
@@ -434,10 +435,13 @@ trans_id
 			Merchant merchant = vo.getMerchant();
 			order.setMerchantId(merchant.getMerchantId());
 			order.setOrderStatus(OrderStatusEnum.OrderUnpaid.getValue());
-			
+						
 			Date now = new Date();
 			order.setCreateTime(now);
 			order.setUpdateTime(now);
+
+			bill.setBillStatus(BillStatusEnum.UnPaid.getValue());
+			bill.setUpdateTime(now);
 			//
 			//
 			SingleGoodsCreateOrderParam singleGoodsCreateOrderParam = new SingleGoodsCreateOrderParam();

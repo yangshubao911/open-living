@@ -22,7 +22,8 @@ public class OperationLogger {
         data.put("action", action);
         data.put("uid", rc.getUid());
         data.put("ip", rc.getIp());
-        data.put("client_version", rc.getClient().getVersion());
+//        data.put("client_version", rc.getClient().getVersion());
+        data.put("client_version", rc.getClient().getClientVersion().toString());
         data.put("channel", "kuyue");
         data.put("deviceid", rc.getClient().getDeviceId());
         data.putAll(expand);
