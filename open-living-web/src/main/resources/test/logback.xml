@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration scan="true" scanPeriod="60 seconds" debug="false">
-	<property name="log_root_path" value="../logs/openpf-living" />
+<configuration scan="true" scanPeriod="3 seconds" debug="true">
+	<property name="log_root_path" value="../logs/open-living" />
 
 	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
@@ -73,22 +73,69 @@
 		</rollingPolicy>
 	</appender>
 	
+	<appender name="debug"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log_root_path}/debug.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+			</Pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${log_root_path}/archived/debug.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+	<appender name="warn"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log_root_path}/warn.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+			</Pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${log_root_path}/archived/warn.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>	
 	<logger name="request" level="INFO" additivity="false">
 	  <appender-ref ref="request" />
 	</logger>
 	<logger name="info" level="INFO" additivity="false">
 	  <appender-ref ref="info" />
 	</logger>
-	<logger name="error" level="INFO" additivity="false">
+	<logger name="error" level="ERROR" additivity="false">
 	  <appender-ref ref="error" />
+	</logger>
+	<logger name="debug" level="DEBUG" additivity="false">
+	  <appender-ref ref="debug" />
+	</logger>
+	<logger name="warn" level="WARN" additivity="false">
+	  <appender-ref ref="warn" />
 	</logger>
 	<logger name="com.alibaba.dubbo" level="ERROR" additivity="false">
 		<appender-ref ref="error" />
 	</logger>
 
-	<root level="INFO">
+	<root level="DEBUG">
 		<appender-ref ref="info" />
 		<appender-ref ref="error" />
+		<appender-ref ref="request" />
+		<appender-ref ref="debug" />
+		<appender-ref ref="warn" />
 	</root>
 
 </configuration>
