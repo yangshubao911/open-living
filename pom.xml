@@ -98,11 +98,13 @@
 				<artifactId>commons-collections</artifactId>
 				<version>3.2.2</version>
 			</dependency>
+			<!-- 
 			<dependency>
 				<groupId>com.shihui.api</groupId>
 				<artifactId>order-api</artifactId>
 				<version>1.0.2-SNAPSHOT</version>
 			</dependency>
+			 -->
 			<dependency>
 				<groupId>com.shihui.common</groupId>
 				<artifactId>shihui-common</artifactId>
