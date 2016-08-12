@@ -15,7 +15,7 @@
 
     <!-- 扫描文件 -->
     <context:annotation-config/>
-    <context:component-scan base-package="com.shihui.recharge  com.shihui.api.core"/>
+    <context:component-scan base-package="com.shihui.openpf.living  com.shihui.api.core"/>
 
     <aop:aspectj-autoproxy proxy-target-class="true" />
     <task:annotation-driven/>
