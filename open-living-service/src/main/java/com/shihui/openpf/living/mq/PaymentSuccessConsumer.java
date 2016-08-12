@@ -84,7 +84,7 @@ public class PaymentSuccessConsumer implements Consumer {
 				order.getPrice(),
 				bill.getUserName(), 
 				bill.getContractNo(), 
-				null,null,null,null/*field1, filed2, filed3, filed4*/);
+				bill.getBillDate(),bill.getField2(),null,null/*field1, filed2, filed3, filed4*/);
 		mqProducer.sendRechargeRequest(tempId, JSON.toJSONString(reqPay));
 	}
 	

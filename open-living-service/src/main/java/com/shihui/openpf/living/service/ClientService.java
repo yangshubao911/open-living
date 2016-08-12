@@ -211,7 +211,7 @@ public class ClientService {
 	 */
 	public Object queryFee(int userId, long groupId, Long mid,
 			int serviceId, int categoryId, int cityId, long goodsId, int goodsVersion, 
-			int companyId, String companyNo, String userNo,
+			int companyId, String companyNo, String userNo, String field2,
 			String deviceId, int appId) {
 		JSONObject result = new JSONObject();
 
@@ -220,7 +220,7 @@ public class ClientService {
 		ReqQuery reqQuery = ReqQuery.instance( 
 				tempId, 
 				userNo, 
-				companyNo, null, null, null, null);
+				companyNo, null, field2, null, null);
 		
 		//TODO
 		QueryOrderBillVo vo = new QueryOrderBillVo();

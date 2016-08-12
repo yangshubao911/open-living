@@ -120,6 +120,8 @@ public class GuangdaResponse {
 		bill.setField4(td.field4);
 		bill.setField5(td.field5);
     	//
+		bill.setBillDate(td.field1);
+		//
 		bill.setBillDate(vo.getCompany().getDateChoice() == 0 ? td.beginDate : td.endDate);
     }
 	private void noticeApp(QueryOrderBillVo vo) {
