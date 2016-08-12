@@ -33,6 +33,9 @@ import com.shihui.openpf.living.io3rd.ReqPay;
 import com.shihui.openpf.living.dao.CompanyDao;
 import com.shihui.openpf.living.entity.Bill;
 import com.shihui.openpf.living.util.LivingUtil;
+
+import me.weimi.api.commons.util.ApiLogger;
+
 import com.shihui.openpf.living.mq.LivingMqProducer;
 /**
  * Created by zhoutc on 2016/3/3.
@@ -90,6 +93,8 @@ public class PaymentSuccessConsumer implements Consumer {
 	
 	@Override
 	public boolean doit(String topic, String tags, String key, String msg) {
+		ApiLogger.info("PaymentSuccessConsumer : topic[" + topic + "] tags[" + tags + "] key[" + key + "] msg=" + msg);
+
 		try {
 			JSONObject jo = JSONObject.parseObject(msg);
 			JSONObject orderJo = jo.getJSONObject("order");

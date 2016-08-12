@@ -12,6 +12,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import me.weimi.api.commons.util.ApiLogger;
+
 public class ResponseSocket {
 
 	private static final int PACKET_LENGTH_MAX = 1024*1024;
@@ -87,6 +89,7 @@ public class ResponseSocket {
 		}
 		
 		rs = null;
+		ApiLogger.debug("RESPONSE : " + ret);
 		return ret;
 	}
 

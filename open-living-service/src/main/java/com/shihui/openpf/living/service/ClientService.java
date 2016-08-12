@@ -49,6 +49,8 @@ import com.shihui.openpf.living.util.LivingUtil;
 import com.shihui.openpf.living.util.SimpleResponse;
 import com.shihui.tradingcenter.commons.dispatcher.currency.AccountDubbo;
 
+import me.weimi.api.commons.util.ApiLogger;
+
 @Service
 public class ClientService {
 	
@@ -86,8 +88,10 @@ public class ClientService {
 	 */
 	public Object homepage(Long userId, Integer cityId, Integer historyOrderCount) {
 		String info = cacheDao.getUserHome(userId);
-		if(info != null)
+		if(info != null) {
+			ApiLogger.info("Service: homepage() : info != null : " + info);
 			return JSON.parse(info);
+		}
 		//
 		JSONObject result = new JSONObject();
 		
@@ -102,6 +106,7 @@ public class ClientService {
 		result.put("billList", getBillList(userId, historyOrderCount));
 		
 		//
+		ApiLogger.info("Service: homepage() : " + result.toJSONString());
 		cacheDao.setUserHome(userId, result.toJSONString());
 		return result;
 
@@ -109,8 +114,10 @@ public class ClientService {
 	
 	private JSONArray getCategoryList() {
 		String info = cacheDao.getCategory();
-		if(info != null)
+		if(info != null) {
+			ApiLogger.info("Service: getCategoryList() : info != null : " + info);
 			return (JSONArray)JSON.parse(info);
+		}
 		//
 		JSONArray ja = new JSONArray();
 		List<Category> categoryList = categoryDao.findAll();
@@ -124,6 +131,7 @@ public class ClientService {
 			jo.put("productId", category.getProductId());	
 			ja.add(jo);
 		}	
+		ApiLogger.info("Service: getCategoryList() : " + ja.toJSONString());
 		cacheDao.setCategory(ja.toJSONString());
 		return ja;
 
@@ -148,8 +156,10 @@ public class ClientService {
 	 */
 	public Object queryCity(Integer categoryId) {
 		String info = cacheDao.getCity(categoryId);
-		if(info != null)
+		if(info != null) {
+			ApiLogger.info("Service: queryCity() : info != null : " + info);
 			return JSON.parse(info);
+		}
 		//
 		JSONObject result = new JSONObject();
 		
@@ -168,6 +178,7 @@ public class ClientService {
 			jo.put("goodsVersion", goods.getGoodsVersion());
 			ja.add(jo);
 		}
+		ApiLogger.info("Service: queryCity() : " + result.toJSONString());
 		cacheDao.setCity(categoryId, result.toJSONString());
 		return result;
 	}
@@ -176,8 +187,10 @@ public class ClientService {
 	 */
 	public Object queryCompany(Integer serviceId, Integer cityId) {
 		String info = cacheDao.getCompany(serviceId, cityId);
-		if(info != null)	
+		if(info != null) {
+			ApiLogger.info("Service: queryCompany() : info != null : " + info);
 			return JSON.parse(info);
+		}
 		
 		JSONObject result = new JSONObject();
 		
@@ -202,6 +215,7 @@ public class ClientService {
 			jo.put("barcode", company.getBarcode());
 			ja.add(jo);
 		}
+		ApiLogger.info("Service: queryCompany() : " + result.toJSONString());
 		cacheDao.setCompany(serviceId, cityId, result.toJSONString());
 		return result;
 	}
@@ -216,6 +230,12 @@ public class ClientService {
 		JSONObject result = new JSONObject();
 
 		String tempId = LivingUtil.getQueryTrmSeqNum(userId);
+		
+		ApiLogger.info("Service: queryFee() : "
+						+ "tempId: " + tempId
+						+ ", userNo: " + userNo
+						+ ", companyNo: " + companyNo
+						+ ", field2: " + field2 );
 		
 		ReqQuery reqQuery = ReqQuery.instance( 
 				tempId, 
@@ -257,6 +277,7 @@ public class ClientService {
 			result.put("response", new SimpleResponse(0,"业务繁忙，查询失败，请稍侯再试") );
 		}
 
+		ApiLogger.info("Service: queryFee() : " + result.toJSONString());
 		return result;
 	}
 	
@@ -336,15 +357,23 @@ public class ClientService {
 
 		order.setShOffSet(t.toString());
 		order.setPay(bdPrice.subtract(t).toString());
+		ApiLogger.info("Service: confirmOrder() : calculateOffSet() : " 
+				+ "shOffSet: " + order.getShOffSet()
+				+ ", pay: " + order.getPay() );
 	}
-	
+
 	public Object confirmOrder(int userId, String tempId, String price) {
 		JSONObject result = new JSONObject();
 
 		QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(tempId);
 		if( vo == null) {
+			ApiLogger.info("Service: confirmOrder() : vo == null");
 			result.put("response", new SimpleResponse(0,"操作超时，请重新查询下单") );
 		} else {
+			ApiLogger.info("Service: confirmOrder() : " 
+					+ "userId: " + userId
+					+ ", tempId: " + tempId
+					+ ", price: " + price);
 
 			result.put("tempId", vo.getTempId());
 			Bill bill = vo.getBill();
@@ -378,6 +407,7 @@ public class ClientService {
 			
 			cacheDao.setQueryOrderBillVo(tempId, vo);
 		}
+		ApiLogger.info("Service: confirmOrder() : " + result.toJSONString());
 		return result;
 	}
 /*
@@ -415,11 +445,18 @@ trans_id
 		ApiResult apiResult;
 		QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(tempId);
 		if( vo == null) {
+			ApiLogger.info("Service: createOrder() : vo == null");
 			apiResult = new ApiResult();
 			apiResult.setStatus(0);
 			apiResult.setMsg("操作超时，请重新查询下单");
 
 		} else {
+			ApiLogger.info("Service: confirmOrder() : " 
+					+ "userId: " + userId
+					+ ", tempId: " + tempId
+					+ ", costSh: " + costSh
+					+ ", ip: " + ip);
+			
 			cacheDao.delQueryOrderBillVo(vo.getTempId());
 			//
 			Order order = vo.getOrder();
@@ -507,6 +544,7 @@ trans_id
 			}			
 		}
 		//
+		ApiLogger.info("Service: createOrder() : " + JSON.toJSON(apiResult));
 		return JSON.toJSON(apiResult);
 	}
 

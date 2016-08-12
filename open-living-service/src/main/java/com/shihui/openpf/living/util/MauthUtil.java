@@ -15,8 +15,9 @@ public class MauthUtil {
             '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
     public static void main(String[] args) throws Exception {
-        String msg = System.currentTimeMillis() + ":1000";
+        String msg = System.currentTimeMillis() + ":40854";//":1000"
         String token = encode(msg);
+        System.out.println("Authorization=" + token);
         decode(token);
     }
 

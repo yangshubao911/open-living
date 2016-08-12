@@ -3,8 +3,13 @@
  */
 package com.shihui.openpf.living.controller;
 
-import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,15 +18,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.shihui.api.core.auth.Access;
 import com.shihui.api.core.auth.Access.AccessType;
-//import com.shihui.api.core.context.RequestContext;
-//import com.shihui.commons.OperationLogger;
+import com.shihui.api.core.context.RequestContext;
+import com.shihui.commons.OperationLogger;
 import com.shihui.openpf.living.service.ClientService;
 
-import com.shihui.openpf.living.controller.BasicController;
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
+import me.weimi.api.commons.util.ApiLogger;
 /**
  * @author zhouqisheng
  *
@@ -43,6 +44,17 @@ public class ClientController extends BasicController {
 			@RequestParam(name="userId", required = true) Long userId,
 			@RequestParam(name="cityId", required = true) Integer cityId,
 			@RequestParam(name="historyOrderCount", required = false, defaultValue = "5") int historyOrderCount) {
+		
+		ApiLogger.info("Controller: /v2/openpf/living/app/homepage : homepage() : "
+				+ "userId: " + userId
+				+ "cityId: " + cityId
+				+ "historyOrderCount: " + historyOrderCount );
+		
+		Map<String, Object> expand = new HashMap<>();
+		//expand.put("service_id", mid);
+		expand.put("city_id", cityId);
+		//expand.put("gid", groupId);
+		OperationLogger.log("operation.living.home", RequestContext.getRequestContext(), expand);
 
 		return clientService.homepage(userId,cityId, historyOrderCount);
 	}
@@ -53,6 +65,9 @@ public class ClientController extends BasicController {
 	public Object queryCity(
 			@RequestParam(name="categoryId", required = true) Integer categoryId) {
 
+		ApiLogger.info("Controller: /v2/openpf/living/app/queryCity : queryCity() : "
+				+ "categoryId: " + categoryId);
+		
 		return clientService.queryCity(categoryId);
 	}
 
@@ -63,6 +78,10 @@ public class ClientController extends BasicController {
 			@RequestParam(name="serviceId", required = true) Integer serviceId,
 			@RequestParam(name="cityId", required = true) Integer cityId) {
 
+		ApiLogger.info("Controller: /v2/openpf/living/app/queryCompany : queryCompany() : "
+				+ "serviceId: " + serviceId
+				+ "cityId: " + cityId );
+		
 		return clientService.queryCompany(serviceId, cityId);
 	}
 	/*
@@ -84,6 +103,25 @@ public class ClientController extends BasicController {
 			@RequestParam(name="companyNo", required = true) String companyNo,
 			@RequestParam(name="userNo", required = true) String userNo,
 			@RequestParam(name="field2", required = true) String field2) {
+
+		ApiLogger.info("Controller: /v2/openpf/living/app/queryFee : queryFee() : "
+				+ "userId: " + userId
+				+ "groupId: " + groupId
+				+ "mid: " + mid
+				+ "serviceId: " + serviceId
+				+ "categoryId: " + categoryId
+				+ "goodsId: " + goodsId
+				+ "goodsVersion: " + goodsVersion
+				+ "companyId: " + companyId
+				+ "companyNo: " + companyNo
+				+ "userNo: " + userNo
+				+ "field2: " + field2 );
+		
+		Map<String, Object> expand = new HashMap<>();
+		expand.put("service_id", mid);
+		expand.put("city_id", cityId);
+		expand.put("gid", groupId);
+		OperationLogger.log("operation.living.queryFee", RequestContext.getRequestContext(), expand);
 
 		return clientService.queryFee(userId, groupId, mid, serviceId, 
 				categoryId, cityId, goodsId, goodsVersion, companyId, companyNo, 
@@ -110,6 +148,11 @@ public class ClientController extends BasicController {
 			@RequestParam(name="tempId", required = true) String tempId,
 			@RequestParam(name="price", required = false) String price) {
 
+		ApiLogger.info("Controller: /v2/openpf/living/app/confirmOrder : confirmOrder() : "
+				+ "userId: " + userId
+				+ "tempId: " + tempId
+				+ "price: " + price );
+		
 		return clientService.confirmOrder(userId, tempId, price);
 	}
 	
@@ -121,6 +164,11 @@ public class ClientController extends BasicController {
 			@RequestParam(name="tempId", required = true) String tempId,
 			@RequestParam(name="costSh", required = true) Integer costSh) {
 
+		ApiLogger.info("Controller: /v2/openpf/living/app/createOrder : createOrder() : "
+				+ "userId: " + userId
+				+ "tempId: " + tempId
+				+ "costSh: " + costSh );
+		
 		return clientService.createOrder(userId, tempId, costSh, request.getRemoteAddr());
 	}
 }

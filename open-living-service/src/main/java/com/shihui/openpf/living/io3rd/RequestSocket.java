@@ -14,6 +14,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import me.weimi.api.commons.util.ApiLogger;
+
 public class RequestSocket {
 
 	private static final int SOCKET_SEND_BUFFER_LENGTH = 2048;
@@ -71,6 +73,8 @@ public class RequestSocket {
 
 	
 	public static boolean sendPacket(String remoteIp, int remotePort, String packet) {
+		ApiLogger.debug("REQUEST : " + packet);
+		
 		boolean ret = false;
 		RequestSocket cs = new RequestSocket();
 		

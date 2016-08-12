@@ -24,6 +24,7 @@ public class ResponseConsumer implements Consumer {
 	@Override
 	public boolean doit(String topic, String tags, String key, String msg) {
 		ApiLogger.info("QueryRequestConsumer : topic[" + topic + "] tags[" + tags + "] key[" + key + "] msg=" + msg);
+		
 		try {			
 			if (msg == null)
 				return true;

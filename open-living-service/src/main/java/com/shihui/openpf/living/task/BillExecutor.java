@@ -59,10 +59,13 @@ public class BillExecutor {
     @PostConstruct
     public void init() {
     	LISTEN_EXECUTOR_SERVICE.submit(RESPONSE_LISTEN_TASK);
+    	ApiLogger.info("BillExecutor : init()");
     }
 
     @PreDestroy
     public void predestroy() {
+    	ApiLogger.info("BillExecutor : predestroy() : start ");
+    	
     	RESPONSE_LISTEN_TASK.destroy();
     	
     	LISTEN_EXECUTOR_SERVICE.shutdown();
@@ -76,6 +79,7 @@ public class BillExecutor {
     	}catch(InterruptedException e) {
     		ApiLogger.info("!!!BillExecutor : Exception : predestroy() : " + e.getMessage());
     	}
+    	ApiLogger.info("BillExecutor : predestroy() : end ");
     }
 
     public  class ExecuteResponseListenTask implements Runnable {
