@@ -59,6 +59,7 @@ public class BillExecutor {
 
     @PostConstruct
     public void init() {
+//TODO
 //    	LISTEN_EXECUTOR_SERVICE.submit(RESPONSE_LISTEN_TASK);
     	ApiLogger.info("BillExecutor : init()");
     }
@@ -90,6 +91,7 @@ public class BillExecutor {
     	public ExecuteResponseListenTask() {
     		try {    		
     			serverAIO = ServerAIO.instance(responsePort);
+    			ApiLogger.info("ExecuteResponseListenTask : ExecuteResponseListenTask() : ServerAIO.instance() : " +responsePort);
     		}catch(Exception e) {
     			ApiLogger.info("!!!ExecuteResponseListenTask Exception : ExecuteResponseListenTask() : " + e.getMessage());
     		}
