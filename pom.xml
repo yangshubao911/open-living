@@ -175,6 +175,7 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
+<!-- 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
@@ -183,11 +184,12 @@
 					<execution>
 						<id>attach-sources</id>
 						<goals>
-							<goal>jar-no-fork</goal><!-- 类似执行mvn source:jar -->
+							<goal>jar-no-fork</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
+ -->
 		</plugins>
 	</build>
 </project>
