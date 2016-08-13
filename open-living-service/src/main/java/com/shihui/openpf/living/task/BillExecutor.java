@@ -59,7 +59,7 @@ public class BillExecutor {
 
     @PostConstruct
     public void init() {
-    	LISTEN_EXECUTOR_SERVICE.submit(RESPONSE_LISTEN_TASK);
+//    	LISTEN_EXECUTOR_SERVICE.submit(RESPONSE_LISTEN_TASK);
     	ApiLogger.info("BillExecutor : init()");
     }
 
