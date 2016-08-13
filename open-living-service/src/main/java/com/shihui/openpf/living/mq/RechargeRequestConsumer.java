@@ -37,8 +37,10 @@ public class RechargeRequestConsumer implements Consumer {
 				ReqKey reqKey;
 				if ((reqKey = JSONObject.parseObject(msg,ReqKey.class)) == null)
 					return true;
-
-				return guangdaDao.sendRequest(reqKey);
+				
+				boolean b= guangdaDao.sendRequest(reqKey);
+				ApiLogger.info("### guangdaDao.sendRequest(reqKey) = " + b);
+				return b;
 				
 			} else {
 				ReqPay reqPay;

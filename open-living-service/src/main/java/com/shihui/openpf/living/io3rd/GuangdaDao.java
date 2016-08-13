@@ -3,6 +3,8 @@ package com.shihui.openpf.living.io3rd;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
+import com.shihui.commons.ApiLogger;
+
 @Repository
 public class GuangdaDao {
 
@@ -13,7 +15,7 @@ public class GuangdaDao {
 	
 	public boolean sendRequest(Object req) {
 		String xml = FastXML.beanToXml(req);
-
+		ApiLogger.info("### GuangdaDao : remoteIp: [" + remoteIp + "] remotePort: " + remotePort);
 		try {
 		return RequestSocket.sendPacket(remoteIp, remotePort, 
 				(req.getClass() == ReqKey.class) ? Codec.encodeNoMac(xml) : Codec.encode(xml) );
