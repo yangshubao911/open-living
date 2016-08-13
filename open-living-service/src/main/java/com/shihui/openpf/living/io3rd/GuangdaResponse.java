@@ -38,7 +38,8 @@ import com.shihui.openpf.common.model.Merchant;
 import com.shihui.openpf.living.entity.MerchantGoods;
 import com.shihui.openpf.living.dao.MerchantGoodsDao;
 
-import me.weimi.api.commons.util.ApiLogger;
+//import me.weimi.api.commons.util.ApiLogger;
+import com.shihui.commons.ApiLogger;
 
 @Component
 public class GuangdaResponse {

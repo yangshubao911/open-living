@@ -11,8 +11,8 @@ import com.shihui.openpf.living.entity.Goods;
 
 import me.weimi.api.commons.http.ApacheHttpClient;
 import me.weimi.api.commons.http.ApiHttpClient;
-import me.weimi.api.commons.util.ApiLogger;
-
+//import me.weimi.api.commons.util.ApiLogger;
+import com.shihui.commons.ApiLogger;
 /**
  * Created by zhoutc on 2015/9/6.
  */

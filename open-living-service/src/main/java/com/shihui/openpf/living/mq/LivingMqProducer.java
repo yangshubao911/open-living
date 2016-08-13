@@ -7,7 +7,8 @@ import org.springframework.stereotype.Component;
 import com.shihui.commons.mq.Producer;
 import com.shihui.commons.mq.api.Topic;
 
-import me.weimi.api.commons.util.ApiLogger;
+//import me.weimi.api.commons.util.ApiLogger;
+import com.shihui.commons.ApiLogger;
 
 @Component
 public class LivingMqProducer {

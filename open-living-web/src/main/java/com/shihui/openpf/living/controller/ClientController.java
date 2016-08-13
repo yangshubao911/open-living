@@ -22,7 +22,8 @@ import com.shihui.api.core.context.RequestContext;
 import com.shihui.commons.OperationLogger;
 import com.shihui.openpf.living.service.ClientService;
 
-import me.weimi.api.commons.util.ApiLogger;
+//import me.weimi.api.commons.util.ApiLogger;
+import com.shihui.commons.ApiLogger;
 /**
  * @author zhouqisheng
  *

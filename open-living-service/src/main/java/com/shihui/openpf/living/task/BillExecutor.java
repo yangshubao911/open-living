@@ -26,7 +26,8 @@ import com.shihui.openpf.living.io3rd.ResponseSocket;
 import com.shihui.openpf.living.io3rd.ServerAIO;
 import com.shihui.openpf.living.mq.LivingMqProducer;
 
-import me.weimi.api.commons.util.ApiLogger;
+//import me.weimi.api.commons.util.ApiLogger;
+import com.shihui.commons.ApiLogger;
 
 @Component
 public class BillExecutor {
@@ -90,7 +91,7 @@ public class BillExecutor {
     		try {    		
     			serverAIO = ServerAIO.instance(responsePort);
     		}catch(Exception e) {
-    			ApiLogger.warn("!!!ExecuteResponseListenTask Exception : ExecuteResponseListenTask() : " + e.getMessage());
+    			ApiLogger.info("!!!ExecuteResponseListenTask Exception : ExecuteResponseListenTask() : " + e.getMessage());
     		}
     	}
     	public void destroy() {
@@ -113,7 +114,7 @@ public class BillExecutor {
             		}
             		
             	}catch(Exception e) {
-        			ApiLogger.warn("!!!ExecuteResponseListenTask Exception : run() : " + e.getMessage());
+        			ApiLogger.info("!!!ExecuteResponseListenTask Exception : run() : " + e.getMessage());
         		}
 
             }
@@ -137,7 +138,7 @@ public class BillExecutor {
     	        		mqProducer.sendResponse(java.util.UUID.randomUUID().toString(), sb.toString());
     	        	}
     	        }catch (Exception e){
-    	        	ApiLogger.warn("!!!ExecuteReceiveTask Exception : run() : " + e.getMessage());
+    	        	ApiLogger.info("!!!ExecuteReceiveTask Exception : run() : " + e.getMessage());
     	        }
     	        ApiLogger.info("<<<ExecuteReceiveTask STOP");
     	    }
@@ -150,7 +151,7 @@ public class BillExecutor {
 			ANALYSIS_EXECUTOR_SERVICE.submit(eapt);
 			return true;
 		} catch(Exception e) {
-			ApiLogger.warn("!!!BillExecutor : Exception : newExecuteAnalysePacketTask() : " + e.getMessage());
+			ApiLogger.info("!!!BillExecutor : Exception : newExecuteAnalysePacketTask() : " + e.getMessage());
 		}
 		return false;
 	}
@@ -190,7 +191,7 @@ public class BillExecutor {
     				}
     			}
 	        }catch (Exception e){
-	        	ApiLogger.warn("!!!ExecuteAnalysePacketTask Exception : run() : " + e.getMessage());
+	        	ApiLogger.info("!!!ExecuteAnalysePacketTask Exception : run() : " + e.getMessage());
 	        }
 	        ApiLogger.info("<<<ExecuteAnalysePacketTask STOP");
 	    }

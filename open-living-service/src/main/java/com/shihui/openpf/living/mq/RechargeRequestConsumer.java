@@ -13,7 +13,8 @@ import com.shihui.openpf.living.io3rd.GuangdaDao;
 import com.shihui.openpf.living.io3rd.ReqKey;
 import com.shihui.openpf.living.io3rd.ReqPay;
 
-import me.weimi.api.commons.util.ApiLogger;
+//import me.weimi.api.commons.util.ApiLogger;
+import com.shihui.commons.ApiLogger;
 
 @Component("rechargeRequestConsumer")
 @ConsumerConfig(consumerName = "livingRechargeRequestConsumer", topic = Topic.Open_Living_Guangda, tag=LivingMqProducer.TAG_RECHARGE_REQUEST)
@@ -48,7 +49,7 @@ public class RechargeRequestConsumer implements Consumer {
 			}
 			
 		} catch (Exception e) {
-			ApiLogger.warn("RechargeRequestConsumer : Exception : " + e.getMessage());
+			ApiLogger.info("RechargeRequestConsumer : Exception : " + e.getMessage());
 		}
 
 		return false;

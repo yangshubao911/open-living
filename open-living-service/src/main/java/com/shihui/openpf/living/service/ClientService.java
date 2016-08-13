@@ -49,7 +49,8 @@ import com.shihui.openpf.living.util.LivingUtil;
 import com.shihui.openpf.living.util.SimpleResponse;
 import com.shihui.tradingcenter.commons.dispatcher.currency.AccountDubbo;
 
-import me.weimi.api.commons.util.ApiLogger;
+//import me.weimi.api.commons.util.ApiLogger;
+import com.shihui.commons.ApiLogger;
 
 @Service
 public class ClientService {

@@ -12,7 +12,8 @@ import com.shihui.openpf.living.io3rd.GuangdaDao;
 import com.shihui.openpf.living.io3rd.ReqQuery;
 import com.shihui.openpf.living.cache.CacheDao;
 
-import me.weimi.api.commons.util.ApiLogger;
+//import me.weimi.api.commons.util.ApiLogger;
+import com.shihui.commons.ApiLogger;
 
 @Component("queryConsumerRequest")
 @ConsumerConfig(consumerName = "livingQueryRequestConsumer", topic = Topic.Open_Living_Guangda, tag=LivingMqProducer.TAG_QUERY_REQUEST)
@@ -38,7 +39,7 @@ public class QueryRequestConsumer implements Consumer {
 			return guangdaDao.sendRequest(reqQuery);
 			
 		} catch (Exception e) {
-			ApiLogger.warn("QueryRequestConsumer : Exception : " + e.getMessage());
+			ApiLogger.info("QueryRequestConsumer : Exception : " + e.getMessage());
 		}
 
 		return false;

@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import me.weimi.api.commons.util.ApiLogger;
+//import me.weimi.api.commons.util.ApiLogger;
+import com.shihui.commons.ApiLogger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -43,7 +44,7 @@ public class AppNotice {
 
 			String result = httpClient.buildPost(appPushUrl).withHeader("X-Matrix-UID", "1000")
 			.withParam(param).execute();
-			ApiLogger.info("push app消息 uid:{} result:{}"+userId,result);
+			ApiLogger.info("push app消息 uid:{"+userId+"} result:{"+result+"}");
 		} catch (Exception e) {
 			ApiLogger.error("push app消息异常", e);
 		}
@@ -63,7 +64,7 @@ public class AppNotice {
 
 			String result = httpClient.buildPost(appPushUrl).withHeader("X-Matrix-UID", "1000")
 			.withParam(param).execute();
-			ApiLogger.info("push app消息 uid:{} result:{}"+userId,result);
+			ApiLogger.info("push app消息 uid:{"+userId+"} result:{"+result+"}");
 		} catch (Exception e) {
 			ApiLogger.error("push app消息异常", e);
 		}

@@ -9,7 +9,8 @@ import com.shihui.commons.mq.api.Consumer;
 import com.shihui.commons.mq.api.Topic;
 import com.shihui.openpf.living.task.BillExecutor;
 
-import me.weimi.api.commons.util.ApiLogger;
+//import me.weimi.api.commons.util.ApiLogger;
+import com.shihui.commons.ApiLogger;
 
 @Component("responseConsumer")
 @ConsumerConfig(consumerName = "livingResponseConsumer", topic = Topic.Open_Living_Guangda, tag=LivingMqProducer.TAG_RESPONSE)
@@ -32,7 +33,7 @@ public class ResponseConsumer implements Consumer {
 			return billExecutor.newExecuteAnalysePacketTask(msg);
 			
 		} catch (Exception e) {
-			ApiLogger.warn("QueryRequestConsumer : Exception : " + e.getMessage());
+			ApiLogger.info("QueryRequestConsumer : Exception : " + e.getMessage());
 		}
 
 		return false;

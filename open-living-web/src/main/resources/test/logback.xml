@@ -82,11 +82,9 @@
 	<logger name="error" level="INFO" additivity="false">
 	  <appender-ref ref="error" />
 	</logger>
-<!-- 
 	<logger name="com.alibaba.dubbo" level="ERROR" additivity="false">
 		<appender-ref ref="error" />
 	</logger>
- -->
 	<root level="INFO">
 		<appender-ref ref="info" />
 		<appender-ref ref="error" />
