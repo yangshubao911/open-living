@@ -14,13 +14,15 @@ public class GuangdaDao {
 	private int remotePort;
 	
 	public boolean sendRequest(Object req) {
+		ApiLogger.info("### GuangdaDao 1: remoteIp: [" + remoteIp + "] remotePort: " + remotePort);
 		String xml = FastXML.beanToXml(req);
-		ApiLogger.info("### GuangdaDao : remoteIp: [" + remoteIp + "] remotePort: " + remotePort);
+		ApiLogger.info("### GuangdaDao 2: "  + xml);
 		try {
 		return RequestSocket.sendPacket(remoteIp, remotePort, 
 				(req.getClass() == ReqKey.class) ? Codec.encodeNoMac(xml) : Codec.encode(xml) );
 		}catch(Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			ApiLogger.info("!!!GuangdaDao : Exception : " + e.getMessage());
 		}
 		return false;
 	}
