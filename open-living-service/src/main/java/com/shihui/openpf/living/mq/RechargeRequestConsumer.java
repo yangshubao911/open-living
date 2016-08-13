@@ -33,7 +33,7 @@ public class RechargeRequestConsumer implements Consumer {
 		ApiLogger.info("RechargeRequestConsumer : topic[" + topic + "] tags[" + tags + "] key[" + key + "] msg=" + msg);
 		
 		try {	
-			if( key.compareTo(LivingMqProducer.KEY_KEY) != 0) {
+			if( key.compareTo(LivingMqProducer.KEY_KEY) == 0) {
 				ReqKey reqKey;
 				if ((reqKey = JSONObject.parseObject(msg,ReqKey.class)) == null)
 					return true;
