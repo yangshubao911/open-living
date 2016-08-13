@@ -30,6 +30,9 @@ public class ReqPay {
 	public PacketHead head = new PacketHead("BJCEBBCReq");
 	public Tin tin = new Tin();
 
+	public ReqPay() {
+		
+	}
 	public ReqPay(String TrmSeqNum) {
 		head.TrmSeqNum = TrmSeqNum;
 	}

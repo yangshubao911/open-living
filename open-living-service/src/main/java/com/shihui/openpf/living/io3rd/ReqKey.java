@@ -17,7 +17,9 @@ public class ReqKey {
 	public PacketHead head = new PacketHead("BJCEBRWKReq");
 	public Tin tin = new Tin();
 	
-	
+	public ReqKey() {
+		
+	}
 	public ReqKey(String TrmSeqNum) {
 		head.TrmSeqNum = TrmSeqNum;
 	}

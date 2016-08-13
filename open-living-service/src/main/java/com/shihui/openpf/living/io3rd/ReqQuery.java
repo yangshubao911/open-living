@@ -23,6 +23,9 @@ public class ReqQuery {
 	public PacketHead head = new PacketHead("BJCEBQBIReq");
 	public Tin tin = new Tin();
 
+	public ReqQuery() {
+		
+	}
 	public ReqQuery(String TrmSeqNum) {
 		head.TrmSeqNum = TrmSeqNum;
 	}

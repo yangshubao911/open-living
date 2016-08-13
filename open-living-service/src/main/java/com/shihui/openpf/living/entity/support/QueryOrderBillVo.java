@@ -82,8 +82,8 @@ public class QueryOrderBillVo {
 	}
 
 	public QueryOrderBillVo() {
-		order = new Order();
-		bill = new Bill();
+//		order = new Order();
+//		bill = new Bill();
 	}
 
 	public Order getOrder() {

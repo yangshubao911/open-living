@@ -7,6 +7,9 @@ public class CheckRefundeVo {
 	private CheckFile checkFile;
 	private RefundeFile refundeFile;
 	//
+	public CheckRefundeVo() {
+		
+	}
 	public CheckFile getCheckFile() {
 		return checkFile;
 	}

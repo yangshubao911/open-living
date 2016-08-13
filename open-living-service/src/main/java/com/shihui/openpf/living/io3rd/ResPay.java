@@ -21,6 +21,9 @@ public class ResPay implements PacketCheck{
 	public PacketHead head = new PacketHead();
 	public Tout tout = new Tout();
 	
+	public ResPay() {
+		
+	}
 	@Override
 	public boolean check() {
 		return (head.AnsTranCode.compareTo("BJCEBBCRes") == 0

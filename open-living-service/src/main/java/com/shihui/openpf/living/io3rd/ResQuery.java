@@ -42,6 +42,9 @@ public class ResQuery implements PacketCheck{
 	public PacketHead head = new PacketHead();
 	public Tout tout = new Tout();
 	
+	public ResQuery() {
+		
+	}
 	@Override
 	public boolean check() {
 		return (head.AnsTranCode.compareTo("BJCEBQBIRes") == 0

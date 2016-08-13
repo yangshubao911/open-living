@@ -16,4 +16,8 @@ public class PacketNotify {
 	
 	public PacketHead head = new PacketHead();
 	public Tin tin = new Tin();
+	
+	public PacketNotify() {
+		
+	}
 }

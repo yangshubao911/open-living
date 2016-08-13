@@ -12,8 +12,8 @@ public class OrderBillVo {
 	//
 
 	public OrderBillVo() {
-		order = new Order();
-		bill = new Bill();
+//		order = new Order();
+//		bill = new Bill();
 	}
 
 	public Order getOrder() {

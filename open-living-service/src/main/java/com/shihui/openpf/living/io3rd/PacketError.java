@@ -15,4 +15,8 @@ public class PacketError {
 	
 	public PacketHead head = new PacketHead();
 	public Tout tout = new Tout();
+	
+	public PacketError() {
+		
+	}
 }

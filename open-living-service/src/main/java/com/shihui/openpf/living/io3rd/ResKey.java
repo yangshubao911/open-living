@@ -22,6 +22,9 @@ public class ResKey implements PacketCheck {
 	public PacketHead head = new PacketHead();
 	public Tout tout = new Tout();
 
+	public ResKey() {
+		
+	}
 	@Override
 	public boolean check() {
 		return (head.AnsTranCode.compareTo("BJCEBRWKRes") == 0
