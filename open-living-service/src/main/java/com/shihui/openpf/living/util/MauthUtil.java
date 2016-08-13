@@ -17,7 +17,7 @@ public class MauthUtil {
     public static void main(String[] args) throws Exception {
         String msg = System.currentTimeMillis() + ":40854";//":1000"
         String token = encode(msg);
-        System.out.println("Authorization=" + token);
+        //System.out.println("Authorization=" + token);
         decode(token);
     }
 
