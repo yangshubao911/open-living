@@ -44,7 +44,7 @@ public class BillExecutor {
 	@Value("${guangda_destination_host_ip}")
 	private String remoteIp;
 	@Value("${guangda_destination_host_port}")
-	private static int remotePort;
+	private int remotePort;
 
 	@Value("${response_host_port}")
 	private int responsePort;    
