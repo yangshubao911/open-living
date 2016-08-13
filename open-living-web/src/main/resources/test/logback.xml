@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration scan="true" scanPeriod="3 seconds" debug="true">
+<configuration scan="false" scanPeriod="60 seconds" debug="false">
 	<property name="log_root_path" value="../logs/open-living" />
 
 	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
@@ -82,10 +82,11 @@
 	<logger name="error" level="INFO" additivity="false">
 	  <appender-ref ref="error" />
 	</logger>
+<!-- 
 	<logger name="com.alibaba.dubbo" level="ERROR" additivity="false">
 		<appender-ref ref="error" />
 	</logger>
-
+ -->
 	<root level="INFO">
 		<appender-ref ref="info" />
 		<appender-ref ref="error" />
