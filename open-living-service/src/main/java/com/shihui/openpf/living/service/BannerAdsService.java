@@ -8,8 +8,10 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+import com.shihui.commons.ApiLogger;
+
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
@@ -25,7 +27,7 @@ import com.shihui.openpf.living.util.SimpleResponse;
  */
 @Service
 public class BannerAdsService {
-	private Logger log = LoggerFactory.getLogger(getClass());
+//	private Logger log = LoggerFactory.getLogger(getClass());
 	@Resource
 	private BannerAdsDao bannerAdsDao;
 	
@@ -42,7 +44,8 @@ public class BannerAdsService {
 			bannerAdsDao.save(banner);
 			return new SimpleResponse(0, "创建成功");
 		} catch (Exception e) {
-			log.error("创建广告位异常，参数={}", JSON.toJSONString(banner), e);
+//			log.error("创建广告位异常，参数={}", JSON.toJSONString(banner), e);
+			ApiLogger.error("创建广告位异常，参数={"+JSON.toJSONString(banner)+"}" + e.getMessage());
 		}
 		return new SimpleResponse(1, "创建失败");
 	}
@@ -58,7 +61,8 @@ public class BannerAdsService {
 			bannerAdsDao.update(banner);
 			return new SimpleResponse(0, "更新成功");
 		} catch (Exception e) {
-			log.error("更新广告位异常，参数={}", JSON.toJSONString(banner), e);
+//			log.error("更新广告位异常，参数={}", JSON.toJSONString(banner), e);
+			ApiLogger.error("更新广告位异常，参数={"+JSON.toJSONString(banner)+"}" + e.getMessage());
 		}
 		return new SimpleResponse(1, "更新失败");
 	}
@@ -73,7 +77,8 @@ public class BannerAdsService {
 			bannerAdsDao.delete(banner);
 			return new SimpleResponse(0, "删除成功");
 		} catch (Exception e) {
-			log.error("删除广告位异常，参数={}", JSON.toJSONString(banner), e);
+//			log.error("删除广告位异常，参数={}", JSON.toJSONString(banner), e);
+			ApiLogger.error("删除广告位异常，参数={"+JSON.toJSONString(banner)+"}" + e.getMessage());
 		}
 		return new SimpleResponse(1, "删除失败");
 	}
@@ -101,7 +106,8 @@ public class BannerAdsService {
 		try {
 			list = bannerAdsDao.findByCondition(banner);
 		} catch (Exception e) {
-			log.error("查询广告位异常", e);
+//			log.error("查询广告位异常", e);
+			ApiLogger.error("查询广告位异常" + e.getMessage());
 		}
 		return list;
 	}

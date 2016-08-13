@@ -8,8 +8,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+import com.shihui.commons.ApiLogger;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -27,7 +28,7 @@ import com.shihui.openpf.living.util.SnapShotUtil;
  */
 @org.springframework.stereotype.Service
 public class GoodsService {
-	private Logger log = LoggerFactory.getLogger(getClass());
+//	private Logger log = LoggerFactory.getLogger(getClass());
 	@Resource
 	private GoodsDao goodsDao;
 	@Resource
@@ -53,7 +54,8 @@ public class GoodsService {
 		try {
 			id = this.goodsDao.insert(goods);
 		} catch (Exception e) {
-			log.error("创建商品失败，{}", JSON.toJSONString(goods), e);
+//			log.error("创建商品失败，{}", JSON.toJSONString(goods), e);
+			ApiLogger.error("创建商品失败，{"+JSON.toJSONString(goods)+"}" + e.getMessage());
 			return new SimpleResponse(1,"创建商品失败");
 		}
 		try {
@@ -71,21 +73,24 @@ public class GoodsService {
 			String result = SnapShotUtil.sendSnapShot(goods);
 			if(result == null || result.isEmpty()){
 				this.goodsDao.delete(goods);
-				log.warn("【创建】调用创建商品快照接口失败，删除已创建商品，商品id={}", id);
+//				log.warn("【创建】调用创建商品快照接口失败，删除已创建商品，商品id={}", id);
+				ApiLogger.info("【创建】调用创建商品快照接口失败，删除已创建商品，商品id={"+id+"}");
 				return new SimpleResponse(1,"创建商品快照失败");
 			}
 			JSONObject jo = JSONObject.parseObject(result);
 			boolean status = jo.getBoolean("status");
 			if (!status){
 				this.goodsDao.delete(goods);
-				log.warn("【创建】创建商品快照失败，删除已创建商品，商品id={}", id);
+//				log.warn("【创建】创建商品快照失败，删除已创建商品，商品id={}", id);
+				ApiLogger.info("【创建】调用创建商品快照接口失败，删除已创建商品，商品id={"+id+"}");
 				return new SimpleResponse(1,"创建商品快照失败");
 			}
 			int version = jo.getIntValue("version_id");
 			goods.setGoodsVersion(version);
 			this.goodsDao.update(goods);
 		} catch (Exception e) {
-			log.error("创建商品快照异常,{}", JSON.toJSONString(goods), e);
+//			log.error("创建商品快照异常,{}", JSON.toJSONString(goods), e);
+			ApiLogger.error("创建商品快照异常，{"+JSON.toJSONString(goods)+"}" + e.getMessage());
 			return new SimpleResponse(1, "创建商品快照失败");
 		}
 		
@@ -120,13 +125,15 @@ public class GoodsService {
 		oldGoods.setServiceMerchantCode(service.getServiceMerchantId());
 		String result = SnapShotUtil.sendSnapShot(oldGoods);
 		if(result == null || result.isEmpty()){
-			log.warn("【更新】调用创建商品快照接口失败，商品id={}", goods.getGoodsId());
+//			log.warn("【更新】调用创建商品快照接口失败，商品id={}", goods.getGoodsId());
+			ApiLogger.info("【更新】调用创建商品快照接口失败，商品id={"+goods.getGoodsId()+"}");
 			return new SimpleResponse(1,"创建商品快照失败");
 		}
 		JSONObject jo = JSONObject.parseObject(result);
 		boolean status = jo.getBoolean("status");
         if (!status){
-			log.warn("【更新】创建商品快照失败，商品id={}", goods.getGoodsId());
+//			log.warn("【更新】创建商品快照失败，商品id={}", goods.getGoodsId());
+        	ApiLogger.info("【更新】创建商品快照失败，商品id={"+goods.getGoodsId()+"}");
 			return new SimpleResponse(1,"更新商品快照失败");
         }
         int version = jo.getIntValue("version_id");
@@ -136,7 +143,8 @@ public class GoodsService {
 		try {
 			ret = this.goodsDao.update(goods);
 		} catch (Exception e) {
-			log.error("更新商品异常，{}", JSON.toJSONString(goods), e);
+//			log.error("更新商品异常，{}", JSON.toJSONString(goods), e);
+			ApiLogger.error("更新商品异常，{"+JSON.toJSONString(goods)+"}" + e.getMessage());
 		}
 		
 		if(ret > 0){
@@ -188,7 +196,8 @@ public class GoodsService {
 				this.update(goods);
 				successCount++;
 			} catch (Exception e) {
-				log.error("批量更新商品信息异常，goods_id={}", goods.getGoodsId(), e);
+//				log.error("批量更新商品信息异常，goods_id={}", goods.getGoodsId(), e);
+				ApiLogger.error("批量更新商品信息异常，goods_id={"+JSON.toJSONString(goods)+"}" + e.getMessage());
 			}
 		}
 		return new SimpleResponse(0, "更新商品信息完成，成功"+successCount+"，失败"+ (goodsList.size() - successCount));

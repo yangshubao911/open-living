@@ -5,8 +5,10 @@ import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.http.MediaType;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+import com.shihui.commons.ApiLogger;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +29,7 @@ import com.shihui.openpf.living.util.SimpleResponse;
 @RequestMapping(path = "/v2/openpf/living/merchant/category", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 public class MerchantCategoryController {
 
-	private Logger log = LoggerFactory.getLogger(getClass());
+//	private Logger log = LoggerFactory.getLogger(getClass());
     @Resource
     MerchantCategoryService merchantCategoryService;
 
@@ -42,7 +44,8 @@ public class MerchantCategoryController {
 		try {
 			list = merchantCategoryService.queryByConditions(merchantId, serviceId);
 		} catch (Exception e) {
-			log.error("查询商户商品分类异常", e);
+//			log.error("查询商户商品分类异常", e);
+			ApiLogger.error("查询商户商品分类异常" + e.getMessage());
 			return JSON.toJSON(new SimpleResponse(1, "查询失败"));
 		}
         return JSON.toJSON(list);
@@ -95,7 +98,8 @@ public class MerchantCategoryController {
 		try {
 			merchantCategorys = JSON.parseArray(json, MerchantCategory.class);
 		} catch (Exception e) {
-			log.error("批量绑定商品分类参数错误", e);
+//			log.error("批量绑定商品分类参数错误", e);
+			ApiLogger.error("批量绑定商品分类参数错误" + e.getMessage());
 			return JSON.toJSON(new SimpleResponse(1,"参数格式错误"));
 		}
         return JSON.toJSON(merchantCategoryService.batchCreate(merchantCategorys));

@@ -6,7 +6,6 @@ package com.shihui.commons;
 import java.io.IOException;
 import java.io.Serializable;
 
-import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.converter.HttpMessageNotWritableException;

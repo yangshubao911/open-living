@@ -8,10 +8,12 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
+import com.shihui.commons.ApiLogger;
 import com.shihui.openpf.living.dao.OrderBadDao;
 import com.shihui.openpf.living.entity.OrderBad;
 
@@ -22,7 +24,7 @@ import com.shihui.openpf.living.entity.OrderBad;
  */
 @Service
 public class OrderBadService {
-	private Logger log = LoggerFactory.getLogger(getClass());
+//	private Logger log = LoggerFactory.getLogger(getClass());
 	@Resource
 	private OrderBadDao orderBadDao;
 
@@ -39,7 +41,8 @@ public class OrderBadService {
 		try {
 			ret = orderBadDao.save(orderBad);
 		} catch (Exception e) {
-			log.error("保存异常订单异常，orderId={}", orderBad.getOrderId(), e);
+//			log.error("保存异常订单异常，orderId={}", orderBad.getOrderId(), e);
+			ApiLogger.error("保存异常订单异常，orderId={"+orderBad.getOrderId()+"}" + e.getMessage());
 		}
 		
 		return ret > 0;
@@ -57,7 +60,8 @@ public class OrderBadService {
 		try {
 			ret = orderBadDao.update(orderBad);
 		} catch (Exception e) {
-			log.error("更新异常订单异常，orderId={}", orderBad.getOrderId(), e);
+//			log.error("更新异常订单异常，orderId={}", orderBad.getOrderId(), e);
+			ApiLogger.error("更新异常订单异常，orderId={"+orderBad.getOrderId()+"}" + e.getMessage());
 		}
 		
 		return ret > 0;
@@ -72,7 +76,8 @@ public class OrderBadService {
 		try {
 			ret = orderBadDao.delete(orderBad);
 		} catch (Exception e) {
-			log.error("删除异常订单异常，orderId={}", orderBad.getOrderId(), e);
+//			log.error("删除异常订单异常，orderId={}", orderBad.getOrderId(), e);
+			ApiLogger.error("删除异常订单异常，orderId={"+orderBad.getOrderId()+"}" + e.getMessage());
 		}
 		
 		return ret > 0;
@@ -87,7 +92,8 @@ public class OrderBadService {
 		try {
 			ret = orderBadDao.findByCondition(orderBad);
 		} catch (Exception e) {
-			log.error("查询异常订单异常，orderId={}", orderBad.getOrderId(), e);
+//			log.error("查询异常订单异常，orderId={}", orderBad.getOrderId(), e);
+			ApiLogger.error("查询异常订单异常，orderId={"+orderBad.getOrderId()+"}" + e.getMessage());
 		}
 		
 		return ret;

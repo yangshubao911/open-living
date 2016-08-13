@@ -1,22 +1,5 @@
 package com.shihui.openpf.living.service;
 
-//import java.util.Map;
-//import java.util.TreeMap;
-//import org.springframework.transaction.annotation.Transactional;
-//import com.shihui.api.order.common.enums.OrderTypeEnum;
-//import com.shihui.openpf.common.dubbo.api.MerchantBusinessManage;
-//import com.shihui.openpf.common.model.Group;
-//import com.shihui.openpf.common.model.MerchantBusiness;
-//import com.shihui.openpf.common.service.api.GroupManage;
-//import com.shihui.openpf.common.tools.SignUtil;
-//import com.shihui.openpf.living.entity.Category;
-//import com.shihui.openpf.living.entity.Goods;
-//import com.shihui.openpf.living.service.CategoryService;
-//import com.shihui.openpf.living.service.GoodsService;
-//import com.shihui.openpf.living.service.MerchantGoodsService;
-//import com.shihui.openpf.living.service.OrderService;
-//import com.shihui.openpf.common.tools.AlgorithmUtil;
-
 import java.io.File;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -36,8 +19,10 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+import com.shihui.commons.ApiLogger;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -109,7 +94,7 @@ public class OrderManage {
 	
 	//
 	private CloseableHttpClient httpClient;
-	private Logger log;
+//	private Logger log;
 	//
 	@Value("${file_upload_url}")
 	private String fileUploadUrl;
@@ -125,7 +110,7 @@ public class OrderManage {
 		httpClientBuilder.setDefaultRequestConfig(requestConfig);
 		this.httpClient = httpClientBuilder.build();
 		//
-		log = LoggerFactory.getLogger(getClass());
+//		log = LoggerFactory.getLogger(getClass());
 	}
 
 	/**
@@ -202,7 +187,8 @@ public class OrderManage {
 			fileName = DataExportUtils.genExcel("open_living_" + System.currentTimeMillis()+".xlsx", "订单", title, data,
 					"utf-8");
 		} catch (Exception e) {
-			log.error("export order list error!!!",e);
+//			log.error("export order list error!!!",e);
+			ApiLogger.error("export order list error!!!" + e.getMessage());
 			result.put("code", 2);
 			return result;
 		}
@@ -210,7 +196,8 @@ public class OrderManage {
 		try {
 			fileId = uploadFile(fileName);
 		}catch (Exception e){
-			log.error("upload file error!!!",e);
+//			log.error("upload file error!!!",e);
+			ApiLogger.error("upload file error!!!" + e.getMessage());
 			result.put("code",2);
 			return result;
 		}
@@ -227,7 +214,8 @@ public class OrderManage {
 	 */
 	private String uploadFile(String filePath) {
 		JSONObject result = null;
-		log.info("开始上传文件：{}", filePath);
+//		log.info("开始上传文件：{}", filePath);
+		ApiLogger.error("开始上传文件：{"+filePath+"}");
 		File file = new File(filePath);
 		try {
 			HttpPost post = new HttpPost(fileUploadUrl);
@@ -241,15 +229,18 @@ public class OrderManage {
 				result = JSON.parseObject(executeAsyncString);
 
 				if (null == result.get("fileid")) {
-					log.info("保存订单明细表至TFS失败！返回信息：{}", executeAsyncString);
+//					log.info("保存订单明细表至TFS失败！返回信息：{}", executeAsyncString);
+					ApiLogger.error("保存订单明细表至TFS失败！返回信息：{"+executeAsyncString+"}");
 					return null;
 				}
-				log.info("完成文件上传：{}，返回信息:{} ",filePath, result.toJSONString());
+//				log.info("完成文件上传：{}，返回信息:{} ",filePath, result.toJSONString());
+				ApiLogger.error("完成文件上传：{"+ filePath +"}，返回信息:{"+ result.toJSONString() +"} ");
 
 				return result.getString("fileid");
 			}
 		} catch (Exception e) {
-			log.error("上传文件至TFS出错!".concat(JSON.toJSONString(result)));
+//			log.error("上传文件至TFS出错!".concat(JSON.toJSONString(result)));
+			ApiLogger.error("上传文件至TFS出错!".concat(JSON.toJSONString(result)));
 			return null;
 		} finally {
 			file.delete();
@@ -305,12 +296,14 @@ public class OrderManage {
 					result.put("consumeTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(order.getUpdateTime()));
 				}
 			}else {
-				log.info("queryOrder--orderId:" + orderId + " backendOrderDetail status:" + simpleResult.getStatus() + " msg:" + simpleResult.getMsg());
+//				log.info("queryOrder--orderId:" + orderId + " backendOrderDetail status:" + simpleResult.getStatus() + " msg:" + simpleResult.getMsg());
+				ApiLogger.error("queryOrder--orderId:" + orderId + " backendOrderDetail status:" + simpleResult.getStatus() + " msg:" + simpleResult.getMsg());
 			}
 
 			return result;
 		} catch (Exception e) {
-			log.error("OrderManageImpl queryOrder error!!", e);
+//			log.error("OrderManageImpl queryOrder error!!", e);
+			ApiLogger.error("OrderManageImpl queryOrder error!!" + e.getMessage());
 		}
 
 		return null;
@@ -359,7 +352,8 @@ public class OrderManage {
 						updateOrder.setUpdateTime(new Date());
 						orderDao.update(updateOrder);
 					}else{
-						log.error("后台取消订单，发起退款失败，订单号={}，原订单状态={}", order.getOrderId(), order.getOrderStatus());
+//						log.error("后台取消订单，发起退款失败，订单号={}，原订单状态={}", order.getOrderId(), order.getOrderStatus());
+						ApiLogger.error("后台取消订单，发起退款失败，订单号={"+ order.getOrderId() +"}，原订单状态={"+ order.getOrderStatus() +"}");
 					}
 					return LivingCodeEnum.SUCCESS;
 				}else{
@@ -372,7 +366,8 @@ public class OrderManage {
 				
 				
 		} catch (Exception e) {
-			log.error("取消订单异常，订单号={}", orderId, e);
+//			log.error("取消订单异常，订单号={}", orderId, e);
+			ApiLogger.error("取消订单异常，订单号={"+ orderId +"}" + e.getMessage());
 			return LivingCodeEnum.SYSTEM_ERR;
 		}
 	}
@@ -431,7 +426,8 @@ public class OrderManage {
 			order_json.put("statusName", OrderStatusEnum.parse(order.getOrderStatus()).getName());
 			return order_json;
 		} catch (Exception e) {
-			log.error("OrderManageImpl buildOrderVo error!!", e);
+//			log.error("OrderManageImpl buildOrderVo error!!", e);
+			ApiLogger.error("OrderManageImpl buildOrderVo error!!" + e.getMessage());
 		}
 
 		return null;

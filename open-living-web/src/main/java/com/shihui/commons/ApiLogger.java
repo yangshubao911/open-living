@@ -16,6 +16,7 @@ public class ApiLogger {
      */
     public static final Logger DEBUG = LoggerFactory.getLogger("debug");
     public static final Logger INFO = LoggerFactory.getLogger("info");
+    public static final Logger WARN = LoggerFactory.getLogger("warn");
     public static final Logger ERROR = LoggerFactory.getLogger("error");
     public static final Logger REQUEST = LoggerFactory.getLogger("request");
     public static final Logger DB_INFO = LoggerFactory.getLogger("db_info");
@@ -23,6 +24,10 @@ public class ApiLogger {
 
     public static void debug(String message) {
         DEBUG.debug(message);
+    }
+
+    public static void warn(String message) {
+        WARN.warn(message);
     }
 
     public static void info(String message) {

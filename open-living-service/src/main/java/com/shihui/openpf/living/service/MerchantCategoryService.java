@@ -5,8 +5,10 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+import com.shihui.commons.ApiLogger;
+
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
@@ -19,7 +21,7 @@ import com.shihui.openpf.living.util.SimpleResponse;
  */
 @Service
 public class MerchantCategoryService {
-	private Logger log = LoggerFactory.getLogger(getClass());
+//	private Logger log = LoggerFactory.getLogger(getClass());
 
     @Resource
     MerchantCategoryDao merchantCategoryDao;
@@ -61,7 +63,8 @@ public class MerchantCategoryService {
             if (result)
                 return new SimpleResponse(0, "创建成功");
         }catch (Exception e){
-            log.error("MerchantCategoryService create error!!",e);
+//            log.error("MerchantCategoryService create error!!",e);
+        	ApiLogger.error("MerchantCategoryService create error!!" + e.getMessage());
         }
 
         return new SimpleResponse(1, "创建失败");
@@ -74,7 +77,8 @@ public class MerchantCategoryService {
 			int n = this.merchantCategoryDao.batchSave(merchantCategorys);
 			return new SimpleResponse(0, "绑定成功:" + n + "，失败：" + (merchantCategorys.size() - n));
 		} catch (SQLException e) {
-			log.error("批量绑定供应商商品分类异常", e);
+//			log.error("批量绑定供应商商品分类异常", e);
+			ApiLogger.error("批量绑定供应商商品分类异常" + e.getMessage());
 			 return new SimpleResponse(1, "绑定失败");
 		}
 	}

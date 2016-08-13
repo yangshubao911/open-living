@@ -8,8 +8,9 @@ import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.http.MediaType;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+import com.shihui.commons.ApiLogger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,7 +32,7 @@ import com.shihui.openpf.living.util.SimpleResponse;
 @Controller
 @RequestMapping(path = "/v2/openpf/living/goods", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 public class GoodsController {
-	private Logger log = LoggerFactory.getLogger(getClass());
+//	private Logger log = LoggerFactory.getLogger(getClass());
 	@Resource
 	private GoodsService goodsService;
 
@@ -77,7 +78,8 @@ public class GoodsController {
 		try {
 			ret = JSON.toJSON(goodsService.create(goods));
 		} catch (Exception e) {
-			log.error("新增商品异常，{}", JSON.toJSONString(goods), e);
+//			log.error("新增商品异常，{}", JSON.toJSONString(goods), e);
+			ApiLogger.error("新增商品异常，{"+JSON.toJSONString(goods)+"}" + e.getMessage());
 			return JSON.toJSON(new SimpleResponse(1, "创建商品失败"));
 		}
 		return ret;
@@ -119,7 +121,8 @@ public class GoodsController {
 		try {
 			ret = JSON.toJSON(goodsService.update(goods));
 		} catch (Exception e) {
-			log.error("更新商品异常，{}", JSON.toJSONString(goods), e);
+//			log.error("更新商品异常，{}", JSON.toJSONString(goods), e);
+			ApiLogger.error("更新商品异常，{"+JSON.toJSONString(goods)+"}" + e.getMessage());
 			return JSON.toJSON(new SimpleResponse(1, "更新商品失败"));
 		}
 		

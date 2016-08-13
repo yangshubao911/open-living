@@ -8,8 +8,9 @@ import java.io.File;
 import javax.annotation.Resource;
 import javax.ws.rs.core.Response;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.shihui.api.core.auth.Access;
 import com.shihui.api.core.auth.Access.AccessType;
+import com.shihui.commons.ApiLogger;
 import com.shihui.openpf.common.tools.StringUtil;
 import com.shihui.openpf.living.entity.support.ConditionVo;
 import com.shihui.openpf.living.service.OrderManage;
@@ -30,7 +32,7 @@ import com.shihui.openpf.living.service.OrderManage;
 @Controller
 @RequestMapping(path = "/v2/openpf/living/order", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 public class OrderController {
-	private Logger log = LoggerFactory.getLogger(getClass());
+//	private Logger log = LoggerFactory.getLogger(getClass());
 
 	@Resource
 	OrderManage orderManage;
@@ -81,7 +83,8 @@ public class OrderController {
 			
 			return JSON.toJSON(orderManage.queryOrderList(vo));
 		} catch (Exception e) {
-			log.error("查询订单列表异常，param={}", JSON.toJSONString(vo), e);
+//			log.error("查询订单列表异常，param={}", JSON.toJSONString(vo), e);
+			ApiLogger.error("查询订单列表异常，param={"+JSON.toJSONString(vo)+"}" + e.getMessage());
 		}
 		return null;
 	}
@@ -131,7 +134,8 @@ public class OrderController {
 
 			return JSON.toJSON(orderManage.exportOrderList(vo));
 		} catch (Exception e) {
-			log.error("查询订单列表异常，param={}", JSON.toJSONString(vo), e);
+//			log.error("查询订单列表异常，param={}", JSON.toJSONString(vo), e);
+			ApiLogger.error("查询订单列表异常，param={"+JSON.toJSONString(vo)+"}" + e.getMessage());
 		}
 		return null;
 	}

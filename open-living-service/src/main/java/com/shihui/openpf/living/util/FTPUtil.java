@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+import com.shihui.commons.ApiLogger;
 
 import com.shihui.openpf.living.io3rd.CheckFile;
 import com.shihui.openpf.living.io3rd.CheckItem;
@@ -21,7 +22,7 @@ public class FTPUtil {
 	private static final String SPLIT = "|";
 	private static final String CHECKFILE_SUFFIX = ".txt";
 	private static final String REFUNDEFILE_SUFFIX = "Refunde.txt";
-    private static Logger log = LoggerFactory.getLogger(FTPUtil.class.getName());
+//    private static Logger log = LoggerFactory.getLogger(FTPUtil.class.getName());
 
     
     public static CheckRefundeVo downFile(String url, int port,String username, String password, String checkPath,String refundePath) {
@@ -37,7 +38,8 @@ public class FTPUtil {
 
             ftp.enterLocalPassiveMode();   //这句重要，不行换enterRemoteActiveMode 看看
 
-            log.info("FTPUtil--reply:"+reply);
+//            log.info("FTPUtil--reply:"+reply);
+            ApiLogger.error("FTPUtil--reply:" + reply);
             if (!FTPReply.isPositiveCompletion(reply)) {
                 ftp.disconnect();
                 return null;
@@ -49,7 +51,8 @@ public class FTPUtil {
             ftp.logout();
             return vo;
         } catch (Exception e) {
-            log.error("downFile error!!",e);
+//            log.error("downFile error!!",e);
+        	ApiLogger.error("downFile error!!" + e.getMessage());
         } finally {
             if (ftp.isConnected()) {
                 try {
@@ -67,7 +70,8 @@ public class FTPUtil {
         	return null;
         
         for(FTPFile ff:fs){
-            log.info("FTPUtil--filename--"+ff.getName());
+//            log.info("FTPUtil--filename--"+ff.getName());
+        	ApiLogger.error("FTPUtil--filename--" + ff.getName());
             String name = ff.getName();
             if(ff.isFile() && CHECKFILE_SUFFIX.compareToIgnoreCase(name.substring(name.length()-CHECKFILE_SUFFIX.length())) == 0){
             	return analyseCheckFile(ftp.retrieveFileStream(name));
@@ -82,7 +86,8 @@ public class FTPUtil {
         	return null;
         
         for(FTPFile ff:fs){
-            log.info("FTPUtil--filename--"+ff.getName());
+//            log.info("FTPUtil--filename--"+ff.getName());
+        	ApiLogger.error("FTPUtil--filename--" + ff.getName());
             String name = ff.getName();
             if(ff.isFile() && REFUNDEFILE_SUFFIX.compareToIgnoreCase(name.substring(name.length()-REFUNDEFILE_SUFFIX.length())) == 0){
             	return analyseRefundeFile(ftp.retrieveFileStream(name));

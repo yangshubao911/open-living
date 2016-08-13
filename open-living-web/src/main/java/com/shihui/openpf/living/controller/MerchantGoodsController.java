@@ -5,8 +5,10 @@ import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.http.MediaType;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+import com.shihui.commons.ApiLogger;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +27,7 @@ import com.shihui.openpf.living.util.SimpleResponse;
 @Controller
 @RequestMapping(path = "/v2/openpf/living/merchant/goods", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 public class MerchantGoodsController {
-	private Logger log = LoggerFactory.getLogger(getClass());
+//	private Logger log = LoggerFactory.getLogger(getClass());
 
     @Resource
     MerchantGoodsService merchantGoodsService;
@@ -42,7 +44,8 @@ public class MerchantGoodsController {
 		try {
 			list = merchantGoodsService.findByConditions(merchantId, serviceId, categoryId);
 		} catch (Exception e) {
-			log.error("查询商户商品遗产", e);
+//			log.error("查询商户商品遗产", e);
+			ApiLogger.error("查询商户商品遗产" + e.getMessage());
 			return JSON.toJSON(new SimpleResponse(1, "查询失败").toString());
 		}
         return JSON.toJSON(list);
@@ -99,7 +102,8 @@ public class MerchantGoodsController {
 		try {
 			list = JSON.parseArray(json, MerchantGoods.class);
 		} catch (Exception e) {
-			log.error("批量添加商户商品参数转换异常 param={}", json, e);
+//			log.error("批量添加商户商品参数转换异常 param={}", json, e);
+			ApiLogger.error("批量添加商户商品参数转换异常 param={}" + e.getMessage());
 			return JSON.toJSON(new SimpleResponse(1, "参数格式错误").toString());
 		}
         return JSON.toJSON(merchantGoodsService.batchAddGoods(list));
@@ -115,7 +119,8 @@ public class MerchantGoodsController {
 		try {
 			list = JSON.parseArray(json, MerchantGoods.class);
 		} catch (Exception e) {
-			log.error("批量更新商户商品参数转换异常 param={}", json, e);
+//			log.error("批量更新商户商品参数转换异常 param={}", json, e);
+			ApiLogger.error("批量更新商户商品参数转换异常 param={"+ json +"}" + e.getMessage());
 			return JSON.toJSON(new SimpleResponse(1, "参数格式错误"));
 		}
         return JSON.toJSON(merchantGoodsService.batchUpdateAddedGoods(list));

@@ -4,8 +4,10 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+import com.shihui.commons.ApiLogger;
+
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
@@ -18,7 +20,7 @@ import com.shihui.openpf.living.util.SimpleResponse;
  */
 @Service
 public class MerchantGoodsService {
-	private Logger log = LoggerFactory.getLogger(getClass());
+//	private Logger log = LoggerFactory.getLogger(getClass());
     @Resource
     MerchantGoodsDao merchantGoodsDao;
 
@@ -70,7 +72,8 @@ public class MerchantGoodsService {
                 return new SimpleResponse(0, "创建成功");
 
         } catch (Exception e) {
-            log.error("MerchantGoodsService error!!", e);
+//            log.error("MerchantGoodsService error!!", e);
+        	ApiLogger.error("MerchantGoodsService error!!" + e.getMessage());
         }
 
         return new SimpleResponse(1, "创建失败");
@@ -82,7 +85,8 @@ public class MerchantGoodsService {
 			this.merchantGoodsDao.batchSave(list);
 			return new SimpleResponse(0, "绑定成功");
 		} catch (Exception e) {
-			log.error("批量绑定供应商商品异常", e);
+//			log.error("批量绑定供应商商品异常", e);
+			ApiLogger.error("批量绑定供应商商品异常" + e.getMessage());
 			 return new SimpleResponse(1, "绑定失败");
 		}
 	}
@@ -93,7 +97,8 @@ public class MerchantGoodsService {
 			this.merchantGoodsDao.batchUpdate(list);
 			return new SimpleResponse(0, "更新成功");
 		} catch (Exception e) {
-			log.error("批量更新已绑定供应商商品异常", e);
+//			log.error("批量更新已绑定供应商商品异常", e);
+			ApiLogger.error("批量更新已绑定供应商商品异常" + e.getMessage());
 			 return new SimpleResponse(1, "更新失败");
 		}
 	}
