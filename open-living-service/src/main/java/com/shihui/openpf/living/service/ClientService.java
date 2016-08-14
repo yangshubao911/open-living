@@ -348,16 +348,18 @@ public class ClientService {
 			offSetMax = goods.getShOffSetMax();
 		}
 
+		BigDecimal bdZero = new BigDecimal("0");
 		BigDecimal bdPrice = new BigDecimal(order.getPrice());
 		BigDecimal bdOffSet = new BigDecimal(offSet);
 		BigDecimal bdOffSetMax = new BigDecimal(offSetMax);
 		BigDecimal t = bdPrice.multiply(bdOffSet).divide( new BigDecimal("100")).setScale(2, BigDecimal.ROUND_HALF_UP);
-		t = t.min(bdOffSetMax);
+		if(bdOffSetMax.compareTo(bdZero) > 0)
+			t = t.min(bdOffSetMax);
 		
 		long balance = accountDubbo.getUserSHGlodAmount(order.getUserId());
 		t =  balance > 0 ? (new BigDecimal(balance).divide(new BigDecimal("10000")).compareTo(t) >= 0 
-				? t : new BigDecimal("0"))
-				:new BigDecimal("0");		
+				? t : bdZero)
+				: bdZero;		
 
 		order.setShOffSet(t.toString());
 		order.setPay(bdPrice.subtract(t).toString());
