@@ -157,4 +157,14 @@ public class GoodsController {
 		return JSON.toJSON(goodsService.batchUpdate(goodsList));
 	}
 
+	@RequestMapping("/detail")
+	@ResponseBody
+	@Access(type = AccessType.INTERNAL)
+	public Object detail(@RequestParam(required = true)Integer id) {
+
+		JSONObject jo = new JSONObject();
+		jo.put("goods", goodsService.findById(id));
+		return jo;
+	}
+	
 }
