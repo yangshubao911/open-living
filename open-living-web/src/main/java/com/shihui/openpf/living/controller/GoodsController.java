@@ -44,19 +44,19 @@ public class GoodsController {
 			@RequestParam(name = "categoryId",			required = true )	Integer		categoryId,
 			@RequestParam(name = "cityId",				required = true )	Integer		cityId,
 			@RequestParam(name = "cityName",			required = true )	String		cityName,
-			@RequestParam(name = "goodsDesc",			required = true )	String		goodsDesc,
+			@RequestParam(name = "goodsDesc",			required = false )	String		goodsDesc,
 			@RequestParam(name = "goodsName",			required = true )	String		goodsName,
 			@RequestParam(name = "imageId",				required = false)	String		imageId,
-			@RequestParam(name = "detailImage",			required = true )	String		detailImage,
+			@RequestParam(name = "detailImage",			required = false )	String		detailImage,
 			@RequestParam(name = "serviceId",			required = true )	Integer		serviceId,
-			@RequestParam(name = "goodsStatus",			required = true )	Integer		goodsStatus,
+			@RequestParam(name = "goodsStatus",			required = false )	Integer		goodsStatus,
 			@RequestParam(name = "shOffSet",			required = true )	String		shOffSet,
 			@RequestParam(name = "shOffSetMax",			required = false)	String		shOffSetMax,
 			@RequestParam(name = "firstShOffSet",		required = true )	String		firstShOffSet,
 			@RequestParam(name = "firstShOffSetMax",	required = false)	String		firstShOffSetMax,
-			@RequestParam(name = "price",				required = true )	String		price,
-			@RequestParam(name = "goodsSubtitle",		required = true )	String		goodsSubtitle,
-			@RequestParam(name = "attention",			required = true )	String		attention
+			@RequestParam(name = "price",				required = false )	String		price,
+			@RequestParam(name = "goodsSubtitle",		required = false )	String		goodsSubtitle,
+			@RequestParam(name = "attention",			required = false )	String		attention
 			) {
 		Goods goods = new Goods();
 		goods.setCategoryId(categoryId);
