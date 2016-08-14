@@ -1,6 +1,6 @@
 package com.shihui.openpf.living.task;
 
-
+import java.nio.channels.ClosedChannelException;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -13,6 +13,8 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+//import me.weimi.api.commons.util.ApiLogger;
+import com.shihui.commons.ApiLogger;
 import com.shihui.openpf.living.io3rd.Codec;
 import com.shihui.openpf.living.io3rd.FastXML;
 import com.shihui.openpf.living.io3rd.GuangdaResponse;
@@ -25,9 +27,6 @@ import com.shihui.openpf.living.io3rd.ResQuery;
 import com.shihui.openpf.living.io3rd.ResponseSocket;
 import com.shihui.openpf.living.io3rd.ServerAIO;
 import com.shihui.openpf.living.mq.LivingMqProducer;
-
-//import me.weimi.api.commons.util.ApiLogger;
-import com.shihui.commons.ApiLogger;
 
 @Component
 public class BillExecutor {
@@ -98,7 +97,7 @@ public class BillExecutor {
     			serverAIO = ServerAIO.instance(responsePort);
     			ApiLogger.info("ExecuteResponseListenTask : ExecuteResponseListenTask() : ServerAIO.instance() : " +responsePort);
     		}catch(Exception e) {
-    			ApiLogger.info("!!!ExecuteResponseListenTask Exception : ExecuteResponseListenTask() : " + e.getMessage());
+    			ApiLogger.info("!!!ExecuteResponseListenTask : Exception : ExecuteResponseListenTask() : " + e.getMessage());
     		}
     		//
     		guangdaResponse.doReqKey();
@@ -107,13 +106,16 @@ public class BillExecutor {
             	ApiLogger.info("ExecuteResponseListenTask : run() : accepting...");
             	try {
             		AsynchronousSocketChannel channel = serverAIO.accept();
+            		ApiLogger.info("ExecuteResponseListenTask : run() : accepted.");
             		if(channel != null) {
 	            		ExecuteReceiveTask ert = new ExecuteReceiveTask(channel);
 	            		RESPONSE_EXECUTOR_SERVICE.submit(ert);
             		}
-            		
+            	}catch(ClosedChannelException e) {
+        			ApiLogger.info("!!!ExecuteResponseListenTask : run() : ClosedChannelException : " + e.getMessage());
+        			break;
             	}catch(Exception e) {
-        			ApiLogger.info("!!!ExecuteResponseListenTask Exception : run() : " + e.getMessage());
+        			ApiLogger.info("!!!ExecuteResponseListenTask : run() : Exception  : " + e.getMessage());
         		}
 
             }

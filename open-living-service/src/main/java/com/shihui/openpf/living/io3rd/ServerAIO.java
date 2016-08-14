@@ -7,6 +7,7 @@ import java.nio.channels.AsynchronousServerSocketChannel;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.nio.channels.ClosedChannelException;
 
 public class ServerAIO {
 	
@@ -19,7 +20,7 @@ public class ServerAIO {
 		serverChannel.setOption(StandardSocketOptions.SO_RCVBUF, SOCKET_RECV_BUFFER_LENGTH);				
 	}
 	
-	public AsynchronousSocketChannel accept() throws ExecutionException, InterruptedException{
+	public AsynchronousSocketChannel accept() throws ExecutionException, InterruptedException, ClosedChannelException {
 		Future<AsynchronousSocketChannel> future = serverChannel.accept();
 		AsynchronousSocketChannel channel = future.get();
 		return (future.isDone() ? channel : null);

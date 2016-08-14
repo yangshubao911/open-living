@@ -137,7 +137,7 @@ public class CacheDao {
 	//
 	private static final String KEY_GUANGDA = CACHE_PREFIX + "key_guangda";
 	private static final String KEY_DATE_GUANGDA = CACHE_PREFIX + "key_date_guangda";
-	private static final int EXPIRE_KEY = 5*60;
+	private static final int EXPIRE_KEY = 30;
 	public boolean lockKey() {
 		return lock(KEY_GUANGDA, EXPIRE_KEY);
 	}
