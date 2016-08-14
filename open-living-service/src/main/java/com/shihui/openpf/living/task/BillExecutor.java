@@ -40,11 +40,6 @@ public class BillExecutor {
     private static final ExecutorService RESPONSE_EXECUTOR_SERVICE = Executors.newFixedThreadPool(16);
 
     private ExecuteResponseListenTask RESPONSE_LISTEN_TASK = new ExecuteResponseListenTask();
-    
-//	@Value("${guangda_destination_host_ip}")
-//	private String remoteIp;
-//	@Value("${guangda_destination_host_port}")
-//	private int remotePort;
 
 	@Value("${response_host_port}")
 	private int responsePort;    
@@ -59,7 +54,6 @@ public class BillExecutor {
 
     @PostConstruct
     public void init() {
-    	ApiLogger.info("BillExecutor : init() : responsePort : [" + responsePort + "]");
     	LISTEN_EXECUTOR_SERVICE.submit(RESPONSE_LISTEN_TASK);
     	ApiLogger.info("BillExecutor : init()");
     }
@@ -89,12 +83,7 @@ public class BillExecutor {
     	private ServerAIO serverAIO = null;
 
     	public ExecuteResponseListenTask() {
-    		try {    		
-    			serverAIO = ServerAIO.instance(responsePort);
-    			ApiLogger.info("ExecuteResponseListenTask : ExecuteResponseListenTask() : ServerAIO.instance() : " +responsePort);
-    		}catch(Exception e) {
-    			ApiLogger.info("!!!ExecuteResponseListenTask Exception : ExecuteResponseListenTask() : " + e.getMessage());
-    		}
+
     	}
     	public void destroy() {
     		if(serverAIO != null)
@@ -105,7 +94,15 @@ public class BillExecutor {
         public void run() {
         	
     		ApiLogger.info(">>>ExecuteResponseListenTask RUNNING");
+    		try {    		
+    			serverAIO = ServerAIO.instance(responsePort);
+    			ApiLogger.info("ExecuteResponseListenTask : ExecuteResponseListenTask() : ServerAIO.instance() : " +responsePort);
+    		}catch(Exception e) {
+    			ApiLogger.info("!!!ExecuteResponseListenTask Exception : ExecuteResponseListenTask() : " + e.getMessage());
+    		}
+    		//
     		guangdaResponse.doReqKey();
+    		//
             while(!Thread.currentThread().isInterrupted()) {
             	ApiLogger.info("ExecuteResponseListenTask : run() : accepting...");
             	try {

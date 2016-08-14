@@ -69,12 +69,6 @@ public class GuangdaResponse {
 	@Resource
 	MerchantGoodsDao merchantGoodsDao;
 	
-	
-//	@PostConstruct
-//	public void init() {
-//		doReqKey();
-//	}
-
 	private void resPay2Vo(ResPay resPay, OrderBillVo vo) {
 		Bill bill = vo.getBill();
 		bill.setBankBillNo(resPay.tout.bankBillNo);
