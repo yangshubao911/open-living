@@ -107,7 +107,7 @@ public class BillExecutor {
             	ApiLogger.info("ExecuteResponseListenTask : run() : accepting...");
             	try {
             		AsynchronousSocketChannel channel = serverAIO.accept();
-            		ApiLogger.info("ExecuteResponseListenTask : run() : accepted.");
+            		ApiLogger.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@ExecuteResponseListenTask : run() : accepted.");
             		if(channel != null) {
 	            		ExecuteReceiveTask ert = new ExecuteReceiveTask(channel);
 	            		RESPONSE_EXECUTOR_SERVICE.submit(ert);
@@ -133,7 +133,9 @@ public class BillExecutor {
     	    	ApiLogger.info(">>>ExecuteReceiveTask RUNNING");
     	        try {
     	        	StringBuilder sb = ResponseSocket.receivePacket(channel);
+    	        	ApiLogger.info("ExecuteReceiveTask : ResponseSocket.receivePacket(channel) : " + (sb != null));
     	        	if(sb != null) {
+    	        		ApiLogger.info("%%%%%%%%%%%%%%%%%%%ExecuteReceiveTask : recv : " + sb.toString());
     	        		mqProducer.sendResponse(java.util.UUID.randomUUID().toString(), sb.toString());
     	        	}
     	        }catch (Exception e){
