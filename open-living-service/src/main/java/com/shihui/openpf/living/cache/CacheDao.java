@@ -129,7 +129,8 @@ public class CacheDao {
 	//
 	private static final String USER_HOME_PREFIX = CACHE_PREFIX + "user_home" + Constants.REDIS_KEY_SEPARATOR;
 	private static final String FIELD_HOME = "home";
-	private static final int EXPIRE_USER = 60*60;
+	@Value("${expire_user}")
+	private int EXPIRE_USER = 60*60;
 	public void setUserHome(long userId, String value) {
 		hset(USER_HOME_PREFIX + userId, FIELD_HOME, value, EXPIRE_USER);
 	}
