@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Repository;
 
+import org.springframework.beans.factory.annotation.Value;
 import com.alibaba.fastjson.JSON;
 import com.shihui.openpf.common.tools.Constants;
 import com.shihui.openpf.common.tools.StringUtil;
@@ -42,7 +43,8 @@ public class CacheDao {
     private ShardedJedisPool jedisPool;
 
     //
-    private static final int EXPIRE_SYS = 4*60*60;
+    @Value("${expire_sys}")
+    private int EXPIRE_SYS = 3*60;//4*60*60;
 	//
 	private static final String BANNERADS = CACHE_PREFIX + "bannerAds";
 	//
