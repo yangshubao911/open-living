@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.shihui.api.core.auth.Access;
 import com.shihui.api.core.auth.Access.AccessType;
 import com.shihui.openpf.living.entity.Goods;
@@ -133,7 +134,9 @@ public class GoodsController {
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
 	public Object list(@RequestParam(name = "categoryId", required = true) int categoryId) {
-		return JSON.toJSON(goodsService.list(categoryId));
+		JSONObject jo = new JSONObject();
+		jo.put("goods", goodsService.list(categoryId));
+		return jo;
 	}
 
 
