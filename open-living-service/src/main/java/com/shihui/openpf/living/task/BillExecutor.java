@@ -1,6 +1,7 @@
 package com.shihui.openpf.living.task;
 
 import java.nio.channels.ClosedChannelException;
+import java.util.concurrent.ExecutionException;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -102,7 +103,7 @@ public class BillExecutor {
     		//
     		guangdaResponse.doReqKey();
     		//
-            while(!Thread.currentThread().isInterrupted()) {
+            while(!Thread.currentThread().isInterrupted() && serverAIO.isOpen()) {
             	ApiLogger.info("ExecuteResponseListenTask : run() : accepting...");
             	try {
             		AsynchronousSocketChannel channel = serverAIO.accept();
@@ -111,11 +112,7 @@ public class BillExecutor {
 	            		ExecuteReceiveTask ert = new ExecuteReceiveTask(channel);
 	            		RESPONSE_EXECUTOR_SERVICE.submit(ert);
             		}
-            	}catch(ClosedChannelException e) {
-        			ApiLogger.info("!!!ExecuteResponseListenTask : run() : ClosedChannelException : " + e.getMessage());
-        			break;
             	}catch(Exception e) {
-            		ApiLogger.info("!!!ExecuteResponseListenTask : run() : Exception  : " + e.getClass().getName());
         			ApiLogger.info("!!!ExecuteResponseListenTask : run() : Exception  : " + e.getMessage());
         		}
 

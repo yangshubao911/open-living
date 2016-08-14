@@ -44,4 +44,7 @@ public class ServerAIO {
 			}
 		}
 	}
+	public boolean isOpen() {
+		return serverChannel != null && serverChannel.isOpen();
+	}
 }
