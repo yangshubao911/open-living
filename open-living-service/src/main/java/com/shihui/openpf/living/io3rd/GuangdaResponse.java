@@ -70,10 +70,10 @@ public class GuangdaResponse {
 	MerchantGoodsDao merchantGoodsDao;
 	
 	
-	@PostConstruct
-	public void init() {
-		//doReqKey();
-	}
+//	@PostConstruct
+//	public void init() {
+//		doReqKey();
+//	}
 
 	private void resPay2Vo(ResPay resPay, OrderBillVo vo) {
 		Bill bill = vo.getBill();
