@@ -156,7 +156,7 @@ public class ClientService {
 	/*
 	 * 
 	 */
-	public Object queryCity(Integer categoryId) {
+	public Object queryCity(Integer serviceId, Integer categoryId) {
 		String info = cacheDao.getCity(categoryId);
 		if(info != null) {
 			ApiLogger.info("Service: queryCity() : info != null : " + info);
@@ -165,6 +165,7 @@ public class ClientService {
 		//
 		JSONObject result = new JSONObject();
 		
+		result.put("serviceId", serviceId);
 		result.put("categoryId", categoryId);
 		
 		List<Goods> goodsList = goodsDao.queryByCategory(categoryId);
@@ -187,7 +188,7 @@ public class ClientService {
 	/*
 	 * 
 	 */
-	public Object queryCompany(Integer serviceId, Integer cityId) {
+	public Object queryCompany(Integer serviceId, Integer categoryId, Integer cityId) {
 		String info = cacheDao.getCompany(serviceId, cityId);
 		if(info != null) {
 			ApiLogger.info("Service: queryCompany() : info != null : " + info);
@@ -197,6 +198,7 @@ public class ClientService {
 		JSONObject result = new JSONObject();
 		
 		result.put("serviceId", serviceId);
+		result.put("categoryId", categoryId);
 		result.put("cityId", cityId);
 		
 		List<Company> companyList = companyDao.queryList(cityId,serviceService.findById(serviceId).getOrderType());

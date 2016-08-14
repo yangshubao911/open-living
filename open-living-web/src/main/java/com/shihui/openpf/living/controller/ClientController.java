@@ -64,12 +64,13 @@ public class ClientController extends BasicController {
 	@ResponseBody
 	@Access(type = AccessType.COMMON)
 	public Object queryCity(
+			@RequestParam(name="serviceId", required = true) Integer serviceId,
 			@RequestParam(name="categoryId", required = true) Integer categoryId) {
 
 		ApiLogger.info("Controller: /v2/openpf/living/app/queryCity : queryCity() : "
 				+ "categoryId: " + categoryId);
 		
-		return clientService.queryCity(categoryId);
+		return clientService.queryCity(serviceId, categoryId);
 	}
 
 	@RequestMapping("/listCompany")
@@ -77,13 +78,14 @@ public class ClientController extends BasicController {
 	@Access(type = AccessType.COMMON)
 	public Object queryCompany(
 			@RequestParam(name="serviceId", required = true) Integer serviceId,
+			@RequestParam(name="categoryId", required = true) Integer categoryId,
 			@RequestParam(name="cityId", required = true) Integer cityId) {
 
 		ApiLogger.info("Controller: /v2/openpf/living/app/queryCompany : queryCompany() : "
 				+ "serviceId: " + serviceId
 				+ "cityId: " + cityId );
 		
-		return clientService.queryCompany(serviceId, cityId);
+		return clientService.queryCompany(serviceId, categoryId, cityId);
 	}
 	/*
 	 * 查询缴费单

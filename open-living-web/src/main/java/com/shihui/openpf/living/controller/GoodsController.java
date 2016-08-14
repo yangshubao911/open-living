@@ -131,7 +131,7 @@ public class GoodsController {
 	
 	@RequestMapping("/list")
 	@ResponseBody
-	@Access(type = AccessType.INTERNAL)
+	@Access(type = AccessType.COMMON)
 	public Object list(@RequestParam(name = "categoryId", required = true) int categoryId) {
 		return JSON.toJSON(goodsService.list(categoryId));
 	}
