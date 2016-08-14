@@ -117,7 +117,6 @@ public class BillExecutor {
             	}catch(Exception e) {
             		ApiLogger.info("!!!ExecuteResponseListenTask : run() : Exception  : " + e.getClass().getName());
         			ApiLogger.info("!!!ExecuteResponseListenTask : run() : Exception  : " + e.getMessage());
-        			break;
         		}
 
             }
