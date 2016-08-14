@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "out")
 public class ResPay implements PacketCheck{
 
-	public class Tout {
+	public static class Tout {
 		public String billKey;
 		public String companyId;
 		public String billNo;

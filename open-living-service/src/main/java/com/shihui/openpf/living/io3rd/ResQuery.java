@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 @XmlRootElement(name = "out")
 public class ResQuery implements PacketCheck{
 
-	public class ToutData {
+	public static class ToutData {
 		public String contractNo;
 		public String customerName;
 		public double balance;
@@ -21,7 +21,7 @@ public class ResQuery implements PacketCheck{
 		public String field5;
 	}
 
-	public class Tout {
+	public static class Tout {
 		public String billKey;
 		public String companyId;
 		public String item1;

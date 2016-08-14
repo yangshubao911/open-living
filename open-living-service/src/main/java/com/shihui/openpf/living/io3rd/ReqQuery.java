@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="in")
 public class ReqQuery {
 
-	public class Tin {
+	public static  class Tin {
 		
 		public String billKey;
 		public String companyId;

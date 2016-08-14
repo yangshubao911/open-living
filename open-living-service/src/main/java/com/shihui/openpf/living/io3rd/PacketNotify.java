@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "in")
 public class PacketNotify {
 
-	public class Tin {
+	public static class Tin {
 		public String date;
 		public String fileName;
 		public String signDate;

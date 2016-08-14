@@ -47,7 +47,9 @@ public class RechargeRequestConsumer implements Consumer {
 				if ((reqPay = JSONObject.parseObject(msg,ReqPay.class)) == null)
 					return true;
 	
-				return guangdaDao.sendRequest(reqPay);
+				boolean b = guangdaDao.sendRequest(reqPay);
+				ApiLogger.info("### guangdaDao.sendRequest(reqPay) = " + b);
+				return b;
 			}
 			
 		} catch (Exception e) {

@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="out")
 public class ResKey implements PacketCheck {
 
-	public class Tout {
+	public static class Tout {
 		public String partnerCode; // Char(3)
 		public String returnCode;
 		public String errorDescription;

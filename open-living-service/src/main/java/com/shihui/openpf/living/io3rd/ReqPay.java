@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "in")
 public class ReqPay {
 
-	public class Tin {
+	public static class Tin {
 		public String billKey;
 		public String companyId;
 		public String billNo;

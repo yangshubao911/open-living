@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "out")
 public class PacketError {
 
-	public class Tout {
+	public static class Tout {
 		public String errorCode;
 		public String errorMessage;
 		public String errorDetail;
