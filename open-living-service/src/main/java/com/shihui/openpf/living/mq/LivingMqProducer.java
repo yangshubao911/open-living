@@ -13,7 +13,6 @@ import com.shihui.commons.ApiLogger;
 @Component
 public class LivingMqProducer {
 
-	public static final String KEY_KEY = "key";
 	public static final String TAG_QUERY_REQUEST ="query_request";
 	public static final String TAG_RECHARGE_REQUEST = "recharge_request";
 	public static final String TAG_RESPONSE = "recharge";
@@ -29,9 +28,9 @@ public class LivingMqProducer {
 		ApiLogger.info("LivingMqProducer: sendRechargeRequest() : key: [" + key + "] value: " + value);
 		return producer.send(Topic.Open_Living_Guangda, key, TAG_RECHARGE_REQUEST,  value);
 	}
-	public boolean sendKeyRequest(String value) {
-		ApiLogger.info("LivingMqProducer: sendKeyRequest() : value: " + value);
-		return producer.send(Topic.Open_Living_Guangda, KEY_KEY, TAG_RECHARGE_REQUEST,  value);
+	public boolean sendKeyRequest(String key, String value) {
+		ApiLogger.info("LivingMqProducer: sendKeyRequest() : key: [" + key + "] value: " + value);
+		return producer.send(Topic.Open_Living_Guangda, key, TAG_RECHARGE_REQUEST,  value);
 	}
 	
 	public boolean sendResponse(String key, String value) {

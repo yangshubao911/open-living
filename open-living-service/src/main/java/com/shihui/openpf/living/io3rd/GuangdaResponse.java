@@ -317,7 +317,7 @@ public class GuangdaResponse {
     	ApiLogger.info(">>>GuangdaResponse doReqKey()");
     	if(cacheDao.checkKeyDateExpired() && cacheDao.lockKey()) {
 	    	ReqKey reqKey = ReqKey.instance(LivingUtil.getKeyTrmSeqNum());
-	    	mqProducer.sendKeyRequest(JSON.toJSONString(reqKey));
+	    	mqProducer.sendKeyRequest(reqKey.head.TrmSeqNum, JSON.toJSONString(reqKey));
 	    	ApiLogger.info("OK: GuangdaResponse : doReqKey()");
     	}
     	ApiLogger.info("<<<GuangdaResponse : doReqKey()");
