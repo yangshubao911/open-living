@@ -7,7 +7,7 @@ import java.util.Date;
 @XmlRootElement(name="in")
 public class ReqKey {
 
-	public class Tin {
+	public static  class Tin {
 		public String partnerCode = "727"; // Char(3)
 		public String operationDate; // YYYYMMDD
 	}
