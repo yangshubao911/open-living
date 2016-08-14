@@ -115,7 +115,9 @@ public class BillExecutor {
         			ApiLogger.info("!!!ExecuteResponseListenTask : run() : ClosedChannelException : " + e.getMessage());
         			break;
             	}catch(Exception e) {
+            		ApiLogger.info("!!!ExecuteResponseListenTask : run() : Exception  : " + e.getClass().getName());
         			ApiLogger.info("!!!ExecuteResponseListenTask : run() : Exception  : " + e.getMessage());
+        			break;
         		}
 
             }
