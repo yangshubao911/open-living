@@ -60,7 +60,7 @@ public class ClientController extends BasicController {
 		return clientService.homepage(userId,cityId, historyOrderCount);
 	}
 
-	@RequestMapping("/queryCity")
+	@RequestMapping("/listCity")
 	@ResponseBody
 	@Access(type = AccessType.COMMON)
 	public Object queryCity(
@@ -72,7 +72,7 @@ public class ClientController extends BasicController {
 		return clientService.queryCity(categoryId);
 	}
 
-	@RequestMapping("/queryCompany")
+	@RequestMapping("/listCompany")
 	@ResponseBody
 	@Access(type = AccessType.COMMON)
 	public Object queryCompany(
