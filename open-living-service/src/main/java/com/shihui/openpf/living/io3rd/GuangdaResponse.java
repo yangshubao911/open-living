@@ -72,7 +72,7 @@ public class GuangdaResponse {
 	
 	@PostConstruct
 	public void init() {
-		doReqKey();
+		//doReqKey();
 	}
 
 	private void resPay2Vo(ResPay resPay, OrderBillVo vo) {

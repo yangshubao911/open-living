@@ -41,10 +41,10 @@ public class BillExecutor {
 
     private ExecuteResponseListenTask RESPONSE_LISTEN_TASK = new ExecuteResponseListenTask();
     
-	@Value("${guangda_destination_host_ip}")
-	private String remoteIp;
-	@Value("${guangda_destination_host_port}")
-	private int remotePort;
+//	@Value("${guangda_destination_host_ip}")
+//	private String remoteIp;
+//	@Value("${guangda_destination_host_port}")
+//	private int remotePort;
 
 	@Value("${response_host_port}")
 	private int responsePort;    
@@ -104,9 +104,9 @@ public class BillExecutor {
         public void run() {
         	
     		ApiLogger.info(">>>ExecuteResponseListenTask RUNNING");
-                        
+    		guangdaResponse.doReqKey();
             while(!Thread.currentThread().isInterrupted()) {
-
+            	ApiLogger.info("ExecuteResponseListenTask : run() : accepting...");
             	try {
             		AsynchronousSocketChannel channel = serverAIO.accept();
             		if(channel != null) {
