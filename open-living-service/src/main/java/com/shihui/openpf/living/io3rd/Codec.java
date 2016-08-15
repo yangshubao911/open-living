@@ -21,11 +21,11 @@ public class Codec {
 	}
 	
 	private static String genMac(String xml) throws Exception {
-		byte[] ba = xml.getBytes();
+		byte[] ba = xml.getBytes("GBK");
 		String bcd = new String(ba);
 		String mac;
 		synchronized(LOCK) {
-			mac = SoftEnc.GenMac(SoftEnc.asctobcd(bcd, ba.length).getBytes("GBK"));
+			mac = SoftEnc.GenMac(SoftEnc.asctobcd(bcd, ba.length).getBytes());
 		}
 		return mac;
 		
