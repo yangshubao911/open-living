@@ -37,7 +37,7 @@ public class OrderController {
 	@Resource
 	OrderManage orderManage;
 
-	@RequestMapping("/search")
+	@RequestMapping("/list")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
 	public Object listById(

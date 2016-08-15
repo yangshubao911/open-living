@@ -160,10 +160,11 @@ public class GoodsController {
 	@RequestMapping("/detail")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public Object detail(@RequestParam(required = true)Integer id) {
+	public Object detail(
+			@RequestParam(name = "goodsId", required = true)Integer goodsId) {
 
 		JSONObject jo = new JSONObject();
-		jo.put("goods", goodsService.findById(id));
+		jo.put("goods", goodsService.findById(goodsId));
 		return jo;
 	}
 	
