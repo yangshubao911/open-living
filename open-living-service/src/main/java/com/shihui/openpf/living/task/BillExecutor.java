@@ -167,13 +167,14 @@ public class BillExecutor {
 	    	ApiLogger.info(">>>ExecuteAnalysePacketTask RUNNING");
 	        try {
 				String xml = Codec.decode(packet);
+				ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : xml =[" + xml + "]");
 				Object object = FastXML.xmlToBean(xml, ResKey.class, ResQuery.class, ResPay.class, PacketNotify.class, PacketError.class);
 				if( object == null ) 
-					ApiLogger.info("!!!ExecuteAnalysePacketTask Exception : run() : object == null \n");
+					ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : object == null \n");
 				else {
     				PacketCheck pc = (PacketCheck)object;
     				if(!pc.check())
-    					ApiLogger.info("!!!ExecuteAnalysePacketTask Exception : run() : !pc.check() \n");
+    					ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : !pc.check() \n");
     				else {
     					if(ResPay.class.isInstance(object))
     						guangdaResponse.doResPay((ResPay)object);
