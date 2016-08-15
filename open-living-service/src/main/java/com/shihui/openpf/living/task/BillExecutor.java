@@ -1,7 +1,5 @@
 package com.shihui.openpf.living.task;
 
-import java.nio.channels.ClosedChannelException;
-import java.util.concurrent.ExecutionException;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

@@ -115,37 +115,40 @@ public class BillTask {
 		ApiLogger.info("BillTask: billCheckNotify() : check() : start");
 
 		for(CheckItem ci : checkList) {
-//			Bill bill = billDao.findByBillNo(ci.getBillNo());
-//			Order order = orderDao.findById(bill.getOrderId());
-			long orderId = billDao.getOrderIdByBillNo(ci.getBillNo());
-			if( orderId == -1L) {
-				ApiLogger.info("BillTask : check() : orderId == -1L [" + ci.getBillNo() + "] ");
-				continue;
-			}
-			
-			OrderBillVo obvo = cacheDao.getOrderBillVo(orderId);
-			Bill bill = obvo.getBill();
-			Order order = obvo.getOrder();
-			//
-			Goods goods = cacheDao.getGoods(bill.getCategoryId(), order.getGoodsId());
-			if( goods == null) {
-				goods = goodsDao.findById(order.getGoodsId());
-				cacheDao.setGoods(bill.getCategoryId(), order.getGoodsId(), goods);
-			}
-			Merchant merchant = cacheDao.getMerchant(order.getMerchantId());
-			if(merchant == null) {
-				merchant = merchantManage.getById(order.getMerchantId());
-				cacheDao.setMerchant(merchant.getMerchantId(), merchant);
-			}
-
-	        JSONObject settlementJson = new JSONObject();
-	        settlementJson.put("settlePrice", StringUtil.yuan2hao(goods.getPrice()));
-	        settlementJson.put("settleMerchantId", merchant.getMerchantCode());
+			try {
+//				Bill bill = billDao.findByBillNo(ci.getBillNo());
+//				Order order = orderDao.findById(bill.getOrderId());
+				long orderId = billDao.getOrderIdByBillNo(ci.getBillNo());
+				if( orderId == -1L) {
+					ApiLogger.info("BillTask : check() : orderId == -1L [" + ci.getBillNo() + "] ");
+					continue;
+				}
+				
+				OrderBillVo obvo = cacheDao.getOrderBillVo(orderId);
+				Bill bill = obvo.getBill();
+				Order order = obvo.getOrder();
+				//
+				Goods goods = cacheDao.getGoods(bill.getCategoryId(), order.getGoodsId());
+				if( goods == null) {
+					goods = goodsDao.findById(order.getGoodsId());
+					cacheDao.setGoods(bill.getCategoryId(), order.getGoodsId(), goods);
+				}
+				Merchant merchant = cacheDao.getMerchant(order.getMerchantId());
+				if(merchant == null) {
+					merchant = merchantManage.getById(order.getMerchantId());
+					cacheDao.setMerchant(merchant.getMerchantId(), merchant);
+				}
 	
-	        boolean payorderchange = orderSystemService.complete(order.getOrderId(), order.getGoodsId(),
-	   			 settlementJson.toJSONString(), com.shihui.api.order.common.enums.OrderStatusEnum.OrderUnStockOut.getValue() );
-
-	        ApiLogger.info("BillTask : check() : SUCCESS : billNO: [" + ci.getBillNo() + "] " + payorderchange);
+		        JSONObject settlementJson = new JSONObject();
+		        settlementJson.put("settlePrice", StringUtil.yuan2hao(goods.getPrice()));
+		        settlementJson.put("settleMerchantId", merchant.getMerchantCode());
+		
+		        boolean payorderchange = orderSystemService.complete(order.getOrderId(), order.getGoodsId(),
+		   			 settlementJson.toJSONString(), com.shihui.api.order.common.enums.OrderStatusEnum.OrderUnStockOut.getValue() );
+		        ApiLogger.info("BillTask : check() : SUCCESS : billNO: [" + ci.getBillNo() + "] " + payorderchange);
+			} catch(Exception e) {
+		        ApiLogger.info("BillTask : check() : Exception : billNO: [" + ci.getBillNo() + "] msg: " +e.getMessage());
+			}
 		}
 		ApiLogger.info("BillTask: billCheckNotify() : check() : end");
 	}
@@ -153,40 +156,44 @@ public class BillTask {
 		ApiLogger.info("BillTask: billCheckNotify() : refunde() : start");
 
 		for(RefundeItem ri : refundeList) {
-//			Bill bill = billDao.findByBillNo(ri.getBillNo());
-//			long orderId = bill.getOrderId();
-//			Order order = orderDao.findById(orderId);
-			long orderId = billDao.getOrderIdByBillNo(ri.getBillNo());
-			if( orderId == -1L) {
-				ApiLogger.info("BillTask : refunde() : orderId == -1L [" + ri.getBillNo() + "] ");
-				continue;
+			try {
+//				Bill bill = billDao.findByBillNo(ri.getBillNo());
+//				long orderId = bill.getOrderId();
+//				Order order = orderDao.findById(orderId);
+				long orderId = billDao.getOrderIdByBillNo(ri.getBillNo());
+				if( orderId == -1L) {
+					ApiLogger.info("BillTask : refunde() : orderId == -1L [" + ri.getBillNo() + "] ");
+					continue;
+				}
+				
+				OrderBillVo obvo = cacheDao.getOrderBillVo(orderId);
+//				Bill bill = obvo.getBill();
+				Order order = obvo.getOrder();
+				//
+				//
+		        MerchantCancelParam var = new MerchantCancelParam();
+				Merchant merchant = cacheDao.getMerchant(order.getMerchantId());
+				if(merchant == null) {
+					merchant = merchantManage.getById(order.getMerchantId());
+					cacheDao.setMerchant(merchant.getMerchantId(), merchant);
+				}
+		        var.setMerchantId(merchant.getMerchantCode());
+		        var.setIsReturnShihui(1);
+		        var.setIsNeedReview(2);
+		        var.setRemark("生活缴费退款");
+		        var.setOrderId(orderId);
+		        var.setOrderStatus(com.shihui.api.order.common.enums.OrderStatusEnum.OrderUnStockOut);
+		        var.setPrice(StringUtil.yuan2hao(order.getPay()));
+		        var.setReason("缴费失败");
+		
+		        if (orderSystemService.merchantCancelOrder(var)) {
+		            ApiLogger.info("OK : BillTask : refunde() : orderSystemService.merchantCancelOrder : [true ] : orderId: [" + orderId + "] billNo: " + ri.getBillNo());
+		        } else {
+		        	ApiLogger.info("ERR: BillTask : refunde() : orderSystemService.merchantCancelOrder : [false] : orderId: [" + orderId + "] billNo: " + ri.getBillNo());
+		        }
+			} catch(Exception e) {
+				ApiLogger.info("BillTask : refunde() : Exception : billNO: [" + ri.getBillNo() + "] msg: " +e.getMessage());
 			}
-			
-			OrderBillVo obvo = cacheDao.getOrderBillVo(orderId);
-//			Bill bill = obvo.getBill();
-			Order order = obvo.getOrder();
-			//
-			//
-	        MerchantCancelParam var = new MerchantCancelParam();
-			Merchant merchant = cacheDao.getMerchant(order.getMerchantId());
-			if(merchant == null) {
-				merchant = merchantManage.getById(order.getMerchantId());
-				cacheDao.setMerchant(merchant.getMerchantId(), merchant);
-			}
-	        var.setMerchantId(merchant.getMerchantCode());
-	        var.setIsReturnShihui(1);
-	        var.setIsNeedReview(2);
-	        var.setRemark("生活缴费退款");
-	        var.setOrderId(orderId);
-	        var.setOrderStatus(com.shihui.api.order.common.enums.OrderStatusEnum.OrderUnStockOut);
-	        var.setPrice(StringUtil.yuan2hao(order.getPay()));
-	        var.setReason("缴费失败");
-	
-	        if (orderSystemService.merchantCancelOrder(var)) {
-	            ApiLogger.info("OK : BillTask : refunde() : orderSystemService.merchantCancelOrder : [true ] : orderId: [" + orderId + "] billNo: " + ri.getBillNo());
-	        } else {
-	        	ApiLogger.info("ERR: BillTask : refunde() : orderSystemService.merchantCancelOrder : [false] : orderId: [" + orderId + "] billNo: " + ri.getBillNo());
-	        }
 		}
 		ApiLogger.info("BillTask: billCheckNotify() : refunde() : end");
 	}
@@ -195,6 +202,7 @@ public class BillTask {
 		ApiLogger.info("BillTask : completeRestOrder() : start : orderList != null : " + (orderList != null));
 		if(orderList != null && orderList.size() > 0) {
 			for(Order order : orderList) {
+				try {
 				long orderId = order.getOrderId();
 //				Bill bill = billDao.findById(orderId);
 				ApiLogger.info("BillTask : completeRestOrder() : [" + orderId + "]");
@@ -219,6 +227,9 @@ public class BillTask {
 		        } else {
 		        	ApiLogger.info("OK : BillTask : completeRestOrder() : orderSystemService.merchantCancelOrder : [false] : orderId: [" + orderId + "]");
 		        }
+				} catch(Exception e) {
+					ApiLogger.info("BillTask : completeRestOrder() : Exception : orderId: [" + order.getOrderId() + "] msg: " +e.getMessage());
+				}
 			}
 		}
 		ApiLogger.info("BillTask : completeRestOrder() : end");
