@@ -179,6 +179,7 @@ public class BillExecutor {
     				if(!pc.check())
     					ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : !pc.check() \n");
     				else {
+    					ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : pc.check() : start");
     					String ansTranCode = ((ResHead)object).head.AnsTranCode;
     					if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_PAY) == 0)
     						guangdaResponse.doResPay((ResPay)FastXML.xmlToBean(xml, ResPay.class));
@@ -195,10 +196,11 @@ public class BillExecutor {
 							guangdaResponse.doResKey((ResKey)FastXML.xmlToBean(xml, ResKey.class));
 						else 
 							ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : " + ansTranCode);
+    					ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : pc.check() : start");
     				}
     			}
 	        }catch (Exception e){
-	        	ApiLogger.info("!!!ExecuteAnalysePacketTask Exception : run() : " + e.getMessage());
+	        	ApiLogger.info("!!!ExecuteAnalysePacketTask Exception : run() :: " + e.getMessage());
 	        }
 	        ApiLogger.info("<<<ExecuteAnalysePacketTask STOP");
 	    }
