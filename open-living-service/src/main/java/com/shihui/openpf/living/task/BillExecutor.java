@@ -184,8 +184,11 @@ public class BillExecutor {
     						guangdaResponse.doResPay((ResPay)FastXML.xmlToBean(xml, ResPay.class));
     					else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_QUERY) == 0)
     						guangdaResponse.doResQuery((ResQuery)FastXML.xmlToBean(xml, ResQuery.class));
-						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_ERROR) == 0)
+						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_ERROR) == 0){
+							ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : doPacketError : start");
 							guangdaResponse.doPacketError((PacketError)FastXML.xmlToBean(xml, PacketError.class));
+							ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : doPacketError : end");
+						}
 						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_NOTIFY) == 0)
 							guangdaResponse.doPacketNotify((PacketNotify)FastXML.xmlToBean(xml, PacketNotify.class));
 						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_KEY) == 0)
