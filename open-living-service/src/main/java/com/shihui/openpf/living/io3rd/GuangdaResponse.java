@@ -297,20 +297,26 @@ public class GuangdaResponse {
     
     public void doResKey(ResKey resKey) {
     	ApiLogger.info(">>>GuangdaResponse doResKey()");
-    	for(int i=0; i< 3; i++) {
-	    	try {
-	    		Codec.writeKey(resKey.tout.keyValue, resKey.tout.verifyValue, resKey.tout.keyValue1, resKey.tout.verifyValue1);
-	    		cacheDao.setKeyDate();
-	    		ApiLogger.info("OK: GuangdaResponse doResKey() : OK");
-	    		return;
-	    	}catch(Exception e) {
-	    		ApiLogger.info("ERR: GuangdaResponse Exception : doResKey() : " + e.getMessage());
-	    	}
-	    	try {
-	    		Thread.sleep(3000);
-	    	}catch(Exception e) {
+    	synchronized(this) {
+	    	if(cacheDao.checkKeyDateExpired()) {
+	    		ApiLogger.info("GuangdaResponse : doResKey() : cacheDao.checkKeyDateExpired() == true");
+		    	for(int i=0; i< 3; i++) {
+			    	try {
+			    		Codec.writeKey(resKey.tout.keyValue, resKey.tout.verifyValue, resKey.tout.keyValue1, resKey.tout.verifyValue1);
+			    		cacheDao.setKeyDate();
+			    		ApiLogger.info("OK: GuangdaResponse doResKey() : OK");
+			    		return;
+			    	}catch(Exception e) {
+			    		ApiLogger.info("ERR: GuangdaResponse Exception : doResKey() : " + e.getMessage());
+			    	}
+			    	try {
+			    		Thread.sleep(3000);
+			    	}catch(Exception e) {
+			    	}
+		    	}
 	    	}
     	}
+    	ApiLogger.info("<<<GuangdaResponse doResKey()");
     }
 
     public void doReqKey() {  
