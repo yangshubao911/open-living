@@ -29,9 +29,11 @@ import com.shihui.openpf.living.entity.support.OrderBillVo;
 import com.shihui.openpf.living.io3rd.CheckFile;
 import com.shihui.openpf.living.io3rd.CheckItem;
 import com.shihui.openpf.living.io3rd.CheckRefundeVo;
+import com.shihui.openpf.living.io3rd.Codec;
 import com.shihui.openpf.living.io3rd.GuangdaResponse;
 import com.shihui.openpf.living.io3rd.RefundeFile;
 import com.shihui.openpf.living.io3rd.RefundeItem;
+import com.shihui.openpf.living.io3rd.ResKey;
 import com.shihui.openpf.living.service.OrderSystemService;
 import com.shihui.openpf.living.util.FTPUtil;
 
@@ -108,6 +110,26 @@ public class BillTask {
 			
 			completeRestOrder();
 		}
+		
+		//
+		
+		while(!Thread.currentThread().isInterrupted()) {
+			try {
+	    		Thread.sleep(3000);
+	    	}catch(Exception e) {
+	    	}
+			if(!cacheDao.checkKeyDateExpired()) {
+				ResKey resKey = cacheDao.getResKey();
+				if(resKey != null) {
+					try {
+						Codec.writeKey(resKey.tout.keyValue, resKey.tout.verifyValue, resKey.tout.keyValue1, resKey.tout.verifyValue1);
+					} catch(Exception e) {
+						ApiLogger.info("!!!BillTask : billCheckNotify() : Codec.writeKey() : " + e.getMessage());
+					}
+				}
+			}
+		}
+
 		ApiLogger.info("BillTask: billCheckNotify() : end");
 	}
 
