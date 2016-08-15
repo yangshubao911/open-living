@@ -24,7 +24,7 @@ public class ResponseConsumer implements Consumer {
 
 	@Override
 	public boolean doit(String topic, String tags, String key, String msg) {
-		ApiLogger.info("QueryRequestConsumer : topic[" + topic + "] tags[" + tags + "] key[" + key + "] msg=" + msg);
+		ApiLogger.info("ResponseConsumer : topic[" + topic + "] tags[" + tags + "] key[" + key + "] msg=" + msg);
 		
 		try {			
 			if (msg == null)
@@ -33,7 +33,7 @@ public class ResponseConsumer implements Consumer {
 			return billExecutor.newExecuteAnalysePacketTask(msg);
 			
 		} catch (Exception e) {
-			ApiLogger.info("QueryRequestConsumer : Exception : " + e.getMessage());
+			ApiLogger.info("ResponseConsumer : Exception : " + e.getMessage());
 		}
 
 		return false;

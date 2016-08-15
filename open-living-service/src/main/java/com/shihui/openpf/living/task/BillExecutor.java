@@ -186,7 +186,7 @@ public class BillExecutor {
 						else if(ResKey.class.isInstance(object))
 							guangdaResponse.doResKey((ResKey)object);
 						else 
-							ApiLogger.info("!!!ExecuteAnalysePacketTask Exception : run() : object.getClass() == ? \n");
+							ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : object.getClass() = " + object.getClass().getName());
     				}
     			}
 	        }catch (Exception e){
