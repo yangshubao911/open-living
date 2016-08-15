@@ -175,15 +175,15 @@ public class BillExecutor {
     				if(!pc.check())
     					ApiLogger.info("!!!ExecuteAnalysePacketTask Exception : run() : !pc.check() \n");
     				else {
-    					if(object.getClass() == ResPay.class)
+    					if(ResPay.class.isInstance(object))
     						guangdaResponse.doResPay((ResPay)object);
-    					else if(object.getClass() == ResQuery.class)
+    					else if(ResQuery.class.isInstance(object))
     						guangdaResponse.doResQuery((ResQuery)object);
-						else if(object.getClass() == PacketError.class)
+						else if(PacketError.class.isInstance(object))
 							guangdaResponse.doPacketError((PacketError)object);
-						else if(object.getClass() == PacketNotify.class)
+						else if(PacketNotify.class.isInstance(object))
 							guangdaResponse.doPacketNotify((PacketNotify)object);
-						else if(object.getClass() == ResKey.class)
+						else if(ResKey.class.isInstance(object))
 							guangdaResponse.doResKey((ResKey)object);
 						else 
 							ApiLogger.info("!!!ExecuteAnalysePacketTask Exception : run() : object.getClass() == ? \n");
