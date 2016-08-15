@@ -25,7 +25,7 @@ public class Codec {
 		String bcd = new String(ba);
 		String mac;
 		synchronized(LOCK) {
-			mac = SoftEnc.GenMac(SoftEnc.asctobcd(bcd, ba.length).getBytes());
+			mac = SoftEnc.GenMac(SoftEnc.asctobcd(bcd, ba.length).getBytes("GBK"));
 		}
 		return mac;
 		
