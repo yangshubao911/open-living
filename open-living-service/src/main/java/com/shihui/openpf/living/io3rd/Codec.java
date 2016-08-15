@@ -20,16 +20,28 @@ public class Codec {
 		}
 	}
 	
+//	private static String genMac(String xml) throws Exception {
+//		byte[] ba = xml.getBytes("GBK");
+//		String bcd = new String(ba);
+//		String mac;
+//		synchronized(LOCK) {
+//			mac = SoftEnc.GenMac(SoftEnc.asctobcd(bcd, ba.length).getBytes());
+//		}
+//		return mac;
+//		
+//	}
+//TODO ??
 	private static String genMac(String xml) throws Exception {
-		byte[] ba = xml.getBytes("GBK");
-		String bcd = new String(ba);
+		//byte[] ba = xml.getBytes("GBK");
+		//String bcd = new String(ba);
 		String mac;
 		synchronized(LOCK) {
-			mac = SoftEnc.GenMac(SoftEnc.asctobcd(bcd, ba.length).getBytes());
+			mac = SoftEnc.GenMac(SoftEnc.asctobcd(xml, xml.length()).getBytes());
 		}
 		return mac;
 		
 	}
+
 	public static  String encodeNoMac(String xml) throws Exception {
 			String head =  String.format("%06d", xml.length());
 			return head + xml;
