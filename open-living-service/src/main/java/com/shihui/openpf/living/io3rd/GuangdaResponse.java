@@ -77,6 +77,7 @@ public class GuangdaResponse {
     public void init() {
 		try {
 			Codec.init(cebendPath);
+			ApiLogger.info("GuangdaResponse : init() : Codec.init(cebendPath) : OK");
 		}catch(Exception e) {
 			ApiLogger.info("!!!GuangdaResponse : init() : " + e.getMessage());
 		}
