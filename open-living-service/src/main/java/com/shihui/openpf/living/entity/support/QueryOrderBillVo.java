@@ -14,6 +14,7 @@ public class QueryOrderBillVo {
 	private String tempId;
 //	private int categoryId;
 	private String companyNo;
+	private String shGold;
 
 	private Order order;
 	private Bill bill;
@@ -116,6 +117,14 @@ public class QueryOrderBillVo {
 
 	public void setCompanyNo(String companyNo) {
 		this.companyNo = companyNo;
+	}
+
+	public String getShGold() {
+		return shGold;
+	}
+
+	public void setShGold(String shGold) {
+		this.shGold = shGold;
 	}
 
 }

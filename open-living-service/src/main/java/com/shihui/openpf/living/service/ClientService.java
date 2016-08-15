@@ -357,7 +357,9 @@ public class ClientService {
 			t = t.min(bdOffSetMax);
 		
 		long balance = accountDubbo.getUserSHGlodAmount(order.getUserId());
-		t =  balance > 0 ? (new BigDecimal(balance).divide(new BigDecimal("10000")).compareTo(t) >= 0 
+		BigDecimal bdBalance = new BigDecimal(balance).divide(new BigDecimal("10000"));
+		vo.setShGold(bdBalance.toString());
+		t =  balance > 0 ? (bdBalance.compareTo(t) >= 0 
 				? t : bdZero)
 				: bdZero;		
 
@@ -394,6 +396,7 @@ public class ClientService {
 			calculateOffSet(vo);
 			result.put("shOffSet", order.getShOffSet());
 			result.put("pay", order.getPay());
+			result.put("shGold", vo.getShGold());
 			//
 			result.put("price", order.getPrice());
 
