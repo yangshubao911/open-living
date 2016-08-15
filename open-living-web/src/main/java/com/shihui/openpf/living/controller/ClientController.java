@@ -90,7 +90,7 @@ public class ClientController extends BasicController {
 	/*
 	 * 查询缴费单
 	 */
-	@RequestMapping("/queryFee")
+	@RequestMapping("/queryBill")
 	@ResponseBody
 	@Access(type = AccessType.COMMON)
 	public Object queryFee(

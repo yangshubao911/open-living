@@ -37,7 +37,7 @@ public class Codec {
 
 	public static String encode(String xml) throws Exception {
 		String mac = genMac(xml);
-		String head = String.format("%06d", xml.length());
+		String head = String.format("%06d", xml.length() + mac.length());
 		return head + xml + mac;
 	}
 	
