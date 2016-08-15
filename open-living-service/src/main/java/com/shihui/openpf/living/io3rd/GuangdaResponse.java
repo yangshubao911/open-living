@@ -37,6 +37,7 @@ import com.shihui.openpf.living.util.SimpleResponse;
 import com.shihui.openpf.common.model.Merchant;
 import com.shihui.openpf.living.entity.MerchantGoods;
 import com.shihui.openpf.living.dao.MerchantGoodsDao;
+import org.springframework.beans.factory.annotation.Value;
 
 //import me.weimi.api.commons.util.ApiLogger;
 import com.shihui.commons.ApiLogger;
@@ -68,6 +69,18 @@ public class GuangdaResponse {
 	GroupManage groupManage;
 	@Resource
 	MerchantGoodsDao merchantGoodsDao;
+	
+	@Value("${cebenc_path}")
+	String cebendPath;
+	
+	@PostConstruct
+    public void init() {
+		try {
+			Codec.init(cebendPath);
+		}catch(Exception e) {
+			ApiLogger.info("!!!GuangdaResponse : init() : " + e.getMessage());
+		}
+	}
 	
 	private void resPay2Vo(ResPay resPay, OrderBillVo vo) {
 		Bill bill = vo.getBill();
