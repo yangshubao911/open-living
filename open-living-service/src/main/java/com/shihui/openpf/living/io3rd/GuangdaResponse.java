@@ -77,6 +77,10 @@ public class GuangdaResponse {
     public void init() {
 		try {
 			Codec.init(cebendPath);
+			ResKey resKey = cacheDao.getResKey();
+			if(resKey != null) {
+				Codec.writeKey(resKey.tout.keyValue, resKey.tout.verifyValue, resKey.tout.keyValue1, resKey.tout.verifyValue1);
+			}
 			ApiLogger.info("GuangdaResponse : init() : Codec.init(cebendPath) : OK");
 		}catch(Exception e) {
 			ApiLogger.info("!!!GuangdaResponse : init() : " + e.getMessage());
@@ -317,6 +321,7 @@ public class GuangdaResponse {
 		    	for(int i=0; i< 3; i++) {
 			    	try {
 			    		Codec.writeKey(resKey.tout.keyValue, resKey.tout.verifyValue, resKey.tout.keyValue1, resKey.tout.verifyValue1);
+			    		cacheDao.setResKey(resKey);
 			    		cacheDao.setKeyDate();
 			    		ApiLogger.info("OK: GuangdaResponse doResKey() : OK");
 			    		return;

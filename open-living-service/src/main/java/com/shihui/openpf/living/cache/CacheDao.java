@@ -28,6 +28,7 @@ import com.shihui.openpf.common.model.Service;
 import com.shihui.openpf.common.model.Group;
 import com.shihui.openpf.common.model.Merchant;
 import com.shihui.openpf.living.entity.MerchantGoods;
+import com.shihui.openpf.living.io3rd.ResKey;
 
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
@@ -138,6 +139,7 @@ public class CacheDao {
 		return hgetString(USER_HOME_PREFIX + userId, FIELD_HOME);
 	}
 	//
+	private static final String KEY_RESKEY = CACHE_PREFIX + "key_ResKey";
 	private static final String KEY_GUANGDA = CACHE_PREFIX + "key_guangda";
 	private static final String KEY_DATE_GUANGDA = CACHE_PREFIX + "key_date_guangda";
 	private static final int EXPIRE_KEY = 90;
@@ -161,6 +163,12 @@ public class CacheDao {
 				
 		}
 		return true;
+	}
+	public void setResKey(ResKey resKey) {
+		set(KEY_RESKEY,resKey);
+	}
+	public ResKey getResKey() {
+		return (ResKey)getObject(KEY_RESKEY, ResKey.class);
 	}
 	//
 	private static final String LIVING_GEN_SERIALNO_PREFIX = CACHE_PREFIX + "serialNo_gen_prefix";
@@ -274,6 +282,12 @@ public class CacheDao {
     	try(ShardedJedis jedis = jedisPool.getResource()){
     		jedis.set(key, value);
     		jedis.expire(key, expire);
+    	}   	
+    }
+
+    private void set(String key, Object object) {
+    	try(ShardedJedis jedis = jedisPool.getResource()){
+    		jedis.set(key, JSON.toJSONString(object));
     	}   	
     }
 
