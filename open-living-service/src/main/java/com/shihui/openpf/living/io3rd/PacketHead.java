@@ -4,7 +4,13 @@ import javax.xml.bind.annotation.XmlElement;
 
 public class PacketHead {
 
-	public static final String INSTID = "100000000000156";
+	public static final String INSTID				= "100000000000156";
+	
+	public static final String ANSTRANCODE_KEY		= "BJCEBRWKRes";
+	public static final String ANSTRANCODE_QUERY	= "BJCEBQBIRes";
+	public static final String ANSTRANCODE_PAY		= "BJCEBBCRe";
+	public static final String ANSTRANCODE_NOTIFY	= "BJCEBBCNotify";
+	public static final String ANSTRANCODE_ERROR	= "Error";
 	
 	@XmlElement(name="Version")
 	public String version = "1.0.1";

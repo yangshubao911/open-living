@@ -19,7 +19,9 @@ import com.shihui.openpf.living.io3rd.FastXML;
 import com.shihui.openpf.living.io3rd.GuangdaResponse;
 import com.shihui.openpf.living.io3rd.PacketCheck;
 import com.shihui.openpf.living.io3rd.PacketError;
+import com.shihui.openpf.living.io3rd.PacketHead;
 import com.shihui.openpf.living.io3rd.PacketNotify;
+import com.shihui.openpf.living.io3rd.ResHead;
 import com.shihui.openpf.living.io3rd.ResKey;
 import com.shihui.openpf.living.io3rd.ResPay;
 import com.shihui.openpf.living.io3rd.ResQuery;
@@ -168,7 +170,8 @@ public class BillExecutor {
 	        try {
 				String xml = Codec.decode(packet);
 				ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : xml =[" + xml + "]");
-				Object object = FastXML.xmlToBean(xml, ResKey.class, ResQuery.class, ResPay.class, PacketNotify.class, PacketError.class);
+				//Object object = FastXML.xmlToBean(xml, ResKey.class, ResQuery.class, ResPay.class, PacketNotify.class, PacketError.class);
+				Object object = FastXML.xmlToBean(xml, ResHead.class);
 				if( object == null ) 
 					ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : object == null \n");
 				else {
@@ -176,18 +179,19 @@ public class BillExecutor {
     				if(!pc.check())
     					ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : !pc.check() \n");
     				else {
-    					if(ResPay.class.isInstance(object))
-    						guangdaResponse.doResPay((ResPay)object);
-    					else if(ResQuery.class.isInstance(object))
-    						guangdaResponse.doResQuery((ResQuery)object);
-						else if(PacketError.class.isInstance(object))
-							guangdaResponse.doPacketError((PacketError)object);
-						else if(PacketNotify.class.isInstance(object))
-							guangdaResponse.doPacketNotify((PacketNotify)object);
-						else if(ResKey.class.isInstance(object))
-							guangdaResponse.doResKey((ResKey)object);
+    					String ansTranCode = ((ResHead)object).head.AnsTranCode;
+    					if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_PAY) == 0)
+    						guangdaResponse.doResPay((ResPay)FastXML.xmlToBean(xml, ResPay.class));
+    					else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_QUERY) == 0)
+    						guangdaResponse.doResQuery((ResQuery)FastXML.xmlToBean(xml, ResQuery.class));
+						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_ERROR) == 0)
+							guangdaResponse.doPacketError((PacketError)FastXML.xmlToBean(xml, PacketError.class));
+						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_NOTIFY) == 0)
+							guangdaResponse.doPacketNotify((PacketNotify)FastXML.xmlToBean(xml, PacketNotify.class));
+						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_KEY) == 0)
+							guangdaResponse.doResKey((ResKey)FastXML.xmlToBean(xml, ResKey.class));
 						else 
-							ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : object.getClass() = " + object.getClass().getName());
+							ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : " + ansTranCode);
     				}
     			}
 	        }catch (Exception e){
