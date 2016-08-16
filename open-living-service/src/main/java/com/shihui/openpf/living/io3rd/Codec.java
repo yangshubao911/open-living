@@ -64,7 +64,7 @@ public class Codec {
 			String body = xml.substring(PREFIX_LENGTH, xml.length() - SUFFIX_LENGTH);
 			ApiLogger.info("Codec : decode() : body =[" + body + "]");
 			String mac = genMac(body);
-			ApiLogger.info("Codec : decode() : mac =[" + mac + "]");
+			ApiLogger.info("Codec : decode() : mac =[" + mac + "] : " + genMac(body));
 			return (mac.compareTo(xml.substring(xml.length() - SUFFIX_LENGTH)) == 0) ? body : null;
 		}
 	}
