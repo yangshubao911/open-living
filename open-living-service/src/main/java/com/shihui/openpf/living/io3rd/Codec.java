@@ -36,7 +36,7 @@ public class Codec {
 	private static String genMac(String xml) throws Exception {
 		String mac;
 		synchronized(LOCK) {
-			mac = SoftEnc.GenMac(xml.getBytes("GB2312"));
+			mac = SoftEnc.GenMac(xml.getBytes());
 		}
 		return mac;
 		
