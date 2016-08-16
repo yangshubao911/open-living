@@ -175,6 +175,7 @@ public class BillExecutor {
 				if( object == null ) 
 					ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : object == null \n");
 				else {
+					ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : pc.check() ready \n");
     				PacketCheck pc = (PacketCheck)object;
     				if(!pc.check())
     					ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : !pc.check() \n");
