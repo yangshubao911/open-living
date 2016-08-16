@@ -58,9 +58,9 @@ public class Codec {
 			return xml.substring(PREFIX_LENGTH);
 		}
 		else {
-			String body = xml.substring(PREFIX_LENGTH, xml.length() - SUFFIX_LENGTH);
+			String body = xml.substring(PREFIX_LENGTH, xml.length() - SUFFIX_LENGTH - 1);
 			String mac = genMac(body);
-			return (mac.compareTo(xml.substring(xml.length() - SUFFIX_LENGTH)) == 0) ? body : null;
+			return (mac.compareTo(xml.substring(xml.length() - SUFFIX_LENGTH - 1)) == 0) ? body : null;
 		}
 	}
 }
