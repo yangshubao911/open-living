@@ -13,7 +13,7 @@ public class Codec {
 		SoftEnc.Init(keyPath);
 	}
 	
-	public static void writeKey(String macKey, String macKeyCheck, String pinKey, String pinKeyCheck) throws Exception {
+	public static void writeKey(String pinKey, String pinKeyCheck, String macKey, String macKeyCheck ) throws Exception {
 		synchronized(LOCK) {
 			if(macKey != null && macKeyCheck != null)
 				SoftEnc.WriteMACK(macKey, macKeyCheck);
@@ -36,9 +36,7 @@ public class Codec {
 	private static String genMac(String xml) throws Exception {
 		String mac;
 		synchronized(LOCK) {
-			byte[] ba = xml.getBytes();
-			ApiLogger.info("Codec : genMac() : xml.ba.length =[" + ba.length + "]");
-			mac = SoftEnc.GenMac(ba);
+			mac = SoftEnc.GenMac(xml.getBytes());
 		}
 		return mac;
 		
