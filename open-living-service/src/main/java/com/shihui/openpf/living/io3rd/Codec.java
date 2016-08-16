@@ -34,11 +34,9 @@ public class Codec {
 //	}
 //TODO ??
 	private static String genMac(String xml) throws Exception {
-		//byte[] ba = xml.getBytes("GBK");
-		//String bcd = new String(ba);
 		String mac;
 		synchronized(LOCK) {
-			mac = SoftEnc.GenMac(xml.getBytes());
+			mac = SoftEnc.GenMac(SoftEnc.asctobcd(xml, xml.length()).getBytes());
 		}
 		return mac;
 		
@@ -64,7 +62,7 @@ public class Codec {
 			String body = xml.substring(PREFIX_LENGTH, xml.length() - SUFFIX_LENGTH);
 			ApiLogger.info("Codec : decode() : body =[" + body + "]");
 			String mac = genMac(body);
-			ApiLogger.info("Codec : decode() : mac =[" + mac + "] : " + genMac(body));
+			ApiLogger.info("Codec : decode() : mac =[" + mac + "]");
 			return (mac.compareTo(xml.substring(xml.length() - SUFFIX_LENGTH)) == 0) ? body : null;
 		}
 	}
