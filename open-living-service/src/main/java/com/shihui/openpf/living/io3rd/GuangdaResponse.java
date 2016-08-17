@@ -273,6 +273,7 @@ public class GuangdaResponse {
     		
     		QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(tempId);
         	if(vo != null) {
+        		ApiLogger.info("GuangdaResponse : doPacketError() : QUERY -2-");
 	    		JSONObject result = new JSONObject();
 	    		if(packetError.tout.errorCode.compareTo(QueryErrorCodeEnum.DEF0002.getCode()) == 0)
 	    			result.put("response", new SimpleResponse(2,QueryErrorCodeEnum.getErrorMessage(packetError.tout.errorCode)));
@@ -281,9 +282,10 @@ public class GuangdaResponse {
 	    		else
 	    			result.put("response", new SimpleResponse(3,QueryErrorCodeEnum.getErrorMessage(packetError.tout.errorCode)));
 	    		
-	    		ApiLogger.info("GuangdaResponse : doPacketError() : QUERY -2-");
+	    		ApiLogger.info("GuangdaResponse : doPacketError() : QUERY -3-");
 	    		
 	    		appNotice.pushQueryResult(vo.getOrder().getUserId(), result);
+	    		ApiLogger.info("GuangdaResponse : doPacketError() : QUERY -4-");
 	    		cacheDao.delQueryOrderBillVo(tempId);
 	    		ApiLogger.info("OK: GuangdaResponse : doPacketError() : QUERY : " + result.toJSONString());
         	} else {

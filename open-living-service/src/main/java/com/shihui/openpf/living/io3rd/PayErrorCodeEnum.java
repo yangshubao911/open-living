@@ -12,6 +12,7 @@ import java.util.Map;
  */
 public enum PayErrorCodeEnum {
 
+	SYS0000(0,"0000000","未知错误","未知错误"),
 	NPP0001(1,"NPP0001","报文错误(包含MAC验证错误)", "退款"),
 	NPP0002(2,"NPP0002","系统错误", "退款"),
 	NPP0003(3,"NPP0003","系统异常", "暂不退款"),
@@ -61,7 +62,8 @@ public enum PayErrorCodeEnum {
     }
 
     public static PayErrorCodeEnum parse(String errorCode){
-        return values.get(errorCode);
+    	PayErrorCodeEnum pece = values.get(errorCode);
+    	return (pece == null ? SYS0000 : pece);
     }
 
 	public static String getErrorMessage(String errorCode) {

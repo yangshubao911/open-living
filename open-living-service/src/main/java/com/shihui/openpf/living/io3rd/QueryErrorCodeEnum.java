@@ -12,6 +12,7 @@ import java.util.Map;
  */
 public enum QueryErrorCodeEnum {
 	
+	SYS0000(0,"0000000","未知错误","未知错误"),
 	NPP0001(1,"NPP0001","报文错误(包含MAC验证错误)", "系统繁忙,请稍后再试"),
 	NPP0002(2,"NPP0002","系统错误", "系统繁忙,请稍后再试"),
 	NPP0003(3,"NPP0003","系统异常", "系统繁忙,请稍后再试"),
@@ -58,7 +59,8 @@ public enum QueryErrorCodeEnum {
     }
 
     public static QueryErrorCodeEnum parse(String errorCode){
-        return values.get(errorCode);
+    	QueryErrorCodeEnum qece = values.get(errorCode);
+    	return (qece == null ? SYS0000 : qece);
     }
 
 	public static String getErrorMessage(String errorCode) {
