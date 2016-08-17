@@ -23,6 +23,7 @@ public class Company implements Serializable {
 
 	private String companyName;
 
+	private Integer serviceId;
 	private Integer serviceType;
 
 	private Integer cityId;
@@ -78,6 +79,14 @@ public class Company implements Serializable {
 
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
+	}
+
+	public Integer getServiceId() {
+		return serviceId;
+	}
+
+	public void setServiceId(Integer serviceId) {
+		this.serviceId = serviceId;
 	}
 
 	public Integer getServiceType() {

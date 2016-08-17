@@ -1,6 +1,5 @@
 package com.shihui.openpf.living.service;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -8,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.shihui.commons.ApiLogger;
 import com.shihui.openpf.living.dao.CompanyDao;
 import com.shihui.openpf.living.entity.Company;
@@ -22,28 +22,58 @@ public class CompanyService {
 
     @Resource
     CompanyDao companyDao;
-    
-    /**
-     * 
-     *
-     * @param serviceTypeEnum 
-     *
-     * @return 
-     */
+
     public List<Company> queryCompanies(int cityId, ServiceTypeEnum serviceTypeEnum) {
         return companyDao.queryList(cityId, serviceTypeEnum.getValue());
     }
     
-    public Object createCompany(Company company){
+    public Object create(Company company){
+    	JSONObject jo = new JSONObject();
 		try {
-			Date now = new Date();
-
-			companyDao.save(company);
-			return new SimpleResponse(0, "创建成功");
+			int companyId = (int)companyDao.insert(company);
+			jo.put("companyId", companyId);
+			jo.put("response", new SimpleResponse(0, "创建成功"));
+			return jo;
 		} catch (Exception e) {
-			ApiLogger.error("创建广告位异常，参数={"+JSON.toJSONString(company)+"}" + e.getMessage());
+			ApiLogger.error("创建广告位异常，参数={"+JSONObject.toJSONString(company)+"}" + e.getMessage());
 		}
-		return new SimpleResponse(1, "创建失败");
+		jo.put("response", new SimpleResponse(1, "创建失败"));
+		return jo;
 	}
+    
+    public Object update(Company company){
+		int result = 0;
+		try {
+			result = companyDao.update(company);
+		} catch (Exception e) {
+			ApiLogger.error("更新缴费单位异常，{"+JSON.toJSONString(company)+"}" + e.getMessage());
+		}
+		
+		return JSON.toJSON(result > 0 ? new SimpleResponse(0, "更新成功") :  new SimpleResponse(1, "更新失败"));
+	}
+    
+    public Object query(int companyId) {
+    	JSONObject jo = new JSONObject();
+    	Company company = companyDao.findById(companyId);
+    	if(company == null)
+    		jo.put("response", new SimpleResponse(1, "查询失败"));
+    	else {
+    		jo.put("response", new SimpleResponse(0, "查询成功"));
+    		jo.put("company", company);
+    	}
+        return jo;
+    }
+    public Object query(String companyNo) {
+    	JSONObject jo = new JSONObject();
+    	Company company = companyDao.findByNo(companyNo);
+    	if(company == null)
+    		jo.put("response", new SimpleResponse(1, "查询失败"));
+    	else {
+    		jo.put("response", new SimpleResponse(0, "查询成功"));
+    		jo.put("company", company);
+    	}
+        return jo;
+    }
+    
+    
 }
-

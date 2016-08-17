@@ -26,7 +26,7 @@ public class CompanyDao extends AbstractDao<Company> {
 		return queryForObject(sql, companyId);
 	}
 
-	public Company findByNo(Integer companyNo){
+	public Company findByNo(String companyNo){
 		String sql = "SELECT * FROM `company` WHERE company_no = ? ";
 		return queryForObject(sql, companyNo);
 	}
