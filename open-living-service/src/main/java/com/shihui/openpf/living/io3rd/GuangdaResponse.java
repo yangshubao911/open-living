@@ -98,7 +98,9 @@ public class GuangdaResponse {
 		billDao.update(bill);
 	}
     public void doResPay(ResPay resPay) {
-    	//TODO
+    	ApiLogger.info(">>>GuangdaResponse doResPay()");
+    	ApiLogger.info("GuangdaResponse : doResPay() : " + JSON.toJSONString(resPay));
+    	
     	String tempId = resPay.head.TrmSeqNum;
     	OrderBillVo vo = cacheDao.getOrderBillVo(tempId);
     	if( vo != null) {
@@ -106,6 +108,7 @@ public class GuangdaResponse {
     		//cacheDao.setOrderBillVo(tempId, vo);
     		cacheDao.delOrderBillVo(tempId);
     	}
+    	ApiLogger.info("<<<GuangdaResponse doResPay()");
     }
 
     private void resQuery2Vo(ResQuery resQuery, QueryOrderBillVo vo) {
@@ -243,6 +246,7 @@ public class GuangdaResponse {
     public void doResQuery(ResQuery resQuery) {
     	//TODO
     	ApiLogger.info(">>>GuangdaResponse : doResQuery()");
+    	ApiLogger.info("GuangdaResponse : doResQuery() : " + JSON.toJSONString(resQuery));
     	String tempId = resQuery.head.TrmSeqNum;
     	QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(tempId);
     	if(vo != null && Integer.parseInt(resQuery.tout.totalNum) > 0 ) {
@@ -259,8 +263,9 @@ public class GuangdaResponse {
     }
     
     public void doPacketError(PacketError packetError) {
-    	//TODO
     	ApiLogger.info(">>>GuangdaResponse : doPacketError()");
+    	ApiLogger.info("GuangdaResponse : doPacketError() : " + JSON.toJSONString(packetError));
+    	
     	String tempId = packetError.head.TrmSeqNum;
     	int packetType = Integer.parseInt(tempId.substring(0,1));
     	if(packetType == PacketTypeEnum.QUERY.getType()) {
@@ -311,12 +316,15 @@ public class GuangdaResponse {
     
     public void doPacketNotify(PacketNotify packetNotify) {
     	ApiLogger.info(">>>GuangdaResponse : doPacketNotify()");
+    	ApiLogger.info("GuangdaResponse : doPacketNotify() : " + JSON.toJSONString(packetNotify));
+    	
     	cacheDao.setPacketNotify(packetNotify);
     	ApiLogger.info("<<<GuangdaResponse : doPacketNotify() : OK");
     }
     
     public void doResKey(ResKey resKey) {
     	ApiLogger.info(">>>GuangdaResponse doResKey()");
+    	
     	synchronized(this) {
 	    	if(cacheDao.checkKeyDateExpired()) {
 	    		ApiLogger.info("GuangdaResponse : doResKey() : cacheDao.checkKeyDateExpired() == true");
