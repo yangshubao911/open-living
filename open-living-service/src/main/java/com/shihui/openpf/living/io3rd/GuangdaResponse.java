@@ -269,6 +269,8 @@ public class GuangdaResponse {
     	String tempId = packetError.head.TrmSeqNum;
     	int packetType = Integer.parseInt(tempId.substring(0,1));
     	if(packetType == PacketTypeEnum.QUERY.getType()) {
+    		ApiLogger.info("GuangdaResponse : doPacketError() : QUERY : -1-");
+    		
     		QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(tempId);
         	if(vo != null) {
 	    		JSONObject result = new JSONObject();
@@ -279,6 +281,8 @@ public class GuangdaResponse {
 	    		else
 	    			result.put("response", new SimpleResponse(3,QueryErrorCodeEnum.getErrorMessage(packetError.tout.errorCode)));
 	    		
+	    		ApiLogger.info("GuangdaResponse : doPacketError() : QUERY -2-");
+	    		
 	    		appNotice.pushQueryResult(vo.getOrder().getUserId(), result);
 	    		cacheDao.delQueryOrderBillVo(tempId);
 	    		ApiLogger.info("OK: GuangdaResponse : doPacketError() : QUERY : " + result.toJSONString());
@@ -286,6 +290,8 @@ public class GuangdaResponse {
         		ApiLogger.info("ERR: GuangdaResponse : doPacketError() : QUERY : QueryOrderBillVo vo == null");
         	}
     	} else if(packetType == PacketTypeEnum.RECHARGE.getType()) {
+    		ApiLogger.info("GuangdaResponse : doPacketError() : RECHARGE");
+    		
     		OrderBillVo vo = cacheDao.getOrderBillVo(tempId);
         	if(vo != null) {
         		if(packetError.tout.errorCode.compareTo(PayErrorCodeEnum.NPP0003.getCode()) == 0
@@ -306,6 +312,8 @@ public class GuangdaResponse {
         		cacheDao.setOrderBillVo(tempId, vo);
         		ApiLogger.info("OK: GuangdaResponse : doPacketError() : RECHARGE");
         	} else {
+        		ApiLogger.info("GuangdaResponse : doPacketError() : KEY");
+        		
         		ApiLogger.info("ERR: GuangdaResponse : doPacketError() : RECHARGE : OrderBillVo vo == null");
         	}
     	} else if(packetType == PacketTypeEnum.KEY.getType()) {
