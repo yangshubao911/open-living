@@ -12,7 +12,6 @@ public class ResHead implements PacketCheck {
 	}
 	@Override
 	public boolean check() {
-		return (head.AnsTranCode.compareTo("BJCEBRWKRes") == 0
-				&& head.InstId.compareTo(PacketHead.INSTID) == 0);
+		return (head.InstId.compareTo(PacketHead.INSTID) == 0);
 	}
 }
