@@ -42,11 +42,11 @@ public class AppNotice {
 			param.put("data", msg);
 			param.put("fromuid", merchantCode);
 
-			String result = httpClient.buildPost(appPushUrl).withHeader("X-Matrix-UID", "1000")
-			.withParam(param).execute();
-			ApiLogger.info("push app消息 uid:{"+userId+"} result:{"+result+"}");
+			String result = httpClient.buildPost(appPushUrl).withHeader("X-Matrix-UID", "1000").withParam(param).execute();
+			
+			ApiLogger.info("AppNotice : pushMsg() : uid:["+userId+"] result:["+result+"]");
 		} catch (Exception e) {
-			ApiLogger.error("push app消息异常", e);
+			ApiLogger.error("AppNotice : pushMsg() : push app消息异常", e);
 		}
 	}
 	public void pushQueryResult(long userId, Object queryResult) {
@@ -62,11 +62,11 @@ public class AppNotice {
 			jo.put("result", queryResult);
 			param.put("data", jo.toJSONString());
 
-			String result = httpClient.buildPost(appPushUrl).withHeader("X-Matrix-UID", "1000")
-			.withParam(param).execute();
-			ApiLogger.info("push app消息 uid:{"+userId+"} result:{"+result+"}");
+			String result = httpClient.buildPost(appPushUrl).withHeader("X-Matrix-UID", "1000").withParam(param).execute();
+			
+			ApiLogger.info("AppNotice : pushQueryResult() : uid:["+userId+"] result: ["+result+"]");
 		} catch (Exception e) {
-			ApiLogger.error("push app消息异常", e);
+			ApiLogger.error("AppNotice : pushQueryResult() : push app消息异常", e);
 		}
 	}
 }

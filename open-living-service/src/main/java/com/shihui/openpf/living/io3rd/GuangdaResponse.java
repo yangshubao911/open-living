@@ -244,7 +244,6 @@ public class GuangdaResponse {
 		bill.setFeeType(company.getFeeType());
 	}
     public void doResQuery(ResQuery resQuery) {
-    	//TODO
     	ApiLogger.info(">>>GuangdaResponse : doResQuery()");
     	ApiLogger.info("GuangdaResponse : doResQuery() : " + JSON.toJSONString(resQuery));
     	String tempId = resQuery.head.TrmSeqNum;
