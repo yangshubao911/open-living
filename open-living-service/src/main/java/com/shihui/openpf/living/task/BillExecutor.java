@@ -96,7 +96,6 @@ public class BillExecutor {
     		ApiLogger.info(">>>ExecuteResponseListenTask RUNNING");
     		try {    		
     			serverAIO = ServerAIO.instance(responsePort);
-    			ApiLogger.info("ExecuteResponseListenTask : ExecuteResponseListenTask() : ServerAIO.instance() : " +responsePort);
     		}catch(Exception e) {
     			ApiLogger.info("!!!ExecuteResponseListenTask : Exception : ExecuteResponseListenTask() : " + e.getMessage());
     		}
@@ -104,10 +103,8 @@ public class BillExecutor {
     		guangdaResponse.doReqKey();
     		//
             while(!Thread.currentThread().isInterrupted() && serverAIO.isOpen()) {
-            	ApiLogger.info("ExecuteResponseListenTask : run() : accepting...");
             	try {
             		AsynchronousSocketChannel channel = serverAIO.accept();
-            		ApiLogger.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@ExecuteResponseListenTask : run() : accepted.");
             		if(channel != null) {
 	            		ExecuteReceiveTask ert = new ExecuteReceiveTask(channel);
 	            		RESPONSE_EXECUTOR_SERVICE.submit(ert);
@@ -133,9 +130,7 @@ public class BillExecutor {
     	    	ApiLogger.info(">>>ExecuteReceiveTask RUNNING");
     	        try {
     	        	StringBuilder sb = ResponseSocket.receivePacket(channel);
-    	        	ApiLogger.info("ExecuteReceiveTask : ResponseSocket.receivePacket(channel) : " + (sb != null));
     	        	if(sb != null) {
-    	        		ApiLogger.info("%%%%%%%%%%%%%%%%%%%ExecuteReceiveTask : recv : " + sb.toString());
     	        		mqProducer.sendResponse(java.util.UUID.randomUUID().toString(), sb.toString());
     	        	}
     	        }catch (Exception e){
@@ -169,8 +164,6 @@ public class BillExecutor {
 	    	ApiLogger.info(">>>ExecuteAnalysePacketTask RUNNING");
 	        try {
 				String xml = Codec.decode(packet);
-				ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : xml =[" + xml + "]");
-				//Object object = FastXML.xmlToBean(xml, ResKey.class, ResQuery.class, ResPay.class, PacketNotify.class, PacketError.class);
 				Object object = FastXML.xmlToBean(xml, ResHead.class);
 				if( object == null ) 
 					ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : object == null \n");
@@ -178,26 +171,23 @@ public class BillExecutor {
 					ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : pc.check() ready \n");
     				PacketCheck pc = (PacketCheck)object;
     				if(!pc.check())
-    					ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : !pc.check() \n");
+    					ApiLogger.info("ExecuteAnalysePacketTask : run() : !pc.check() = true \n");
     				else {
-    					ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : pc.check() : start");
+    					ApiLogger.info("ExecuteAnalysePacketTask : run() : pc.check() : start");
     					String ansTranCode = ((ResHead)object).head.AnsTranCode;
     					if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_PAY) == 0)
     						guangdaResponse.doResPay((ResPay)FastXML.xmlToBean(xml, ResPay.class));
     					else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_QUERY) == 0)
     						guangdaResponse.doResQuery((ResQuery)FastXML.xmlToBean(xml, ResQuery.class));
-						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_ERROR) == 0){
-							ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : doPacketError : start");
+						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_ERROR) == 0)
 							guangdaResponse.doPacketError((PacketError)FastXML.xmlToBean(xml, PacketError.class));
-							ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : doPacketError : end");
-						}
 						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_NOTIFY) == 0)
 							guangdaResponse.doPacketNotify((PacketNotify)FastXML.xmlToBean(xml, PacketNotify.class));
 						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_KEY) == 0)
 							guangdaResponse.doResKey((ResKey)FastXML.xmlToBean(xml, ResKey.class));
 						else 
 							ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : " + ansTranCode);
-    					ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : pc.check() : start");
+    					ApiLogger.info("ExecuteAnalysePacketTask : run() : pc.check() : end");
     				}
     			}
 	        }catch (Exception e){

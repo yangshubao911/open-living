@@ -21,25 +21,13 @@ public class Codec {
 				SoftEnc.WritePINK(pinKey, pinKeyCheck);
 		}
 	}
-	
-//	private static String genMac(String xml) throws Exception {
-//		byte[] ba = xml.getBytes();//"BGK"
-//		String bcd = new String(ba);
-//		String mac;
-//		synchronized(LOCK) {
-//			mac = SoftEnc.GenMac(SoftEnc.asctobcd(bcd, ba.length).getBytes());
-//		}
-//		return mac;
-//		
-//	}
-//TODO ??
+
 	private static String genMac(String xml) throws Exception {
 		String mac;
 		synchronized(LOCK) {
 			mac = SoftEnc.GenMac(xml.getBytes("GBK"));
 		}
 		return mac;
-		
 	}
 
 	public static  String encodeNoMac(String xml) throws Exception {
@@ -58,11 +46,8 @@ public class Codec {
 			return xml.substring(PREFIX_LENGTH);
 		}
 		else {
-			ApiLogger.info("Codec : decode() : xml =[" + xml + "]");
 			String body = xml.substring(PREFIX_LENGTH, xml.length() - SUFFIX_LENGTH);
-			ApiLogger.info("Codec : decode() : body =[" + body + "]");
 			String mac = genMac(body);
-			ApiLogger.info("Codec : decode() : mac =[" + mac + "]");
 			return (mac.compareTo(xml.substring(xml.length() - SUFFIX_LENGTH)) == 0) ? body : null;
 		}
 	}

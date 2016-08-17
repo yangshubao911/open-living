@@ -306,7 +306,7 @@ public class GuangdaResponse {
     	} else if(packetType == PacketTypeEnum.KEY.getType()) {
     		doReqKey();
     	}
-    	ApiLogger.info("<<<GuangdaResponse : doPacketError() : OK");
+    	ApiLogger.info("<<<GuangdaResponse : doPacketError()");
     }
     
     public void doPacketNotify(PacketNotify packetNotify) {
@@ -325,7 +325,7 @@ public class GuangdaResponse {
 			    		Codec.writeKey(resKey.tout.keyValue, resKey.tout.verifyValue, resKey.tout.keyValue1, resKey.tout.verifyValue1);
 			    		cacheDao.setResKey(resKey);
 			    		cacheDao.setKeyDate();
-			    		ApiLogger.info("OK: GuangdaResponse doResKey() : OK");
+			    		ApiLogger.info("OK: GuangdaResponse doResKey()");
 			    		return;
 			    	}catch(Exception e) {
 			    		ApiLogger.info("ERR: GuangdaResponse Exception : doResKey() : " + e.getMessage());

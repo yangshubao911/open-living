@@ -74,8 +74,8 @@ public class RequestSocket {
 
 	
 	public static boolean sendPacket(String remoteIp, int remotePort, String packet) {
-		ApiLogger.info("REQUEST : " + packet);
-		
+		ApiLogger.info("REQUEST : [" + packet + "]");
+	
 		boolean ret = false;
 		RequestSocket cs = new RequestSocket();
 		

@@ -12,7 +12,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-//import me.weimi.api.commons.util.ApiLogger;
 import com.shihui.commons.ApiLogger;
 
 public class ResponseSocket {
@@ -78,7 +77,7 @@ public class ResponseSocket {
 		try {
 				rs = new ResponseSocket(channel);
 				ret = rs.recv();
-		}catch(Exception e) {
+ 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 
@@ -90,7 +89,11 @@ public class ResponseSocket {
 		}
 		
 		rs = null;
-		ApiLogger.debug("RESPONSE : " + ret);
+		//
+		ApiLogger.info("RESPONSE : ret == null : " + (ret == null));
+		if(ret != null)
+			ApiLogger.info("RESPONSE : [" + ret.toString() + "]");
+		//
 		return ret;
 	}
 
