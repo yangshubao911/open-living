@@ -1,5 +1,6 @@
 package com.shihui.openpf.living.io3rd;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -125,7 +126,8 @@ public class GuangdaResponse {
 		bill.setContractNo(td.contractNo);
 		bill.setUserName(td.customerName);
 		bill.setBalance(String.valueOf(td.balance));
-		bill.setPayment(String.valueOf(td.payAmount));
+		BigDecimal bdPayAmount = new BigDecimal(td.payAmount/100);
+		bill.setPayment(bdPayAmount.toString());
 
 		bill.setStartTime(td.beginDate);
 		bill.setEndTime(td.endDate);
@@ -178,11 +180,12 @@ public class GuangdaResponse {
 		appNotice.pushQueryResult(order.getUserId(), result);
 	}
 	private void load_vo_elements(QueryOrderBillVo vo) {
+		ApiLogger.info(" ! 1 ! ");
 		Order order = vo.getOrder();		
 		Bill bill = vo.getBill();
 		Company company = companyDao.findById(bill.getCompanyId());
 		vo.setCompany(company);
-		
+		ApiLogger.info(" ! 2 ! ");
 		Goods goods = cacheDao.getGoods(bill.getCategoryId(), order.getGoodsId());
 		if( goods == null) {
 			goods = goodsDao.findById(order.getGoodsId());
@@ -190,6 +193,7 @@ public class GuangdaResponse {
 		}
 		vo.setGoods(goods);
 		//
+		ApiLogger.info(" ! 3 ! ");
 		Campaign campaign;
 		List<Campaign> campaigns = cacheDao.getCampaignList(goods.getServiceId());
 		if(campaigns == null) {
@@ -207,13 +211,14 @@ public class GuangdaResponse {
 			}
 		}
 		//
+		ApiLogger.info(" ! 4 ! ");
 		com.shihui.openpf.common.model.Service service = cacheDao.getService(order.getServiceId());
 		if(service == null) {
 			service = serviceManage.findById(order.getServiceId());
 			cacheDao.setService(order.getServiceId(), service);
 		}
 		vo.setService(service);
-		
+		ApiLogger.info(" ! 5 ! ");
 		//Merchant merchant = cacheDao.getMerchant(service.getServiceMerchantId());
 		int serviceId = service.getServiceId();
 		MerchantGoods merchantGoods = cacheDao.getMerchantGoods(serviceId);
@@ -227,7 +232,7 @@ public class GuangdaResponse {
 			cacheDao.setMerchant(merchant.getMerchantId(), merchant);
 		}
 		vo.setMerchant(merchant);
-		
+		ApiLogger.info(" ! 6 ! ");
 		Group group = cacheDao.getGroup(order.getGid());
 		if( group == null) {
 			group = groupManage.getGroupInfoByGid(order.getGid());
@@ -237,6 +242,7 @@ public class GuangdaResponse {
 		//
 		//
 		//
+		ApiLogger.info(" ! 7 ! ");
 		bill.setFeeName(service.getServiceName());
 		bill.setCityName(goods.getCityName());
 		bill.setFeeType(company.getFeeType());
