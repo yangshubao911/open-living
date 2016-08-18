@@ -4,6 +4,7 @@ package com.shihui.openpf.living.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Column;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
@@ -34,13 +35,13 @@ public class Bill implements Serializable {
 	private Date updateTime;
 
 	//---
-	private String item1;
-	private String item2;
-	private String item3;
-	private String item4;
-	private String item5;
-	private String item6;
-	private String item7;
+	@Column(name = "item1") private String item1;
+	@Column(name = "item2") private String item2;
+	@Column(name = "item3") private String item3;
+	@Column(name = "item4") private String item4;
+	@Column(name = "item5") private String item5;
+	@Column(name = "item6") private String item6;
+	@Column(name = "item7") private String item7;
 //
 	private String contractNo;
 	private String userName;
@@ -50,19 +51,19 @@ public class Bill implements Serializable {
 	private String startTime;
 	private String endTime;
 //
-	private String field1;
-	private String field2;
-	private String field3;
-	private String field4;
-	private String field5;	
+	@Column(name = "field1") private String field1;
+	@Column(name = "field2") private String field2;
+	@Column(name = "field3") private String field3;
+	@Column(name = "field4") private String field4;
+	@Column(name = "field5") private String field5;	
 //---
 	private String serialNo;
 	private String payTime;
 //
-	private String bbField1;
-	private String bbField2;
-	private String bbField3;
-	private String bbField4;
+	@Column(name = "bb_field1") private String bbField1;
+	@Column(name = "bb_field2") private String bbField2;
+	@Column(name = "bb_field3") private String bbField3;
+	@Column(name = "bb_field4") private String bbField4;
 //**
 	private String bankBillNo;
 	private String receiptNo;
