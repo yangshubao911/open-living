@@ -349,7 +349,7 @@ public class ClientService {
 		}
 		ApiLogger.info(" * 2 ** ");	
 		BigDecimal bdZero = new BigDecimal("0");
-		ApiLogger.info(" * 2 ** 1");	
+		ApiLogger.info(" * 2 ** 1" + order.getPrice());	
 		BigDecimal bdPrice = new BigDecimal(order.getPrice());
 		ApiLogger.info(" * 2 ** 2");	
 		BigDecimal bdOffSet = new BigDecimal(offSet);
