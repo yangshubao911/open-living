@@ -36,6 +36,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
+import com.shihui.commons.ApiLogger;
+
 /**
  * 基于jpa注解简单实现几个常用方法
  * 支持的注解: Id Entity(定义表名，可选) Table(定义表名，可选) Column(定义字段名，可选) Transient
@@ -185,7 +187,7 @@ public abstract class AbstractDao<T> {
 
 			sql.deleteCharAt(sql.length()-1).append(") values(").append(valueStr.deleteCharAt(valueStr.length()-1))
 					.append(")");
-
+ApiLogger.info(" SQL : " + sql.toString());
 			return this.jdbcTemplate.update(sql.toString(), valus.toArray());
 		} catch (RuntimeException e) {
 			throw e;
