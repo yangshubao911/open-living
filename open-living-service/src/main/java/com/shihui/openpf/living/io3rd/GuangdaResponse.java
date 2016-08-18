@@ -112,6 +112,7 @@ public class GuangdaResponse {
     }
 
     private void resQuery2Vo(ResQuery resQuery, QueryOrderBillVo vo) {
+ApiLogger.info(" # 1 # ");
     	Bill bill = vo.getBill();
 		bill.setItem1(resQuery.tout.item1);
 		bill.setItem2(resQuery.tout.item2);
@@ -120,24 +121,26 @@ public class GuangdaResponse {
 		bill.setItem5(resQuery.tout.item5);
 		bill.setItem6(resQuery.tout.item6);
 		bill.setItem7(resQuery.tout.item7);
-		
+ApiLogger.info(" # 2 # ");		
 		ResQuery.ToutData td = resQuery.tout.dataList.get(0);
 		bill.setContractNo(td.contractNo);
 		bill.setUserName(td.customerName);
 		bill.setBalance(String.valueOf(td.balance));
 		bill.setPayment(String.valueOf(td.payAmount));
-
+ApiLogger.info(" # 3 # ");
 		bill.setStartTime(td.beginDate);
 		bill.setEndTime(td.endDate);
-
+ApiLogger.info(" # 4 # ");
 		bill.setField1(td.field1);
 		bill.setField2(td.field2);
 		bill.setField3(td.field3);
 		bill.setField4(td.field4);
 		bill.setField5(td.field5);
+ApiLogger.info(" # 5 # ");
     	//
 		bill.setBillDate(td.field1);
 		//
+ApiLogger.info(" # 6 # ");
 		bill.setBillDate(vo.getCompany().getDateChoice() == 0 ? td.beginDate : td.endDate);
     }
 	private void noticeApp(QueryOrderBillVo vo) {
@@ -249,13 +252,13 @@ public class GuangdaResponse {
     	String tempId = resQuery.head.TrmSeqNum;
     	QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(tempId);
     	if(vo != null && Integer.parseInt(resQuery.tout.totalNum) > 0 ) {
-    		ApiLogger.info(" - 1 - ");
+ApiLogger.info(" - 1 - ");
 	    		resQuery2Vo(resQuery, vo);
-	    		ApiLogger.info(" - 2 - ");
+ApiLogger.info(" - 2 - ");
 	    		load_vo_elements(vo);
-	    		ApiLogger.info(" - 3 - ");
+ApiLogger.info(" - 3 - ");
 	    		cacheDao.setQueryOrderBillVo(tempId, vo);
-	    		ApiLogger.info(" - 4 - ");
+ApiLogger.info(" - 4 - ");
 	    		//
 	    		noticeApp(vo);
 	    		ApiLogger.info("OK: GuangdaResponse : resQuery()");
