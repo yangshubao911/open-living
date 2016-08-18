@@ -187,10 +187,14 @@ public abstract class AbstractDao<T> {
 
 			sql.deleteCharAt(sql.length()-1).append(") values(").append(valueStr.deleteCharAt(valueStr.length()-1))
 					.append(")");
+ApiLogger.info(" SQL : " + sql.toString());
+ApiLogger.info(" SQL : " + valus.toArray().toString());
 			return this.jdbcTemplate.update(sql.toString(), valus.toArray());
 		} catch (RuntimeException e) {
+			ApiLogger.info(" SQL : RuntimeException : " + e.getMessage());
 			throw e;
 		} catch (Exception e) {
+			ApiLogger.info(" SQL : Exception : " + e.getMessage());
 			throw new RuntimeException(e);
 		}
 	}
