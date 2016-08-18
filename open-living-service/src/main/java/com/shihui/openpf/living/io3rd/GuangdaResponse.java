@@ -112,7 +112,6 @@ public class GuangdaResponse {
     }
 
     private void resQuery2Vo(ResQuery resQuery, QueryOrderBillVo vo) {
-ApiLogger.info(" # 1 # ");
     	Bill bill = vo.getBill();
 		bill.setItem1(resQuery.tout.item1);
 		bill.setItem2(resQuery.tout.item2);
@@ -121,27 +120,23 @@ ApiLogger.info(" # 1 # ");
 		bill.setItem5(resQuery.tout.item5);
 		bill.setItem6(resQuery.tout.item6);
 		bill.setItem7(resQuery.tout.item7);
-ApiLogger.info(" # 2 # ");		
+	
 		ResQuery.ToutData td = resQuery.tout.dataList.get(0);
 		bill.setContractNo(td.contractNo);
 		bill.setUserName(td.customerName);
 		bill.setBalance(String.valueOf(td.balance));
 		bill.setPayment(String.valueOf(td.payAmount));
-ApiLogger.info(" # 3 # ");
+
 		bill.setStartTime(td.beginDate);
 		bill.setEndTime(td.endDate);
-ApiLogger.info(" # 4 # ");
+
 		bill.setField1(td.field1);
 		bill.setField2(td.field2);
 		bill.setField3(td.field3);
 		bill.setField4(td.field4);
 		bill.setField5(td.field5);
-ApiLogger.info(" # 5 # ");
     	//
 		bill.setBillDate(td.field1);
-		//
-ApiLogger.info(" # 6 # ");
-		bill.setBillDate(vo.getCompany().getDateChoice() == 0 ? td.beginDate : td.endDate);
     }
 	private void noticeApp(QueryOrderBillVo vo) {
 		JSONObject result = new JSONObject();
