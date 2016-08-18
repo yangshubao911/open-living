@@ -113,6 +113,7 @@ public class GuangdaResponse {
     }
 
     private void resQuery2Vo(ResQuery resQuery, QueryOrderBillVo vo) {
+    	Order order = vo.getOrder();
     	Bill bill = vo.getBill();
 		bill.setItem1(resQuery.tout.item1);
 		bill.setItem2(resQuery.tout.item2);
@@ -127,7 +128,8 @@ public class GuangdaResponse {
 		bill.setUserName(td.customerName);
 		bill.setBalance(String.valueOf(td.balance));
 		BigDecimal bdPayAmount = new BigDecimal(td.payAmount/100);
-		bill.setPayment(bdPayAmount.toString());
+		//bill.setPayment(bdPayAmount.toString());
+		order.setPrice(bdPayAmount.toString());
 ApiLogger.info("payMent: " + td.payAmount + " : " + (td.payAmount/100) + " : " + bdPayAmount.toString());
 		bill.setStartTime(td.beginDate);
 		bill.setEndTime(td.endDate);
