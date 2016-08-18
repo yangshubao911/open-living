@@ -349,10 +349,15 @@ public class ClientService {
 		}
 		ApiLogger.info(" * 2 ** ");	
 		BigDecimal bdZero = new BigDecimal("0");
+		ApiLogger.info(" * 2 ** 1");	
 		BigDecimal bdPrice = new BigDecimal(order.getPrice());
+		ApiLogger.info(" * 2 ** 2");	
 		BigDecimal bdOffSet = new BigDecimal(offSet);
+		ApiLogger.info(" * 2 ** 3");	
 		BigDecimal bdOffSetMax = new BigDecimal(offSetMax);
+		ApiLogger.info(" * 2 ** 4");	
 		BigDecimal t = bdPrice.multiply(bdOffSet).divide( new BigDecimal("100")).setScale(2, BigDecimal.ROUND_HALF_UP);
+		ApiLogger.info(" * 2 ** 5");	
 		if(bdOffSetMax.compareTo(bdZero) > 0)
 			t = t.min(bdOffSetMax);
 		ApiLogger.info(" * 3 ** ");	
