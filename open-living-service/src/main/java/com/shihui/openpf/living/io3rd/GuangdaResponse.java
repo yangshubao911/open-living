@@ -226,9 +226,12 @@ public class GuangdaResponse {
 			merchantGoods = merchantGoodsDao.findbyServiceId(serviceId);
 			cacheDao.setMerchantGoods(serviceId, merchantGoods);
 		}
+		ApiLogger.info(" ! 5 ! 1");
 		Merchant merchant = cacheDao.getMerchant(merchantGoods.getMerchantId());
 		if(merchant == null) {
+			ApiLogger.info(" ! 5 ! 2");
 			merchant = merchantManage.getById(service.getServiceMerchantId());
+			ApiLogger.info(" ! 5 ! 3");
 			cacheDao.setMerchant(merchant.getMerchantId(), merchant);
 		}
 		vo.setMerchant(merchant);
