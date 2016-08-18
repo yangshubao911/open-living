@@ -70,6 +70,12 @@ public class CacheDao {
 	public Merchant getMerchant(int merchantId) {
 		return (Merchant)hgetObject(MERCHANT, String.valueOf(merchantId), Merchant.class);
 	}
+	public void setMerchant(int serviceId, int categoryId, long goodsId, Merchant merchant) {
+		hset(MERCHANT, serviceId + Constants.REDIS_KEY_SEPARATOR + categoryId + Constants.REDIS_KEY_SEPARATOR + goodsId, merchant, EXPIRE_SYS);
+	}
+	public Merchant getMerchant(int serviceId, int categoryId, long goodsId) {
+		return (Merchant)hgetObject(MERCHANT, serviceId + Constants.REDIS_KEY_SEPARATOR + categoryId + Constants.REDIS_KEY_SEPARATOR + goodsId, Merchant.class);
+	}
 	//
 	private static final String GROUP = CACHE_PREFIX + "group";
 	public void setGroup(long groupId, Group group) {

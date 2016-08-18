@@ -219,40 +219,20 @@ public class GuangdaResponse {
 		}
 		vo.setService(service);
 		
-		//Merchant merchant = cacheDao.getMerchant(service.getServiceMerchantId());
-//		int serviceId = service.getServiceId();
-//		MerchantGoods merchantGoods = cacheDao.getMerchantGoods(serviceId);
-//		if(merchantGoods == null) {
-//			merchantGoods = merchantGoodsDao.findbyServiceId(serviceId);
-//			cacheDao.setMerchantGoods(serviceId, merchantGoods);
-//		}
-//		ApiLogger.info(" ! 5 ! 1");
-//		Merchant merchant = cacheDao.getMerchant(merchantGoods.getMerchantId());
-//		if(merchant == null) {
-//			ApiLogger.info(" ! 5 ! 2");
-//			//merchant = merchantManage.getById(service.getServiceMerchantId());
-//			merchant = merchantManage.getById(service.getServiceMerchantId());
-//			ApiLogger.info(" ! 5 ! 3");
-//			cacheDao.setMerchant(merchant.getMerchantId(), merchant);
-//			ApiLogger.info(" ! 5 ! 4");
-//		}
-		ApiLogger.info(" ! 5 ! ");
-		Integer merchantId = vo.getMerchantId();
-		if( merchantId == null) {
-			ApiLogger.info(" ! 5 ! 1");
-			merchantId = merchantGoodsDao.queryMerchantId(goods.getServiceId(), goods.getCategoryId(), goods.getGoodsId());
-		}
+		ApiLogger.info(" ! 5 ! 1");
+		Merchant merchant = cacheDao.getMerchant(goods.getServiceId(), goods.getCategoryId(), goods.getGoodsId());
 		ApiLogger.info(" ! 5 ! 2");
-		vo.setMerchantId(merchantId);
-		Merchant merchant = cacheDao.getMerchant(merchantId);
-		ApiLogger.info(" ! 5 ! 3");
 		if(merchant == null) {
+			ApiLogger.info(" ! 5 ! 3");
+			Integer merchantId = merchantGoodsDao.queryMerchantId(goods.getServiceId(), goods.getCategoryId(), goods.getGoodsId());
 			ApiLogger.info(" ! 5 ! 4");
 			merchant = merchantManage.getById(merchantId);
+			cacheDao.setMerchant(goods.getServiceId(), goods.getCategoryId(), goods.getGoodsId(), merchant);
 			cacheDao.setMerchant(merchantId, merchant);
 		}
 		ApiLogger.info(" ! 5 ! 5");
 		vo.setMerchant(merchant);
+		
 		ApiLogger.info(" ! 6 ! ");
 		Group group = cacheDao.getGroup(order.getGid());
 		if( group == null) {
