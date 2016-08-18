@@ -454,7 +454,7 @@ public abstract class AbstractDao<T> {
 	 * @param args
 	 * @return
 	 */
-	public int queryCount(String sql, Object... args){
+	public Integer queryCount(String sql, Object... args){
 		int count  = this.jdbcTemplate.query(sql, args, new ResultSetExtractor<Integer>(){
 
 			@Override

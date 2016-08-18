@@ -55,13 +55,13 @@ public class CacheDao {
 		return lock(TASK_0,EXPIRE_TASK_0);
 	}
 	//
-	private static final String MERCHANT_GOODS = CACHE_PREFIX + "merchant_goods";
-	public void setMerchantGoods(int serviceId, MerchantGoods merchant) {
-		hset(MERCHANT_GOODS, String.valueOf(serviceId), merchant, EXPIRE_SYS);
-	}
-	public MerchantGoods getMerchantGoods(int serviceId) {
-		return (MerchantGoods)hgetObject(MERCHANT_GOODS, String.valueOf(serviceId), MerchantGoods.class);
-	}
+//	private static final String MERCHANT_GOODS = CACHE_PREFIX + "merchant_goods";
+//	public void setMerchantGoods(int serviceId, MerchantGoods merchant) {
+//		hset(MERCHANT_GOODS, String.valueOf(serviceId), merchant, EXPIRE_SYS);
+//	}
+//	public MerchantGoods getMerchantGoods(int serviceId) {
+//		return (MerchantGoods)hgetObject(MERCHANT_GOODS, String.valueOf(serviceId), MerchantGoods.class);
+//	}
 	//
 	private static final String MERCHANT = CACHE_PREFIX + "merchant";
 	public void setMerchant(int merchantId, Merchant merchant) {
