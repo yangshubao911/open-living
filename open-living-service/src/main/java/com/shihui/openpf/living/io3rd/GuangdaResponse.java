@@ -127,7 +127,7 @@ public class GuangdaResponse {
 		bill.setContractNo(td.contractNo);
 		bill.setUserName(td.customerName);
 		bill.setBalance(String.valueOf(td.balance));
-		BigDecimal bdPayAmount = new BigDecimal(td.payAmount/100);
+		BigDecimal bdPayAmount = new BigDecimal(td.payAmount/100).setScale(2, BigDecimal.ROUND_HALF_UP);
 		//bill.setPayment(bdPayAmount.toString());
 		order.setPrice(bdPayAmount.toString());
 ApiLogger.info("payMent: " + td.payAmount + " : " + (td.payAmount/100) + " : " + bdPayAmount.toString());
