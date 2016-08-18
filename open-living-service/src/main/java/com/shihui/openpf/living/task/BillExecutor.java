@@ -95,6 +95,7 @@ public class BillExecutor {
         	
     		ApiLogger.info(">>>ExecuteResponseListenTask RUNNING");
     		try {    		
+    			ApiLogger.info("ExecuteResponseListenTask : ServerAIO.instance(responsePort) : " + responsePort);
     			serverAIO = ServerAIO.instance(responsePort);
     		}catch(Exception e) {
     			ApiLogger.info("!!!ExecuteResponseListenTask : Exception : ExecuteResponseListenTask() : " + e.getMessage());
