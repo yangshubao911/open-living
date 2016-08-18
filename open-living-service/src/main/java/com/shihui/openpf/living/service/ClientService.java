@@ -556,13 +556,16 @@ trans_id
 				order.setOrderId(orderId);
 				bill.setOrderId(orderId);
 				
+				ApiLogger.info(" && 7.1 && ");
 				orderDao.save(order);
+				ApiLogger.info(" && 7.2 && ");
 				billDao.save(bill);
-				
+				ApiLogger.info(" && 7.3 && ");
 				OrderBillVo obvo = new OrderBillVo();
 				obvo.setOrder(order);
 				obvo.setBill(bill);
 				obvo.setCompany(vo.getCompany());
+				ApiLogger.info(" && 7.4 && ");
 				cacheDao.setOrderBillVo(orderId, obvo);
 			}	
 			ApiLogger.info(" && 8 && ");
