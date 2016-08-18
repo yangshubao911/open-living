@@ -388,16 +388,18 @@ public class ClientService {
 			Order order = vo.getOrder();
 			//TODO??
 			result.put("billDate", bill.getBillDate());
-			
+			ApiLogger.info(" ~ 1 ~ ");			
 			if( bill.getFeeType() == FeeTypeEnum.Prepayment.getValue() ) {
 				order.setPrice(price);
 			}
 			//
+			ApiLogger.info(" ~ 2 ~ ");	
 			calculateOffSet(vo);
 			result.put("shOffSet", order.getShOffSet());
 			result.put("pay", order.getPay());
 			result.put("shGold", vo.getShGold());
 			//
+			ApiLogger.info(" ~ 3 ~ ");	
 			result.put("price", order.getPrice());
 
 			result.put("feeType", bill.getFeeType());
@@ -405,7 +407,7 @@ public class ClientService {
 			result.put("userNo", bill.getBillKey());
 			result.put("userAddress", bill.getUserAddress());
 			result.put("userName", bill.getUserName());
-			
+			ApiLogger.info(" ~ 4 ~ ");	
 			Company company = vo.getCompany();
 			result.put("companyName", company.getCompanyName());
 			
@@ -413,8 +415,9 @@ public class ClientService {
 			result.put("serviceType", company.getServiceType());
 			
 			result.put("response", new SimpleResponse(1,"成功") );
-			
+			ApiLogger.info(" ~ 5 ~ ");	
 			cacheDao.setQueryOrderBillVo(tempId, vo);
+			ApiLogger.info(" ~ 6 ~ ");	
 		}
 		ApiLogger.info("Service: confirmOrder() : " + result.toJSONString());
 		return result;

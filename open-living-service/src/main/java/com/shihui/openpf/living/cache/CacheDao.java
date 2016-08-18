@@ -211,7 +211,7 @@ public class CacheDao {
     	return false;
     }	
 	//
-	private static final String QUERYORDERBILLVO_PREFIX = CACHE_PREFIX + "obvo_q" + Constants.REDIS_KEY_SEPARATOR;
+	private static final String QUERYORDERBILLVO_PREFIX = CACHE_PREFIX + "qobvo" + Constants.REDIS_KEY_SEPARATOR;
 	private static final int EXPIRE_QUERYORDERBILLVO = 60*60;
 	
     public void setQueryOrderBillVo(String tempId, QueryOrderBillVo vo){
