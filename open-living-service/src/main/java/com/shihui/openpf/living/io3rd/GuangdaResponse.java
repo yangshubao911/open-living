@@ -128,7 +128,7 @@ public class GuangdaResponse {
 		bill.setBalance(String.valueOf(td.balance));
 		BigDecimal bdPayAmount = new BigDecimal(td.payAmount/100);
 		bill.setPayment(bdPayAmount.toString());
-
+ApiLogger.info("payMent: " + td.payAmount + " : " + (td.payAmount/100) + " : " + bdPayAmount.toString());
 		bill.setStartTime(td.beginDate);
 		bill.setEndTime(td.endDate);
 
@@ -260,7 +260,7 @@ ApiLogger.info(" - 2 - ");
 	    		load_vo_elements(vo);
 ApiLogger.info(" - 3 - ");
 	    		cacheDao.setQueryOrderBillVo(tempId, vo);
-ApiLogger.info(" - 4 - ");
+ApiLogger.info(" - 4 - " + tempId);
 	    		//
 	    		noticeApp(vo);
 	    		ApiLogger.info("OK: GuangdaResponse : resQuery()");
