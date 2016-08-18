@@ -126,12 +126,19 @@ public class CacheDao {
 		return (Goods)hgetObject(GOODS_PREFIX + category, String.valueOf(goodsId),Goods.class);
 	}
 	//
-	private static final String CAMPAIGN_LIST = CACHE_PREFIX + "campaignList";
-	public void setCampaignList(int serviceId, List<Campaign> campaignList) {
-		hset(CAMPAIGN_LIST, String.valueOf(serviceId), campaignList, EXPIRE_SYS);
+//	private static final String CAMPAIGN_LIST = CACHE_PREFIX + "campaignList";
+//	public void setCampaignList(int serviceId, List<Campaign> campaignList) {
+//		hset(CAMPAIGN_LIST, String.valueOf(serviceId), campaignList, EXPIRE_SYS);
+//	}
+//	public List<Campaign> getCampaignList(int serviceId) {
+//		return (List<Campaign>)hgetObject(CAMPAIGN_LIST, String.valueOf(serviceId), Campaign.class);
+//	}
+	private static final String CAMPAIGN = CACHE_PREFIX + "campaign";
+	public void setCampaign(int serviceId, Campaign campaign) {
+		hset(CAMPAIGN, String.valueOf(serviceId), campaign, EXPIRE_SYS);
 	}
-	public List<Campaign> getCampaignList(int serviceId) {
-		return (List<Campaign>)hgetObject(CAMPAIGN_LIST, String.valueOf(serviceId), Campaign.class);
+	public Campaign getCampaign(int serviceId) {
+		return (Campaign)hgetObject(CAMPAIGN, String.valueOf(serviceId), Campaign.class);
 	}
 	//
 	private static final String USER_HOME_PREFIX = CACHE_PREFIX + "user_home" + Constants.REDIS_KEY_SEPARATOR;

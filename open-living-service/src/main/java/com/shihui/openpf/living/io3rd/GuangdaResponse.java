@@ -196,17 +196,36 @@ ApiLogger.info("payMent: " + td.payAmount + " : " + (td.payAmount/100) + " : " +
 		vo.setGoods(goods);
 		//
 		ApiLogger.info(" ! 3 ! ");
-		Campaign campaign;
-		List<Campaign> campaigns = cacheDao.getCampaignList(goods.getServiceId());
-		if(campaigns == null) {
+//		Campaign campaign;
+//		List<Campaign> campaigns = cacheDao.getCampaignList(goods.getServiceId());
+//		if(campaigns == null) {
+//			campaign = new Campaign();
+//			campaign.setServiceId(goods.getServiceId());
+//			campaigns = campaignService.findByCondition(campaign);
+//			cacheDao.setCampaignList(goods.getServiceId(), campaigns);
+//		}
+//		if (campaigns != null && campaigns.size() > 0) {
+//			// 默认活动就一个首单优惠
+//			campaign = campaigns.get(0);
+//			Date now = new Date();
+//			if (campaign.getStatus() == 1 && campaign.getStartTime().before(now) && campaign.getEndTime().after(now)) {
+//				vo.setCampaign(campaign);
+//			}
+//		}
+		Campaign campaign = cacheDao.getCampaign(goods.getServiceId());
+		if( campaign == null) {
 			campaign = new Campaign();
 			campaign.setServiceId(goods.getServiceId());
-			campaigns = campaignService.findByCondition(campaign);
-			cacheDao.setCampaignList(goods.getServiceId(), campaigns);
-		}
-		if (campaigns != null && campaigns.size() > 0) {
-			// 默认活动就一个首单优惠
-			campaign = campaigns.get(0);
+			List<Campaign> campaigns = campaignService.findByCondition(campaign);
+			if (campaigns != null && campaigns.size() > 0) {
+				campaign = campaigns.get(0);
+				Date now = new Date();
+				if (campaign.getStatus() == 1 && campaign.getStartTime().before(now) && campaign.getEndTime().after(now)) {
+					vo.setCampaign(campaign);
+				}
+				cacheDao.setCampaign(goods.getServiceId(), campaign);
+			}
+		} else {
 			Date now = new Date();
 			if (campaign.getStatus() == 1 && campaign.getStartTime().before(now) && campaign.getEndTime().after(now)) {
 				vo.setCampaign(campaign);
