@@ -469,7 +469,7 @@ trans_id
 			apiResult.setMsg("操作超时，请重新查询下单");
 
 		} else {
-			ApiLogger.info("Service: confirmOrder() : " 
+			ApiLogger.info("Service: createOrder() : " 
 					+ "userId: " + userId
 					+ ", tempId: " + tempId
 					+ ", costSh: " + costSh
@@ -485,6 +485,7 @@ trans_id
 				order.setShOffSet(new BigDecimal("0").toString());
 			}
 			//
+			ApiLogger.info(" && 1 && ");
 			Merchant merchant = vo.getMerchant();
 			order.setMerchantId(merchant.getMerchantId());
 			order.setOrderStatus(OrderStatusEnum.OrderUnpaid.getValue());
@@ -498,7 +499,7 @@ trans_id
 			//
 			//
 			SingleGoodsCreateOrderParam singleGoodsCreateOrderParam = new SingleGoodsCreateOrderParam();
-			
+			ApiLogger.info(" && 2 && ");
 			Campaign campaign = vo.getCampaign();
 			if(campaign != null)
 				singleGoodsCreateOrderParam.setCampaignId(campaign.getId());
@@ -506,6 +507,7 @@ trans_id
 			singleGoodsCreateOrderParam.setCityId(group.getCityId());
 			singleGoodsCreateOrderParam.setCommunityId(group.getGid());
 			//TODO 添加扩展字段
+			ApiLogger.info(" && 3 && ");
 			com.shihui.openpf.common.model.Service service = vo.getService();
 			Goods goods = vo.getGoods();
 			JSONObject jo = new JSONObject();
@@ -519,7 +521,7 @@ trans_id
 							+ ",户号" + bill.getBillKey();
 			jo.put("goodsName", title);
 			jo.put("appId", order.getAppId());
-			
+			ApiLogger.info(" && 4 && ");
 			Company company = vo.getCompany();
 			jo.put("companyName", company.getCompanyName());
 			jo.put("userNo", bill.getBillKey());
@@ -532,7 +534,7 @@ trans_id
 			singleGoodsCreateOrderParam.setGoodsId(goods.getGoodsId());
 			singleGoodsCreateOrderParam.setGoodsName(goods.getGoodsName());
 			singleGoodsCreateOrderParam.setUserId(order.getUserId());
-			
+			ApiLogger.info(" && 5 && ");
 			singleGoodsCreateOrderParam.setOrderType(OrderTypeEnum.parse(service.getOrderType()));
 
 			long overTime = System.currentTimeMillis() + 1000 * 60 * 60;
@@ -545,8 +547,9 @@ trans_id
 			singleGoodsCreateOrderParam.setDistrictId(group.getDistrictId());
 			
 			apiResult = orderSystemService.submitOrder(singleGoodsCreateOrderParam);
-
+			ApiLogger.info(" && 6 && ");
 			if (apiResult.getStatus() == 1) {
+				ApiLogger.info(" && 7 && ");
 				long orderId = Long.parseLong(apiResult.getOrderId().get(0));
 				order.setOrderId(orderId);
 				bill.setOrderId(orderId);
@@ -559,7 +562,8 @@ trans_id
 				obvo.setBill(bill);
 				obvo.setCompany(vo.getCompany());
 				cacheDao.setOrderBillVo(orderId, obvo);
-			}			
+			}	
+			ApiLogger.info(" && 8 && ");
 		}
 		//
 		ApiLogger.info("Service: createOrder() : " + JSON.toJSON(apiResult));
