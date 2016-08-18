@@ -47,7 +47,6 @@ public class Order implements Serializable {
 	
 	private String settlement;
 
-//	@Column(name = "sh_off_set")
 	private String shOffSet;
 
 	@JSONField(name = "updateTime", format = "yyyy-MM-dd HH:mm:ss")

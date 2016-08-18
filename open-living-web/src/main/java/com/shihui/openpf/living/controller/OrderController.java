@@ -45,12 +45,13 @@ public class OrderController {
 			@RequestParam(name="endTime",		required = false)						String endTime,
 			@RequestParam(name="cityId",		required = false)						String cityId,
 			@RequestParam(name="userAddress",	required = false)						String userAddress,
-			@RequestParam(name="company_id",	required = false)						String companyId,
+			@RequestParam(name="companyId",	required = false)							String companyId,
 			@RequestParam(name="userNo",		required = false)						String userNo,
 			@RequestParam(name="userName",		required = false)						String userName,
 			@RequestParam(name="orderId",		required = false)						String orderId,
 			@RequestParam(name="userId",		required = false)						String userId,
-			@RequestParam(name="order_status",	required = false)						String orderStatus,
+			@RequestParam(name="orderStatus",	required = false)						String orderStatus,
+			@RequestParam(name="serviceId",	required = false)							String serviceId,
 			@RequestParam(name="page",			required = false, defaultValue="1")		int page,
 			@RequestParam(name="size",			required = false, defaultValue="10")	int size) {
 
@@ -76,6 +77,8 @@ public class OrderController {
 				vo.setUserId(Integer.parseInt(userId));
 			if (!StringUtil.isEmpty(orderStatus))
 				vo.setOrderStatus(Integer.parseInt(orderStatus));
+			if (!StringUtil.isEmpty(serviceId))
+				vo.setServiceId(Integer.parseInt(serviceId));
 			
 			vo.setIndex((page-1)*size);
 			vo.setCount(size);

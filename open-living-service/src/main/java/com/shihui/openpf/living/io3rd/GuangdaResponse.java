@@ -222,6 +222,8 @@ ApiLogger.info("payMent: " + td.payAmount + " : " + (td.payAmount/100) + " : " +
 				Date now = new Date();
 				if (campaign.getStatus() == 1 && campaign.getStartTime().before(now) && campaign.getEndTime().after(now)) {
 					vo.setCampaign(campaign);
+				} else {
+					order.setCampaignId(0);
 				}
 				cacheDao.setCampaign(goods.getServiceId(), campaign);
 			}
@@ -229,6 +231,8 @@ ApiLogger.info("payMent: " + td.payAmount + " : " + (td.payAmount/100) + " : " +
 			Date now = new Date();
 			if (campaign.getStatus() == 1 && campaign.getStartTime().before(now) && campaign.getEndTime().after(now)) {
 				vo.setCampaign(campaign);
+			} else {
+				order.setCampaignId(0);
 			}
 		}
 		//
