@@ -70,6 +70,7 @@ public class TestController {
 	public Object createCompany(
 			@RequestParam(name="companyNo",		required = true) 					String companyNo,
 			@RequestParam(name="companyName",	required = true) 					String companyName,
+			@RequestParam(name="serviceId",		required = true) 					Integer serviceId,
 			@RequestParam(name="serviceType",	required = true) 					Integer serviceType,
 			@RequestParam(name="cityId",		required = true) 					Integer cityId,
 			@RequestParam(name="feeType",		required = true) 					Integer feeType,
@@ -82,6 +83,7 @@ public class TestController {
 		Company company = new Company();
 		company.setCompanyNo(companyNo);
 		company.setCompanyName(companyName);
+		company.setServiceType(serviceId);
 		company.setServiceType(serviceType);
 		company.setCityId(cityId);
 		company.setFeeType(feeType);
@@ -102,6 +104,7 @@ public class TestController {
 			@RequestParam(name="companyId",		required = true)	Integer companyId,
 			@RequestParam(name="companyNo",		required = false) 	String companyNo,
 			@RequestParam(name="companyName",	required = false) 	String companyName,
+			@RequestParam(name="serviceId",		required = false) 	Integer serviceId,
 			@RequestParam(name="serviceType",	required = false) 	Integer serviceType,
 			@RequestParam(name="cityId",		required = false) 	Integer cityId,
 			@RequestParam(name="feeType",		required = false) 	Integer feeType,
@@ -116,6 +119,7 @@ public class TestController {
 		company.setCompanyId(companyId);
 		company.setCompanyNo(companyNo);
 		company.setCompanyName(companyName);
+		company.setServiceType(serviceId);
 		company.setServiceType(serviceType);
 		company.setCityId(cityId);
 		company.setFeeType(feeType);
