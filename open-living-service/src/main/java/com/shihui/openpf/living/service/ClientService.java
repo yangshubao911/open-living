@@ -333,7 +333,7 @@ public class ClientService {
 
 		Goods goods = vo.getGoods();
 		Order order = vo.getOrder();
-		
+		ApiLogger.info(" * 1 ** ");				
 		Date now = new Date();
 		Campaign campaign = vo.getCampaign();
 		if (campaign != null 
@@ -347,7 +347,7 @@ public class ClientService {
 			offSet = goods.getShOffSet();
 			offSetMax = goods.getShOffSetMax();
 		}
-
+		ApiLogger.info(" * 2 ** ");	
 		BigDecimal bdZero = new BigDecimal("0");
 		BigDecimal bdPrice = new BigDecimal(order.getPrice());
 		BigDecimal bdOffSet = new BigDecimal(offSet);
@@ -355,19 +355,20 @@ public class ClientService {
 		BigDecimal t = bdPrice.multiply(bdOffSet).divide( new BigDecimal("100")).setScale(2, BigDecimal.ROUND_HALF_UP);
 		if(bdOffSetMax.compareTo(bdZero) > 0)
 			t = t.min(bdOffSetMax);
-		
+		ApiLogger.info(" * 3 ** ");	
 		long balance = accountDubbo.getUserSHGlodAmount(order.getUserId());
 		BigDecimal bdBalance = new BigDecimal(balance).divide(new BigDecimal("10000"));
 		vo.setShGold(bdBalance.toString());
 		t =  balance > 0 ? (bdBalance.compareTo(t) >= 0 
 				? t : bdZero)
 				: bdZero;		
-
+		ApiLogger.info(" * 4 ** ");	
 		order.setShOffSet(t.toString());
 		order.setPay(bdPrice.subtract(t).toString());
 		ApiLogger.info("Service: confirmOrder() : calculateOffSet() : " 
 				+ "shOffSet: " + order.getShOffSet()
 				+ ", pay: " + order.getPay() );
+		ApiLogger.info(" * 5 ** ");	
 	}
 
 	public Object confirmOrder(int userId, String tempId, String price) {
