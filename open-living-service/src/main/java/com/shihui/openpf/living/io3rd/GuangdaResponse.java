@@ -233,6 +233,7 @@ public class GuangdaResponse {
 			merchant = merchantManage.getById(service.getServiceMerchantId());
 			ApiLogger.info(" ! 5 ! 3");
 			cacheDao.setMerchant(merchant.getMerchantId(), merchant);
+			ApiLogger.info(" ! 5 ! 4");
 		}
 		vo.setMerchant(merchant);
 		ApiLogger.info(" ! 6 ! ");
