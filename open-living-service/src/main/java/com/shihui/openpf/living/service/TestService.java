@@ -192,6 +192,8 @@ public class TestService {
 			if(to.orderId == 0) {
 				JSONObject jo = (JSONObject)clientService.createOrder(ti.userId, to.tempId, 0, null);
 				
+				ApiLogger.info("TEST : create : status : [" + jo.getInteger("status") + "] orderId: [" + jo.getLongValue("orderId") + "]");
+				
 				if(jo.getInteger("status") != 1)
 					return false;
 								
@@ -210,7 +212,7 @@ public class TestService {
 			TestOutput to = td.toList.get(i);
 			
 			ApiLogger.info("TEST : pay : orderId : " + to.orderId);
-			
+						
 			if(to.orderId != 0) {
 				OrderBillVo vo = cacheDao.getOrderBillVo(to.orderId);
 				if(vo == null) {

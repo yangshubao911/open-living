@@ -510,7 +510,6 @@ trans_id
 			jo.put("userName", bill.getUserName());
 			singleGoodsCreateOrderParam.setExt(jo.toJSONString());
 			//
-			ApiLogger.info(order.getPrice() + " && 4.1 && ");
 			singleGoodsCreateOrderParam.setOriginPrice(StringUtil.yuan2hao(order.getPrice()));
 			singleGoodsCreateOrderParam.setIp(ip);
 			singleGoodsCreateOrderParam.setGoodsVersion(goods.getGoodsVersion());
