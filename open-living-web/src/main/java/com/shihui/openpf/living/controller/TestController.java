@@ -147,13 +147,13 @@ public class TestController {
 	public Object check() {
 		return testService.check();
 	}	
+
 	@RequestMapping("/pay")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
 	public Object payDoc1() {
 		return testService.pay();
-	}
-	
+	}	
 	@RequestMapping("/queryexc0")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)

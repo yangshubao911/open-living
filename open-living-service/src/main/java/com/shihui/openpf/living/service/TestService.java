@@ -172,11 +172,31 @@ public class TestService {
 			TestInput ti = td.tiList.get(i);
 			TestOutput to = td.toList.get(i);
 			
-			JSONObject jo = (JSONObject)clientService.confirmOrder(ti.userId, to.tempId, null);
+			if(to.orderId != 0) {
+				JSONObject jo = (JSONObject)clientService.confirmOrder(ti.userId, to.tempId, null);
 			
-			if(jo.getJSONObject("response").getInteger("status") != 1)
-				return false;
+				if(jo.getJSONObject("response").getInteger("status") != 1)
+					return false;
+			}
 		}
+		return true;
+	}
+	private boolean create(TestData td) {
+		
+		for(int i = 0; i < td.tiList.size(); i++) {
+			TestInput ti = td.tiList.get(i);
+			TestOutput to = td.toList.get(i);
+			
+			if(to.orderId != 0) {
+				JSONObject jo = (JSONObject)clientService.createOrder(ti.userId, to.tempId, 0, null);
+				
+				if(jo.getInteger("status") != 1)
+					return false;
+				
+				to.orderId = jo.getLongValue("orderId");
+			}
+		}
+		cacheDao.setTest(td);
 		return true;
 	}
 	private boolean pay(TestData td) {
@@ -185,30 +205,55 @@ public class TestService {
 			TestInput ti = td.tiList.get(i);
 			TestOutput to = td.toList.get(i);
 			
-			JSONObject jo = (JSONObject)clientService.createOrder(ti.userId, to.tempId, 0, null);
-			
-			if(jo.getInteger("status") != 1)
-				return false;
+			if(to.orderId != 0) {
+				OrderBillVo vo = cacheDao.getOrderBillVo(to.orderId);
+				if(vo == null) {
+					ApiLogger.info("TEST : pay() : vo == null");
+					return false;
+				}
+				doReqPay(vo);
+			}
 		}
 		return true;
-	}
+	}	
 	public Object pay() {
 		TestData td = (TestData)cacheDao.getTest(TestData.class);
 		if(td != null) {
-			if(!comfirm(td))
+			if(!comfirm(td)) {
+				ApiLogger.info("TEST : comfirm : Fail");
 				return JSON.toJSON(new SimpleResponse(2, "TEST : comfirm : Fail"));
-			if(!pay(td))
-				return JSON.toJSON(new SimpleResponse(3, "TEST : pay : Fail"));
+			}
+			if(!create(td)) {
+				ApiLogger.info("TEST : create : Fail");
+				return JSON.toJSON(new SimpleResponse(3, "TEST : create : Fail"));
+			}
+			if(!pay(td)) {
+				ApiLogger.info("TEST : pay : Fail");
+				return JSON.toJSON(new SimpleResponse(4, "TEST : pay : Fail"));
+			}
+			ApiLogger.info("TEST : pay : OK");
 			return JSON.toJSON(new SimpleResponse(0, "TEST : pay : OK"));
 		}
-		return JSON.toJSON(new SimpleResponse(1, "TEST : payDoc1 : td == null"));
+		ApiLogger.info("TEST : pay : td == null");
+		return JSON.toJSON(new SimpleResponse(1, "TEST : pay : td == null"));
 	}
 	
 	public Object queryExc1() {
-		JSONObject result = new JSONObject();
-		
-		
-		return result;
+		TestInput[] tia = {
+				new TestInput(36051, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1","116.68")//,
+//				new TestInput(36052, 38, 2, 1, 532712, 1, "021009006", "0060014216", 1, 1, "2", "70.00"),
+//				new TestInput(36053, 38, 2, 1, 532712, 1, "021009006", "609990231041328000100006", 1, 1, "1", "100.00"),
+//				new TestInput(36054, 38, 2, 1, 532712, 1, "021009006", "0210274168", 1, 1, "2", "100.00")
+				};
+
+		TestData td = query(tia);
+		if( td == null)
+			return JSON.toJSON(new SimpleResponse(1, "TEST : queryDoc1 : td == null"));
+		else {
+			cacheDao.setTest(td);
+			
+			return JSON.toJSON(td);
+		}
 	}
 	public Object payExc1() {
 		JSONObject result = new JSONObject();
