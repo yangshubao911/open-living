@@ -1,6 +1,7 @@
 package com.shihui.openpf.living.service;
 
 import java.util.Date;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import javax.annotation.Resource;
 
@@ -65,7 +66,7 @@ public class TestService {
 				bill.getBillKey(), 
 				obvo.getCompany().getCompanyNo(), 
 				cacheDao.getSerialNo(), 
-				order.getPrice(),
+				new BigDecimal(order.getPrice()).multiply(new BigDecimal("100")).setScale(0, BigDecimal.ROUND_HALF_UP).toString(),
 				bill.getUserName(), 
 				bill.getContractNo(), 
 				bill.getBillDate(),bill.getField2(),null,null/*field1, filed2, filed3, filed4*/);
