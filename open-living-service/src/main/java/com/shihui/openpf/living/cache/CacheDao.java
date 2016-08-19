@@ -192,7 +192,7 @@ public class CacheDao {
     public String getSerialNo() {
     	try(ShardedJedis jedis = jedisPool.getResource()){
     		Long result = jedis.incr(LIVING_GEN_SERIALNO);
-    		String prefix = jedis.get("LIVING_GEN_SERIALNO_PREFIX");
+    		String prefix = jedis.get(LIVING_GEN_SERIALNO_PREFIX);
     		if(prefix == null) 
     			resetSerialNo();
     		return  prefix + String.format("%08d", result);
