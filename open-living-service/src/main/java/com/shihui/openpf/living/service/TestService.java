@@ -179,19 +179,24 @@ public class TestService {
 	}
 	
 	public Object check() {
+		ApiLogger.info("TEST : check() : start...");
 		TestData td = (TestData)cacheDao.getTest(TestData.class);
 		for(int i = 0; i < td.tiList.size(); i++) {
 			TestInput ti = td.tiList.get(i);
 			TestOutput to = td.toList.get(i);
 			
 			QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(to.tempId);
-			if(vo == null)
+			if(vo == null) {
+				ApiLogger.info("TEST : check() : vo == null");
 				return JSON.toJSON(new SimpleResponse(1, "TEST : check() : vo == null"));
+			}
 			
-			if(ti.price.compareTo(vo.getOrder().getPrice()) != 0)
+			if(ti.price.compareTo(vo.getOrder().getPrice()) != 0) {
+				ApiLogger.info("TEST : check() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] price:[" +ti.price+"] o_price:["+vo.getOrder().getPrice()+"]");
 				return JSON.toJSON(new SimpleResponse(2, "TEST : check() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] price:[" +ti.price+"] o_price:["+vo.getOrder().getPrice()+"]"));
-			
+			}
 		}
+		ApiLogger.info("TEST : check() : OK");
 		return JSON.toJSON(new SimpleResponse(0, "TEST : check() : OK"));
 	}
 	
