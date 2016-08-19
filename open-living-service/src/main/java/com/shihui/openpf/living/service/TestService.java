@@ -96,6 +96,9 @@ public class TestService {
 		
 		public String	price;			//
 		
+		public TestInput() {
+			
+		}
 		public TestInput(int userId, int serviceId, int categoryId, int cityId, long groupId, 
 				int companyId, String companyNo, String userNo, long goodsId, int goodsVersion, String field2,
 				String price) {
