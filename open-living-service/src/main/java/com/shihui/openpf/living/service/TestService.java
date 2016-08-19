@@ -193,12 +193,12 @@ public class TestService {
 				JSONObject jo = (JSONObject)clientService.createOrder(ti.userId, to.tempId, 0, null);
 				
 				ApiLogger.info("TEST : create : jo : " + jo.toJSONString());
-				ApiLogger.info("TEST : create : status : [" + jo.getInteger("status") + "] orderId: [" + jo.getLongValue("orderId") + "]");
+				ApiLogger.info("TEST : create : status : [" + jo.getInteger("status") + "] orderId: [" + jo.getJSONArray("orderId").getLongValue(0) + "]");
 				
 				if(jo.getInteger("status") != 1)
 					return false;
 								
-				to.orderId = jo.getLongValue("orderId");
+				to.orderId = jo.getJSONArray("orderId").getLongValue(0);
 				
 				ApiLogger.info("TEST : create : tempId : [" + to.tempId + "] orderId: [" + to.orderId + "]");
 			}
