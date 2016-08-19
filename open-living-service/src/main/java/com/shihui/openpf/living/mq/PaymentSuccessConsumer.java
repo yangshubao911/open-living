@@ -1,5 +1,6 @@
 package com.shihui.openpf.living.mq;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -85,7 +86,7 @@ public class PaymentSuccessConsumer implements Consumer {
 				bill.getBillKey(), 
 				obvo.getCompany().getCompanyNo(), 
 				cacheDao.getSerialNo(), 
-				order.getPrice(),
+				new BigDecimal(order.getPrice()).multiply(new BigDecimal("100")).setScale(0, BigDecimal.ROUND_HALF_UP).toString(),
 				bill.getUserName(), 
 				bill.getContractNo(), 
 				bill.getBillDate(),bill.getField2(),null,null/*field1, filed2, filed3, filed4*/);
