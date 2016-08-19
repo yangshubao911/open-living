@@ -221,14 +221,17 @@ public class TestService {
 	public Object pay() {
 		TestData td = (TestData)cacheDao.getTest(TestData.class);
 		if(td != null) {
+			ApiLogger.info("TEST : comfirm : start...");
 			if(!comfirm(td)) {
 				ApiLogger.info("TEST : comfirm : Fail");
 				return JSON.toJSON(new SimpleResponse(2, "TEST : comfirm : Fail"));
 			}
+			ApiLogger.info("TEST : create : start...");
 			if(!create(td)) {
 				ApiLogger.info("TEST : create : Fail");
 				return JSON.toJSON(new SimpleResponse(3, "TEST : create : Fail"));
 			}
+			ApiLogger.info("TEST : pay : start...");
 			if(!pay(td)) {
 				ApiLogger.info("TEST : pay : Fail");
 				return JSON.toJSON(new SimpleResponse(4, "TEST : pay : Fail"));
