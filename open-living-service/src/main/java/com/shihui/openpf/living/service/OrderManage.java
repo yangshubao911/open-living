@@ -257,12 +257,13 @@ public class OrderManage {
 	 */
 
 	public Object queryOrder(long orderId) {
+		ApiLogger.info("OrderManage : queryOrder : " + orderId);
 		try {
 			JSONObject result = new JSONObject();
 			
 			Order order = orderDao.findById(orderId);
 			Bill bill = billDao.findById(orderId);
-			
+			ApiLogger.info("OrderManage : queryOrder : (order == null || bill == null)" + (order == null || bill == null));
 			if (order == null || bill == null)
 				return null;
 			//
@@ -279,14 +280,18 @@ public class OrderManage {
 			result.put("userName", bill.getUserName());
 			result.put("billStatus", bill.getBillStatus() == BillStatusEnum.Refund.getValue() ? "已退款" : "无");
 			//
+			ApiLogger.info("OrderManage : queryOrder : - 1 -");
 			Company company = companyDao.findById(bill.getCompanyId());
 			result.put("companyName", company.getCompanyName());
 			//
+			ApiLogger.info("OrderManage : queryOrder : - 2 -");
 			Merchant merchant = merchantManage.getById(order.getMerchantId());
 			result.put("merchantName", merchant.getMerchantName());
 			//
+			ApiLogger.info("OrderManage : queryOrder : - 3 -");
 			SimpleResult simpleResult = orderSystemService.backendOrderDetail(orderId);
 			if(simpleResult.getStatus()==1) {
+				ApiLogger.info("OrderManage : queryOrder : - 4 -");
 				com.shihui.api.order.po.Order order_vo = (com.shihui.api.order.po.Order)simpleResult.getData();
 				PayTypeEnum payType = order_vo.getPayType();
 				if(payType!=null)
@@ -298,13 +303,13 @@ public class OrderManage {
 				}
 			}else {
 //				log.info("queryOrder--orderId:" + orderId + " backendOrderDetail status:" + simpleResult.getStatus() + " msg:" + simpleResult.getMsg());
-				ApiLogger.error("queryOrder--orderId:" + orderId + " backendOrderDetail status:" + simpleResult.getStatus() + " msg:" + simpleResult.getMsg());
+				ApiLogger.info("queryOrder--orderId:" + orderId + " backendOrderDetail status:" + simpleResult.getStatus() + " msg:" + simpleResult.getMsg());
 			}
 
 			return result;
 		} catch (Exception e) {
 //			log.error("OrderManageImpl queryOrder error!!", e);
-			ApiLogger.error("OrderManageImpl queryOrder error!!" + e.getMessage());
+			ApiLogger.info("OrderManageImpl queryOrder error!!" + e.getMessage());
 		}
 
 		return null;
