@@ -132,8 +132,8 @@ public class OrderController {
 			if (!StringUtil.isEmpty(orderStatus))
 				vo.setOrderStatus(Integer.parseInt(orderStatus));
 			
-			vo.setIndex(new Integer(0));
-			vo.setCount(new Integer(-1));
+//			vo.setIndex(new Integer(0));
+//			vo.setCount(new Integer(-1));
 
 			return JSON.toJSON(orderManage.exportOrderList(vo));
 		} catch (Exception e) {

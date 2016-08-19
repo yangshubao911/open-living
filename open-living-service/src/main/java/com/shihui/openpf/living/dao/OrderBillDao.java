@@ -103,9 +103,11 @@ public class OrderBillDao extends AbstractDao<OrderBill> {
 			valueList.add(serviceId);
 		}
 
-		sql.append(" LIMIT ?, ? "); 
-		valueList.add(vo.getIndex());
-		valueList.add(vo.getCount());
+		if(vo.getIndex() != null && vo.getCount() != null) {
+			sql.append(" LIMIT ?, ? "); 
+			valueList.add(vo.getIndex());
+			valueList.add(vo.getCount());
+		}
 
 ApiLogger.info("OrderBillDao : query : " + sql.toString() + " : " + valueList.toString());
 		return this.queryForList(sql.toString(), valueList.toArray());
