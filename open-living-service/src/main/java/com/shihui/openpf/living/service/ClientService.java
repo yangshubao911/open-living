@@ -461,6 +461,7 @@ trans_id
 					+ ", costSh: " + costSh
 					+ ", ip: " + ip);
 			
+			ApiLogger.info("Service : createOrder() : QueryOrderBillVo : " + JSON.toJSONString(vo));
 			cacheDao.delQueryOrderBillVo(vo.getTempId());
 			//
 			Order order = vo.getOrder();
