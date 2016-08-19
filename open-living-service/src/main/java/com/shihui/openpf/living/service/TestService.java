@@ -72,7 +72,7 @@ public class TestService {
 	//
 	// test
 	//
-	class TestData {
+	public class TestData {
 		public ArrayList<TestInput> tiList;
 		public ArrayList<TestOutput> toList;
 		
@@ -81,7 +81,7 @@ public class TestService {
 			toList = new  ArrayList<TestOutput>();
 		}
 	}
-	class TestInput {
+	public class TestInput {
 		public int		userId;			// 36050
 		public int		serviceId;		// 38
 		public int		categoryId;		// 2
