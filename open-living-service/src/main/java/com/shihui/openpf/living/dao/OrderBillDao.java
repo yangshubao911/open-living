@@ -1,6 +1,7 @@
 package com.shihui.openpf.living.dao;
 
 import com.shihui.openpf.living.entity.support.BillStatusEnum;
+import com.shihui.commons.ApiLogger;
 import com.shihui.openpf.living.entity.OrderBill;
 import com.shihui.openpf.living.entity.support.ConditionVo;
 
@@ -106,6 +107,7 @@ public class OrderBillDao extends AbstractDao<OrderBill> {
 		valueList.add(vo.getIndex());
 		valueList.add(vo.getCount());
 
+ApiLogger.info("OrderBillDao : query : " + sql.toString() + " : " + valueList.toString());
 		return this.queryForList(sql.toString(), valueList.toArray());
 	}
 	
