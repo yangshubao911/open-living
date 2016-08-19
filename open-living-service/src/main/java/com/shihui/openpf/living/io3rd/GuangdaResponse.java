@@ -135,13 +135,13 @@ public class GuangdaResponse {
 		bill.setStartTime(td.beginDate);
 		bill.setEndTime(td.endDate);
 
-		bill.setField1(td.field1);
-		bill.setField2(td.field2);
-		bill.setField3(td.field3);
-		bill.setField4(td.field4);
-		bill.setField5(td.field5);
+		bill.setField1(td.filed1);
+		bill.setField2(td.filed2);
+		bill.setField3(td.filed3);
+		bill.setField4(td.filed4);
+		bill.setField5(td.filed5);
     	//
-		bill.setBillDate(td.field1);
+		bill.setBillDate(bill.getField1());
     }
 	private void noticeApp(QueryOrderBillVo vo) {
 		JSONObject result = new JSONObject();

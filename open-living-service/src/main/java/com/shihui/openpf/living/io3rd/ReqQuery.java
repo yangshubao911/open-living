@@ -11,10 +11,10 @@ public class ReqQuery {
 		public String companyId;
 		public int beginNum = 1;
 		public int queryNum = 1;
-		public String field1;
-		public String field2;
-		public String field3;
-		public String field4;
+		public String filed1;
+		public String filed2;
+		public String filed3;
+		public String filed4;
 
 	}
 	
@@ -34,19 +34,19 @@ public class ReqQuery {
 			String TrmSeqNum,
 			String billKey,
 			String companyId,
-			String field1,
-			String field2,
-			String field3,
-			String field4
+			String filed1,
+			String filed2,
+			String filed3,
+			String filed4
 			) {
 		ReqQuery req = new ReqQuery(TrmSeqNum);
 		
 		req.tin.billKey = billKey;
 		req.tin.companyId = companyId;
-		req.tin.field1 = field1;
-		req.tin.field2 = field2;
-		req.tin.field3 = field3;
-		req.tin.field4 = field4;
+		req.tin.filed1 = filed1;
+		req.tin.filed2 = filed2;
+		req.tin.filed3 = filed3;
+		req.tin.filed4 = filed4;
 		
 		return req;
 	}
