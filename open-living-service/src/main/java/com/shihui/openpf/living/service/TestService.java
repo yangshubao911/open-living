@@ -194,10 +194,10 @@ public class TestService {
 				
 				if(jo.getInteger("status") != 1)
 					return false;
+								
+				to.orderId = jo.getLongValue("orderId");
 				
 				ApiLogger.info("TEST : create : tempId : [" + to.tempId + "] orderId: [" + to.orderId + "]");
-				
-				to.orderId = jo.getLongValue("orderId");
 			}
 		}
 		cacheDao.setTest(td);
