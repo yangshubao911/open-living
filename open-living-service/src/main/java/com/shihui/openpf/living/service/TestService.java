@@ -20,6 +20,7 @@ import com.shihui.openpf.living.util.LivingUtil;
 import com.shihui.openpf.living.util.SimpleResponse;
 import com.shihui.openpf.living.cache.CacheDao;
 import com.shihui.openpf.living.service.ClientService;
+import com.shihui.openpf.living.entity.support.QueryOrderBillVo;
 
 /**
  * Created by zhoutc on 2015/12/16.
@@ -93,8 +94,11 @@ public class TestService {
 		public int		goodsVersion;	// 1
 		public String	field2;			// 1
 		
+		public String	price;			//
+		
 		public TestInput(int userId, int serviceId, int categoryId, int cityId, long groupId, 
-				int companyId, String companyNo, String userNo, long goodsId, int goodsVersion, String field2) {
+				int companyId, String companyNo, String userNo, long goodsId, int goodsVersion, String field2,
+				String price) {
 			this.userId = userId;
 			this.serviceId = serviceId;
 			this.categoryId = categoryId;
@@ -106,6 +110,7 @@ public class TestService {
 			this.goodsId = goodsId;
 			this.goodsVersion = goodsVersion;
 			this.field2 = field2;
+			this.price = price;
 		}
 	}
 	public class TestOutput {
@@ -140,10 +145,10 @@ public class TestService {
 
 	public Object queryDoc0() {
 		TestInput[] tia = {
-				new TestInput(36051, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1")//,
-//				new TestInput(36052, 38, 2, 1, 532712, 1, "021009006", "0060014216", 1, 1, "2"),
-//				new TestInput(36053, 38, 2, 1, 532712, 1, "021009006", "609990231041328000100006", 1, 1, "1"),
-//				new TestInput(36054, 38, 2, 1, 532712, 1, "021009006", "0210274168", 1, 1, "2")
+				new TestInput(36051, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1","116.68")//,
+//				new TestInput(36052, 38, 2, 1, 532712, 1, "021009006", "0060014216", 1, 1, "2", "70.00"),
+//				new TestInput(36053, 38, 2, 1, 532712, 1, "021009006", "609990231041328000100006", 1, 1, "1", "100.00"),
+//				new TestInput(36054, 38, 2, 1, 532712, 1, "021009006", "0210274168", 1, 1, "2", "100.00")
 				};
 
 		TestData td = query(tia);
@@ -158,10 +163,10 @@ public class TestService {
 	
 	public Object queryDoc1() {
 		TestInput[] tia = {
-//				new TestInput(36051, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1"),
-				new TestInput(36052, 38, 2, 1, 532712, 1, "021009006", "0060014216", 1, 1, "2"),
-				new TestInput(36053, 38, 2, 1, 532712, 1, "021009006", "609990231041328000100006", 1, 1, "1"),
-				new TestInput(36054, 38, 2, 1, 532712, 1, "021009006", "0210274168", 1, 1, "2")
+//				new TestInput(36051, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1","116.68")//,
+				new TestInput(36052, 38, 2, 1, 532712, 1, "021009006", "0060014216", 1, 1, "2", "70.00"),
+				new TestInput(36053, 38, 2, 1, 532712, 1, "021009006", "609990231041328000100006", 1, 1, "1", "100.00"),
+				new TestInput(36054, 38, 2, 1, 532712, 1, "021009006", "0210274168", 1, 1, "2", "100.00")
 				};
 
 		TestData td = query(tia);
@@ -171,6 +176,23 @@ public class TestService {
 			cacheDao.setTest(td);
 			return JSON.toJSON(td);
 		}
+	}
+	
+	public Object check() {
+		TestData td = (TestData)cacheDao.getTest(TestData.class);
+		for(int i = 0; i < td.tiList.size(); i++) {
+			TestInput ti = td.tiList.get(i);
+			TestOutput to = td.toList.get(i);
+			
+			QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(to.tempId);
+			if(vo == null)
+				return JSON.toJSON(new SimpleResponse(1, "TEST : check() : vo == null"));
+			
+			if(ti.price.compareTo(vo.getOrder().getPrice()) != 0)
+				return JSON.toJSON(new SimpleResponse(2, "TEST : check() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] price:[" +ti.price+"] o_price:["+vo.getOrder().getPrice()+"]"));
+			
+		}
+		return JSON.toJSON(new SimpleResponse(0, "TEST : check() : OK"));
 	}
 	
 	private boolean comfirm(TestData td) {
