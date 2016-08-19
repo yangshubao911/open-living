@@ -126,7 +126,9 @@ public class GuangdaResponse {
 		ResQuery.ToutData td = resQuery.tout.dataList.get(0);
 		bill.setContractNo(td.contractNo);
 		bill.setUserName(td.customerName);
-		bill.setBalance(String.valueOf(td.balance));
+		//bill.setBalance(String.valueOf(td.balance));
+		BigDecimal bdBalance = new BigDecimal(td.balance/100).setScale(2, BigDecimal.ROUND_HALF_UP);
+		bill.setBalance(bdBalance.toString());
 		BigDecimal bdPayAmount = new BigDecimal(td.payAmount/100).setScale(2, BigDecimal.ROUND_HALF_UP);
 		bill.setPayment(bdPayAmount.toString());
 		order.setPrice(bdPayAmount.toString());
