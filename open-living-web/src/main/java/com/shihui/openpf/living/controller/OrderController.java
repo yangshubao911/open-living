@@ -52,7 +52,7 @@ public class OrderController {
 			@RequestParam(name="userId",		required = false)						String userId,
 			@RequestParam(name="orderStatus",	required = false)						String orderStatus,
 			@RequestParam(name="serviceId",	required = false)							String serviceId,
-			@RequestParam(name="page",			required = false, defaultValue="1")		int page,
+			@RequestParam(name="page",			required = false, defaultValue="0")		int page,
 			@RequestParam(name="size",			required = false, defaultValue="10")	int size) {
 
 		ConditionVo vo = new ConditionVo();

@@ -152,7 +152,6 @@ public class OrderManage {
 	public Object exportOrderList(ConditionVo vo) {
 		JSONObject result = new JSONObject();
 		List<OrderBill> orderList = obDao.query(vo);
-		ApiLogger.info("OrderManage : queryOrder : - 1 -");		
 		List<String> title = new ArrayList<>();
 		title.add("缴费类型");
 		title.add("订单号");
@@ -183,7 +182,6 @@ public class OrderManage {
 			list.add(order.getBillStatus() == BillStatusEnum.Refund.getValue() ? "已退款" : "");
 			data.add(list);
 		}
-		ApiLogger.info("OrderManage : queryOrder : - 2 -");
 		String fileName = null;
 		try {
 			fileName = DataExportUtils.genExcel("open_living_" + System.currentTimeMillis()+".xlsx", "订单", title, data,
@@ -194,7 +192,6 @@ public class OrderManage {
 			result.put("code", 2);
 			return result;
 		}
-		ApiLogger.info("OrderManage : queryOrder : - 3 -");
 		String fileId = "";
 		try {
 			fileId = uploadFile(fileName);
@@ -204,10 +201,8 @@ public class OrderManage {
 			result.put("code",2);
 			return result;
 		}
-		ApiLogger.info("OrderManage : queryOrder : - 4 -");
 		result.put("code",1);
 		result.put("fileId", fileId);
-		ApiLogger.info("OrderManage : queryOrder : - 5 - : " + result.toJSONString());
 		return result;
 	}
 
