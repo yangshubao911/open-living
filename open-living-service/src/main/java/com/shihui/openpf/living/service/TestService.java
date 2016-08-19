@@ -205,6 +205,8 @@ public class TestService {
 			TestInput ti = td.tiList.get(i);
 			TestOutput to = td.toList.get(i);
 			
+			ApiLogger.info("TEST : pay : orderId : " + to.orderId);
+			
 			if(to.orderId != 0) {
 				OrderBillVo vo = cacheDao.getOrderBillVo(to.orderId);
 				if(vo == null) {
