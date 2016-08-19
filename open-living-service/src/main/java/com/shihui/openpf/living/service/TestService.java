@@ -189,7 +189,7 @@ public class TestService {
 			
 			ApiLogger.info("TEST : create : tempId : [" + to.tempId + "] orderId: [" + to.orderId + "]");
 			
-			if(to.orderId != 0) {
+			if(to.orderId == 0) {
 				JSONObject jo = (JSONObject)clientService.createOrder(ti.userId, to.tempId, 0, null);
 				
 				if(jo.getInteger("status") != 1)
