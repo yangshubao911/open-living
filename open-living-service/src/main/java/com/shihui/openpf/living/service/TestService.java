@@ -181,6 +181,11 @@ public class TestService {
 	public Object check() {
 		ApiLogger.info("TEST : check() : start...");
 		TestData td = (TestData)cacheDao.getTest(TestData.class);
+		if(td == null){
+			ApiLogger.info("TEST : check() : td == null");
+			return JSON.toJSON(new SimpleResponse(3, "TEST : check() : td == null"));
+		}
+			
 		for(int i = 0; i < td.tiList.size(); i++) {
 			TestInput ti = td.tiList.get(i);
 			TestOutput to = td.toList.get(i);
