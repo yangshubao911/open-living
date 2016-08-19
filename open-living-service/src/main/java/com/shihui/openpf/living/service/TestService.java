@@ -187,11 +187,15 @@ public class TestService {
 			TestInput ti = td.tiList.get(i);
 			TestOutput to = td.toList.get(i);
 			
+			ApiLogger.info("TEST : create : tempId : [" + to.tempId + "] orderId: [" + to.orderId + "]");
+			
 			if(to.orderId != 0) {
 				JSONObject jo = (JSONObject)clientService.createOrder(ti.userId, to.tempId, 0, null);
 				
 				if(jo.getInteger("status") != 1)
 					return false;
+				
+				ApiLogger.info("TEST : create : tempId : [" + to.tempId + "] orderId: [" + to.orderId + "]");
 				
 				to.orderId = jo.getLongValue("orderId");
 			}
