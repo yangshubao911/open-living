@@ -183,7 +183,13 @@ public class TestService {
 	
 	public Object check() {
 		ApiLogger.info("TEST : check() : start...");
-		TestData td = (TestData)cacheDao.getTest(TestData.class);
+		TestData td;
+		try {
+			td = (TestData)cacheDao.getTest(TestData.class);
+		} catch(Exception e) {
+			ApiLogger.info("TEST : check() : Exception : " + e.getMessage());
+			return JSON.toJSON(new SimpleResponse(1, "TEST : check() : Exception : " + e.getMessage()));
+		}
 		if(td == null){
 			ApiLogger.info("TEST : check() : td == null");
 			return JSON.toJSON(new SimpleResponse(3, "TEST : check() : td == null"));
