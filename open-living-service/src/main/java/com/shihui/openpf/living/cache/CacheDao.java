@@ -281,7 +281,19 @@ public class CacheDao {
     public PacketNotify getNotify(){
     	return (PacketNotify) getObject(PACKET_NOTIFY, PacketNotify.class);
     }
+
+    //
+	private String TEST = CACHE_PREFIX + "test";	
+	private int EXPIRE_TEST = 12*60*60;
+
+    public void setTest(Object object){
+    	set(TEST, object, EXPIRE_TEST);
+    }
     
+    public Object getTest(Class objectClass){
+    	return getObject(TEST, objectClass);
+    }
+
     //
     //
     //

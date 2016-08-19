@@ -333,7 +333,7 @@ public class ClientService {
 
 		Goods goods = vo.getGoods();
 		Order order = vo.getOrder();
-		ApiLogger.info(" * 1 ** ");				
+		
 		Date now = new Date();
 		Campaign campaign = vo.getCampaign();
 		if (campaign != null 
@@ -347,33 +347,25 @@ public class ClientService {
 			offSet = goods.getShOffSet();
 			offSetMax = goods.getShOffSetMax();
 		}
-		ApiLogger.info(" * 2 ** ");	
+
 		BigDecimal bdZero = new BigDecimal("0");
-		ApiLogger.info(" * 2 ** 1" + order.getPrice());	
 		BigDecimal bdPrice = new BigDecimal(order.getPrice());
-		ApiLogger.info(" * 2 ** 2");	
 		BigDecimal bdOffSet = new BigDecimal(offSet);
-		ApiLogger.info(" * 2 ** 3");	
 		BigDecimal bdOffSetMax = new BigDecimal(offSetMax);
-		ApiLogger.info(" * 2 ** 4");	
 		BigDecimal t = bdPrice.multiply(bdOffSet).divide( new BigDecimal("100")).setScale(2, BigDecimal.ROUND_HALF_UP);
-		ApiLogger.info(" * 2 ** 5");	
 		if(bdOffSetMax.compareTo(bdZero) > 0)
 			t = t.min(bdOffSetMax);
-		ApiLogger.info(" * 3 ** ");	
 		long balance = accountDubbo.getUserSHGlodAmount(order.getUserId());
 		BigDecimal bdBalance = new BigDecimal(balance).divide(new BigDecimal("10000"));
 		vo.setShGold(bdBalance.toString());
 		t =  balance > 0 ? (bdBalance.compareTo(t) >= 0 
 				? t : bdZero)
 				: bdZero;		
-		ApiLogger.info(" * 4 ** ");	
 		order.setShOffSet(t.toString());
 		order.setPay(bdPrice.subtract(t).toString());
 		ApiLogger.info("Service: confirmOrder() : calculateOffSet() : " 
 				+ "shOffSet: " + order.getShOffSet()
 				+ ", pay: " + order.getPay() );
-		ApiLogger.info(" * 5 ** ");	
 	}
 
 	public Object confirmOrder(int userId, String tempId, String price) {
@@ -393,19 +385,16 @@ public class ClientService {
 			Bill bill = vo.getBill();
 			Order order = vo.getOrder();
 			//TODO??
-			result.put("billDate", bill.getBillDate());
-			ApiLogger.info(" ~ 1 ~ ");			
+			result.put("billDate", bill.getBillDate());	
 			if( bill.getFeeType() == FeeTypeEnum.Prepayment.getValue() ) {
 				order.setPrice(price);
 			}
 			//
-			ApiLogger.info(" ~ 2 ~ ");	
 			calculateOffSet(vo);
 			result.put("shOffSet", order.getShOffSet());
 			result.put("pay", order.getPay());
 			result.put("shGold", vo.getShGold());
 			//
-			ApiLogger.info(" ~ 3 ~ ");	
 			result.put("price", order.getPrice());
 
 			result.put("feeType", bill.getFeeType());
@@ -413,7 +402,6 @@ public class ClientService {
 			result.put("userNo", bill.getBillKey());
 			result.put("userAddress", bill.getUserAddress());
 			result.put("userName", bill.getUserName());
-			ApiLogger.info(" ~ 4 ~ ");	
 			Company company = vo.getCompany();
 			result.put("companyName", company.getCompanyName());
 			
@@ -421,9 +409,7 @@ public class ClientService {
 			result.put("serviceType", company.getServiceType());
 			
 			result.put("response", new SimpleResponse(1,"成功") );
-			ApiLogger.info(" ~ 5 ~ ");	
 			cacheDao.setQueryOrderBillVo(tempId, vo);
-			ApiLogger.info(" ~ 6 ~ ");	
 		}
 		ApiLogger.info("Service: confirmOrder() : " + result.toJSONString());
 		return result;
@@ -485,7 +471,6 @@ trans_id
 				order.setShOffSet(new BigDecimal("0").toString());
 			}
 			//
-			ApiLogger.info(" && 1 && ");
 			Merchant merchant = vo.getMerchant();
 			order.setMerchantId(merchant.getMerchantId());
 			order.setOrderStatus(OrderStatusEnum.OrderUnpaid.getValue());
@@ -499,7 +484,6 @@ trans_id
 			//
 			//
 			SingleGoodsCreateOrderParam singleGoodsCreateOrderParam = new SingleGoodsCreateOrderParam();
-			ApiLogger.info(" && 2 && ");
 			Campaign campaign = vo.getCampaign();
 			if(campaign != null)
 				singleGoodsCreateOrderParam.setCampaignId(campaign.getId());
@@ -507,7 +491,6 @@ trans_id
 			singleGoodsCreateOrderParam.setCityId(group.getCityId());
 			singleGoodsCreateOrderParam.setCommunityId(group.getGid());
 			//TODO 添加扩展字段
-			ApiLogger.info(" && 3 && ");
 			com.shihui.openpf.common.model.Service service = vo.getService();
 			Goods goods = vo.getGoods();
 			JSONObject jo = new JSONObject();
@@ -521,7 +504,6 @@ trans_id
 							+ ",户号" + bill.getBillKey();
 			jo.put("goodsName", title);
 			jo.put("appId", order.getAppId());
-			ApiLogger.info(" && 4 && ");
 			Company company = vo.getCompany();
 			jo.put("companyName", company.getCompanyName());
 			jo.put("userNo", bill.getBillKey());
@@ -530,13 +512,11 @@ trans_id
 			//
 			ApiLogger.info(order.getPrice() + " && 4.1 && ");
 			singleGoodsCreateOrderParam.setOriginPrice(StringUtil.yuan2hao(order.getPrice()));
-			ApiLogger.info(" && 4.2 && ");
 			singleGoodsCreateOrderParam.setIp(ip);
 			singleGoodsCreateOrderParam.setGoodsVersion(goods.getGoodsVersion());
 			singleGoodsCreateOrderParam.setGoodsId(goods.getGoodsId());
 			singleGoodsCreateOrderParam.setGoodsName(goods.getGoodsName());
 			singleGoodsCreateOrderParam.setUserId(order.getUserId());
-			ApiLogger.info(" && 5 && ");
 			singleGoodsCreateOrderParam.setOrderType(OrderTypeEnum.parse(service.getOrderType()));
 
 			long overTime = System.currentTimeMillis() + 1000 * 60 * 60;
@@ -549,26 +529,20 @@ trans_id
 			singleGoodsCreateOrderParam.setDistrictId(group.getDistrictId());
 			
 			apiResult = orderSystemService.submitOrder(singleGoodsCreateOrderParam);
-			ApiLogger.info(" && 6 && ");
 			if (apiResult.getStatus() == 1) {
-				ApiLogger.info(" && 7 && ");
 				long orderId = Long.parseLong(apiResult.getOrderId().get(0));
+ApiLogger.info("Service: createOrder() : apiResult : orderId : " + orderId);
 				order.setOrderId(orderId);
 				bill.setOrderId(orderId);
 				
-				ApiLogger.info(" && 7.1 && ");
 				orderDao.save(order);
-				ApiLogger.info(" && 7.2 && ");
 				billDao.save(bill);
-				ApiLogger.info(" && 7.3 && ");
 				OrderBillVo obvo = new OrderBillVo();
 				obvo.setOrder(order);
 				obvo.setBill(bill);
 				obvo.setCompany(vo.getCompany());
-				ApiLogger.info(" && 7.4 && ");
 				cacheDao.setOrderBillVo(orderId, obvo);
 			}	
-			ApiLogger.info(" && 8 && ");
 		}
 		//
 		ApiLogger.info("Service: createOrder() : " + JSON.toJSON(apiResult));

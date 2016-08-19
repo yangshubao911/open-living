@@ -17,7 +17,7 @@ import com.shihui.commons.ApiLogger;
 import com.shihui.openpf.living.service.TestService;
 import com.shihui.openpf.living.service.CompanyService;
 import com.shihui.openpf.living.entity.Company;
-
+import com.shihui.openpf.living.service.ClientService;
 
 /**
  * @author zhouqisheng
@@ -31,6 +31,7 @@ public class TestController {
 
 	@Resource private TestService testService;
 	@Resource CompanyService companyService;
+	@Resource ClientService clientService;
 
 	@RequestMapping(path = "/reqKey")
 	@ResponseBody
@@ -39,31 +40,6 @@ public class TestController {
 		return JSON.toJSON(testService.reqKey());
 	}
 	
-	/*
-
-	private String ;
-
-	private Integer ;
-
-	private Integer ;
-
-	private Integer ;
-
-	private Integer userNoLengMin;
-	
-	private Integer userNoLengMax;
-
-	private String payMin;
-
-	private String payMax;
-
-	private Integer dateChoice;
-	
-	private Integer barcode;
-
-	private Integer status;
-	 
-	 */
 	@RequestMapping("/company/create")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
@@ -148,5 +124,42 @@ public class TestController {
 			@RequestParam(name = "companyNo", required = true)String companyNo) {
 		return companyService.query(companyNo);
 	}
+
+	//
+	//
+	//
+	@RequestMapping("/querydoc0")
+	@ResponseBody
+	@Access(type = AccessType.INTERNAL)
+	public Object queryDoc0() {
+		return testService.queryDoc0();
+	}
 	
+	@RequestMapping("/querydoc1")
+	@ResponseBody
+	@Access(type = AccessType.INTERNAL)
+	public Object queryDoc1() {
+		return testService.queryDoc1();
+	}
+	
+	@RequestMapping("/pay")
+	@ResponseBody
+	@Access(type = AccessType.INTERNAL)
+	public Object payDoc1() {
+		return testService.pay();
+	}
+	
+	@RequestMapping("/queryexc0")
+	@ResponseBody
+	@Access(type = AccessType.INTERNAL)
+	public Object queryExc0() {
+		return testService.queryExc1();
+	}
+	
+	@RequestMapping("/queryexc1")
+	@ResponseBody
+	@Access(type = AccessType.INTERNAL)
+	public Object queryExc1() {
+		return testService.queryExc1();
+	}
 }

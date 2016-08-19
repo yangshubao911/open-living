@@ -128,9 +128,8 @@ public class GuangdaResponse {
 		bill.setUserName(td.customerName);
 		bill.setBalance(String.valueOf(td.balance));
 		BigDecimal bdPayAmount = new BigDecimal(td.payAmount/100).setScale(2, BigDecimal.ROUND_HALF_UP);
-		//bill.setPayment(bdPayAmount.toString());
+		bill.setPayment(bdPayAmount.toString());
 		order.setPrice(bdPayAmount.toString());
-ApiLogger.info("payMent: " + td.payAmount + " : " + (td.payAmount/100) + " : " + bdPayAmount.toString());
 		bill.setStartTime(td.beginDate);
 		bill.setEndTime(td.endDate);
 
@@ -182,12 +181,10 @@ ApiLogger.info("payMent: " + td.payAmount + " : " + (td.payAmount/100) + " : " +
 		appNotice.pushQueryResult(order.getUserId(), result);
 	}
 	private void load_vo_elements(QueryOrderBillVo vo) {
-		ApiLogger.info(" ! 1 ! ");
 		Order order = vo.getOrder();		
 		Bill bill = vo.getBill();
 		Company company = companyDao.findById(bill.getCompanyId());
 		vo.setCompany(company);
-		ApiLogger.info(" ! 2 ! ");
 		Goods goods = cacheDao.getGoods(bill.getCategoryId(), order.getGoodsId());
 		if( goods == null) {
 			goods = goodsDao.findById(order.getGoodsId());
@@ -195,7 +192,6 @@ ApiLogger.info("payMent: " + td.payAmount + " : " + (td.payAmount/100) + " : " +
 		}
 		vo.setGoods(goods);
 		//
-		ApiLogger.info(" ! 3 ! ");
 //		Campaign campaign;
 //		List<Campaign> campaigns = cacheDao.getCampaignList(goods.getServiceId());
 //		if(campaigns == null) {
@@ -236,7 +232,6 @@ ApiLogger.info("payMent: " + td.payAmount + " : " + (td.payAmount/100) + " : " +
 			}
 		}
 		//
-		ApiLogger.info(" ! 4 ! ");
 		com.shihui.openpf.common.model.Service service = cacheDao.getService(order.getServiceId());
 		if(service == null) {
 			service = serviceManage.findById(order.getServiceId());
@@ -244,21 +239,15 @@ ApiLogger.info("payMent: " + td.payAmount + " : " + (td.payAmount/100) + " : " +
 		}
 		vo.setService(service);
 		
-		ApiLogger.info(" ! 5 ! 1");
 		Merchant merchant = cacheDao.getMerchant(goods.getServiceId(), goods.getCategoryId(), goods.getGoodsId());
-		ApiLogger.info(" ! 5 ! 2");
 		if(merchant == null) {
-			ApiLogger.info(" ! 5 ! 3");
 			Integer merchantId = merchantGoodsDao.queryMerchantId(goods.getServiceId(), goods.getCategoryId(), goods.getGoodsId());
-			ApiLogger.info(" ! 5 ! 4");
 			merchant = merchantManage.getById(merchantId);
 			cacheDao.setMerchant(goods.getServiceId(), goods.getCategoryId(), goods.getGoodsId(), merchant);
 			cacheDao.setMerchant(merchantId, merchant);
 		}
-		ApiLogger.info(" ! 5 ! 5");
 		vo.setMerchant(merchant);
 		
-		ApiLogger.info(" ! 6 ! ");
 		Group group = cacheDao.getGroup(order.getGid());
 		if( group == null) {
 			group = groupManage.getGroupInfoByGid(order.getGid());
@@ -268,7 +257,6 @@ ApiLogger.info("payMent: " + td.payAmount + " : " + (td.payAmount/100) + " : " +
 		//
 		//
 		//
-		ApiLogger.info(" ! 7 ! ");
 		bill.setFeeName(service.getServiceName());
 		bill.setCityName(goods.getCityName());
 		bill.setFeeType(company.getFeeType());
@@ -279,13 +267,9 @@ ApiLogger.info("payMent: " + td.payAmount + " : " + (td.payAmount/100) + " : " +
     	String tempId = resQuery.head.TrmSeqNum;
     	QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(tempId);
     	if(vo != null && Integer.parseInt(resQuery.tout.totalNum) > 0 ) {
-ApiLogger.info(" - 1 - ");
 	    		resQuery2Vo(resQuery, vo);
-ApiLogger.info(" - 2 - ");
 	    		load_vo_elements(vo);
-ApiLogger.info(" - 3 - ");
 	    		cacheDao.setQueryOrderBillVo(tempId, vo);
-ApiLogger.info(" - 4 - " + tempId);
 	    		//
 	    		noticeApp(vo);
 	    		ApiLogger.info("OK: GuangdaResponse : resQuery()");
@@ -302,11 +286,9 @@ ApiLogger.info(" - 4 - " + tempId);
     	String tempId = packetError.head.TrmSeqNum;
     	int packetType = Integer.parseInt(tempId.substring(0,1));
     	if(packetType == PacketTypeEnum.QUERY.getType()) {
-    		ApiLogger.info("GuangdaResponse : doPacketError() : QUERY : -1-");
     		
     		QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(tempId);
         	if(vo != null) {
-        		ApiLogger.info("GuangdaResponse : doPacketError() : QUERY -2-");
 	    		JSONObject result = new JSONObject();
 	    		if(packetError.tout.errorCode.compareTo(QueryErrorCodeEnum.DEF0002.getCode()) == 0)
 	    			result.put("response", new SimpleResponse(2,QueryErrorCodeEnum.getErrorMessage(packetError.tout.errorCode)));
@@ -315,10 +297,7 @@ ApiLogger.info(" - 4 - " + tempId);
 	    		else
 	    			result.put("response", new SimpleResponse(3,QueryErrorCodeEnum.getErrorMessage(packetError.tout.errorCode)));
 	    		
-	    		ApiLogger.info("GuangdaResponse : doPacketError() : QUERY -3-");
-	    		
 	    		appNotice.pushQueryResult(vo.getOrder().getUserId(), result);
-	    		ApiLogger.info("GuangdaResponse : doPacketError() : QUERY -4-");
 	    		cacheDao.delQueryOrderBillVo(tempId);
 	    		ApiLogger.info("OK: GuangdaResponse : doPacketError() : QUERY : " + result.toJSONString());
         	} else {
