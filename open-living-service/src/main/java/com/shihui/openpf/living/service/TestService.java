@@ -25,6 +25,7 @@ import com.shihui.openpf.living.entity.support.QueryOrderBillVo;
 import com.shihui.openpf.living.entity.support.TestInput;
 import com.shihui.openpf.living.entity.support.TestOutput;
 import com.shihui.openpf.living.entity.support.TestData;
+import com.shihui.openpf.living.dao.BillDao;
 
 /**
  * Created by zhoutc on 2015/12/16.
@@ -37,6 +38,7 @@ public class TestService {
     @Resource CacheDao cacheDao;
     @Resource LivingMqProducer mqProducer;
     @Resource ClientService clientService;
+    @Resource BillDao billDao;
     
     public Object reqKey() {
     	JSONObject result = new JSONObject();
@@ -101,7 +103,7 @@ public class TestService {
 
 	public Object queryDoc0() {
 		TestInput[] tia = {
-				new TestInput(36061, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1","116.68")//,
+				new TestInput(36071, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1","116.68")//,
 //				new TestInput(36062, 38, 2, 1, 532712, 1, "021009006", "0060014216", 1, 1, "2", "70.00"),
 //				new TestInput(36063, 38, 2, 1, 532712, 1, "021009006", "609990231041328000100006", 1, 1, "1", "100.00"),
 //				new TestInput(36064, 38, 2, 1, 532712, 1, "021009006", "0210274168", 1, 1, "2", "100.00")
@@ -134,18 +136,18 @@ public class TestService {
 		}
 	}
 	
-	public Object check() {
-		ApiLogger.info("TEST : check() : start...");
+	public Object checkQuery() {
+		ApiLogger.info("TEST : checkQuery() : start...");
 		TestData td;
 		try {
 			td = (TestData)cacheDao.getTest(TestData.class);
 		} catch(Exception e) {
-			ApiLogger.info("TEST : check() : Exception : " + e.getMessage());
-			return JSON.toJSON(new SimpleResponse(1, "TEST : check() : Exception : " + e.getMessage()));
+			ApiLogger.info("TEST : checkQuery() : Exception : " + e.getMessage());
+			return JSON.toJSON(new SimpleResponse(1, "TEST : checkQuery() : Exception : " + e.getMessage()));
 		}
 		if(td == null){
-			ApiLogger.info("TEST : check() : td == null");
-			return JSON.toJSON(new SimpleResponse(3, "TEST : check() : td == null"));
+			ApiLogger.info("TEST : checkQuery() : td == null");
+			return JSON.toJSON(new SimpleResponse(3, "TEST : checkQuery() : td == null"));
 		}
 			
 		for(int i = 0; i < td.tiList.size(); i++) {
@@ -154,19 +156,51 @@ public class TestService {
 			
 			QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(to.tempId);
 			if(vo == null) {
-				ApiLogger.info("TEST : check() : vo == null");
-				return JSON.toJSON(new SimpleResponse(1, "TEST : check() : vo == null"));
+				ApiLogger.info("TEST : checkQuery() : vo == null");
+				return JSON.toJSON(new SimpleResponse(1, "TEST : checkQuery() : vo == null"));
 			}
 			
 			if(ti.price.compareTo(vo.getOrder().getPrice()) != 0) {
-				ApiLogger.info("TEST : check() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] price:[" +ti.price+"] o_price:["+vo.getOrder().getPrice()+"]");
-				return JSON.toJSON(new SimpleResponse(2, "TEST : check() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] price:[" +ti.price+"] o_price:["+vo.getOrder().getPrice()+"]"));
+				ApiLogger.info("TEST : checkQuery() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] price:[" +ti.price+"] o_price:["+vo.getOrder().getPrice()+"]");
+				return JSON.toJSON(new SimpleResponse(2, "TEST : checkQuery() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] price:[" +ti.price+"] o_price:["+vo.getOrder().getPrice()+"]"));
 			}
 		}
-		ApiLogger.info("TEST : check() : OK");
-		return JSON.toJSON(new SimpleResponse(0, "TEST : check() : OK"));
+		ApiLogger.info("TEST : checkQuery() : OK");
+		return JSON.toJSON(new SimpleResponse(0, "TEST : checkQuery() : OK"));
 	}
-	
+
+	public Object checkPay() {
+		ApiLogger.info("TEST : checkPay() : start...");
+		TestData td;
+		try {
+			td = (TestData)cacheDao.getTest(TestData.class);
+		} catch(Exception e) {
+			ApiLogger.info("TEST : checkPay() : Exception : " + e.getMessage());
+			return JSON.toJSON(new SimpleResponse(1, "TEST : checkPay() : Exception : " + e.getMessage()));
+		}
+		if(td == null){
+			ApiLogger.info("TEST : checkPay() : td == null");
+			return JSON.toJSON(new SimpleResponse(3, "TEST : checkPay() : td == null"));
+		}
+			
+		for(int i = 0; i < td.tiList.size(); i++) {
+			TestInput ti = td.tiList.get(i);
+			TestOutput to = td.toList.get(i);
+			
+			Bill bill = billDao.findById(to.orderId);
+			if(bill == null) {
+				ApiLogger.info("TEST : checkPay() : bill == null");
+				return JSON.toJSON(new SimpleResponse(1, "TEST : checkPay() : bill == null"));
+			}
+			
+			if(bill.getBillStatus() != 3) {
+				ApiLogger.info("TEST : checkPay() : (bill.getBillStatus() != 3) : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] bankBillNo:[" +bill.getBankBillNo()+"] bankAcctDate:["+bill.getBankAcctDate()+"]");
+				return JSON.toJSON(new SimpleResponse(2, "TEST : checkPay() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] bankBillNo:[" +bill.getBankBillNo()+"] bankAcctDate:["+bill.getBankAcctDate()+"]"));
+			}
+		}
+		ApiLogger.info("TEST : checkPay() : OK");
+		return JSON.toJSON(new SimpleResponse(0, "TEST : checkPay() : OK"));
+	}
 	private boolean confirm(TestData td) {
 		
 		for(int i = 0; i < td.tiList.size(); i++) {

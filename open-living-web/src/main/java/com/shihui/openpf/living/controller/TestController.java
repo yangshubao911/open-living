@@ -141,11 +141,17 @@ public class TestController {
 	public Object queryDoc1() {
 		return testService.queryDoc1();
 	}
-	@RequestMapping("/check")
+	@RequestMapping("/checkquery")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public Object check() {
-		return testService.check();
+	public Object checkQuery() {
+		return testService.checkQuery();
+	}	
+	@RequestMapping("/checkpay")
+	@ResponseBody
+	@Access(type = AccessType.INTERNAL)
+	public Object checkPay() {
+		return testService.checkPay();
 	}	
 
 	@RequestMapping("/pay")
