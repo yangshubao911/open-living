@@ -8,7 +8,7 @@ public class PacketHead {
 	
 	public static final String ANSTRANCODE_KEY		= "BJCEBRWKRes";
 	public static final String ANSTRANCODE_QUERY	= "BJCEBQBIRes";
-	public static final String ANSTRANCODE_PAY		= "BJCEBBCRe";
+	public static final String ANSTRANCODE_PAY		= "BJCEBBCRes";
 	public static final String ANSTRANCODE_NOTIFY	= "BJCEBBCNotify";
 	public static final String ANSTRANCODE_ERROR	= "Error";
 	
