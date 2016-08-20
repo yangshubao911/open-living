@@ -120,9 +120,9 @@ public class CompanyController {
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
 	public Object list(
-			@RequestParam(name="serviceId", required = true) Integer serviceId,
-			@RequestParam(name="categoryId", required = true) Integer categoryId,
-			@RequestParam(name="cityId", required = true) Integer cityId) {
+			@RequestParam(name="serviceId", required = false) Integer serviceId,
+			@RequestParam(name="categoryId", required = false) Integer categoryId,
+			@RequestParam(name="cityId", required = false) Integer cityId) {
 
 		ApiLogger.info("Controller: /v2/openpf/living/company/list : list() : "
 				+ "serviceId: " + serviceId
