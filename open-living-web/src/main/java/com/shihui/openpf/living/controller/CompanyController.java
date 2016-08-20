@@ -118,7 +118,7 @@ public class CompanyController {
 
 	@RequestMapping("/list")
 	@ResponseBody
-	@Access(type = AccessType.COMMON)
+	@Access(type = AccessType.INTERNAL)
 	public Object list(
 			@RequestParam(name="serviceId", required = true) Integer serviceId,
 			@RequestParam(name="categoryId", required = true) Integer categoryId,
