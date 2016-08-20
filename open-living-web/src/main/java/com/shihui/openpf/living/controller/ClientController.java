@@ -84,7 +84,7 @@ public class ClientController extends BasicController {
 		ApiLogger.info("Controller: /v2/openpf/living/app/queryCompany : queryCompany() : "
 				+ "serviceId: " + serviceId
 				+ "cityId: " + cityId );
-		
+
 		return clientService.queryCompany(serviceId, categoryId, cityId);
 	}
 	/*

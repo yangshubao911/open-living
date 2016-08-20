@@ -1,5 +1,6 @@
 package com.shihui.openpf.living.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.shihui.openpf.living.entity.Bill;
@@ -29,6 +30,28 @@ public class CompanyDao extends AbstractDao<Company> {
 	public Company findByNo(String companyNo){
 		String sql = "SELECT * FROM `company` WHERE company_no = ? ";
 		return queryForObject(sql, companyNo);
+	}
+
+	public List<Company> queryList(Integer serviceId, Integer categoryId, Integer cityId) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT * FROM `company` WHERE 1=1 ");
+		
+		ArrayList<Object> valueList = new ArrayList<Object>();
+		
+		if(serviceId != null) {
+			sql.append(" AND service_id = ? ");
+			valueList.add(serviceId);			
+		}
+		if(categoryId != null) {
+			sql.append(" AND category_id = ? ");
+			valueList.add(categoryId);			
+		}
+		if(cityId != null) {
+			sql.append(" AND city_id = ? ");
+			valueList.add(cityId);			
+		}
+
+		return queryForList(sql.toString(), valueList.toArray());
 	}
 
 }

@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.shihui.commons.ApiLogger;
 import com.shihui.openpf.living.dao.CompanyDao;
@@ -75,5 +76,29 @@ public class CompanyService {
         return jo;
     }
     
-    
+    public Object list(Integer serviceId, Integer categoryId, Integer cityId) {        
+		JSONArray ja = new JSONArray();
+		
+		List<Company> companyList = companyDao.queryList(serviceId, categoryId, cityId);
+		
+		if(companyList != null) {
+			for(Company company : companyList) {
+				JSONObject jo = new JSONObject();
+				jo.put("companyId", company.getCompanyId());
+				jo.put("companyName", company.getCompanyName());
+				jo.put("companyNo", company.getCompanyNo());
+//				jo.put("serviceType", company.getServiceType());
+//				jo.put("feeType", company.getFeeType());
+//				jo.put("userNoLengMin", company.getUserNoLengMin());
+//				jo.put("userNoLengMax", company.getUserNoLengMax());
+//				jo.put("payMin", company.getPayMin());
+//				jo.put("payMax", company.getPayMax());
+//				jo.put("barcode", company.getBarcode());
+				ja.add(jo);
+			}
+		}
+		ApiLogger.info("CompanyService: list() : " + ja.toJSONString());
+		return ja;
+    }
+
 }
