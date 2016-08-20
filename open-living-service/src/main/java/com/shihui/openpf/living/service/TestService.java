@@ -167,7 +167,7 @@ public class TestService {
 		return JSON.toJSON(new SimpleResponse(0, "TEST : check() : OK"));
 	}
 	
-	private boolean comfirm(TestData td) {
+	private boolean confirm(TestData td) {
 		
 		for(int i = 0; i < td.tiList.size(); i++) {
 			TestInput ti = td.tiList.get(i);
@@ -230,7 +230,7 @@ public class TestService {
 		TestData td = (TestData)cacheDao.getTest(TestData.class);
 		if(td != null) {
 			ApiLogger.info("TEST : comfirm : start...");
-			if(!comfirm(td)) {
+			if(!confirm(td)) {
 				ApiLogger.info("TEST : comfirm : Fail");
 				return JSON.toJSON(new SimpleResponse(2, "TEST : comfirm : Fail"));
 			}
