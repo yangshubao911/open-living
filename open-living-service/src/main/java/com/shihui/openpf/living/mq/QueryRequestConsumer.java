@@ -29,7 +29,7 @@ public class QueryRequestConsumer implements Consumer {
 
 	@Override
 	public boolean doit(String topic, String tags, String key, String msg) {
-		ApiLogger.info("QueryRequestConsumer : topic[" + topic + "] tags[" + tags + "] key[" + key + "] msg=" + msg);
+//		ApiLogger.info("QueryRequestConsumer : topic[" + topic + "] tags[" + tags + "] key[" + key + "] msg=" + msg);
 
 		try {			
 			ReqQuery reqQuery;

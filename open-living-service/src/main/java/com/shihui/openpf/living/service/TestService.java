@@ -1,8 +1,7 @@
 package com.shihui.openpf.living.service;
 
-import java.util.Date;
 import java.math.BigDecimal;
-import java.util.ArrayList;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -10,22 +9,20 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.shihui.commons.ApiLogger;
-import com.shihui.openpf.living.entity.BannerAds;
+import com.shihui.openpf.living.cache.CacheDao;
+import com.shihui.openpf.living.dao.BillDao;
 import com.shihui.openpf.living.entity.Bill;
 import com.shihui.openpf.living.entity.Order;
 import com.shihui.openpf.living.entity.support.OrderBillVo;
+import com.shihui.openpf.living.entity.support.QueryOrderBillVo;
+import com.shihui.openpf.living.entity.support.TestData;
+import com.shihui.openpf.living.entity.support.TestInput;
+import com.shihui.openpf.living.entity.support.TestOutput;
 import com.shihui.openpf.living.io3rd.GuangdaResponse;
 import com.shihui.openpf.living.io3rd.ReqPay;
 import com.shihui.openpf.living.mq.LivingMqProducer;
 import com.shihui.openpf.living.util.LivingUtil;
 import com.shihui.openpf.living.util.SimpleResponse;
-import com.shihui.openpf.living.cache.CacheDao;
-import com.shihui.openpf.living.service.ClientService;
-import com.shihui.openpf.living.entity.support.QueryOrderBillVo;
-import com.shihui.openpf.living.entity.support.TestInput;
-import com.shihui.openpf.living.entity.support.TestOutput;
-import com.shihui.openpf.living.entity.support.TestData;
-import com.shihui.openpf.living.dao.BillDao;
 
 /**
  * Created by zhoutc on 2015/12/16.
@@ -103,10 +100,10 @@ public class TestService {
 
 	public Object queryDoc0() {
 		TestInput[] tia = {
-				new TestInput(36071, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1","116.68")//,
-//				new TestInput(36062, 38, 2, 1, 532712, 1, "021009006", "0060014216", 1, 1, "2", "70.00"),
-//				new TestInput(36063, 38, 2, 1, 532712, 1, "021009006", "609990231041328000100006", 1, 1, "1", "100.00"),
-//				new TestInput(36064, 38, 2, 1, 532712, 1, "021009006", "0210274168", 1, 1, "2", "100.00")
+				new TestInput(36071, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1","116.68", 3)//,
+//				new TestInput(36062, 38, 2, 1, 532712, 1, "021009006", "0060014216", 1, 1, "2", "70.00", 3),
+//				new TestInput(36063, 38, 2, 1, 532712, 1, "021009006", "609990231041328000100006", 1, 1, "1", "100.00", 3),
+//				new TestInput(36064, 38, 2, 1, 532712, 1, "021009006", "0210274168", 1, 1, "2", "100.00", 3)
 				};
 
 		TestData td = query(tia);
@@ -121,10 +118,10 @@ public class TestService {
 	
 	public Object queryDoc1() {
 		TestInput[] tia = {
-//				new TestInput(36061, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1","116.68")//,
-				new TestInput(36062, 38, 2, 1, 532712, 1, "021009006", "0060014216", 1, 1, "2", "70.00"),
-				new TestInput(36063, 38, 2, 1, 532712, 1, "021009006", "609990231041328000100006", 1, 1, "1", "100.00"),
-				new TestInput(36064, 38, 2, 1, 532712, 1, "021009006", "0210274168", 1, 1, "2", "100.00")
+//				new TestInput(36061, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1","116.68", 3)//,
+				new TestInput(36062, 38, 2, 1, 532712, 1, "021009006", "0060014216", 1, 1, "2", "70.00", 3),
+				new TestInput(36063, 38, 2, 1, 532712, 1, "021009006", "609990231041328000100006", 1, 1, "1", "100.00", 3),
+				new TestInput(36064, 38, 2, 1, 532712, 1, "021009006", "0210274168", 1, 1, "2", "100.00", 3)
 				};
 
 		TestData td = query(tia);
@@ -193,7 +190,7 @@ public class TestService {
 				return JSON.toJSON(new SimpleResponse(1, "TEST : checkPay() : bill == null"));
 			}
 			
-			if(bill.getBillStatus() != 3) {
+			if((bill.getBillStatus() != 3 && ti.billStatus == 3) || (bill.getBillStatus() == 3 && ti.billStatus != 3)) {
 				ApiLogger.info("TEST : checkPay() : (bill.getBillStatus() != 3) : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] bankBillNo:[" +bill.getBankBillNo()+"] bankAcctDate:["+bill.getBankAcctDate()+"]");
 				return JSON.toJSON(new SimpleResponse(2, "TEST : checkPay() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] bankBillNo:[" +bill.getBankBillNo()+"] bankAcctDate:["+bill.getBankAcctDate()+"]"));
 			}
@@ -287,7 +284,7 @@ public class TestService {
 	
 	public Object queryExc1() {
 		TestInput[] tia = {
-				new TestInput(36051, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1","116.68")//,
+				new TestInput(36051, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1","116.68", 3)//,
 //				new TestInput(36052, 38, 2, 1, 532712, 1, "021009006", "0060014216", 1, 1, "2", "70.00"),
 //				new TestInput(36053, 38, 2, 1, 532712, 1, "021009006", "609990231041328000100006", 1, 1, "1", "100.00"),
 //				new TestInput(36054, 38, 2, 1, 532712, 1, "021009006", "0210274168", 1, 1, "2", "100.00")

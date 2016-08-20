@@ -90,7 +90,7 @@ public class ResponseSocket {
 		
 		rs = null;
 		//
-		ApiLogger.info("RESPONSE : ret == null : " + (ret == null));
+//		ApiLogger.info("RESPONSE : ret == null : " + (ret == null));
 		if(ret != null)
 			ApiLogger.info("RESPONSE : [" + ret.toString() + "]");
 		//

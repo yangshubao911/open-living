@@ -3,6 +3,7 @@
  */
 package com.shihui.openpf.living.task;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,7 @@ import com.shihui.openpf.living.io3rd.RefundeFile;
 import com.shihui.openpf.living.io3rd.RefundeItem;
 import com.shihui.openpf.living.io3rd.ResKey;
 import com.shihui.openpf.living.service.OrderSystemService;
-import com.shihui.openpf.living.util.FTPUtil;
+import com.shihui.openpf.living.util.FileUtil;
 
 //import me.weimi.api.commons.util.ApiLogger;
 import com.shihui.commons.ApiLogger;
@@ -59,14 +60,14 @@ public class BillTask {
 	GuangdaResponse guangdaResponse;
 
 
-	@Value("${sftp_url}")
-	String url;
-	@Value("${sftp_port}")
-	int port;
-	@Value("${sftp_username}")
-	String username;
-	@Value("${sftp_password}")
-	String password;
+//	@Value("${sftp_url}")
+//	String url;
+//	@Value("${sftp_port}")
+//	int port;
+//	@Value("${sftp_username}")
+//	String username;
+//	@Value("${sftp_password}")
+//	String password;
 	@Value("${sftp_checkpath}")
 	String checkPath;
 	@Value("${sftp_refundepath}")
@@ -88,17 +89,23 @@ public class BillTask {
 			//处理对账
 			//PacketNotify packetNotify = cacheDao.getNotify();
 			//if(packetNotify != null)
-			CheckRefundeVo vo = FTPUtil.downFile(url, port, username, password, checkPath, refundePath);
-			ApiLogger.info("BillTask: billCheckNotify() : vo != null : " + (vo != null));
-			if( vo != null) {
-				CheckFile checkFile = vo.getCheckFile();
+//			CheckRefundeVo vo = FTPUtil.downFile(url, port, username, password, checkPath, refundePath);
+//			CheckRefundeVo vo = FileUtil.getCheckRefundeVo(checkPath, refundePath);
+//			ApiLogger.info("BillTask: billCheckNotify() : vo != null : " + (vo != null));
+//			if( vo != null) {
+			File file = FileUtil.getCheckFile(checkPath);
+			if(file != null) {
+				CheckFile checkFile = FileUtil.getCheckFile(file);
 				ApiLogger.info("BillTask: billCheckNotify() : checkFile != null : " + (checkFile != null));
 				if(checkFile != null) {
 					ArrayList<CheckItem> checkList = checkFile.getCheckList();
 					if(checkList != null && checkList.size() > 0)
 						check(checkList);
 				}
-				RefundeFile refundeFile = vo.getRefundeFile();
+			}
+			file = FileUtil.getRefundeFile(refundePath);
+			if(file != null) {
+				RefundeFile refundeFile = FileUtil.getRefundeFile(file);
 				ApiLogger.info("BillTask: billCheckNotify() : refundeFile != null : " + (refundeFile != null));
 				if(refundeFile != null) {
 					ArrayList<RefundeItem> refundeList = refundeFile.getRefundeList();

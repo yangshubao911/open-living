@@ -30,7 +30,7 @@ public class RechargeRequestConsumer implements Consumer {
 
 	@Override
 	public boolean doit(String topic, String tags, String key, String msg) {
-		ApiLogger.info("RechargeRequestConsumer : topic[" + topic + "] tags[" + tags + "] key[" + key + "] msg=" + msg);
+//		ApiLogger.info("RechargeRequestConsumer : topic[" + topic + "] tags[" + tags + "] key[" + key + "] msg=" + msg);
 		
 		try {	
 			if( key.charAt(0) == '0') {

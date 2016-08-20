@@ -44,7 +44,7 @@ public class AppNotice {
 
 			String result = httpClient.buildPost(appPushUrl).withHeader("X-Matrix-UID", "1000").withParam(param).execute();
 			
-			ApiLogger.info("AppNotice : pushMsg() : uid:["+userId+"] result:["+result+"]");
+//			ApiLogger.info("AppNotice : pushMsg() : uid:["+userId+"] result:["+result+"]");
 		} catch (Exception e) {
 			ApiLogger.error("AppNotice : pushMsg() : push app消息异常", e);
 		}
@@ -64,7 +64,7 @@ public class AppNotice {
 
 			String result = httpClient.buildPost(appPushUrl).withHeader("X-Matrix-UID", "1000").withParam(param).execute();
 			
-			ApiLogger.info("AppNotice : pushQueryResult() : uid:["+userId+"] result: ["+result+"]");
+//			ApiLogger.info("AppNotice : pushQueryResult() : uid:["+userId+"] result: ["+result+"]");
 		} catch (Exception e) {
 			ApiLogger.error("AppNotice : pushQueryResult() : push app消息异常", e);
 		}

@@ -55,7 +55,7 @@ public class BillExecutor {
     @PostConstruct
     public void init() {
     	LISTEN_EXECUTOR_SERVICE.submit(RESPONSE_LISTEN_TASK);
-    	ApiLogger.info("BillExecutor : init()");
+//    	ApiLogger.info("BillExecutor : init()");
     }
 
     @PreDestroy
@@ -169,12 +169,12 @@ public class BillExecutor {
 				if( object == null ) 
 					ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : object == null \n");
 				else {
-					ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : pc.check() ready \n");
+//					ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : pc.check() ready \n");
     				PacketCheck pc = (PacketCheck)object;
     				if(!pc.check())
     					ApiLogger.info("ExecuteAnalysePacketTask : run() : !pc.check() = true \n");
     				else {
-    					ApiLogger.info("ExecuteAnalysePacketTask : run() : pc.check() : start");
+//    					ApiLogger.info("ExecuteAnalysePacketTask : run() : pc.check() : start");
     					String ansTranCode = ((ResHead)object).head.AnsTranCode;
     					if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_PAY) == 0)
     						guangdaResponse.doResPay((ResPay)FastXML.xmlToBean(xml, ResPay.class));
@@ -188,7 +188,7 @@ public class BillExecutor {
 							guangdaResponse.doResKey((ResKey)FastXML.xmlToBean(xml, ResKey.class));
 						else 
 							ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : " + ansTranCode);
-    					ApiLogger.info("ExecuteAnalysePacketTask : run() : pc.check() : end");
+//    					ApiLogger.info("ExecuteAnalysePacketTask : run() : pc.check() : end");
     				}
     			}
 	        }catch (Exception e){

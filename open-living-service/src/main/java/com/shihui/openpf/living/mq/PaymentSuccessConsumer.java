@@ -6,8 +6,8 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
@@ -49,7 +49,7 @@ import com.shihui.openpf.living.mq.LivingMqProducer;
 @Component("paymentSuccessConsumer")
 @ConsumerConfig(consumerName = "livingOrderConsumer", topic = Topic.UPDATE_ORDER_STATUS)
 public class PaymentSuccessConsumer implements Consumer {
-	private Logger log = LoggerFactory.getLogger(getClass());
+//	private Logger log = LoggerFactory.getLogger(getClass());
 
 	@Resource
 	private OrderService orderService;
@@ -74,7 +74,7 @@ public class PaymentSuccessConsumer implements Consumer {
 
 	
 	public PaymentSuccessConsumer(){
-		log.info("---------------------------PaymentSuccessConsumer------------------------------");
+//		log.info("---------------------------PaymentSuccessConsumer------------------------------");
 	}
 
 	private void doReqPay(OrderBillVo obvo) {
@@ -101,7 +101,8 @@ public class PaymentSuccessConsumer implements Consumer {
 			JSONObject jo = JSONObject.parseObject(msg);
 			JSONObject orderJo = jo.getJSONObject("order");
 			if (orderJo == null) {
-				log.warn("订单消息无法处理，msg={}", msg);
+//				log.warn("订单消息无法处理，msg={}", msg);
+				ApiLogger.info("PaymentSuccessConsumer : 订单消息无法处理，msg={" + msg + "}");
 				return true;
 			}
 
@@ -137,7 +138,8 @@ public class PaymentSuccessConsumer implements Consumer {
 			if (order == null || bill == null) {
 				return true;
 			} else {
-				log.info("消费订单状态变更消息 topic:"+ topic +",key:"+ key + ",msg:"+ msg);
+//				log.info("消费订单状态变更消息 topic:"+ topic +",key:"+ key + ",msg:"+ msg);
+				ApiLogger.info("PaymentSuccessConsumer : 消费订单状态变更消息 topic:" + topic + ", key:" +key + ", msg:" + msg);
 
 				// 更新订单状态
 				orderService.updateOrderStatus(orderId, status.getValue());
@@ -226,7 +228,8 @@ public class PaymentSuccessConsumer implements Consumer {
 					String pushMsg = null;
 					Service service = serviceManage.findById(order.getServiceId());
 					if(service == null){
-						log.error("订单处理-push消息：业务信息未查到，serviceId={}, orderId={}, orderStatus={}", order.getServiceId(), orderId, order.getOrderStatus());
+//						log.error("订单处理-push消息：业务信息未查到，serviceId={}, orderId={}, orderStatus={}", order.getServiceId(), orderId, order.getOrderStatus());
+						ApiLogger.info("PaymentSuccessConsumer : 订单处理-push消息：业务信息未查到，serviceId={" + order.getServiceId() + "} orderId={" + orderId +"} orderStatus={"+order.getOrderStatus()+"}");
 					} else {
 						if(status == OrderStatusEnum.PayedCancel || status == OrderStatusEnum.BackClose){
 							pushMsg = "非常抱歉，由于当前缴费人员较多，小惠虽然奋力尝试。但还是没能充值成功，我们以为您办理退款，通常需要1-3个工作日到账。订单号：" + orderId ;
@@ -246,7 +249,8 @@ public class PaymentSuccessConsumer implements Consumer {
 				return true;// 默认消息正确处理
 			}
 		} catch (Exception e) {
-			log.error("处理mq订单消息异常, msg={}", msg, e);
+//			log.error("处理mq订单消息异常, msg={}", msg, e);
+			ApiLogger.info("PaymentSuccessConsumer : 处理mq订单消息异常, msg={" + msg + "} " + e.getMessage());
 		}
 
 		return false;
