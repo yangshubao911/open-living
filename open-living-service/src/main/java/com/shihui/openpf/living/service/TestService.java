@@ -127,13 +127,13 @@ public class TestService {
 				//上海电力，错误测试
 				new TestInput(36071, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079005", 1, 1, "1","32.00", 0, "DEF0001"),
 				new TestInput(36072, 38, 2, 1, 532712, 1, "021009006", "510070114098382000155402", 1, 1, "1","39.00", 0, "DEF0002"),
-				new TestInput(36062, 38, 2, 1, 532712, 1, "021009006", "9111167666", 1, 1, "2", "38.00", 3, "DEF0010"),
-				new TestInput(36062, 38, 2, 1, 532712, 1, "021009006", "0111003482", 1, 1, "2", "338.00", 3, "DEF0002"),
-				new TestInput(36061, 38, 2, 1, 532712, 1, "021009006", "510070111304290000007706", 1, 1, "1","7.70", 3, ""),
-				new TestInput(36061, 38, 2, 1, 532712, 1, "021009006", "510070114083920000025301", 1, 1, "1","28.80", 3, ""),
-				new TestInput(36062, 38, 2, 1, 532712, 1, "021009006", "0111003386", 1, 1, "2", "40.76", 3, ""),
-				new TestInput(36061, 38, 2, 1, 532712, 1, "021009006", "511090060549152000169101", 1, 1, "1","169.10", 3, ""),
-				new TestInput(36062, 38, 2, 1, 532712, 1, "021009006", "0111003464", 1, 1, "2", "169.11", 3, "")
+				new TestInput(36073, 38, 2, 1, 532712, 1, "021009006", "9111167666", 1, 1, "2", "38.00", 0, "DEF0010"),
+				new TestInput(36074, 38, 2, 1, 532712, 1, "021009006", "0111003482", 1, 1, "2", "338.00", 0, "DEF0002"),
+				new TestInput(36075, 38, 2, 1, 532712, 1, "021009006", "510070111304290000007706", 1, 1, "1","7.70", 3, ""),
+				new TestInput(36076, 38, 2, 1, 532712, 1, "021009006", "510070114083920000025301", 1, 1, "1","28.80", 3, ""),
+				new TestInput(36077, 38, 2, 1, 532712, 1, "021009006", "0111003386", 1, 1, "2", "40.76", 3, ""),
+				new TestInput(36078, 38, 2, 1, 532712, 1, "021009006", "511090060549152000169101", 1, 1, "1","169.10", 3, ""),
+				new TestInput(36079, 38, 2, 1, 532712, 1, "021009006", "0111003464", 1, 1, "2", "169.11", 3, "")
 				//
 				};
 
@@ -167,8 +167,8 @@ public class TestService {
 			QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(to.tempId);
 			if(ti.billStatus == 3) {
 				if(vo == null) {
-					ApiLogger.info("TEST : checkQuery() : vo == null && ti.billStatus == 3");
-					return JSON.toJSON(new SimpleResponse(1, "TEST : checkQuery() : vo == null"));
+					ApiLogger.info("TEST : checkQuery() : vo == null && ti.billStatus == 3 : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +ti.errorCode+"]");
+					return JSON.toJSON(new SimpleResponse(1, "TEST : checkQuery() : vo == null && ti.billStatus == 3 : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +ti.errorCode+"]"));
 				}
 				
 				if(ti.price.compareTo(vo.getOrder().getPrice()) != 0) {
