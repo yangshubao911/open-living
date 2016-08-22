@@ -335,7 +335,7 @@ public class GuangdaResponse {
         		ApiLogger.info("ERR: GuangdaResponse : doPacketError() : RECHARGE : OrderBillVo vo == null");
         	}
 //TODO	XXX    		
-    		cacheDao.setErrorCode(tempId, packetError.tout.errorCode);
+    		cacheDao.setErrorCode(String.valueOf(vo.getOrder().getOrderId()), packetError.tout.errorCode);
     		ApiLogger.info("GuangdaResponse : doPacketError() : RECHARGE : tempId :[" + tempId + "] errorCode:[" + packetError.tout.errorCode + "]");
 
     	} else if(packetType == PacketTypeEnum.KEY.getType()) {
