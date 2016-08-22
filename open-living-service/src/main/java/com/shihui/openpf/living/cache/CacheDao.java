@@ -216,7 +216,16 @@ public class CacheDao {
     		}
     	}
     	return false;
-    }	
+    }
+    //
+    private static final String ERRORCODE_PREFIX = CACHE_PREFIX + "ec" + Constants.REDIS_KEY_SEPARATOR;
+    private static final int EXPIRE_ERRORCODE = 10*60;
+    public void setErrorCode(String tempId, String errorCode) {
+    	set(ERRORCODE_PREFIX + tempId, errorCode, EXPIRE_ERRORCODE);
+    }
+    public String getErrorCode(String tempId) {
+    	return getString(ERRORCODE_PREFIX + tempId);
+    }
 	//
 	private static final String QUERYORDERBILLVO_PREFIX = CACHE_PREFIX + "qobvo" + Constants.REDIS_KEY_SEPARATOR;
 	private static final int EXPIRE_QUERYORDERBILLVO = 60*60;

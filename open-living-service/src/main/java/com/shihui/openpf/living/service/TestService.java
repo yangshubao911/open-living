@@ -100,7 +100,8 @@ public class TestService {
 
 	public Object queryDoc0() {
 		TestInput[] tia = {
-				new TestInput(36071, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1","116.68", 3)//,
+				new TestInput(36071, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079005", 1, 1, "1","116.68", 0, "DEF0001")
+//				new TestInput(36071, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1","116.68", 3),
 //				new TestInput(36062, 38, 2, 1, 532712, 1, "021009006", "0060014216", 1, 1, "2", "70.00", 3),
 //				new TestInput(36063, 38, 2, 1, 532712, 1, "021009006", "609990231041328000100006", 1, 1, "1", "100.00", 3),
 //				new TestInput(36064, 38, 2, 1, 532712, 1, "021009006", "0210274168", 1, 1, "2", "100.00", 3)
@@ -118,10 +119,12 @@ public class TestService {
 	
 	public Object queryDoc1() {
 		TestInput[] tia = {
-//				new TestInput(36061, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1","116.68", 3)//,
-				new TestInput(36062, 38, 2, 1, 532712, 1, "021009006", "0060014216", 1, 1, "2", "70.00", 3),
-				new TestInput(36063, 38, 2, 1, 532712, 1, "021009006", "609990231041328000100006", 1, 1, "1", "100.00", 3),
-				new TestInput(36064, 38, 2, 1, 532712, 1, "021009006", "0210274168", 1, 1, "2", "100.00", 3)
+				//上海电力，正确测试
+//				new TestInput(36061, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1","116.68", 3, ""),
+//				new TestInput(36062, 38, 2, 1, 532712, 1, "021009006", "0060014216", 1, 1, "2", "70.00", 3, ""),
+//				new TestInput(36063, 38, 2, 1, 532712, 1, "021009006", "609990231041328000100006", 1, 1, "1", "100.00", 3, ""),
+//				new TestInput(36064, 38, 2, 1, 532712, 1, "021009006", "0210274168", 1, 1, "2", "100.00", 3, "")
+				
 				};
 
 		TestData td = query(tia);
@@ -152,14 +155,22 @@ public class TestService {
 			TestOutput to = td.toList.get(i);
 			
 			QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(to.tempId);
-			if(vo == null) {
-				ApiLogger.info("TEST : checkQuery() : vo == null");
-				return JSON.toJSON(new SimpleResponse(1, "TEST : checkQuery() : vo == null"));
-			}
-			
-			if(ti.price.compareTo(vo.getOrder().getPrice()) != 0) {
-				ApiLogger.info("TEST : checkQuery() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] price:[" +ti.price+"] o_price:["+vo.getOrder().getPrice()+"]");
-				return JSON.toJSON(new SimpleResponse(2, "TEST : checkQuery() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] price:[" +ti.price+"] o_price:["+vo.getOrder().getPrice()+"]"));
+			if(ti.billStatus == 3) {
+				if(vo == null) {
+					ApiLogger.info("TEST : checkQuery() : vo == null && ti.billStatus == 3");
+					return JSON.toJSON(new SimpleResponse(1, "TEST : checkQuery() : vo == null"));
+				}
+				
+				if(ti.price.compareTo(vo.getOrder().getPrice()) != 0) {
+					ApiLogger.info("TEST : checkQuery() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] price:[" +ti.price+"] o_price:["+vo.getOrder().getPrice()+"]");
+					return JSON.toJSON(new SimpleResponse(2, "TEST : checkQuery() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] price:[" +ti.price+"] o_price:["+vo.getOrder().getPrice()+"]"));
+				}
+			} else {
+				String errorCode = cacheDao.getErrorCode(to.tempId);
+				if(errorCode == null || errorCode.compareTo(ti.errorCode) != 0) {
+					ApiLogger.info("TEST : checkQuery() : vo != null && ti.billStatus != 3 : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +ti.errorCode+"]");
+					return JSON.toJSON(new SimpleResponse(5, "TEST : checkQuery() : vo != null && ti.billStatus != 3 : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +ti.errorCode+"]"));
+				}
 			}
 		}
 		ApiLogger.info("TEST : checkQuery() : OK");
@@ -284,7 +295,7 @@ public class TestService {
 	
 	public Object queryExc1() {
 		TestInput[] tia = {
-				new TestInput(36051, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1","116.68", 3)//,
+				new TestInput(36051, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1","116.68", 3, "")//,
 //				new TestInput(36052, 38, 2, 1, 532712, 1, "021009006", "0060014216", 1, 1, "2", "70.00"),
 //				new TestInput(36053, 38, 2, 1, 532712, 1, "021009006", "609990231041328000100006", 1, 1, "1", "100.00"),
 //				new TestInput(36054, 38, 2, 1, 532712, 1, "021009006", "0210274168", 1, 1, "2", "100.00")

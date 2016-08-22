@@ -15,13 +15,14 @@ public class TestInput {
 	
 	public String	price;			//
 	public int		billStatus;		//
+	public String	errorCode;		//
 	
 	public TestInput() {
 		
 	}
 	public TestInput(int userId, int serviceId, int categoryId, int cityId, long groupId, 
 			int companyId, String companyNo, String userNo, long goodsId, int goodsVersion, String field2,
-			String price, int billStatus) {
+			String price, int billStatus, String errorCode) {
 		this.userId = userId;
 		this.serviceId = serviceId;
 		this.categoryId = categoryId;
@@ -35,5 +36,6 @@ public class TestInput {
 		this.field2 = field2;
 		this.price = price;
 		this.billStatus = billStatus;
+		this.errorCode = errorCode;
 	}
 }

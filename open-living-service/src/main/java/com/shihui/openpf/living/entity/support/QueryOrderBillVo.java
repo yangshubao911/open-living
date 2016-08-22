@@ -16,6 +16,7 @@ public class QueryOrderBillVo {
 	private String companyNo;
 	private String shGold;
 	private Integer merchantId;
+	private String ErrorCode;
 
 	private Order order;
 	private Bill bill;
@@ -134,6 +135,14 @@ public class QueryOrderBillVo {
 
 	public void setMerchantId(Integer merchantId) {
 		this.merchantId = merchantId;
+	}
+
+	public String getErrorCode() {
+		return ErrorCode;
+	}
+
+	public void setErrorCode(String errorCode) {
+		ErrorCode = errorCode;
 	}
 
 }

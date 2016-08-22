@@ -302,13 +302,15 @@ public class GuangdaResponse {
 	    		
 	    		appNotice.pushQueryResult(vo.getOrder().getUserId(), result);
 	    		cacheDao.delQueryOrderBillVo(tempId);
+//TODO	XXX    		
+	    		cacheDao.setErrorCode(tempId, packetError.tout.errorCode);
 //	    		ApiLogger.info("OK: GuangdaResponse : doPacketError() : QUERY : " + result.toJSONString());
         	} else {
         		ApiLogger.info("ERR: GuangdaResponse : doPacketError() : QUERY : QueryOrderBillVo vo == null");
         	}
     	} else if(packetType == PacketTypeEnum.RECHARGE.getType()) {
 //    		ApiLogger.info("GuangdaResponse : doPacketError() : RECHARGE");
-    		
+
     		OrderBillVo vo = cacheDao.getOrderBillVo(tempId);
         	if(vo != null) {
         		if(packetError.tout.errorCode.compareTo(PayErrorCodeEnum.NPP0003.getCode()) == 0
