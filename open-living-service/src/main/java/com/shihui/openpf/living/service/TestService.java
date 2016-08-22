@@ -170,7 +170,8 @@ public class TestService {
 					return JSON.toJSON(new SimpleResponse(1, "TEST : checkQuery() : vo == null && ti.billStatus == 3 : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +ti.errorCode+"]"));
 				}
 				
-				if(ti.price.compareTo(vo.getOrder().getPrice()) != 0) {
+//				if(ti.price.compareTo(vo.getOrder().getPrice()) != 0) {
+				if(!vo.getOrder().getPrice().trim().isEmpty()) {
 					ApiLogger.info("TEST : checkQuery() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] price:[" +ti.price+"] o_price:["+vo.getOrder().getPrice()+"]");
 					return JSON.toJSON(new SimpleResponse(2, "TEST : checkQuery() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] price:[" +ti.price+"] o_price:["+vo.getOrder().getPrice()+"]"));
 				}
