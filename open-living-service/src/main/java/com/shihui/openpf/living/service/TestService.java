@@ -124,8 +124,8 @@ public class TestService {
 				//上海燃气，
 //				new TestInput(36171, 39, 3, 1, 532712, 1, "021009028", "81022442", 1, 1, "2","10.30", 3, "EGG0001"),
 //				new TestInput(36172, 39, 3, 1, 532712, 1, "021009028", "81022431", 1, 1, "2","70.80", 3, "DEF0010"),
-				new TestInput(36173, 39, 3, 1, 532712, 1, "021009028", "81022334", 1, 1, "2","18.10", 3, "DEF0010")//,
-//				new TestInput(36173, 39, 3, 1, 532712, 1, "021009028", "81022414", 1, 1, "2","90.00", 3, "DEF0006"),
+//				new TestInput(36173, 39, 3, 1, 532712, 1, "021009028", "81022334", 1, 1, "2","18.10", 3, "DEF0010"),
+				new TestInput(36173, 39, 3, 1, 532712, 1, "021009028", "81022414", 1, 1, "2","90.00", 3, "DEF0006")//,
 //				//new TestInput(36173, 39, 3, 1, 532712, 1, "021009028", "81022334", 1, 1, "2","18.10", 3, "DEF0013"),
 //				new TestInput(36173, 39, 3, 1, 532712, 1, "021009028", "014820693715111000020003", 1, 1, "1","20.00", 3, ""),
 //				new TestInput(36173, 39, 3, 1, 532712, 1, "021009028", "81022532", 1, 1, "2","32.10", 3, ""),
@@ -170,8 +170,8 @@ public class TestService {
 					return JSON.toJSON(new SimpleResponse(1, "TEST : checkQuery() : vo == null && ti.billStatus == 3 : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +ti.errorCode+"]"));
 				}
 				
-//				if(ti.price.compareTo(vo.getOrder().getPrice()) != 0) {
-				if(vo.getOrder().getPrice().trim().isEmpty()) {
+				if(ti.price.compareTo(vo.getOrder().getPrice()) != 0) {
+//				if(vo.getOrder().getPrice().trim().isEmpty()) {
 					ApiLogger.info("TEST : checkQuery() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] price:[" +ti.price+"] o_price:["+vo.getOrder().getPrice()+"]");
 					return JSON.toJSON(new SimpleResponse(2, "TEST : checkQuery() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] price:[" +ti.price+"] o_price:["+vo.getOrder().getPrice()+"]"));
 				}
