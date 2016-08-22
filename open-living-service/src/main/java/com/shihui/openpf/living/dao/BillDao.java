@@ -30,7 +30,7 @@ public class BillDao extends AbstractDao<Bill> {
 	}
 
 	public int updateBillStatus(long orderId, int status) {
-		return this.jdbcTemplate.update("UPDATE `bill SET bill_status = ?, update_time = ? WHERE order_id = ?", new Object[]{status, new Date(), orderId});
+		return this.jdbcTemplate.update("UPDATE `bill` SET bill_status = ?, update_time = ? WHERE order_id = ?", new Object[]{status, new Date(), orderId});
 	}
 
 	public long getOrderIdByBillNo(String billNo) {
