@@ -39,7 +39,7 @@ public class FileUtil {
     	calendar.add(Calendar.DAY_OF_MONTH, -1);
     	String date = new SimpleDateFormat("yyyyMMdd").format(calendar.getTime());
     	
-    	File file = new File(path + CHECKFILE_SUFFIX.replace("*", date));
+    	File file = new File(path + date + "/" + CHECKFILE_SUFFIX.replace("*", date));
     	
     	return file.exists() && file.isFile() ? file : null;
     }
@@ -49,7 +49,7 @@ public class FileUtil {
     	calendar.add(Calendar.DAY_OF_MONTH, -1);
     	String date = new SimpleDateFormat("yyyyMMdd").format(calendar.getTime());
     	
-    	File file = new File(path + REFUNDEFILE_SUFFIX.replace("*", date));
+    	File file = new File(path + date + "/" + REFUNDEFILE_SUFFIX.replace("*", date));
     	
     	return file.exists() && file.isFile() ? file : null;
     }    

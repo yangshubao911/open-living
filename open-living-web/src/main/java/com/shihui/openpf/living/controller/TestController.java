@@ -128,18 +128,12 @@ public class TestController {
 	//
 	//
 	//
-	@RequestMapping("/querydoc0")
-	@ResponseBody
-	@Access(type = AccessType.INTERNAL)
-	public Object queryDoc0() {
-		return testService.queryDoc0();
-	}
 	
-	@RequestMapping("/querydoc1")
+	@RequestMapping("/query")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
 	public Object queryDoc1() {
-		return testService.queryDoc1();
+		return testService.query();
 	}
 	@RequestMapping("/checkquery")
 	@ResponseBody

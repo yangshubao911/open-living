@@ -97,27 +97,8 @@ public class TestService {
 		ApiLogger.info("TEST: query() : " + JSON.toJSONString(td));
 		return td;
 	}
-
-	public Object queryDoc0() {
-		TestInput[] tia = {
-				new TestInput(36071, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079005", 1, 1, "1","116.68", 0, "DEF0001")
-//				new TestInput(36071, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1","116.68", 3),
-//				new TestInput(36062, 38, 2, 1, 532712, 1, "021009006", "0060014216", 1, 1, "2", "70.00", 3),
-//				new TestInput(36063, 38, 2, 1, 532712, 1, "021009006", "609990231041328000100006", 1, 1, "1", "100.00", 3),
-//				new TestInput(36064, 38, 2, 1, 532712, 1, "021009006", "0210274168", 1, 1, "2", "100.00", 3)
-				};
-
-		TestData td = query(tia);
-		if( td == null)
-			return JSON.toJSON(new SimpleResponse(1, "TEST : queryDoc1 : td == null"));
-		else {
-			cacheDao.setTest(td);
-			
-			return JSON.toJSON(td);
-		}
-	}
 	
-	public Object queryDoc1() {
+	public Object query() {
 		TestInput[] tia = {
 				//上海电力，正确测试
 //				new TestInput(36061, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1","116.68", 3, ""),
