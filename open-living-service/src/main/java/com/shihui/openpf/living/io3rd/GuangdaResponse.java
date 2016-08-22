@@ -329,14 +329,15 @@ public class GuangdaResponse {
 	        		billDao.updateBillStatus(bill.getOrderId(), BillStatusEnum.BuyFail.getValue());
         		}
         		cacheDao.setOrderBillVo(tempId, vo);
-//TODO	XXX    		
-	    		cacheDao.setErrorCode(tempId, packetError.tout.errorCode);
-
 //        		ApiLogger.info("OK: GuangdaResponse : doPacketError() : RECHARGE");
         	} else {
         		ApiLogger.info("GuangdaResponse : doPacketError() : KEY");
         		ApiLogger.info("ERR: GuangdaResponse : doPacketError() : RECHARGE : OrderBillVo vo == null");
         	}
+//TODO	XXX    		
+    		cacheDao.setErrorCode(tempId, packetError.tout.errorCode);
+    		ApiLogger.info("GuangdaResponse : doPacketError() : RECHARGE : tempId :[" + tempId + "] errorCode:[" + packetError.tout.errorCode + "]");
+
     	} else if(packetType == PacketTypeEnum.KEY.getType()) {
     		doReqKey();
     	}
