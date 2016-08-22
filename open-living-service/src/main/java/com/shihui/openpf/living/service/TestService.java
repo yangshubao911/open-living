@@ -197,25 +197,33 @@ public class TestService {
 		ApiLogger.info("TEST : checkPay() : start...");
 		TestData td;
 		try {
+			ApiLogger.info(" - 1 - ");
 			td = (TestData)cacheDao.getTest(TestData.class);
+			ApiLogger.info(" - 2 - ");
 		} catch(Exception e) {
 			ApiLogger.info("TEST : checkPay() : Exception : " + e.getMessage());
 			return JSON.toJSON(new SimpleResponse(1, "TEST : checkPay() : Exception : " + e.getMessage()));
 		}
+		ApiLogger.info(" - 3 - ");
 		if(td == null){
 			ApiLogger.info("TEST : checkPay() : td == null");
 			return JSON.toJSON(new SimpleResponse(3, "TEST : checkPay() : td == null"));
 		}
+		ApiLogger.info(" - 4 - ");
 			
 		for(int i = 0; i < td.tiList.size(); i++) {
+			ApiLogger.info(" - 4.1 - ");
 			TestInput ti = td.tiList.get(i);
 			TestOutput to = td.toList.get(i);
+			ApiLogger.info(" - 4.2 - ");
 			
 			Bill bill = billDao.findById(to.orderId);
+			ApiLogger.info(" - 4.3 - ");
 			if(bill == null) {
 				ApiLogger.info("TEST : checkPay() : bill == null");
 				return JSON.toJSON(new SimpleResponse(1, "TEST : checkPay() : bill == null"));
 			}
+			ApiLogger.info(" - 4.4 - ");
 			
 //			if((bill.getBillStatus() != 3 && ti.billStatus == 3) || (bill.getBillStatus() == 3 && ti.billStatus != 3)) {
 //				ApiLogger.info("TEST : checkPay() : (bill.getBillStatus() != 3) : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] bankBillNo:[" +bill.getBankBillNo()+"] bankAcctDate:["+bill.getBankAcctDate()+"]");
@@ -235,6 +243,7 @@ public class TestService {
 					}
 				}
 			}
+			ApiLogger.info(" - 4.5 - ");
 		}
 		ApiLogger.info("TEST : checkPay() : OK");
 		return JSON.toJSON(new SimpleResponse(0, "TEST : checkPay() : OK"));

@@ -219,7 +219,7 @@ public class CacheDao {
     }
     //
     private static final String ERRORCODE_PREFIX = CACHE_PREFIX + "ec" + Constants.REDIS_KEY_SEPARATOR;
-    private static final int EXPIRE_ERRORCODE = 10*60;
+    private static final int EXPIRE_ERRORCODE = 30*60;
     public void setErrorCode(String tempId, String errorCode) {
     	set(ERRORCODE_PREFIX + tempId, errorCode, EXPIRE_ERRORCODE);
     }
