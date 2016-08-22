@@ -237,7 +237,7 @@ public class TestService {
 					}
 				} else {
 					String errorCode = cacheDao.getErrorCode(to.tempId);
-					ApiLogger.info(" - 4.5 - " + errorCode);
+					ApiLogger.info(to.tempId + " - 4.5 - " + errorCode);
 					if(ti.errorCode.compareTo(errorCode) != 0) {
 						ApiLogger.info("TEST : checkPay() : (errorCode.compareTo(ti.errorCode) != 0) : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +errorCode+"]");
 						return JSON.toJSON(new SimpleResponse(2, "TEST : checkPay() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +errorCode+"]"));
