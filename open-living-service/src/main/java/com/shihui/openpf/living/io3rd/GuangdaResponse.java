@@ -329,6 +329,9 @@ public class GuangdaResponse {
 	        		billDao.updateBillStatus(bill.getOrderId(), BillStatusEnum.BuyFail.getValue());
         		}
         		cacheDao.setOrderBillVo(tempId, vo);
+//TODO	XXX    		
+	    		cacheDao.setErrorCode(tempId, packetError.tout.errorCode);
+
 //        		ApiLogger.info("OK: GuangdaResponse : doPacketError() : RECHARGE");
         	} else {
         		ApiLogger.info("GuangdaResponse : doPacketError() : KEY");
