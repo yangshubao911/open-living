@@ -29,6 +29,7 @@ import com.shihui.openpf.common.model.Group;
 import com.shihui.openpf.common.model.Merchant;
 import com.shihui.openpf.living.entity.MerchantGoods;
 import com.shihui.openpf.living.io3rd.ResKey;
+import com.shihui.openpf.living.entity.Company;
 
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
@@ -94,11 +95,19 @@ public class CacheDao {
 	}
 	//
 	private static final String COMPANY_PREFIX = CACHE_PREFIX + "company" + Constants.REDIS_KEY_SEPARATOR;
-	public void setCompany(int serviceId, int cityId, String value) {
-		hset(COMPANY_PREFIX + serviceId, String.valueOf(cityId), value, EXPIRE_SYS);
+	public void setCompany(int companyId, Company company) {
+		set(COMPANY_PREFIX + companyId, company, EXPIRE_SYS);
 	}
-	public String getCompany(Integer serviceId, Integer cityId) {
-		return hgetString(COMPANY_PREFIX + serviceId, String.valueOf(cityId));
+	public Company getCompany(Integer companyId) {
+		return (Company)getObject(COMPANY_PREFIX + companyId, Company.class);
+	}
+	//
+	private static final String COMPANYLIST_PREFIX = CACHE_PREFIX + "companyList" + Constants.REDIS_KEY_SEPARATOR;
+	public void setCompanyList(int serviceId, int cityId, String value) {
+		hset(COMPANYLIST_PREFIX + serviceId, String.valueOf(cityId), value, EXPIRE_SYS);
+	}
+	public String getCompanyList(Integer serviceId, Integer cityId) {
+		return hgetString(COMPANYLIST_PREFIX + serviceId, String.valueOf(cityId));
 	}
 	//
 	private static final String SERVICE_PREFIX = CACHE_PREFIX + "service";

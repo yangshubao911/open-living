@@ -41,6 +41,7 @@ import com.shihui.openpf.living.entity.support.BannerAdsEnum;
 import com.shihui.openpf.living.entity.support.BillStatusEnum;
 import com.shihui.openpf.living.entity.support.FeeTypeEnum;
 import com.shihui.openpf.living.entity.support.OrderBillVo;
+import com.shihui.openpf.living.entity.support.QueryModeEnum;
 import com.shihui.openpf.living.entity.support.QueryOrderBillVo;
 import com.shihui.openpf.living.io3rd.GuangdaDao;
 import com.shihui.openpf.living.io3rd.ReqQuery;
@@ -48,6 +49,7 @@ import com.shihui.openpf.living.mq.LivingMqProducer;
 import com.shihui.openpf.living.util.LivingUtil;
 import com.shihui.openpf.living.util.SimpleResponse;
 import com.shihui.tradingcenter.commons.dispatcher.currency.AccountDubbo;
+import com.shihui.openpf.living.util.ShangHaiChenNanShuiWuUtil;
 
 //import me.weimi.api.commons.util.ApiLogger;
 import com.shihui.commons.ApiLogger;
@@ -189,7 +191,7 @@ public class ClientService {
 	 * 
 	 */
 	public Object queryCompany(Integer serviceId, Integer categoryId, Integer cityId) {
-		String info = cacheDao.getCompany(serviceId, cityId);
+		String info = cacheDao.getCompanyList(serviceId, cityId);
 		if(info != null) {
 			ApiLogger.info("Service: queryCompany() : info != null : " + info);
 			return JSON.parse(info);
@@ -220,7 +222,7 @@ public class ClientService {
 			ja.add(jo);
 		}
 		ApiLogger.info("Service: queryCompany() : " + result.toJSONString());
-		cacheDao.setCompany(serviceId, cityId, result.toJSONString());
+		cacheDao.setCompanyList(serviceId, cityId, result.toJSONString());
 		return result;
 	}
 
@@ -240,17 +242,43 @@ public class ClientService {
 						+ ", userNo: " + userNo
 						+ ", companyNo: " + companyNo
 						+ ", field2: " + field2 );
+		//TODO
+		Company company = cacheDao.getCompany(companyId);
+		if(company == null) {
+			company = companyDao.findById(companyId);
+			if(company == null) {
+				return null;
+			}
+			cacheDao.setCompany(companyId, company);
+		}
+		ReqQuery reqQuery;
+		String billKey;
+		String money;
+		if( company.getQueryMode() == QueryModeEnum.ShangHaiChenNanShuiWu.getMode()) {
+			billKey = ShangHaiChenNanShuiWuUtil.getBillKey(userNo);
+
+			reqQuery = ReqQuery.instance( 
+					tempId, 
+					billKey, 
+					companyNo, ShangHaiChenNanShuiWuUtil.getMoney(userNo), null, null, null);
+			
+		} else {
+			billKey = userNo;
+			
+			reqQuery = ReqQuery.instance( 
+					tempId, 
+					billKey, 
+					companyNo, null, field2, null, null);
+		}
 		
-		ReqQuery reqQuery = ReqQuery.instance( 
-				tempId, 
-				userNo, 
-				companyNo, null, field2, null, null);
+		//
 		
 		//TODO
 		QueryOrderBillVo vo = new QueryOrderBillVo();
 		vo.setTempId(tempId);
 		vo.setCompanyNo(companyNo);
 //		vo.setCategoryId(categoryId);
+		vo.setCompany(company);
 		
 		Order order = new Order();
 		Bill bill = new Bill();
@@ -263,7 +291,8 @@ public class ClientService {
 		order.setDeviceId(deviceId);
 		order.setAppId(appId);
 		bill.setCompanyId(companyId);
-		bill.setBillKey(userNo);
+		bill.setUserNo(userNo);
+		bill.setBillKey(billKey);
 		bill.setServiceId(serviceId);
 		bill.setCategoryId(categoryId);
 		bill.setCityId(cityId);

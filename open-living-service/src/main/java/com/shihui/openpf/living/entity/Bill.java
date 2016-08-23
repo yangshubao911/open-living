@@ -26,6 +26,7 @@ public class Bill implements Serializable {
 	private String feeName;
 	private Integer cityId;
 	private String cityName;
+	private String userNo;
 	private String billKeyType;
 	private String billKey;
 	private Integer companyId;
@@ -398,6 +399,14 @@ public class Bill implements Serializable {
 
 	public void setBankAcctDate(String bankAcctDate) {
 		this.bankAcctDate = bankAcctDate;
+	}
+
+	public String getUserNo() {
+		return userNo;
+	}
+
+	public void setUserNo(String userNo) {
+		this.userNo = userNo;
 	}
 	
 }

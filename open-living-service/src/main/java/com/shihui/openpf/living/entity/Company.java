@@ -43,6 +43,8 @@ public class Company implements Serializable {
 	private Integer barcode;
 
 	private Integer status;
+	
+	private Integer queryMode;
 	//
 
 	public Integer getBarcode() {
@@ -159,6 +161,14 @@ public class Company implements Serializable {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public Integer getQueryMode() {
+		return queryMode;
+	}
+
+	public void setQueryMode(Integer queryMode) {
+		this.queryMode = queryMode;
 	}
 	
 }

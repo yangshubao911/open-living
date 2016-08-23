@@ -29,11 +29,13 @@ import com.shihui.openpf.living.entity.Order;
 import com.shihui.openpf.living.entity.support.BillStatusEnum;
 import com.shihui.openpf.living.entity.support.FeeTypeEnum;
 import com.shihui.openpf.living.entity.support.OrderBillVo;
+import com.shihui.openpf.living.entity.support.QueryModeEnum;
 import com.shihui.openpf.living.entity.support.QueryOrderBillVo;
 import com.shihui.openpf.living.mq.AppNotice;
 import com.shihui.openpf.living.mq.LivingMqProducer;
 import com.shihui.openpf.living.util.LivingUtil;
 import com.shihui.openpf.living.util.PacketTypeEnum;
+import com.shihui.openpf.living.util.ShangHaiChenNanShuiWuUtil;
 import com.shihui.openpf.living.util.SimpleResponse;
 import com.shihui.openpf.common.model.Merchant;
 import com.shihui.openpf.living.entity.MerchantGoods;
@@ -141,7 +143,11 @@ public class GuangdaResponse {
 		bill.setField4(td.filed4);
 		bill.setField5(td.filed5);
     	//
-		bill.setBillDate(bill.getField1());
+		if( vo.getCompany().getQueryMode() == QueryModeEnum.ShangHaiChenNanShuiWu.getMode()) {
+			bill.setBillDate(ShangHaiChenNanShuiWuUtil.getBillDate(bill.getUserNo()));
+		} else {
+			bill.setBillDate(bill.getField1());
+		}
     }
 	private void noticeApp(QueryOrderBillVo vo) {
 		JSONObject result = new JSONObject();
@@ -186,7 +192,13 @@ public class GuangdaResponse {
 	private void load_vo_elements(QueryOrderBillVo vo) {
 		Order order = vo.getOrder();		
 		Bill bill = vo.getBill();
-		Company company = companyDao.findById(bill.getCompanyId());
+//		Company company = companyDao.findById(bill.getCompanyId());
+		Company company = cacheDao.getCompany(bill.getCompanyId());
+		if(company == null) {
+			company = companyDao.findById(bill.getCompanyId());
+			cacheDao.setCompany(bill.getCompanyId(), company);
+		}
+
 		vo.setCompany(company);
 		Goods goods = cacheDao.getGoods(bill.getCategoryId(), order.getGoodsId());
 		if( goods == null) {
