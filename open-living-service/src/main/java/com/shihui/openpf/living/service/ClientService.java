@@ -384,6 +384,12 @@ public class ClientService {
 			result.put("tempId", vo.getTempId());
 			Bill bill = vo.getBill();
 			Order order = vo.getOrder();
+			//
+			Goods goods = vo.getGoods();
+			String desc = "【生活缴费】" + goods.getGoodsName()
+								 + (bill.getFeeType() == 0 ? "" : "预缴" )
+								+ ",户号" + bill.getBillKey();
+			result.put("desc", desc);
 			//TODO??
 			result.put("billDate", bill.getBillDate());	
 			if( bill.getFeeType() == FeeTypeEnum.Prepayment.getValue() ) {
