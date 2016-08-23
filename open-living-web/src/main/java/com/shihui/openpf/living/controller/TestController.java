@@ -132,8 +132,9 @@ public class TestController {
 	@RequestMapping("/query")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public Object queryDoc1() {
-		return testService.query();
+	public Object queryDoc1(
+			@RequestParam(name = "index", required = true, defaultValue="0")Integer index) {
+		return testService.query(index);
 	}
 	@RequestMapping("/checkquery")
 	@ResponseBody
