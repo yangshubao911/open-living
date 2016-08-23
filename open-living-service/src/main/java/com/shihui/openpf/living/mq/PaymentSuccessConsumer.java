@@ -89,7 +89,7 @@ public class PaymentSuccessConsumer implements Consumer {
 				new BigDecimal(order.getPrice()).multiply(new BigDecimal("100")).setScale(0, BigDecimal.ROUND_HALF_UP).toString(),
 				bill.getUserName(), 
 				bill.getContractNo(), 
-				bill.getBillDate(),bill.getItem1()/*bill.getField2()*/,null,null/*field1, filed2, filed3, filed4*/);
+				bill.getBillDate(),bill.getBillKeyType()/*bill.getItem1()bill.getField2()*/,null,null/*field1, filed2, filed3, filed4*/);
 		mqProducer.sendRechargeRequest(tempId, JSON.toJSONString(reqPay));
 	}
 	

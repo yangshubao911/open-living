@@ -26,6 +26,7 @@ public class Bill implements Serializable {
 	private String feeName;
 	private Integer cityId;
 	private String cityName;
+	private String billKeyType;
 	private String billKey;
 	private Integer companyId;
 	private String userAddress;
@@ -117,6 +118,14 @@ public class Bill implements Serializable {
 
 	public void setCityName(String cityName) {
 		this.cityName = cityName;
+	}
+
+	public String getBillKeyType() {
+		return billKeyType;
+	}
+
+	public void setBillKeyType(String billKeyType) {
+		this.billKeyType = billKeyType;
 	}
 
 	public String getBillKey() {

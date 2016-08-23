@@ -267,6 +267,7 @@ public class ClientService {
 		bill.setServiceId(serviceId);
 		bill.setCategoryId(categoryId);
 		bill.setCityId(cityId);
+		bill.setBillKeyType(field2);
 
 		vo.setOrder(order);
 		vo.setBill(bill);

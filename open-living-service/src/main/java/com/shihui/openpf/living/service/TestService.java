@@ -68,7 +68,7 @@ public class TestService {
 				new BigDecimal(order.getPrice()).multiply(new BigDecimal("100")).setScale(0, BigDecimal.ROUND_HALF_UP).toString(),
 				bill.getUserName(), 
 				bill.getContractNo(), 
-				bill.getBillDate(),bill.getItem2()/*bill.getField2()*/,null,null/*field1, filed2, filed3, filed4*/);
+				bill.getBillDate(),bill.getBillKeyType()/*bill.getField2()*/,null,null/*field1, filed2, filed3, filed4*/);
 		mqProducer.sendRechargeRequest(tempId, JSON.toJSONString(reqPay));
 	}
 
@@ -175,7 +175,7 @@ public class TestService {
 //TODO
 		TestData td = (index == null) ? query(tia) : query(tia[index]);
 		if( td == null)
-			return JSON.toJSON(new SimpleResponse(1, "TEST : queryDoc1 : td == null"));
+			return JSON.toJSON(new SimpleResponse(1, "TEST : query : td == null"));
 		else {
 			cacheDao.setTest(td);
 			return JSON.toJSON(td);
