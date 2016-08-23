@@ -64,12 +64,12 @@ public class TestService {
 				tempId, 
 				bill.getBillKey(), 
 				obvo.getCompany().getCompanyNo(), 
-				"151203062631",//cacheDao.getSerialNo(), 
+				cacheDao.getSerialNo(), 
 				new BigDecimal(order.getPrice()).multiply(new BigDecimal("100")).setScale(0, BigDecimal.ROUND_HALF_UP).toString(),
 				bill.getUserName(), 
 				bill.getContractNo(), 
-				bill.getBillDate(),bill.getItem1()/*bill.getField2()*/,null,null/*field1, filed2, filed3, filed4*/);
-ApiLogger.info("TEST: doReqPay() : item1:[" + bill.getItem1() +"] field2:["+bill.getField2()+"]");
+				bill.getBillDate(),bill.getItem2()/*bill.getField2()*/,null,null/*field1, filed2, filed3, filed4*/);
+ApiLogger.info("TEST: doReqPay() : item1:[" + bill.getItem2() +"] field2:["+bill.getField2()+"]");
 		mqProducer.sendRechargeRequest(tempId, JSON.toJSONString(reqPay));
 	}
 
