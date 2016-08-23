@@ -98,7 +98,28 @@ public class TestService {
 		return td;
 	}
 	
-	public Object query(int index) {
+	private TestData query(TestInput ti) {
+		TestData td = new TestData();
+		
+			td.tiList.add(ti);
+			
+			JSONObject jo = (JSONObject)clientService.queryFee(ti.userId, ti.groupId, -1L, ti.serviceId, 
+					ti.categoryId, ti.cityId, ti.goodsId, ti.goodsVersion, ti.companyId, ti.companyNo, 
+					ti.userNo, ti.field2, "", -1);
+			
+			TestOutput to = new TestOutput();
+			to.tempId = jo.getString("tempId");
+			if( to.tempId == null) {
+				ApiLogger.info("TEST: query() : to.tempId == null");
+				return null;
+			}
+			td.toList.add(to);
+
+		ApiLogger.info("TEST: query() : " + JSON.toJSONString(td));
+		return td;
+	}
+	
+	public Object query(Integer index) {
 		TestInput[] tia = {
 				//上海电力，正确测试
 //				new TestInput(36061, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1","116.68", 3, ""),
@@ -152,7 +173,7 @@ public class TestService {
 //				new TestInput(36281, 37, 1, 1, 532712, 1, "021009013", "029000099445091000004581", 1, 1, "1","45.80", 3, ""),
 				};
 //TODO
-		TestData td = query(tia);
+		TestData td = (index == null) ? query(tia) : query(tia[index]);
 		if( td == null)
 			return JSON.toJSON(new SimpleResponse(1, "TEST : queryDoc1 : td == null"));
 		else {
