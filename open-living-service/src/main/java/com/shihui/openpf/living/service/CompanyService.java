@@ -87,13 +87,13 @@ public class CompanyService {
 				jo.put("companyId", company.getCompanyId());
 				jo.put("companyName", company.getCompanyName());
 				jo.put("companyNo", company.getCompanyNo());
-//				jo.put("serviceType", company.getServiceType());
-//				jo.put("feeType", company.getFeeType());
-//				jo.put("userNoLengMin", company.getUserNoLengMin());
-//				jo.put("userNoLengMax", company.getUserNoLengMax());
-//				jo.put("payMin", company.getPayMin());
-//				jo.put("payMax", company.getPayMax());
-//				jo.put("barcode", company.getBarcode());
+				jo.put("serviceType", company.getServiceType());
+				jo.put("feeType", company.getFeeType());
+				jo.put("userNoLengMin", company.getUserNoLengMin());
+				jo.put("userNoLengMax", company.getUserNoLengMax());
+				jo.put("payMin", company.getPayMin());
+				jo.put("payMax", company.getPayMax());
+				jo.put("barcode", company.getBarcode());
 				ja.add(jo);
 			}
 		}
