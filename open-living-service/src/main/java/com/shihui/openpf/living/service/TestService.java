@@ -69,6 +69,7 @@ public class TestService {
 				bill.getUserName(), 
 				bill.getContractNo(), 
 				bill.getBillDate(),bill.getItem1()/*bill.getField2()*/,null,null/*field1, filed2, filed3, filed4*/);
+ApiLogger.info("TEST: doReqPay() : item1:[" + bill.getItem1() +"] field2:["+bill.getField2()+"]");
 		mqProducer.sendRechargeRequest(tempId, JSON.toJSONString(reqPay));
 	}
 
