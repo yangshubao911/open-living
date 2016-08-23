@@ -64,7 +64,7 @@ public class TestService {
 				tempId, 
 				bill.getBillKey(), 
 				obvo.getCompany().getCompanyNo(), 
-				cacheDao.getSerialNo(), 
+				"151203062631",//cacheDao.getSerialNo(), 
 				new BigDecimal(order.getPrice()).multiply(new BigDecimal("100")).setScale(0, BigDecimal.ROUND_HALF_UP).toString(),
 				bill.getUserName(), 
 				bill.getContractNo(), 
