@@ -19,6 +19,8 @@ public class OrderBill implements Serializable {
 	
     @Id
     private Long orderId;
+    @Transient
+    private String orderIdString;
     
 	private Long userId;
 
@@ -66,6 +68,14 @@ public class OrderBill implements Serializable {
 
 	public void setOrderId(Long orderId) {
 		this.orderId = orderId;
+	}
+
+	public String getOrderIdString() {
+		return orderIdString;
+	}
+
+	public void setOrderIdString(String orderIdString) {
+		this.orderIdString = orderIdString;
 	}
 
 	public Long getUserId() {
