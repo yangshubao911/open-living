@@ -69,7 +69,6 @@ public class TestService {
 				bill.getUserName(), 
 				bill.getContractNo(), 
 				bill.getBillDate(),bill.getItem2()/*bill.getField2()*/,null,null/*field1, filed2, filed3, filed4*/);
-ApiLogger.info("TEST: doReqPay() : item1:[" + bill.getItem2() +"] field2:["+bill.getField2()+"]");
 		mqProducer.sendRechargeRequest(tempId, JSON.toJSONString(reqPay));
 	}
 
@@ -137,7 +136,7 @@ ApiLogger.info("TEST: doReqPay() : item1:[" + bill.getItem2() +"] field2:["+bill
 				//上海嘉定自来水，正确测试
 //				new TestInput(36281, 37, 1, 1, 532712, 1, "021009013", "029000099445091000004581", 1, 1, "1","45.80", 3, ""),
 				};
-
+//TODO
 		TestData td = query(tia);
 		if( td == null)
 			return JSON.toJSON(new SimpleResponse(1, "TEST : queryDoc1 : td == null"));
