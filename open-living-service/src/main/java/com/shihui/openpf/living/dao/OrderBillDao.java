@@ -109,7 +109,7 @@ public class OrderBillDao extends AbstractDao<OrderBill> {
 			valueList.add(vo.getCount());
 		}
 
-//ApiLogger.info("OrderBillDao : query : " + sql.toString() + " : " + valueList.toString());
+ApiLogger.info("OrderBillDao : query : " + sql.toString() + " : " + valueList.toString());
 		return this.queryForList(sql.toString(), valueList.toArray());
 	}
 	
