@@ -190,8 +190,8 @@ public class TestService {
 					ApiLogger.info("TEST : checkQuery() : vo == null && ti.billStatus == 3 : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +ti.errorCode+"]");
 					return JSON.toJSON(new SimpleResponse(1, "TEST : checkQuery() : vo == null && ti.billStatus == 3 : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +ti.errorCode+"]"));
 				}
-				ApiLogger.info("TEST : checkQuery() : - 4.1.1.1 -");
-				if((vo.getOrder().getPrice().trim().isEmpty()) || (ti.price.compareTo(vo.getOrder().getPrice()) != 0)) {
+				ApiLogger.info("TEST : checkQuery() : - 4.1.1.1 - : " +ti.price);
+				if((vo.getOrder().getPrice() == null) || (ti.price.compareTo(vo.getOrder().getPrice()) != 0)) {
 //				if(vo.getOrder().getPrice().trim().isEmpty()) {
 					ApiLogger.info("TEST : checkQuery() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] price:[" +ti.price+"] o_price:["+vo.getOrder().getPrice()+"]");
 					return JSON.toJSON(new SimpleResponse(2, "TEST : checkQuery() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] price:[" +ti.price+"] o_price:["+vo.getOrder().getPrice()+"]"));
