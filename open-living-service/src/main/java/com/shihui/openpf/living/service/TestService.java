@@ -165,38 +165,46 @@ public class TestService {
 		ApiLogger.info("TEST : checkQuery() : start...");
 		TestData td;
 		try {
+			ApiLogger.info("TEST : checkQuery() : - 1 -");
 			td = (TestData)cacheDao.getTest(TestData.class);
+			ApiLogger.info("TEST : checkQuery() : - 2 -");
 		} catch(Exception e) {
 			ApiLogger.info("TEST : checkQuery() : Exception : " + e.getMessage());
 			return JSON.toJSON(new SimpleResponse(1, "TEST : checkQuery() : Exception : " + e.getMessage()));
 		}
+		ApiLogger.info("TEST : checkQuery() : - 3 -");
 		if(td == null){
+			ApiLogger.info("TEST : checkQuery() : - 3.1 -");
 			ApiLogger.info("TEST : checkQuery() : td == null");
 			return JSON.toJSON(new SimpleResponse(3, "TEST : checkQuery() : td == null"));
 		}
-			
+		ApiLogger.info("TEST : checkQuery() : - 4 -");
 		for(int i = 0; i < td.tiList.size(); i++) {
 			TestInput ti = td.tiList.get(i);
 			TestOutput to = td.toList.get(i);
-			
+			ApiLogger.info("TEST : checkQuery() : - 4.1 -");
 			QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(to.tempId);
 			if(ti.billStatus == 3) {
+				ApiLogger.info("TEST : checkQuery() : - 4.1.1 -");
 				if(vo == null) {
 					ApiLogger.info("TEST : checkQuery() : vo == null && ti.billStatus == 3 : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +ti.errorCode+"]");
 					return JSON.toJSON(new SimpleResponse(1, "TEST : checkQuery() : vo == null && ti.billStatus == 3 : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +ti.errorCode+"]"));
 				}
-				
+				ApiLogger.info("TEST : checkQuery() : - 4.1.1.1 -");
 				if(ti.price.compareTo(vo.getOrder().getPrice()) != 0) {
 //				if(vo.getOrder().getPrice().trim().isEmpty()) {
 					ApiLogger.info("TEST : checkQuery() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] price:[" +ti.price+"] o_price:["+vo.getOrder().getPrice()+"]");
 					return JSON.toJSON(new SimpleResponse(2, "TEST : checkQuery() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] price:[" +ti.price+"] o_price:["+vo.getOrder().getPrice()+"]"));
 				}
+				ApiLogger.info("TEST : checkQuery() : - 4.1.1.2 -");
 			} else {
+				ApiLogger.info("TEST : checkQuery() : - 4.1.2.1 -");
 				String errorCode = cacheDao.getErrorCode(to.tempId);
 				if(errorCode == null || errorCode.compareTo(ti.errorCode) != 0) {
 					ApiLogger.info("TEST : checkQuery() : vo != null && ti.billStatus != 3 : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +ti.errorCode+"]");
 					return JSON.toJSON(new SimpleResponse(5, "TEST : checkQuery() : vo != null && ti.billStatus != 3 : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +ti.errorCode+"]"));
 				}
+				ApiLogger.info("TEST : checkQuery() : - 4.1.2.2 -");
 			}
 		}
 		ApiLogger.info("TEST : checkQuery() : OK");
