@@ -69,7 +69,7 @@ public class OrderBillDao extends AbstractDao<OrderBill> {
 
 		String userNo = vo.getUserNo();
 		if(userNo != null) {
-			sql.append(" AND b.user_no = ? ");
+			sql.append(" AND b.bill_key = ? ");
 			valueList.add(userNo);
 		}
 
@@ -165,7 +165,7 @@ ApiLogger.info("OrderBillDao : query : " + sql.toString() + " : " + valueList.to
 
 		String userNo = vo.getUserNo();
 		if(userNo != null) {
-			sql.append(" AND b.user_no = ? ");
+			sql.append(" AND b.bill_key = ? ");
 			valueList.add(userNo);
 		}
 
