@@ -123,24 +123,23 @@ public class OrderManage {
 	 */
 
 	public Object queryOrderList(ConditionVo vo) {
-ApiLogger.info("OrderManage : queryOrderList() : -1-");
 		JSONObject result = new JSONObject();
 
 		int total = obDao.queryCount(vo);
 		result.put("total", total);
 		result.put("page", vo.getPage());
 		result.put("size", vo.getCount());
-ApiLogger.info("OrderManage : queryOrderList() : -2-");		
+
 		if (total <= 0)
 			return result;
-ApiLogger.info("OrderManage : queryOrderList() : -3-");		
+
 		List<OrderBill> orderList = obDao.query(vo);
 		for(OrderBill ob : orderList) {
 			ob.setOrderStatusMsg(OrderStatusEnum.parse(ob.getOrderStatus()).getName());
 			ob.setOrderIdString(String.valueOf(ob.getOrderId()));
 		}
 		result.put("orders", JSON.toJSON(orderList));
-ApiLogger.info("OrderManage : queryOrderList() : -4-");		
+
 		return result;
 	}
 

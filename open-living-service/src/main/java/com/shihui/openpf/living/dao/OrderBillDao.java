@@ -198,7 +198,8 @@ ApiLogger.info("OrderBillDao : query : " + sql.toString() + " : " + valueList.to
 			sql.append(" AND a.service_id = ? ");
 			valueList.add(serviceId);
 		}
-
+		
+ApiLogger.info("OrderBillDao : query : " + sql.toString() + " : " + valueList.toString());
 		return this.queryCount(sql.toString(), valueList.toArray());
 	}
 }
