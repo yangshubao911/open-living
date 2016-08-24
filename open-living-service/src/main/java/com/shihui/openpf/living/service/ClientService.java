@@ -231,7 +231,7 @@ public class ClientService {
 	 */
 	public Object queryFee(int userId, long groupId, Long mid,
 			int serviceId, int categoryId, int cityId, long goodsId, int goodsVersion, 
-			int companyId, String companyNo, String userNo, String field2,
+			int companyId, /*String companyNo, */String userNo, String field2,
 			String deviceId, int appId) {
 		JSONObject result = new JSONObject();
 
@@ -240,7 +240,6 @@ public class ClientService {
 		ApiLogger.info("Service: queryFee() : "
 						+ "tempId: " + tempId
 						+ ", userNo: " + userNo
-						+ ", companyNo: " + companyNo
 						+ ", field2: " + field2 );
 		//TODO
 		Company company = cacheDao.getCompany(companyId);
@@ -253,14 +252,14 @@ public class ClientService {
 		}
 		ReqQuery reqQuery;
 		String billKey;
-		String money;
 		if( company.getQueryMode() == QueryModeEnum.ShangHaiChenNanShuiWu.getMode()) {
 			billKey = ShangHaiChenNanShuiWuUtil.getBillKey(userNo);
 
 			reqQuery = ReqQuery.instance( 
 					tempId, 
 					billKey, 
-					companyNo, String.valueOf(Integer.parseInt(ShangHaiChenNanShuiWuUtil.getMoney(userNo))), null, null, null);
+					company.getCompanyNo(), 
+					String.valueOf(Integer.parseInt(ShangHaiChenNanShuiWuUtil.getMoney(userNo))), null, null, null);
 			
 		} else {
 			billKey = userNo;
@@ -268,7 +267,8 @@ public class ClientService {
 			reqQuery = ReqQuery.instance( 
 					tempId, 
 					billKey, 
-					companyNo, null, field2, null, null);
+					company.getCompanyNo(), 
+					null, field2, null, null);
 		}
 		
 		//
@@ -276,7 +276,7 @@ public class ClientService {
 		//TODO
 		QueryOrderBillVo vo = new QueryOrderBillVo();
 		vo.setTempId(tempId);
-		vo.setCompanyNo(companyNo);
+//		vo.setCompanyNo(companyNo);
 //		vo.setCategoryId(categoryId);
 		vo.setCompany(company);
 		

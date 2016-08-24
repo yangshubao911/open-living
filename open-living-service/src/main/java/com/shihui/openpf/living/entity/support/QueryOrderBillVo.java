@@ -13,7 +13,7 @@ public class QueryOrderBillVo {
 	
 	private String tempId;
 //	private int categoryId;
-	private String companyNo;
+//	private String companyNo;
 	private String shGold;
 	private Integer merchantId;
 	private String ErrorCode;
@@ -113,13 +113,13 @@ public class QueryOrderBillVo {
 //		this.categoryId = categoryId;
 //	}
 
-	public String getCompanyNo() {
-		return companyNo;
-	}
-
-	public void setCompanyNo(String companyNo) {
-		this.companyNo = companyNo;
-	}
+//	public String getCompanyNo() {
+//		return companyNo;
+//	}
+//
+//	public void setCompanyNo(String companyNo) {
+//		this.companyNo = companyNo;
+//	}
 
 	public String getShGold() {
 		return shGold;

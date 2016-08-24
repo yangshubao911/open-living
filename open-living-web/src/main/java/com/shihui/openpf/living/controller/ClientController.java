@@ -103,7 +103,7 @@ public class ClientController extends BasicController {
 			@RequestParam(name="goodsId", required = true) Long goodsId,
 			@RequestParam(name="goodsVersion", required = true) Integer goodsVersion,
 			@RequestParam(name="companyId", required = true) Integer companyId,
-			@RequestParam(name="companyNo", required = true) String companyNo,
+			@RequestParam(name="companyNo", required = false) String companyNo,
 			@RequestParam(name="userNo", required = true) String userNo,
 			@RequestParam(name="field2", required = true) String field2) {
 
@@ -116,7 +116,7 @@ public class ClientController extends BasicController {
 				+ "goodsId: " + goodsId
 				+ "goodsVersion: " + goodsVersion
 				+ "companyId: " + companyId
-				+ "companyNo: " + companyNo
+//				+ "companyNo: " + companyNo
 				+ "userNo: " + userNo
 				+ "field2: " + field2 );
 		
@@ -127,7 +127,7 @@ public class ClientController extends BasicController {
 		OperationLogger.log("operation.living.queryFee", RequestContext.getRequestContext(), expand);
 
 		return clientService.queryFee(userId, groupId, mid, serviceId, 
-				categoryId, cityId, goodsId, goodsVersion, companyId, companyNo, 
+				categoryId, cityId, goodsId, goodsVersion, companyId,/* companyNo,*/ 
 				userNo, field2,
 				request.getHeader("ndeviceid"),
 				request.getIntHeader("X-APP-ID"));

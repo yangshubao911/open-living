@@ -7,7 +7,7 @@ public class TestInput {
 	public int		cityId;			// 2
 	public long		groupId;		// 532712
 	public int		companyId;		// 1
-	public String	companyNo;		// 021009006
+//	public String	companyNo;		// 021009006
 	public String	userNo;			// 510070111304276000079004
 	public long		goodsId;		// 1
 	public int		goodsVersion;	// 1
@@ -21,7 +21,7 @@ public class TestInput {
 		
 	}
 	public TestInput(int userId, int serviceId, int categoryId, int cityId, long groupId, 
-			int companyId, String companyNo, String userNo, long goodsId, int goodsVersion, String field2,
+			int companyId, String userNo, long goodsId, int goodsVersion, String field2,
 			String price, int billStatus, String errorCode) {
 		this.userId = userId;
 		this.serviceId = serviceId;
@@ -29,7 +29,6 @@ public class TestInput {
 		this.cityId = cityId;
 		this.groupId = groupId;
 		this.companyId = companyId;
-		this.companyNo = companyNo;
 		this.userNo = userNo;
 		this.goodsId = goodsId;
 		this.goodsVersion = goodsVersion;

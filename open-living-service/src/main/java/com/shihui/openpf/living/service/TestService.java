@@ -83,7 +83,7 @@ public class TestService {
 			td.tiList.add(ti);
 			
 			JSONObject jo = (JSONObject)clientService.queryFee(ti.userId, ti.groupId, -1L, ti.serviceId, 
-					ti.categoryId, ti.cityId, ti.goodsId, ti.goodsVersion, ti.companyId, ti.companyNo, 
+					ti.categoryId, ti.cityId, ti.goodsId, ti.goodsVersion, ti.companyId,/* ti.companyId,*/ 
 					ti.userNo, ti.field2, "", -1);
 			
 			TestOutput to = new TestOutput();
@@ -104,7 +104,7 @@ public class TestService {
 			td.tiList.add(ti);
 			
 			JSONObject jo = (JSONObject)clientService.queryFee(ti.userId, ti.groupId, -1L, ti.serviceId, 
-					ti.categoryId, ti.cityId, ti.goodsId, ti.goodsVersion, ti.companyId, ti.companyNo, 
+					ti.categoryId, ti.cityId, ti.goodsId, ti.goodsVersion, ti.companyId,/* ti.companyNo, */
 					ti.userNo, ti.field2, "", -1);
 			
 			TestOutput to = new TestOutput();
@@ -122,61 +122,61 @@ public class TestService {
 	public Object query(Integer index) {
 		TestInput[] tia = {
 				//上海电力，正确测试
-//				new TestInput(36061, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1","116.68", 3, ""),
-//				new TestInput(36062, 38, 2, 1, 532712, 1, "021009006", "0060014216", 1, 1, "2", "70.00", 3, ""),
-//				new TestInput(36063, 38, 2, 1, 532712, 1, "021009006", "609990231041328000100006", 1, 1, "1", "100.00", 3, ""),
-//				new TestInput(36064, 38, 2, 1, 532712, 1, "021009006", "0210274168", 1, 1, "2", "100.00", 3, "")
+//				new TestInput(36061, 38, 2, 1, 532712, 1, ""510070111304276000079004", 1, 1, "1","116.68", 3, ""),
+//				new TestInput(36062, 38, 2, 1, 532712, 1, ""0060014216", 1, 1, "2", "70.00", 3, ""),
+//				new TestInput(36063, 38, 2, 1, 532712, 1, ""609990231041328000100006", 1, 1, "1", "100.00", 3, ""),
+//				new TestInput(36064, 38, 2, 1, 532712, 1, ""0210274168", 1, 1, "2", "100.00", 3, "")
 				//上海电力，错误查询测试
-//				new TestInput(36071, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079005", 1, 1, "1","32.00", 0, "DEF0001"),
-//				new TestInput(36072, 38, 2, 1, 532712, 1, "021009006", "510070114098382000155402", 1, 1, "1","39.00", 0, "DEF0002"),
-//				new TestInput(36073, 38, 2, 1, 532712, 1, "021009006", "9111167666", 1, 1, "2", "38.00", 0, "DEF0010"),
-//				new TestInput(36074, 38, 2, 1, 532712, 1, "021009006", "0111003482", 1, 1, "2", "338.00", 0, "DEF0002"),
-//				new TestInput(36075, 38, 2, 1, 532712, 1, "021009006", "510070111304290000007706", 1, 1, "1","7.70", 3, ""),
-//				new TestInput(36076, 38, 2, 1, 532712, 1, "021009006", "510070114083920000025301", 1, 1, "1","28.80", 3, ""),
-//				new TestInput(36077, 38, 2, 1, 532712, 1, "021009006", "0111003386", 1, 1, "2", "40.76", 3, ""),
-//				new TestInput(36078, 38, 2, 1, 532712, 1, "021009006", "511090060549152000169101", 1, 1, "1","169.10", 3, ""),
-//				new TestInput(36079, 38, 2, 1, 532712, 1, "021009006", "0111003464", 1, 1, "2", "169.11", 3, "")
+//				new TestInput(36071, 38, 2, 1, 532712, 1, ""510070111304276000079005", 1, 1, "1","32.00", 0, "DEF0001"),
+//				new TestInput(36072, 38, 2, 1, 532712, 1, ""510070114098382000155402", 1, 1, "1","39.00", 0, "DEF0002"),
+//				new TestInput(36073, 38, 2, 1, 532712, 1, ""9111167666", 1, 1, "2", "38.00", 0, "DEF0010"),
+//				new TestInput(36074, 38, 2, 1, 532712, 1, ""0111003482", 1, 1, "2", "338.00", 0, "DEF0002"),
+//				new TestInput(36075, 38, 2, 1, 532712, 1, ""510070111304290000007706", 1, 1, "1","7.70", 3, ""),
+//				new TestInput(36076, 38, 2, 1, 532712, 1, ""510070114083920000025301", 1, 1, "1","28.80", 3, ""),
+//				new TestInput(36077, 38, 2, 1, 532712, 1, ""0111003386", 1, 1, "2", "40.76", 3, ""),
+//				new TestInput(36078, 38, 2, 1, 532712, 1, ""511090060549152000169101", 1, 1, "1","169.10", 3, ""),
+//				new TestInput(36079, 38, 2, 1, 532712, 1, ""0111003464", 1, 1, "2", "169.11", 3, "")
 				//上海电力，错误缴费测试
-//				new TestInput(36075, 38, 2, 1, 532712, 1, "021009006", "510070111304290000007706", 1, 1, "1","7.70", 3, "EGG0001"),//EGG0675
-//				new TestInput(36076, 38, 2, 1, 532712, 1, "021009006", "510070114083920000025301", 1, 1, "1","28.80", 3, "DEF0013"),
-//				new TestInput(36077, 38, 2, 1, 532712, 1, "021009006", "0111003386", 1, 1, "2", "40.76", 3, "DEF0013"),
-//				new TestInput(36078, 38, 2, 1, 532712, 1, "021009006", "511090060549152000169101", 1, 1, "1","169.10", 3, "DEF0006"),
-//				new TestInput(36079, 38, 2, 1, 532712, 1, "021009006", "0111003464", 1, 1, "2", "169.11", 3, "DEF0006")
+//				new TestInput(36075, 38, 2, 1, 532712, 1, ""510070111304290000007706", 1, 1, "1","7.70", 3, "EGG0001"),//EGG0675
+//				new TestInput(36076, 38, 2, 1, 532712, 1, ""510070114083920000025301", 1, 1, "1","28.80", 3, "DEF0013"),
+//				new TestInput(36077, 38, 2, 1, 532712, 1, ""0111003386", 1, 1, "2", "40.76", 3, "DEF0013"),
+//				new TestInput(36078, 38, 2, 1, 532712, 1, ""511090060549152000169101", 1, 1, "1","169.10", 3, "DEF0006"),
+//				new TestInput(36079, 38, 2, 1, 532712, 1, ""0111003464", 1, 1, "2", "169.11", 3, "DEF0006")
 				
 				//上海燃气费（条形码）
-//				new TestInput(36171, 39, 3, 1, 532712, 2, "021009028", "81022442", 2, 1, "2","10.30", 3, "EGG0001"),
-//				new TestInput(36172, 39, 3, 1, 532712, 2, "021009028", "81022431", 2, 1, "2","70.80", 3, "DEF0010"),
-//				new TestInput(36173, 39, 3, 1, 532712, 2, "021009028", "81022334", 2, 1, "2","18.10", 3, "DEF0010"),//?
-//				new TestInput(36174, 39, 3, 1, 532712, 2, "021009028", "81022414", 2, 1, "2","90.00", 3, "DEF0006"),
-//				new TestInput(36175, 39, 3, 1, 532712, 2, "021009028", "81022334", 2, 1, "2","18.10", 3, "DEF0013"),//?
-//				new TestInput(36176, 39, 3, 1, 532712, 2, "021009028", "014820693715111000020003", 2, 1, "1","20.00", 3, ""),
-//				new TestInput(36177, 39, 3, 1, 532712, 2, "021009028", "81022532", 2, 1, "2","32.10", 3, ""),
-//				new TestInput(36178, 39, 3, 1, 532712, 2, "021009028", "81022350", 2, 1, "2","0.00", 0, "DEF0002"),
-//				new TestInput(36179, 39, 3, 1, 532712, 2, "021009028", "81022363", 2, 1, "2","0.00", 0, "DEF0003"),
-//				new TestInput(36170, 39, 3, 1, 532712, 2, "021009028", "91022334", 2, 1, "2","0.00", 0, "DEF0010")
+//				new TestInput(36171, 39, 3, 1, 532712, 2, ""81022442", 2, 1, "2","10.30", 3, "EGG0001"),
+//				new TestInput(36172, 39, 3, 1, 532712, 2, ""81022431", 2, 1, "2","70.80", 3, "DEF0010"),
+//				new TestInput(36173, 39, 3, 1, 532712, 2, ""81022334", 2, 1, "2","18.10", 3, "DEF0010"),//?
+//				new TestInput(36174, 39, 3, 1, 532712, 2, ""81022414", 2, 1, "2","90.00", 3, "DEF0006"),
+//				new TestInput(36175, 39, 3, 1, 532712, 2, ""81022334", 2, 1, "2","18.10", 3, "DEF0013"),//?
+//				new TestInput(36176, 39, 3, 1, 532712, 2, ""014820693715111000020003", 2, 1, "1","20.00", 3, ""),
+//				new TestInput(36177, 39, 3, 1, 532712, 2, ""81022532", 2, 1, "2","32.10", 3, ""),
+//				new TestInput(36178, 39, 3, 1, 532712, 2, ""81022350", 2, 1, "2","0.00", 0, "DEF0002"),
+//				new TestInput(36179, 39, 3, 1, 532712, 2, ""81022363", 2, 1, "2","0.00", 0, "DEF0003"),
+//				new TestInput(36170, 39, 3, 1, 532712, 2, ""91022334", 2, 1, "2","0.00", 0, "DEF0010")
 				
 				//上海市大众燃气条形码
-//				new TestInput(36178, 39, 3, 1, 532712, 3, "021009014", "39163410", 2, 1, "2","142.00", 3, "EGG0001"),
-//				new TestInput(36179, 39, 3, 1, 532712, 3, "021009014", "39163406", 2, 1, "2","281.00", 3, "DEF0006"),
-//				new TestInput(36278, 39, 3, 1, 532712, 3, "021009014", "39163405", 2, 1, "2","111.80", 3, "DEF0002"),
-//				new TestInput(36177, 39, 3, 1, 532712, 3, "021009014", "39163386", 2, 1, "2","130.80", 3, "DEF0013"),//?
-//				new TestInput(36176, 39, 3, 1, 532712, 3, "021009014", "033920150516337100108802", 2, 1, "1","108.80", 3, ""),
-//				new TestInput(36175, 39, 3, 1, 532712, 3, "021009014", "39163325", 2, 1, "2","135.90", 3, ""),
-//				new TestInput(36174, 39, 3, 1, 532712, 3, "021009014", "39163381", 2, 1, "2","0.00", 0, "DEF0003"),
-//				new TestInput(36173, 39, 3, 1, 532712, 3, "021009014", "39163371", 2, 1, "2","0.00", 0, "DEF0002"),
-//				new TestInput(36172, 39, 3, 1, 532712, 3, "021009014", "933920030519863200006004", 2, 1, "1","0.00", 0, "DEF0001")
+//				new TestInput(36178, 39, 3, 1, 532712, 3, "39163410", 2, 1, "2","142.00", 3, "EGG0001"),
+//				new TestInput(36179, 39, 3, 1, 532712, 3, "39163406", 2, 1, "2","281.00", 3, "DEF0006"),
+//				new TestInput(36278, 39, 3, 1, 532712, 3, "39163405", 2, 1, "2","111.80", 3, "DEF0002"),
+//				new TestInput(36177, 39, 3, 1, 532712, 3, "39163386", 2, 1, "2","130.80", 3, "DEF0013"),//?
+//				new TestInput(36176, 39, 3, 1, 532712, 3, "033920150516337100108802", 2, 1, "1","108.80", 3, ""),
+//				new TestInput(36175, 39, 3, 1, 532712, 3, "39163325", 2, 1, "2","135.90", 3, ""),
+//				new TestInput(36174, 39, 3, 1, 532712, 3, "39163381", 2, 1, "2","0.00", 0, "DEF0003"),
+//				new TestInput(36173, 39, 3, 1, 532712, 3, "39163371", 2, 1, "2","0.00", 0, "DEF0002"),
+//				new TestInput(36172, 39, 3, 1, 532712, 3, "933920030519863200006004", 2, 1, "1","0.00", 0, "DEF0001")
 				
 				//上海市城投水务（条形码）
-				new TestInput(36370, 37, 1, 1, 532712, 4, "21009036", "296057225141110000338107", 3, 1, "1","338.10", 3, ""),
-				new TestInput(36371, 37, 1, 1, 532712, 4, "021009036", "306040356141110000031104", 3, 1, "1","31.10", 0, "DEF0002"),
-				new TestInput(36372, 37, 1, 1, 532712, 4, "021009036", "272520138141010000020706", 3, 1, "1","20.80", 0, "DEF0013"),
-				new TestInput(36373, 37, 1, 1, 532712, 4, "021009036", "316034680141110000127603", 3, 1, "1","127.60", 3, "DEF0010"),
-				new TestInput(36374, 37, 1, 1, 532712, 4, "021009036", "970115218141210000062102", 3, 1, "1","62.10", 0, "DEF0010"),
-				new TestInput(36375, 37, 1, 1, 532712, 4, "021009036", "291765185130810000095205", 3, 1, "1","95.20", 0, "DEF0004"),
-				new TestInput(36376, 37, 1, 1, 532712, 4, "021009036", "300397191141110000079304", 3, 1, "1","79.30", 3, "DEF0013"),
-				new TestInput(36377, 37, 1, 1, 532712, 4, "021009036", "300211814141210000037904", 3, 1, "1","37.90", 3, "DEF0002"),
-				new TestInput(36378, 37, 1, 1, 532712, 4, "021009036", "270684101141210000086307", 3, 1, "1","86.30", 3, "EGG0001"),
-				new TestInput(36379, 37, 1, 1, 532712, 4, "021009036", "270861809141210000079400", 3, 1, "1","79.40", 3, "DEF0004")
+				new TestInput(36370, 37, 1, 1, 532712, 4, "296057225141110000338107", 3, 1, "1","338.10", 3, ""),
+				new TestInput(36371, 37, 1, 1, 532712, 4, "306040356141110000031104", 3, 1, "1","31.10", 0, "DEF0002"),
+				new TestInput(36372, 37, 1, 1, 532712, 4, "272520138141010000020706", 3, 1, "1","20.80", 0, "DEF0013"),
+				new TestInput(36373, 37, 1, 1, 532712, 4, "316034680141110000127603", 3, 1, "1","127.60", 3, "DEF0010"),
+				new TestInput(36374, 37, 1, 1, 532712, 4, "970115218141210000062102", 3, 1, "1","62.10", 0, "DEF0010"),
+				new TestInput(36375, 37, 1, 1, 532712, 4, "291765185130810000095205", 3, 1, "1","95.20", 0, "DEF0004"),
+				new TestInput(36376, 37, 1, 1, 532712, 4, "300397191141110000079304", 3, 1, "1","79.30", 3, "DEF0013"),
+				new TestInput(36377, 37, 1, 1, 532712, 4, "300211814141210000037904", 3, 1, "1","37.90", 3, "DEF0002"),
+				new TestInput(36378, 37, 1, 1, 532712, 4, "270684101141210000086307", 3, 1, "1","86.30", 3, "EGG0001"),
+				new TestInput(36379, 37, 1, 1, 532712, 4, "270861809141210000079400", 3, 1, "1","79.40", 3, "DEF0004")
 				
 				//上海嘉定自来水，正确测试
 //				new TestInput(36281, 37, 1, 1, 532712, 1, "021009013", "029000099445091000004581", 1, 1, "1","45.80", 3, ""),
@@ -210,19 +210,19 @@ public class TestService {
 			QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(to.tempId);
 			if(ti.billStatus == 3) {
 				if(vo == null) {
-					ApiLogger.info("TEST : checkQuery() : vo == null && ti.billStatus == 3 : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +ti.errorCode+"]");
-					return JSON.toJSON(new SimpleResponse(1, "TEST : checkQuery() : vo == null && ti.billStatus == 3 : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +ti.errorCode+"]"));
+					ApiLogger.info("TEST : checkQuery() : vo == null && ti.billStatus == 3 : tempId :[" + to.tempId + "] companyId:["+ ti.companyId+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +ti.errorCode+"]");
+					return JSON.toJSON(new SimpleResponse(1, "TEST : checkQuery() : vo == null && ti.billStatus == 3 : tempId :[" + to.tempId + "] companyId:["+ ti.companyId+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +ti.errorCode+"]"));
 				}
 				if((vo.getOrder().getPrice() == null) || (ti.price.compareTo(vo.getOrder().getPrice()) != 0)) {
 //				if(vo.getOrder().getPrice().trim().isEmpty()) {
-					ApiLogger.info("TEST : checkQuery() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] price:[" +ti.price+"] o_price:["+vo.getOrder().getPrice()+"]");
-					return JSON.toJSON(new SimpleResponse(2, "TEST : checkQuery() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] price:[" +ti.price+"] o_price:["+vo.getOrder().getPrice()+"]"));
+					ApiLogger.info("TEST : checkQuery() : tempId :[" + to.tempId + "] companyId:["+ ti.companyId+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] price:[" +ti.price+"] o_price:["+vo.getOrder().getPrice()+"]");
+					return JSON.toJSON(new SimpleResponse(2, "TEST : checkQuery() : tempId :[" + to.tempId + "] companyId:["+ ti.companyId+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] price:[" +ti.price+"] o_price:["+vo.getOrder().getPrice()+"]"));
 				}
 			} else {
 				String errorCode = cacheDao.getErrorCode(to.tempId);
 				if(errorCode == null || errorCode.compareTo(ti.errorCode) != 0) {
-					ApiLogger.info("TEST : checkQuery() : vo != null && ti.billStatus != 3 : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +ti.errorCode+"]");
-					return JSON.toJSON(new SimpleResponse(5, "TEST : checkQuery() : vo != null && ti.billStatus != 3 : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +ti.errorCode+"]"));
+					ApiLogger.info("TEST : checkQuery() : vo != null && ti.billStatus != 3 : tempId :[" + to.tempId + "] companyId:["+ ti.companyId+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +ti.errorCode+"]");
+					return JSON.toJSON(new SimpleResponse(5, "TEST : checkQuery() : vo != null && ti.billStatus != 3 : tempId :[" + to.tempId + "] companyId:["+ ti.companyId+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +ti.errorCode+"]"));
 				}
 			}
 		}
@@ -255,20 +255,20 @@ public class TestService {
 			}
 			
 //			if((bill.getBillStatus() != 3 && ti.billStatus == 3) || (bill.getBillStatus() == 3 && ti.billStatus != 3)) {
-//				ApiLogger.info("TEST : checkPay() : (bill.getBillStatus() != 3) : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] bankBillNo:[" +bill.getBankBillNo()+"] bankAcctDate:["+bill.getBankAcctDate()+"]");
-//				return JSON.toJSON(new SimpleResponse(2, "TEST : checkPay() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] bankBillNo:[" +bill.getBankBillNo()+"] bankAcctDate:["+bill.getBankAcctDate()+"]"));
+//				ApiLogger.info("TEST : checkPay() : (bill.getBillStatus() != 3) : tempId :[" + to.tempId + "] companyId:["+ ti.companyId+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] bankBillNo:[" +bill.getBankBillNo()+"] bankAcctDate:["+bill.getBankAcctDate()+"]");
+//				return JSON.toJSON(new SimpleResponse(2, "TEST : checkPay() : tempId :[" + to.tempId + "] companyId:["+ ti.companyId+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] bankBillNo:[" +bill.getBankBillNo()+"] bankAcctDate:["+bill.getBankAcctDate()+"]"));
 //			}
 			if(ti.billStatus == 3) {
 				if(ti.errorCode.isEmpty()) {
 					if(bill.getBillStatus() != 3) {
-						ApiLogger.info("TEST : checkPay() : (bill.getBillStatus() != 3) : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] UNKNOWN");
-						return JSON.toJSON(new SimpleResponse(2, "TEST : checkPay() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] UNKNOWN"));
+						ApiLogger.info("TEST : checkPay() : (bill.getBillStatus() != 3) : tempId :[" + to.tempId + "] companyId:["+ ti.companyId+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] UNKNOWN");
+						return JSON.toJSON(new SimpleResponse(2, "TEST : checkPay() : tempId :[" + to.tempId + "] companyId:["+ ti.companyId+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] UNKNOWN"));
 					}
 				} else {
 					String errorCode = cacheDao.getErrorCode(String.valueOf(to.orderId));
 					if(ti.errorCode.compareTo(errorCode) != 0) {
-						ApiLogger.info("TEST : checkPay() : (errorCode.compareTo(ti.errorCode) != 0) : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +errorCode+"] ti.errorCode:[" +ti.errorCode+"]");
-						return JSON.toJSON(new SimpleResponse(2, "TEST : checkPay() : tempId :[" + to.tempId + "] companyNo:["+ ti.companyNo+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +errorCode+"] ti.errorCode:[" +ti.errorCode+"]"));
+						ApiLogger.info("TEST : checkPay() : (errorCode.compareTo(ti.errorCode) != 0) : tempId :[" + to.tempId + "] companyId:["+ ti.companyId+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +errorCode+"] ti.errorCode:[" +ti.errorCode+"]");
+						return JSON.toJSON(new SimpleResponse(2, "TEST : checkPay() : tempId :[" + to.tempId + "] companyId:["+ ti.companyId+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +errorCode+"] ti.errorCode:[" +ti.errorCode+"]"));
 					}
 				}
 			}
@@ -362,10 +362,10 @@ public class TestService {
 	
 	public Object queryExc1() {
 		TestInput[] tia = {
-				new TestInput(36051, 38, 2, 1, 532712, 1, "021009006", "510070111304276000079004", 1, 1, "1","116.68", 3, "")//,
-//				new TestInput(36052, 38, 2, 1, 532712, 1, "021009006", "0060014216", 1, 1, "2", "70.00"),
-//				new TestInput(36053, 38, 2, 1, 532712, 1, "021009006", "609990231041328000100006", 1, 1, "1", "100.00"),
-//				new TestInput(36054, 38, 2, 1, 532712, 1, "021009006", "0210274168", 1, 1, "2", "100.00")
+				new TestInput(36051, 38, 2, 1, 532712, 1, "510070111304276000079004", 1, 1, "1","116.68", 3, "")//,
+//				new TestInput(36052, 38, 2, 1, 532712, 1, "0060014216", 1, 1, "2", "70.00"),
+//				new TestInput(36053, 38, 2, 1, 532712, 1, "609990231041328000100006", 1, 1, "1", "100.00"),
+//				new TestInput(36054, 38, 2, 1, 532712, 1, "0210274168", 1, 1, "2", "100.00")
 				};
 
 		TestData td = query(tia);
