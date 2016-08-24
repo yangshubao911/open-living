@@ -507,6 +507,7 @@ trans_id
 				order.setPay(order.getPrice());
 				order.setShOffSet(new BigDecimal("0").toString());
 			}
+			ApiLogger.info(" - 1 - "); 
 			//
 			Merchant merchant = vo.getMerchant();
 			order.setMerchantId(merchant.getMerchantId());
@@ -520,6 +521,7 @@ trans_id
 			bill.setUpdateTime(now);
 			//
 			//
+			ApiLogger.info(" - 2 - "); 
 			SingleGoodsCreateOrderParam singleGoodsCreateOrderParam = new SingleGoodsCreateOrderParam();
 			Campaign campaign = vo.getCampaign();
 			if(campaign != null)
@@ -546,6 +548,7 @@ trans_id
 			jo.put("userNo", bill.getBillKey());
 			jo.put("userName", bill.getUserName());
 			singleGoodsCreateOrderParam.setExt(jo.toJSONString());
+			ApiLogger.info(" - 3 - "); 
 			//
 			singleGoodsCreateOrderParam.setOriginPrice(StringUtil.yuan2hao(order.getPrice()));
 			singleGoodsCreateOrderParam.setIp(ip);
@@ -563,7 +566,8 @@ trans_id
 			
 			singleGoodsCreateOrderParam.setProvinceId(group.getProvinceId());
 			singleGoodsCreateOrderParam.setDistrictId(group.getDistrictId());
-			
+			ApiLogger.info(" - 4 - "); 
+		
 			apiResult = orderSystemService.submitOrder(singleGoodsCreateOrderParam);
 			if (apiResult.getStatus() == 1) {
 				long orderId = Long.parseLong(apiResult.getOrderId().get(0));
@@ -579,6 +583,8 @@ ApiLogger.info("Service: createOrder() : apiResult : orderId : " + orderId);
 				obvo.setCompany(vo.getCompany());
 				cacheDao.setOrderBillVo(orderId, obvo);
 			}	
+			ApiLogger.info(" - 5 - "); 
+
 		}
 		//
 		ApiLogger.info("Service: createOrder() : " + JSON.toJSON(apiResult));
