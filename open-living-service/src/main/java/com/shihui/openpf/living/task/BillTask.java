@@ -116,6 +116,8 @@ public class BillTask {
 			}
 			
 			completeRestOrder();
+			//
+			cacheDao.resetSerialNo();
 		}
 		
 		//

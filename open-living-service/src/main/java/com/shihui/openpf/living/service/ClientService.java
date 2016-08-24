@@ -257,7 +257,7 @@ public class ClientService {
 
 			reqQuery = ReqQuery.instance( 
 					tempId, 
-					billKey, 
+					userNo, 
 					company.getCompanyNo(), 
 					String.valueOf(Integer.parseInt(ShangHaiChenNanShuiWuUtil.getMoney(userNo))), null, null, null);
 			
@@ -266,7 +266,7 @@ public class ClientService {
 			
 			reqQuery = ReqQuery.instance( 
 					tempId, 
-					billKey, 
+					userNo,
 					company.getCompanyNo(), 
 					null, field2, null, null);
 		}
