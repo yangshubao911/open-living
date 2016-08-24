@@ -12,8 +12,10 @@ import com.shihui.commons.ApiLogger;
 import com.shihui.openpf.living.cache.CacheDao;
 import com.shihui.openpf.living.dao.BillDao;
 import com.shihui.openpf.living.entity.Bill;
+import com.shihui.openpf.living.entity.Company;
 import com.shihui.openpf.living.entity.Order;
 import com.shihui.openpf.living.entity.support.OrderBillVo;
+import com.shihui.openpf.living.entity.support.QueryModeEnum;
 import com.shihui.openpf.living.entity.support.QueryOrderBillVo;
 import com.shihui.openpf.living.entity.support.TestData;
 import com.shihui.openpf.living.entity.support.TestInput;
@@ -60,16 +62,31 @@ public class TestService {
 		Bill bill = obvo.getBill();
 		Order order = obvo.getOrder();
 		String tempId = LivingUtil.getRechargeTrmSeqNum(order.getOrderId());
-		ReqPay reqPay = ReqPay.instance(
-				tempId, 
-				bill.getBillKey(), 
-				obvo.getCompany().getCompanyNo(), 
-				cacheDao.getSerialNo(), 
-				new BigDecimal(order.getPrice()).multiply(new BigDecimal("100")).setScale(0, BigDecimal.ROUND_HALF_UP).toString(),
-				bill.getUserName(), 
-				bill.getContractNo(), 
-//				bill.getBillDate(),bill.getBillKeyType()/*bill.getField2()*/,null,null/*field1, filed2, filed3, filed4*/);
-				null,null,null,null/*field1, filed2, filed3, filed4*/);
+		
+		ReqPay reqPay;
+		
+		if(obvo.getCompany().getQueryMode() == QueryModeEnum.ShangHaiChenNanShuiWu.getMode()) {
+			reqPay = ReqPay.instance(
+					tempId, 
+					bill.getBillKey(), 
+					obvo.getCompany().getCompanyNo(), 
+					cacheDao.getSerialNo(), 
+					new BigDecimal(order.getPrice()).multiply(new BigDecimal("100")).setScale(0, BigDecimal.ROUND_HALF_UP).toString(),
+					bill.getUserName(), 
+					bill.getContractNo(), 
+					null,null,null,null/*field1, filed2, filed3, filed4*/);
+			
+		} else {
+			reqPay = ReqPay.instance(
+					tempId, 
+					bill.getBillKey(), 
+					obvo.getCompany().getCompanyNo(), 
+					cacheDao.getSerialNo(), 
+					new BigDecimal(order.getPrice()).multiply(new BigDecimal("100")).setScale(0, BigDecimal.ROUND_HALF_UP).toString(),
+					bill.getUserName(), 
+					bill.getContractNo(), 
+					bill.getBillDate(),bill.getBillKeyType(),null,null/*field1, filed2, filed3, filed4*/);
+		}
 		mqProducer.sendRechargeRequest(tempId, JSON.toJSONString(reqPay));
 	}
 

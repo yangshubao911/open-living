@@ -28,6 +28,7 @@ import com.shihui.openpf.living.dao.BillDao;
 import com.shihui.openpf.living.entity.Order;
 import com.shihui.openpf.living.entity.support.BillStatusEnum;
 import com.shihui.openpf.living.entity.support.OrderBillVo;
+import com.shihui.openpf.living.entity.support.QueryModeEnum;
 import com.shihui.openpf.living.service.GoodsService;
 import com.shihui.openpf.living.service.OrderService;
 import com.shihui.openpf.living.io3rd.ReqPay;
@@ -81,15 +82,32 @@ public class PaymentSuccessConsumer implements Consumer {
 		Bill bill = obvo.getBill();
 		Order order = obvo.getOrder();
 		String tempId = LivingUtil.getRechargeTrmSeqNum(order.getOrderId());
-		ReqPay reqPay = ReqPay.instance(
-				tempId, 
-				bill.getBillKey(), 
-				obvo.getCompany().getCompanyNo(), 
-				cacheDao.getSerialNo(), 
-				new BigDecimal(order.getPrice()).multiply(new BigDecimal("100")).setScale(0, BigDecimal.ROUND_HALF_UP).toString(),
-				bill.getUserName(), 
-				bill.getContractNo(), 
-				bill.getBillDate(),bill.getBillKeyType()/*bill.getItem1()bill.getField2()*/,null,null/*field1, filed2, filed3, filed4*/);
+		
+		ReqPay reqPay;
+		
+		if(obvo.getCompany().getQueryMode() == QueryModeEnum.ShangHaiChenNanShuiWu.getMode()) {
+			reqPay = ReqPay.instance(
+					tempId, 
+					bill.getBillKey(), 
+					obvo.getCompany().getCompanyNo(), 
+					cacheDao.getSerialNo(), 
+					new BigDecimal(order.getPrice()).multiply(new BigDecimal("100")).setScale(0, BigDecimal.ROUND_HALF_UP).toString(),
+					bill.getUserName(), 
+					bill.getContractNo(), 
+					null,null,null,null/*field1, filed2, filed3, filed4*/);
+			
+		} else {
+			reqPay = ReqPay.instance(
+					tempId, 
+					bill.getBillKey(), 
+					obvo.getCompany().getCompanyNo(), 
+					cacheDao.getSerialNo(), 
+					new BigDecimal(order.getPrice()).multiply(new BigDecimal("100")).setScale(0, BigDecimal.ROUND_HALF_UP).toString(),
+					bill.getUserName(), 
+					bill.getContractNo(), 
+					bill.getBillDate(),bill.getBillKeyType(),null,null/*field1, filed2, filed3, filed4*/);
+		}
+		
 		mqProducer.sendRechargeRequest(tempId, JSON.toJSONString(reqPay));
 	}
 	
