@@ -253,7 +253,8 @@ public class ClientService {
 		ReqQuery reqQuery;
 		String billKey;
 		if( company.getQueryMode() == QueryModeEnum.ShangHaiChenNanShuiWu.getMode()) {
-			billKey = ShangHaiChenNanShuiWuUtil.getBillKey(userNo);
+//			billKey = ShangHaiChenNanShuiWuUtil.getBillKey(userNo);
+			billKey = userNo;
 
 			reqQuery = ReqQuery.instance( 
 					tempId, 
