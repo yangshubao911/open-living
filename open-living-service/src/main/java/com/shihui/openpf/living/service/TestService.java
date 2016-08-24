@@ -187,7 +187,7 @@ public class TestService {
 				//上海市城投水务（条形码）
 				new TestInput(36370, 37, 1, 1, 532712, 4, "296057225141110000338107", 3, 1, "1","338.10", 3, ""),
 				new TestInput(36371, 37, 1, 1, 532712, 4, "306040356141110000031104", 3, 1, "1","31.10", 0, "DEF0002"),
-				new TestInput(36372, 37, 1, 1, 532712, 4, "272520138141010000020706", 3, 1, "1","20.80", 0, "DEF0013"),
+				new TestInput(36372, 37, 1, 1, 532712, 4, "272520138141010000020706", 3, 1, "1","20.80", 0, "DEF0013"),//?
 				new TestInput(36373, 37, 1, 1, 532712, 4, "316034680141110000127603", 3, 1, "1","127.60", 3, "DEF0010"),
 				new TestInput(36374, 37, 1, 1, 532712, 4, "970115218141210000062102", 3, 1, "1","62.10", 0, "DEF0010"),
 				new TestInput(36375, 37, 1, 1, 532712, 4, "291765185130810000095205", 3, 1, "1","95.20", 0, "DEF0004"),
@@ -239,8 +239,8 @@ public class TestService {
 			} else {
 				String errorCode = cacheDao.getErrorCode(to.tempId);
 				if(errorCode == null || errorCode.compareTo(ti.errorCode) != 0) {
-					ApiLogger.info("TEST : checkQuery() : vo != null && ti.billStatus != 3 : tempId :[" + to.tempId + "] companyId:["+ ti.companyId+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +ti.errorCode+"]");
-					return JSON.toJSON(new SimpleResponse(5, "TEST : checkQuery() : vo != null && ti.billStatus != 3 : tempId :[" + to.tempId + "] companyId:["+ ti.companyId+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +ti.errorCode+"]"));
+					ApiLogger.info("TEST : checkQuery() : vo != null && ti.billStatus != 3 : tempId :[" + to.tempId + "] companyId:["+ ti.companyId+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" +errorCode + "] ti.errorCode:[" + ti.errorCode+"]");
+					return JSON.toJSON(new SimpleResponse(5, "TEST : checkQuery() : vo != null && ti.billStatus != 3 : tempId :[" + to.tempId + "] companyId:["+ ti.companyId+"] userNo: [" +ti.userNo+ "] field2:[" +ti.field2+ "] errorCode:[" + errorCode + "] ti.errorCode:[" +ti.errorCode+"]"));
 				}
 			}
 		}
