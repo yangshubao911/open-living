@@ -175,6 +175,10 @@ public class BillExecutor {
     					ApiLogger.info("ExecuteAnalysePacketTask : run() : !pc.check() = true \n");
     				else {
 //    					ApiLogger.info("ExecuteAnalysePacketTask : run() : pc.check() : start");
+    					
+    					ResHead rh = (ResHead)object;
+    					ApiLogger.info("\nExecuteAnalysePacketTask : run() : AnsTranCode:[" + rh.head.AnsTranCode + "] InstId:[" + rh.head.InstId +"] TrmSeqNum:[" +rh.head.TrmSeqNum +"] version:[" + rh.head.version + "]\n");
+    					
     					String ansTranCode = ((ResHead)object).head.AnsTranCode;
     					if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_PAY) == 0)
     						guangdaResponse.doResPay((ResPay)FastXML.xmlToBean(xml, ResPay.class));
