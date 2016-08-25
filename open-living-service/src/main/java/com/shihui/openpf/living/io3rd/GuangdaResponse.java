@@ -91,10 +91,7 @@ public class GuangdaResponse {
 	}
 	
 	private void resPay2Vo(ResPay resPay, OrderBillVo vo) {
-		Bill bill = vo.getBill();
-		bill.setSerialNo(resPay.tout.billNo);
-		bill.setPayTime(resPay.tout.payDate);
-		
+		Bill bill = vo.getBill();		
 		bill.setBankBillNo(resPay.tout.bankBillNo);
 		bill.setReceiptNo(resPay.tout.receiptNo);
 		bill.setBankAcctDate(resPay.tout.acctDate);

@@ -108,7 +108,18 @@ public class PaymentSuccessConsumer implements Consumer {
 					bill.getBillDate(),bill.getBillKeyType(),null,null/*field1, filed2, filed3, filed4*/);
 		}
 		
-		mqProducer.sendRechargeRequest(tempId, JSON.toJSONString(reqPay));
+		if(mqProducer.sendRechargeRequest(tempId, JSON.toJSONString(reqPay))) {
+			bill.setSerialNo(reqPay.tin.billNo);
+			bill.setPayTime(reqPay.tin.payDate);
+			cacheDao.setOrderBillVo(bill.getOrderId(), obvo);
+			
+			Bill billUpdate = new Bill();
+			billUpdate.setOrderId(bill.getOrderId());
+			billUpdate.setSerialNo(reqPay.tin.billNo);
+			billUpdate.setPayTime(reqPay.tin.payDate);
+			billDao.update(billUpdate);
+			ApiLogger.info("PaymentSuccessConsumer : doReqPay() : mqProducer.sendRechargeRequest() : billKey:[" + reqPay.tin.billKey +"] payAmount:["+ reqPay.tin.payAmount+"]");
+		}
 	}
 	
 	@Override
