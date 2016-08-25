@@ -425,12 +425,13 @@ public class ClientService {
 			//
 			Order order = vo.getOrder();
 			Bill bill = vo.getBill();
-		
+ApiLogger.info(" ---------- 1 - ");		
 			if(costSh == 0) {
 				order.setPay(order.getPrice());
 				order.setShOffSet(new BigDecimal("0").toString());
 			}
 			//
+			ApiLogger.info(" ---------- 2 - ");		
 			Merchant merchant = vo.getMerchant();
 			order.setMerchantId(merchant.getMerchantId());
 			order.setOrderStatus(OrderStatusEnum.OrderUnpaid.getValue());
@@ -438,11 +439,12 @@ public class ClientService {
 			Date now = new Date();
 			order.setCreateTime(now);
 			order.setUpdateTime(now);
-
+			ApiLogger.info(" ---------- 3 - ");		
 			bill.setBillStatus(BillStatusEnum.UnPaid.getValue());
 			bill.setUpdateTime(now);
 			//
 			//
+			ApiLogger.info(" ---------- 4 - ");		
 			SingleGoodsCreateOrderParam singleGoodsCreateOrderParam = new SingleGoodsCreateOrderParam();
 			Campaign campaign = vo.getCampaign();
 			if(campaign != null)
@@ -452,6 +454,7 @@ public class ClientService {
 			singleGoodsCreateOrderParam.setCommunityId(group.getGid());
 			//TODO 添加扩展字段
 			com.shihui.openpf.common.model.Service service = vo.getService();
+			ApiLogger.info(" ---------- 5 - ");		
 			Goods goods = vo.getGoods();
 			JSONObject jo = new JSONObject();
 			jo.put("serviceId", service.getServiceId());
@@ -459,6 +462,7 @@ public class ClientService {
 			jo.put("categoryId", bill.getCategoryId());
 			jo.put("title", service.getServiceName());
 			//String title = "【" + service.getServiceName() + "】" + goods.getGoodsName();
+			ApiLogger.info(" ---------- 6 - ");		
 			String title = "【生活缴费】" + goods.getGoodsName()
 							 + (bill.getFeeType() == 0 ? "" : "预缴" )
 							+ ",户号" + bill.getBillKey();
@@ -469,6 +473,7 @@ public class ClientService {
 			jo.put("userNo", bill.getBillKey());
 			jo.put("userName", bill.getUserName());
 			singleGoodsCreateOrderParam.setExt(jo.toJSONString());
+			ApiLogger.info(" ---------- 7 - ");		
 			//
 			singleGoodsCreateOrderParam.setOriginPrice(StringUtil.yuan2hao(order.getPrice()));
 			singleGoodsCreateOrderParam.setIp(ip);
@@ -477,7 +482,7 @@ public class ClientService {
 			singleGoodsCreateOrderParam.setGoodsName(goods.getGoodsName());
 			singleGoodsCreateOrderParam.setUserId(order.getUserId());
 			singleGoodsCreateOrderParam.setOrderType(OrderTypeEnum.parse(service.getOrderType()));
-
+			ApiLogger.info(" ---------- 8 - ");		
 			long overTime = System.currentTimeMillis() + 1000 * 60 * 60;
 			singleGoodsCreateOrderParam.setOverdueTime(overTime);
 			singleGoodsCreateOrderParam.setMerchantId(service.getServiceMerchantId());
@@ -486,14 +491,14 @@ public class ClientService {
 			
 			singleGoodsCreateOrderParam.setProvinceId(group.getProvinceId());
 			singleGoodsCreateOrderParam.setDistrictId(group.getDistrictId());
-		
+			ApiLogger.info(" ---------- 9 - ");		
 			apiResult = orderSystemService.submitOrder(singleGoodsCreateOrderParam);
 			if (apiResult.getStatus() == 1) {
 				long orderId = Long.parseLong(apiResult.getOrderId().get(0));
 ApiLogger.info("Service: createOrder() : apiResult : orderId : " + orderId);
 				order.setOrderId(orderId);
 				bill.setOrderId(orderId);
-				
+				ApiLogger.info(" ---------- 10 - ");					
 				orderDao.save(order);
 				billDao.save(bill);
 				OrderBillVo obvo = new OrderBillVo();
