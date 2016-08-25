@@ -132,16 +132,6 @@ public class ClientController extends BasicController {
 				request.getHeader("ndeviceid"),
 				request.getIntHeader("X-APP-ID"));
 	}
-
-//	@RequestMapping("/checkQuery")
-//	@ResponseBody
-//	@Access(type = AccessType.COMMON)
-//	public Object checkQuery(
-//			@RequestParam(name="userId", required = true) Integer userId,
-//			@RequestParam(name="tempId", required = true) String tempId) {
-//
-//		return clientService.checkQuery(userId, tempId);
-//	}
 	
 	@RequestMapping("/confirmOrder")
 	@ResponseBody

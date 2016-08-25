@@ -88,11 +88,7 @@ public class BillTask {
 	
 			//处理对账
 			//PacketNotify packetNotify = cacheDao.getNotify();
-			//if(packetNotify != null)
-//			CheckRefundeVo vo = FTPUtil.downFile(url, port, username, password, checkPath, refundePath);
-//			CheckRefundeVo vo = FileUtil.getCheckRefundeVo(checkPath, refundePath);
-//			ApiLogger.info("BillTask: billCheckNotify() : vo != null : " + (vo != null));
-//			if( vo != null) {
+
 			File file = FileUtil.getCheckFile(checkPath);
 			if(file != null) {
 				CheckFile checkFile = FileUtil.getCheckFile(file);

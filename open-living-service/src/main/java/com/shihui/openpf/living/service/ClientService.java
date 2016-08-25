@@ -251,11 +251,7 @@ public class ClientService {
 			cacheDao.setCompany(companyId, company);
 		}
 		ReqQuery reqQuery;
-		String billKey;
 		if( company.getQueryMode() == QueryModeEnum.ShangHaiChenNanShuiWu.getMode()) {
-//			billKey = ShangHaiChenNanShuiWuUtil.getBillKey(userNo);
-			billKey = userNo;
-
 			reqQuery = ReqQuery.instance( 
 					tempId, 
 					userNo, 
@@ -263,8 +259,6 @@ public class ClientService {
 					String.valueOf(Integer.parseInt(ShangHaiChenNanShuiWuUtil.getMoney(userNo))), null, null, null);
 			
 		} else {
-			billKey = userNo;
-			
 			reqQuery = ReqQuery.instance( 
 					tempId, 
 					userNo,
@@ -293,7 +287,7 @@ public class ClientService {
 		order.setAppId(appId);
 		bill.setCompanyId(companyId);
 		bill.setUserNo(userNo);
-		bill.setBillKey(billKey);
+		bill.setBillKey(userNo);
 		bill.setServiceId(serviceId);
 		bill.setCategoryId(categoryId);
 		bill.setCityId(cityId);
@@ -315,48 +309,6 @@ public class ClientService {
 		ApiLogger.info("Service: queryFee() : " + result.toJSONString());
 		return result;
 	}
-	
-//	public Object checkQuery(int userId, String tempId) {
-//		JSONObject result = new JSONObject();
-//
-//		QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(tempId);
-//		if( vo == null) {
-//			result.put("response", new SimpleResponse(0,"查询中，请耐心等待") );
-//		} else {
-//			result.put("tempId", vo.getTempId());
-//			Bill bill = vo.getBill();
-//			Order order = vo.getOrder();
-//			result.put("billDate", bill.getBillDate());
-//			
-//			Goods goods = vo.getGoods();
-//			result.put("shOffSet", goods.getShOffSet());
-//			result.put("shOffSetMax", goods.getShOffSetMax());
-//			result.put("firstShOffSet", goods.getFirstShOffSet());
-//			result.put("firstShOffSetMax", goods.getFirstShOffSetMax());
-//
-//			if( bill.getFeeType() == FeeTypeEnum.Default.getValue() ) {
-//				result.put("price", order.getPrice());
-//				result.put("pay", order.getPay());
-//			} else {
-//				result.put("balance", bill.getBalance());
-//			}
-//
-//			result.put("feeType", bill.getFeeType());
-//			result.put("feeName", bill.getFeeName());
-//			result.put("userNo", bill.getBillKey());
-//			result.put("userAddress", bill.getUserAddress());
-//			result.put("userName", bill.getUserName());
-//			
-//			Company company = vo.getCompany();
-//			result.put("companyName", company.getCompanyName());
-//			
-//			result.put("campaignId", order.getCampaignId());
-//			result.put("serviceType", company.getServiceType());
-//			
-//			result.put("response", new SimpleResponse(1,"查询成功") );
-//		}
-//		return result;
-//	}
 	
 	private void calculateOffSet(QueryOrderBillVo vo) {
 		
@@ -451,37 +403,7 @@ public class ClientService {
 		ApiLogger.info("Service: confirmOrder() : " + result.toJSONString());
 		return result;
 	}
-/*
- 
-order_id 
-*goods_id 
-*goods_version 
-*user_id 
-*merchant_id 
-*campaign_id 
-*price
-*pay 
-settlement 
-*sh_off_set 
-payment_type
-*order_status 
-gid
-extend 
-remark 
-*service_id
-audit_id
-refund_type 
-refund_price
-mid
-pay_time
-consume_time
-trans_id
-*app_id
-*device_id
-*create_time
-*update_time
 
- */
 	public Object createOrder(int userId, String tempId, int costSh, String ip) {
 		ApiResult apiResult;
 		QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(tempId);
@@ -508,7 +430,6 @@ trans_id
 				order.setPay(order.getPrice());
 				order.setShOffSet(new BigDecimal("0").toString());
 			}
-			ApiLogger.info(" - 1 - "); 
 			//
 			Merchant merchant = vo.getMerchant();
 			order.setMerchantId(merchant.getMerchantId());
@@ -522,7 +443,6 @@ trans_id
 			bill.setUpdateTime(now);
 			//
 			//
-			ApiLogger.info(" - 2 - "); 
 			SingleGoodsCreateOrderParam singleGoodsCreateOrderParam = new SingleGoodsCreateOrderParam();
 			Campaign campaign = vo.getCampaign();
 			if(campaign != null)
@@ -549,7 +469,6 @@ trans_id
 			jo.put("userNo", bill.getBillKey());
 			jo.put("userName", bill.getUserName());
 			singleGoodsCreateOrderParam.setExt(jo.toJSONString());
-			ApiLogger.info(" - 3 - "); 
 			//
 			singleGoodsCreateOrderParam.setOriginPrice(StringUtil.yuan2hao(order.getPrice()));
 			singleGoodsCreateOrderParam.setIp(ip);
@@ -567,7 +486,6 @@ trans_id
 			
 			singleGoodsCreateOrderParam.setProvinceId(group.getProvinceId());
 			singleGoodsCreateOrderParam.setDistrictId(group.getDistrictId());
-			ApiLogger.info(" - 4 - "); 
 		
 			apiResult = orderSystemService.submitOrder(singleGoodsCreateOrderParam);
 			if (apiResult.getStatus() == 1) {
@@ -584,7 +502,6 @@ ApiLogger.info("Service: createOrder() : apiResult : orderId : " + orderId);
 				obvo.setCompany(vo.getCompany());
 				cacheDao.setOrderBillVo(orderId, obvo);
 			}	
-			ApiLogger.info(" - 5 - "); 
 
 		}
 		//
