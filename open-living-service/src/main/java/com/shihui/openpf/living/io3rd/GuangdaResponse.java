@@ -184,7 +184,7 @@ public class GuangdaResponse {
 		
 		result.put("response", new SimpleResponse(1,"查询成功") );
 		//
-//		ApiLogger.info("@@@@GuangdaResponse : noticeApp() : userId :[" + order.getUserId() + "] result : " + result.toJSONString());
+		ApiLogger.info("@@@@GuangdaResponse : noticeApp() : userId :[" + order.getUserId() + "] result : " + result.toJSONString());
 //		ApiLogger.info("@@@@GuangdaResponse : noticeApp() : vo : " + result.toJSONString());
 		//
 		appNotice.pushQueryResult(order.getUserId(), result);
@@ -287,7 +287,7 @@ public class GuangdaResponse {
 	    		cacheDao.setQueryOrderBillVo(tempId, vo);
 	    		//
 	    		noticeApp(vo);
-//	    		ApiLogger.info("OK: GuangdaResponse : resQuery()");
+	    		ApiLogger.info("OK: GuangdaResponse : resQuery()");
     	} else {
     		ApiLogger.info("ERR: GuangdaResponse : resQuery() : {vo != null && Integer.parseInt(resQuery.tout.totalNum) > 0}");
     	}
