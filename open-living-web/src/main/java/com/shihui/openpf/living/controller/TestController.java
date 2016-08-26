@@ -18,7 +18,8 @@ import com.shihui.openpf.living.service.TestService;
 import com.shihui.openpf.living.service.CompanyService;
 import com.shihui.openpf.living.entity.Company;
 import com.shihui.openpf.living.service.ClientService;
-
+import com.shihui.openpf.living.util.SftpUtil;
+import com.shihui.openpf.living.util.SimpleResponse;
 /**
  * @author zhouqisheng
  *
@@ -168,4 +169,11 @@ public class TestController {
 	public Object queryExc1() {
 		return testService.queryExc1();
 	}
+	
+	@RequestMapping("/sftp")
+	@ResponseBody
+	@Access(type = AccessType.INTERNAL)
+	public Object sftp() {
+		return JSON.toJSON(new SimpleResponse(0, "TEST : sftp : " + SftpUtil.download("/home/guangdabank/order/HZKY_20160824_1.txt", "/home/guangdabank/order/")));
+	}	
 }
