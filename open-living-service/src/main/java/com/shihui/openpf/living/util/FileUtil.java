@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.shihui.commons.ApiLogger;
 import com.shihui.openpf.living.io3rd.CheckFile;
 import com.shihui.openpf.living.io3rd.CheckItem;
 import com.shihui.openpf.living.io3rd.RefundeFile;
@@ -89,13 +90,13 @@ public class FileUtil {
     //
     public static CheckFile analyseCheckFile(InputStream in) throws Exception {
     	BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
-    	
+    	ApiLogger.info("FileUtil : analyseCheckFile() : - 1 -");    	
     	CheckFile checkFile = new CheckFile();
     	String line1 = br.readLine();
     	if( line1 == null )
     		return null;
     	checkFile.setBjceg(line1);
-    	
+    	ApiLogger.info("FileUtil : analyseCheckFile() : - 2 -");
     	String line2 = br.readLine();
     	if(line2 == null )
     		return null;
@@ -104,7 +105,7 @@ public class FileUtil {
     		return null;
     	checkFile.setTotalMoney(Integer.parseInt(line2Array[0]));
     	checkFile.setTotalAmount(Integer.parseInt(line2Array[1]));
-    	
+    	ApiLogger.info("FileUtil : analyseCheckFile() : - 3 -");
     	String line3 = br.readLine();
     	if(line3 == null)
     		return null;
@@ -113,7 +114,7 @@ public class FileUtil {
     		return null;
     	checkFile.setSuccessMoney(Integer.parseInt(line3Array[0]));
     	checkFile.setSuccessAmount(Integer.parseInt(line3Array[0]));
-    	
+    	ApiLogger.info("FileUtil : analyseCheckFile() : - 4 -");
     	String linex;
     	String[] linexArray;
     	ArrayList<CheckItem> checkList = new ArrayList<CheckItem>();
@@ -132,7 +133,7 @@ public class FileUtil {
     		checkList.add(checkItem);
     	}
     	br.close();
-    	
+    	ApiLogger.info("FileUtil : analyseCheckFile() : - 5 -");
     	if(checkList.size() <= 0)
     		return null;
     	checkFile.setCheckList(checkList);

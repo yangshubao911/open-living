@@ -16,24 +16,31 @@ public class SftpUtil {
         SSHClient ssh = new SSHClient();
         SFTPClient sftp = null;
         try {
+        	ApiLogger.info("SftpUtil : download() : - 1 -");
             ssh.loadKnownHosts();
             ssh.connect(host);
+            ApiLogger.info("SftpUtil : download() : - 2 -");
 //            ssh.authPublickey(USERNAME);
             ssh.authPassword(userName, password);
             sftp = ssh.newSFTPClient();
+            ApiLogger.info("SftpUtil : download() : - 3 -");
             sftp.get(filePath, new FileSystemFile(localPath));
+            ApiLogger.info("SftpUtil : download() : - 4 -");
 	        sftp.close();
+	        ApiLogger.info("SftpUtil : download() : - 5 -");
 	        ssh.disconnect();
+	        ApiLogger.info("SftpUtil : download() : - 6 -");
 	        ssh.close();
+	        ApiLogger.info("SftpUtil : download() : - 7 -");
 	        return true;
         } catch(Exception e) {
         }  
         try {
 	        if( sftp != null) {
 		        sftp.close();
-		        ssh.disconnect();
-		        ssh.close();
 	        }
+	        ssh.disconnect();
+	        ssh.close();
         }catch(Exception e) {
         }
     
