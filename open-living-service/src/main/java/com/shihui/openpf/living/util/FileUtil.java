@@ -17,8 +17,8 @@ import com.shihui.openpf.living.io3rd.RefundeItem;
 
 public class FileUtil {
 	private static final String SPLIT = "|";
-	private static final String CHECKFILE_SUFFIX = "XXX_*_1.txt";
-	private static final String REFUNDEFILE_SUFFIX = "XXX*Refunde.txt";
+	private static final String CHECKFILE_SUFFIX = "HZKY_*_1.txt";
+	private static final String REFUNDEFILE_SUFFIX = "HZKY*01Refunde.txt";
 
     
 //    public static CheckRefundeVo getCheckRefundeVo(File checkFile,File refundeFile) {
@@ -33,23 +33,33 @@ public class FileUtil {
 //        //           
 //        return vo;
 //    }
-    public static File getCheckFile(String path) {
+    public static File getCheckFile(String host, String userName, String password, String path) {
     	Calendar calendar = Calendar.getInstance();
     	calendar.setTime(new Date());
-    	calendar.add(Calendar.DAY_OF_MONTH, -1);
+    	calendar.add(Calendar.DAY_OF_MONTH, -2);
     	String date = new SimpleDateFormat("yyyyMMdd").format(calendar.getTime());
+    	String fileName = CHECKFILE_SUFFIX.replace("*", date);
+    	String filePath = path + fileName;
     	
-    	File file = new File(path + date + "/" + CHECKFILE_SUFFIX.replace("*", date));
+    	if(!SftpUtil.download(host, userName, password, filePath, filePath))
+    		return null;
+    	
+    	File file = new File(filePath);
     	
     	return file.exists() && file.isFile() ? file : null;
     }
-    public static File getRefundeFile(String path) {
+    public static File getRefundeFile(String host, String userName, String password, String path) {
     	Calendar calendar = Calendar.getInstance();
     	calendar.setTime(new Date());
     	calendar.add(Calendar.DAY_OF_MONTH, -1);
     	String date = new SimpleDateFormat("yyyyMMdd").format(calendar.getTime());
+    	String fileName = REFUNDEFILE_SUFFIX.replace("*", date);
+    	String filePath = path + fileName;
     	
-    	File file = new File(path + date + "/" + REFUNDEFILE_SUFFIX.replace("*", date));
+    	if(!SftpUtil.download(host, userName, password, filePath, filePath))
+    		return null;
+   	
+    	File file = new File(filePath);
     	
     	return file.exists() && file.isFile() ? file : null;
     }    

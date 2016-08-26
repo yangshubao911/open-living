@@ -174,6 +174,6 @@ public class TestController {
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
 	public Object sftp() {
-		return JSON.toJSON(new SimpleResponse(0, "TEST : sftp : " + SftpUtil.download("/home/guangdabank/order/HZKY_20160824_1.txt", "/home/guangdabank/order/")));
+		return testService.sftp();
 	}	
 }

@@ -60,14 +60,14 @@ public class BillTask {
 	GuangdaResponse guangdaResponse;
 
 
-//	@Value("${sftp_url}")
-//	String url;
-//	@Value("${sftp_port}")
-//	int port;
-//	@Value("${sftp_username}")
-//	String username;
-//	@Value("${sftp_password}")
-//	String password;
+	@Value("${sftp_url}")
+	String url;
+	@Value("${sftp_port}")
+	int port;
+	@Value("${sftp_username}")
+	String username;
+	@Value("${sftp_password}")
+	String password;
 	@Value("${sftp_checkpath}")
 	String checkPath;
 	@Value("${sftp_refundepath}")
@@ -89,7 +89,7 @@ public class BillTask {
 			//处理对账
 			//PacketNotify packetNotify = cacheDao.getNotify();
 
-			File file = FileUtil.getCheckFile(checkPath);
+			File file = FileUtil.getCheckFile(url, username, password, checkPath);
 			if(file != null) {
 				CheckFile checkFile = FileUtil.getCheckFile(file);
 				ApiLogger.info("BillTask: billCheckNotify() : checkFile != null : " + (checkFile != null));
@@ -99,7 +99,7 @@ public class BillTask {
 						check(checkList);
 				}
 			}
-			file = FileUtil.getRefundeFile(refundePath);
+			file = FileUtil.getRefundeFile(url, username, password, refundePath);
 			if(file != null) {
 				RefundeFile refundeFile = FileUtil.getRefundeFile(file);
 				ApiLogger.info("BillTask: billCheckNotify() : refundeFile != null : " + (refundeFile != null));

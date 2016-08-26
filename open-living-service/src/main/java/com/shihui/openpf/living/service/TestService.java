@@ -1,9 +1,12 @@
 package com.shihui.openpf.living.service;
 
+import java.io.File;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
@@ -20,10 +23,16 @@ import com.shihui.openpf.living.entity.support.QueryOrderBillVo;
 import com.shihui.openpf.living.entity.support.TestData;
 import com.shihui.openpf.living.entity.support.TestInput;
 import com.shihui.openpf.living.entity.support.TestOutput;
+import com.shihui.openpf.living.io3rd.CheckFile;
+import com.shihui.openpf.living.io3rd.CheckItem;
 import com.shihui.openpf.living.io3rd.GuangdaResponse;
+import com.shihui.openpf.living.io3rd.RefundeFile;
+import com.shihui.openpf.living.io3rd.RefundeItem;
 import com.shihui.openpf.living.io3rd.ReqPay;
 import com.shihui.openpf.living.mq.LivingMqProducer;
+import com.shihui.openpf.living.util.FileUtil;
 import com.shihui.openpf.living.util.LivingUtil;
+import com.shihui.openpf.living.util.SftpUtil;
 import com.shihui.openpf.living.util.SimpleResponse;
 
 /**
@@ -431,4 +440,85 @@ public class TestService {
 		
 		return result;
 	}
+	
+	//
+	//
+	//
+	@Value("${sftp_url}")
+	String url;
+	@Value("${sftp_port}")
+	int port;
+	@Value("${sftp_username}")
+	String username;
+	@Value("${sftp_password}")
+	String password;
+	@Value("${sftp_checkpath}")
+	String checkPath;
+	@Value("${sftp_refundepath}")
+	String refundePath;
+	
+	public Object sftp() {
+		JSONObject result = new JSONObject();
+		
+		File file = FileUtil.getCheckFile(url, username, password, checkPath);
+		if(file != null) {
+			CheckFile checkFile = FileUtil.getCheckFile(file);
+			ApiLogger.info("TEST : sftp : checkFile != null : " + (checkFile != null));
+			if(checkFile != null) {
+				ArrayList<CheckItem> checkList = checkFile.getCheckList();
+				if(checkList != null && checkList.size() > 0) {
+					check(checkList);
+					result.put("CheckItem", checkList);
+				}
+			}
+		}
+		
+		file = FileUtil.getCheckFile(url, username, password, refundePath);
+		if(file != null) {
+			RefundeFile refundeFile = FileUtil.getRefundeFile(file);
+			ApiLogger.info("BillTask: billCheckNotify() : refundeFile != null : " + (refundeFile != null));
+			if(refundeFile != null) {
+				ArrayList<RefundeItem> refundeList = refundeFile.getRefundeList();
+				if(refundeList != null && refundeList.size() > 0) {
+					refunde(refundeList);
+					result.put("RefundeItem", refundeList);
+				}
+			}
+		}
+		
+		result.put("response", new SimpleResponse(0,"NONE"));
+		return result;
+	}
+	/*
+	 	private String billNo;
+	private String pay;
+	private String payDate;
+	private String bankBillNo;
+	private String sign;
+	private String message;
+
+	 */
+	private void check(ArrayList<CheckItem> checkList)  {
+		ApiLogger.info("TEST : sftp : check() : start");
+
+		for(CheckItem ci : checkList) {
+			ApiLogger.info("TEST : sftp : check() : billNo:["+ci.getBillNo() +"] pay:["+ci.getPay()+"] payDate:["+ci.getBankBillNo()+"] sign:["+ci.getSign() +"] message:"+ci.getMessage()+"]");
+		}
+		ApiLogger.info("TEST : sftp : check() : end");
+	}
+	/*
+	 	private int serial;
+	private String payDate;
+	private String billNo;
+	 */
+	private void refunde(ArrayList<RefundeItem> refundeList) {
+		ApiLogger.info("TEST : sftp : refunde() : start");
+
+		for(RefundeItem ri : refundeList) {
+			ApiLogger.info("TEST : sftp : refunde() : serial:["+ ri.getSerial()+"] payDate:["+ ri.getPayDate() +"] billNo:["+ri.getBillNo()+"]");
+		}
+		
+		ApiLogger.info("TEST : sftp : refunde() : end");
+	}
+
 }
