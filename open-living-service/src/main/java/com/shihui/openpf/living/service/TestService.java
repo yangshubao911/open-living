@@ -473,7 +473,7 @@ public class TestService {
 			}
 		}
 
-		file = FileUtil.getCheckFile(url, username, password, refundePath);
+		file = FileUtil.getRefundeFile(url, username, password, refundePath);
 		if(file != null) {
 			RefundeFile refundeFile = FileUtil.getRefundeFile(file);
 			ApiLogger.info("BillTask: billCheckNotify() : refundeFile != null : " + (refundeFile != null));
