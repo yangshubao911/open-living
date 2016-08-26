@@ -193,13 +193,15 @@ public class GuangdaResponse {
 		Order order = vo.getOrder();		
 		Bill bill = vo.getBill();
 //		Company company = companyDao.findById(bill.getCompanyId());
-		Company company = cacheDao.getCompany(bill.getCompanyId());
-		if(company == null) {
-			company = companyDao.findById(bill.getCompanyId());
-			cacheDao.setCompany(bill.getCompanyId(), company);
-		}
-
-		vo.setCompany(company);
+//		Company company = cacheDao.getCompany(bill.getCompanyId());
+//		if(company == null) {
+//			company = companyDao.findById(bill.getCompanyId());
+//			cacheDao.setCompany(bill.getCompanyId(), company);
+//		}
+		ApiLogger.info(" ** 1 **");
+		Company company = vo.getCompany();
+		
+//		vo.setCompany(company);
 		Goods goods = cacheDao.getGoods(bill.getCategoryId(), order.getGoodsId());
 		if( goods == null) {
 			goods = goodsDao.findById(order.getGoodsId());
@@ -207,6 +209,7 @@ public class GuangdaResponse {
 		}
 		vo.setGoods(goods);
 		//
+		ApiLogger.info(" ** 2 **");
 //		Campaign campaign;
 //		List<Campaign> campaigns = cacheDao.getCampaignList(goods.getServiceId());
 //		if(campaigns == null) {
@@ -247,13 +250,15 @@ public class GuangdaResponse {
 			}
 		}
 		//
+		ApiLogger.info(" ** 3 **");
+		//
 		com.shihui.openpf.common.model.Service service = cacheDao.getService(order.getServiceId());
 		if(service == null) {
 			service = serviceManage.findById(order.getServiceId());
 			cacheDao.setService(order.getServiceId(), service);
 		}
 		vo.setService(service);
-		
+		ApiLogger.info(" ** 4 **");
 		Merchant merchant = cacheDao.getMerchant(goods.getServiceId(), goods.getCategoryId(), goods.getGoodsId());
 		if(merchant == null) {
 			Integer merchantId = merchantGoodsDao.queryMerchantId(goods.getServiceId(), goods.getCategoryId(), goods.getGoodsId());
@@ -262,7 +267,7 @@ public class GuangdaResponse {
 			cacheDao.setMerchant(merchantId, merchant);
 		}
 		vo.setMerchant(merchant);
-		
+		ApiLogger.info(" ** 5 **");
 		Group group = cacheDao.getGroup(order.getGid());
 		if( group == null) {
 			group = groupManage.getGroupInfoByGid(order.getGid());
@@ -272,9 +277,11 @@ public class GuangdaResponse {
 		//
 		//
 		//
+		ApiLogger.info(" ** 6 **");
 		bill.setFeeName(service.getServiceName());
 		bill.setCityName(goods.getCityName());
 		bill.setFeeType(company.getFeeType());
+		ApiLogger.info(" ** 7 **");
 	}
     public void doResQuery(ResQuery resQuery) {
     	ApiLogger.info(">>>GuangdaResponse : doResQuery()");
