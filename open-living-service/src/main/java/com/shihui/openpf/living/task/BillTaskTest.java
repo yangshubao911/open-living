@@ -165,7 +165,9 @@ public class BillTaskTest {
 				 ApiLogger.info("BillTask : check() - 3 -");
 				Merchant merchant = cacheDao.getMerchant(order.getMerchantId());
 				if(merchant == null) {
+					ApiLogger.info("BillTask : check() : - 3.1 - : order.getMerchantId() : " + order.getMerchantId());
 					merchant = merchantManage.getById(order.getMerchantId());
+					 ApiLogger.info("BillTask : check() : - 3.2 - : merchant == null : " + (merchant == null));
 					cacheDao.setMerchant(merchant.getMerchantId(), merchant);
 				}
 				 ApiLogger.info("BillTask : check() - 4 -");
