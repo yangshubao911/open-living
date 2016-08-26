@@ -459,7 +459,7 @@ public class TestService {
 	
 	public Object sftp() {
 		JSONObject result = new JSONObject();
-		
+		ApiLogger.info("TEST : sftp : start");
 		File file = FileUtil.getCheckFile(url, username, password, checkPath);
 		if(file != null) {
 			CheckFile checkFile = FileUtil.getCheckFile(file);
@@ -472,7 +472,7 @@ public class TestService {
 				}
 			}
 		}
-		
+
 		file = FileUtil.getCheckFile(url, username, password, refundePath);
 		if(file != null) {
 			RefundeFile refundeFile = FileUtil.getRefundeFile(file);
@@ -485,7 +485,7 @@ public class TestService {
 				}
 			}
 		}
-		
+		ApiLogger.info("TEST : sftp : end");
 		result.put("response", new SimpleResponse(0,"NONE"));
 		return result;
 	}

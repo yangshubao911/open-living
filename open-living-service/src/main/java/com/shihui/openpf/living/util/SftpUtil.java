@@ -1,5 +1,7 @@
 package com.shihui.openpf.living.util;
 
+import com.shihui.commons.ApiLogger;
+
 import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.sftp.SFTPClient;
 import net.schmizz.sshj.xfer.FileSystemFile;
@@ -10,6 +12,7 @@ public class SftpUtil {
 	private static final String PASSWORD = "123456";
 
     public static boolean download(String host, String userName, String password, String filePath, String localPath) {
+    	ApiLogger.info("SftpUtil : download : host:["+host+"] userName:["+userName+"] password:["+password+"] filePath:["+filePath+"] localPath:["+localPath+"]");
         SSHClient ssh = new SSHClient();
         SFTPClient sftp = null;
         try {
