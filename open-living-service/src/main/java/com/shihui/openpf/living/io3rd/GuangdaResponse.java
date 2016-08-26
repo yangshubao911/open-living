@@ -267,10 +267,12 @@ public class GuangdaResponse {
 			cacheDao.setMerchant(merchantId, merchant);
 		}
 		vo.setMerchant(merchant);
-		ApiLogger.info(" ** 5 **");
+		ApiLogger.info(" ** 5 **" + order.getGid());
 		Group group = cacheDao.getGroup(order.getGid());
 		if( group == null) {
+			ApiLogger.info(" ** 5.1 **" + order.getGid());
 			group = groupManage.getGroupInfoByGid(order.getGid());
+			ApiLogger.info(" ** 5.2 **" + order.getGid());
 			cacheDao.setGroup(group.getGid(), group);
 		}
 		vo.setGroup(group);
