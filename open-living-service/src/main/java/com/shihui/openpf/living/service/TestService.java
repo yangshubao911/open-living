@@ -489,15 +489,7 @@ public class TestService {
 		result.put("response", new SimpleResponse(0,"NONE"));
 		return result;
 	}
-	/*
-	 	private String billNo;
-	private String pay;
-	private String payDate;
-	private String bankBillNo;
-	private String sign;
-	private String message;
 
-	 */
 	private void check(ArrayList<CheckItem> checkList)  {
 		ApiLogger.info("TEST : sftp : check() : start");
 
@@ -506,11 +498,7 @@ public class TestService {
 		}
 		ApiLogger.info("TEST : sftp : check() : end");
 	}
-	/*
-	 	private int serial;
-	private String payDate;
-	private String billNo;
-	 */
+
 	private void refunde(ArrayList<RefundeItem> refundeList) {
 		ApiLogger.info("TEST : sftp : refunde() : start");
 

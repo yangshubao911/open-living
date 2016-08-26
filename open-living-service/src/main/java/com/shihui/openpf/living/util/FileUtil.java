@@ -89,7 +89,7 @@ public class FileUtil {
     }
     //
     public static CheckFile analyseCheckFile(InputStream in) throws Exception {
-    	BufferedReader br = new BufferedReader(new InputStreamReader(in, "GBK"));
+    	BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
     	CheckFile checkFile = new CheckFile();
 
     	String line1 = br.readLine();
