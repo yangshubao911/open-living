@@ -173,7 +173,7 @@ public class BillTaskTest {
 				 ApiLogger.info("BillTask : check() - 4 -");
 		        JSONObject settlementJson = new JSONObject();
 				 ApiLogger.info("BillTask : check() - 4.1 - :" + goods.getPrice());
-		        settlementJson.put("settlePrice", StringUtil.yuan2hao(goods.getPrice()));
+		        settlementJson.put("settlePrice", StringUtil.yuan2hao(order.getPrice()));
 				 ApiLogger.info("BillTask : check() - 4.2 -");
 		        settlementJson.put("settleMerchantId", merchant.getMerchantCode());
 		        ApiLogger.info("BillTask : check() - 5 -");
