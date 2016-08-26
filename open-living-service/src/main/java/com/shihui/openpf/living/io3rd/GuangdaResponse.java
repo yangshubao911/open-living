@@ -272,8 +272,9 @@ public class GuangdaResponse {
 		if( group == null) {
 			ApiLogger.info(" ** 5.1 **" + order.getGid());
 			group = groupManage.getGroupInfoByGid(order.getGid());
-			ApiLogger.info(" ** 5.2 **" + order.getGid());
+			ApiLogger.info((group == null) + " ** 5.2 **" + order.getGid());
 			cacheDao.setGroup(group.getGid(), group);
+			ApiLogger.info(" ** 5.3 **" + order.getGid());
 		}
 		vo.setGroup(group);
 		//
