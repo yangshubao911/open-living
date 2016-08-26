@@ -42,7 +42,7 @@ import com.shihui.openpf.living.util.FileUtil;
 import com.shihui.commons.ApiLogger;
 
 @Component
-public class BillTask {
+public class BillTaskTest {
 	
 	@Resource
 	OrderSystemService orderSystemService;
@@ -78,7 +78,7 @@ public class BillTask {
 
 	}
 
-	@Scheduled(cron = "0 0 1 * * ?")
+//	@Scheduled(cron = "0 0 1 * * ?")
 	public void billCheckNotify() {
 		ApiLogger.info("BillTask: billCheckNotify() : start");
 		
@@ -138,7 +138,7 @@ public class BillTask {
 		ApiLogger.info("BillTask: billCheckNotify() : end");
 	}
 
-	private void check(ArrayList<CheckItem> checkList)  {
+	public void check(ArrayList<CheckItem> checkList)  {
 		ApiLogger.info("BillTask: billCheckNotify() : check() : start");
 
 		for(CheckItem ci : checkList) {
@@ -179,7 +179,7 @@ public class BillTask {
 		}
 		ApiLogger.info("BillTask: billCheckNotify() : check() : end");
 	}
-	private void refunde(ArrayList<RefundeItem> refundeList) {
+	public void refunde(ArrayList<RefundeItem> refundeList) {
 		ApiLogger.info("BillTask: billCheckNotify() : refunde() : start");
 
 		for(RefundeItem ri : refundeList) {

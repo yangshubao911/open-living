@@ -34,6 +34,7 @@ import com.shihui.openpf.living.util.FileUtil;
 import com.shihui.openpf.living.util.LivingUtil;
 import com.shihui.openpf.living.util.SftpUtil;
 import com.shihui.openpf.living.util.SimpleResponse;
+import com.shihui.openpf.living.task.BillTaskTest;
 
 /**
  * Created by zhoutc on 2015/12/16.
@@ -47,6 +48,7 @@ public class TestService {
     @Resource LivingMqProducer mqProducer;
     @Resource ClientService clientService;
     @Resource BillDao billDao;
+    @Resource BillTaskTest billTaskTest;
     
     public Object reqKey() {
     	JSONObject result = new JSONObject();
@@ -509,4 +511,46 @@ public class TestService {
 		ApiLogger.info("TEST : sftp : refunde() : end");
 	}
 
+	//
+	
+	public Object billCheck() {
+		JSONObject result = new JSONObject();
+		ApiLogger.info("TEST : billCheck() : start");
+		File file = FileUtil.getCheckFile(url, username, password, checkPath);
+		if(file != null) {
+			CheckFile checkFile = FileUtil.getCheckFile(file);
+			ApiLogger.info("TEST : sftp : checkFile != null : " + (checkFile != null));
+			if(checkFile != null) {
+				ArrayList<CheckItem> checkList = checkFile.getCheckList();
+				if(checkList != null && checkList.size() > 0) {
+					check(checkList);
+					result.put("CheckItem", checkList);
+				}
+			}
+		}
+
+		ApiLogger.info("TEST : billCheck() : end");
+		result.put("response", new SimpleResponse(0,"NONE"));
+		return result;
+	}
+	
+	public Object billRefund() {
+		JSONObject result = new JSONObject();
+		ApiLogger.info("TEST : billRefund() : start");
+		File file = FileUtil.getRefundeFile(url, username, password, refundePath);
+		if(file != null) {
+			RefundeFile refundeFile = FileUtil.getRefundeFile(file);
+			ApiLogger.info("BillTask: billCheckNotify() : refundeFile != null : " + (refundeFile != null));
+			if(refundeFile != null) {
+				ArrayList<RefundeItem> refundeList = refundeFile.getRefundeList();
+				if(refundeList != null && refundeList.size() > 0) {
+					billTaskTest.refunde(refundeList);
+					result.put("RefundeItem", refundeList);
+				}
+			}
+		}
+		ApiLogger.info("TEST : billRefund() : end");
+		result.put("response", new SimpleResponse(0,"NONE"));
+		return result;
+	}
 }

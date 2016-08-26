@@ -176,4 +176,17 @@ public class TestController {
 	public Object sftp() {
 		return testService.sftp();
 	}	
+	
+	@RequestMapping("/billCheck")
+	@ResponseBody
+	@Access(type = AccessType.INTERNAL)
+	public Object billCheck() {
+		return testService.billCheck();
+	}	
+	@RequestMapping("/billRefund")
+	@ResponseBody
+	@Access(type = AccessType.INTERNAL)
+	public Object billRefund() {
+		return testService.billRefund();
+	}
 }
