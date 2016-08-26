@@ -101,6 +101,7 @@ public class FileUtil {
     	if(line2 == null )
     		return null;
     	String[] line2Array= line2.split(SPLIT);
+    	ApiLogger.info("FileUtil : analyseCheckFile() : - 2.1 - : " + line2 + " : " + line2Array.length);
     	if(line2Array.length < 2)
     		return null;
     	checkFile.setTotalMoney(Integer.parseInt(line2Array[0]));
