@@ -145,7 +145,7 @@ public class BillTask {
 			try {
 //				Bill bill = billDao.findByBillNo(ci.getBillNo());
 //				Order order = orderDao.findById(bill.getOrderId());
-				long orderId = billDao.getOrderIdByBillNo(ci.getBillNo().trim());
+				long orderId = billDao.getOrderIdByBillNo(ci.getBillNo());
 				if( orderId == -1L) {
 					ApiLogger.info("BillTask : check() : orderId == -1L [" + ci.getBillNo() + "] ");
 					continue;
@@ -187,7 +187,7 @@ public class BillTask {
 //				Bill bill = billDao.findByBillNo(ri.getBillNo());
 //				long orderId = bill.getOrderId();
 //				Order order = orderDao.findById(orderId);
-				long orderId = billDao.getOrderIdByBillNo(ri.getBillNo().trim());
+				long orderId = billDao.getOrderIdByBillNo(ri.getBillNo());
 				if( orderId == -1L) {
 					ApiLogger.info("BillTask : refunde() : orderId == -1L [" + ri.getBillNo() + "] ");
 					continue;

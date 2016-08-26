@@ -95,7 +95,7 @@ public class FileUtil {
     	String line1 = br.readLine();
     	if( line1 == null )
     		return null;
-    	checkFile.setBjceg(line1);
+    	checkFile.setBjceg(line1.trim());
     	String line2 = br.readLine();
     	if(line2 == null )
     		return null;
@@ -103,8 +103,8 @@ public class FileUtil {
 
     	if(line2Array.length < 2)
     		return null;
-    	checkFile.setTotalMoney(Integer.parseInt(line2Array[0]));
-    	checkFile.setTotalAmount(Integer.parseInt(line2Array[1]));
+    	checkFile.setTotalMoney(Integer.parseInt(line2Array[0].trim()));
+    	checkFile.setTotalAmount(Integer.parseInt(line2Array[1].trim()));
 
     	String line3 = br.readLine();
     	if(line3 == null)
@@ -112,8 +112,8 @@ public class FileUtil {
     	String[] line3Array = line3.split(SPLIT);
     	if(line3Array.length < 2)
     		return null;
-    	checkFile.setSuccessMoney(Integer.parseInt(line3Array[0]));
-    	checkFile.setSuccessAmount(Integer.parseInt(line3Array[0]));
+    	checkFile.setSuccessMoney(Integer.parseInt(line3Array[0].trim()));
+    	checkFile.setSuccessAmount(Integer.parseInt(line3Array[0].trim()));
 
     	String linex;
     	String[] linexArray;
@@ -124,12 +124,12 @@ public class FileUtil {
     			return null;
     		
     		CheckItem checkItem = new CheckItem();
-    		checkItem.setBillNo(linexArray[0]);
-    		checkItem.setPay(linexArray[1]);
-    		checkItem.setPayDate(linexArray[2]);
-    		checkItem.setBankBillNo(linexArray[3]);
-    		checkItem.setSign(linexArray[4]);
-    		checkItem.setMessage(linexArray[5]);
+    		checkItem.setBillNo(linexArray[0].trim());
+    		checkItem.setPay(linexArray[1].trim());
+    		checkItem.setPayDate(linexArray[2].trim());
+    		checkItem.setBankBillNo(linexArray[3].trim());
+    		checkItem.setSign(linexArray[4].trim());
+    		checkItem.setMessage(linexArray[5].trim());
     		checkList.add(checkItem);
     	}
     	br.close();
@@ -149,8 +149,8 @@ public class FileUtil {
     	String[] line1Array= line1.split(SPLIT);
     	if(line1Array.length < 2)
     		return null;
-    	refundeFile.setTotalMoney(Integer.parseInt(line1Array[0]));
-    	refundeFile.setTotalAmount(Integer.parseInt(line1Array[1]));
+    	refundeFile.setTotalMoney(Integer.parseInt(line1Array[0].trim()));
+    	refundeFile.setTotalAmount(Integer.parseInt(line1Array[1].trim()));
     	   	
     	String linex;
     	String[] linexArray;
@@ -161,9 +161,9 @@ public class FileUtil {
     			return null;
     		
     		RefundeItem refundeItem = new RefundeItem();
-    		refundeItem.setSerial(Integer.parseInt(linexArray[0]));
-    		refundeItem.setPayDate(linexArray[1]);
-    		refundeItem.setBillNo(linexArray[2]);
+    		refundeItem.setSerial(Integer.parseInt(linexArray[0].trim()));
+    		refundeItem.setPayDate(linexArray[1].trim());
+    		refundeItem.setBillNo(linexArray[2].trim());
     		refundeList.add(refundeItem);
     	}
     	br.close();
