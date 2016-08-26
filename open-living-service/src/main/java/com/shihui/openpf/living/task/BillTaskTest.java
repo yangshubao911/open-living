@@ -143,6 +143,7 @@ public class BillTaskTest {
 
 		for(CheckItem ci : checkList) {
 			try {
+				 ApiLogger.info("BillTask : check() - 1 -");
 				Bill bill = billDao.findByBillNo(ci.getBillNo());
 				Order order = orderDao.findById(bill.getOrderId());
 //				long orderId = billDao.getOrderIdByBillNo(ci.getBillNo());
@@ -155,21 +156,23 @@ public class BillTaskTest {
 //				Bill bill = obvo.getBill();
 //				Order order = obvo.getOrder();
 				//
+				 ApiLogger.info("BillTask : check() - 2 -");
 				Goods goods = cacheDao.getGoods(bill.getCategoryId(), order.getGoodsId());
 				if( goods == null) {
 					goods = goodsDao.findById(order.getGoodsId());
 					cacheDao.setGoods(bill.getCategoryId(), order.getGoodsId(), goods);
 				}
+				 ApiLogger.info("BillTask : check() - 3 -");
 				Merchant merchant = cacheDao.getMerchant(order.getMerchantId());
 				if(merchant == null) {
 					merchant = merchantManage.getById(order.getMerchantId());
 					cacheDao.setMerchant(merchant.getMerchantId(), merchant);
 				}
-	
+				 ApiLogger.info("BillTask : check() - 4 -");
 		        JSONObject settlementJson = new JSONObject();
 		        settlementJson.put("settlePrice", StringUtil.yuan2hao(goods.getPrice()));
 		        settlementJson.put("settleMerchantId", merchant.getMerchantCode());
-		
+		        ApiLogger.info("BillTask : check() - 5 -");
 		        boolean payorderchange = orderSystemService.complete(order.getOrderId(), order.getGoodsId(),
 		   			 settlementJson.toJSONString(), com.shihui.api.order.common.enums.OrderStatusEnum.OrderUnStockOut.getValue() );
 		        ApiLogger.info("BillTask : check() : SUCCESS : billNO: [" + ci.getBillNo() + "] " + payorderchange);
