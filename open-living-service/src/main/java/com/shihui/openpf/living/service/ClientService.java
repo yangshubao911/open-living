@@ -239,6 +239,7 @@ public class ClientService {
 		
 		ApiLogger.info("Service: queryFee() : "
 						+ "tempId: " + tempId
+						+ ", groupId: " + groupId
 						+ ", userNo: " + userNo
 						+ ", field2: " + field2 );
 		//TODO
