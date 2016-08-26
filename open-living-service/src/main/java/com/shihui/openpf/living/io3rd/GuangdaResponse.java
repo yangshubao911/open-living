@@ -198,7 +198,6 @@ public class GuangdaResponse {
 //			company = companyDao.findById(bill.getCompanyId());
 //			cacheDao.setCompany(bill.getCompanyId(), company);
 //		}
-		ApiLogger.info(" ** 1 **");
 		Company company = vo.getCompany();
 		
 //		vo.setCompany(company);
@@ -209,7 +208,6 @@ public class GuangdaResponse {
 		}
 		vo.setGoods(goods);
 		//
-		ApiLogger.info(" ** 2 **");
 //		Campaign campaign;
 //		List<Campaign> campaigns = cacheDao.getCampaignList(goods.getServiceId());
 //		if(campaigns == null) {
@@ -250,7 +248,6 @@ public class GuangdaResponse {
 			}
 		}
 		//
-		ApiLogger.info(" ** 3 **");
 		//
 		com.shihui.openpf.common.model.Service service = cacheDao.getService(order.getServiceId());
 		if(service == null) {
@@ -258,7 +255,6 @@ public class GuangdaResponse {
 			cacheDao.setService(order.getServiceId(), service);
 		}
 		vo.setService(service);
-		ApiLogger.info(" ** 4 **");
 		Merchant merchant = cacheDao.getMerchant(goods.getServiceId(), goods.getCategoryId(), goods.getGoodsId());
 		if(merchant == null) {
 			Integer merchantId = merchantGoodsDao.queryMerchantId(goods.getServiceId(), goods.getCategoryId(), goods.getGoodsId());
@@ -267,24 +263,18 @@ public class GuangdaResponse {
 			cacheDao.setMerchant(merchantId, merchant);
 		}
 		vo.setMerchant(merchant);
-		ApiLogger.info(" ** 5 **" + order.getGid());
 		Group group = cacheDao.getGroup(order.getGid());
 		if( group == null) {
-			ApiLogger.info(" ** 5.1 **" + order.getGid());
 			group = groupManage.getGroupInfoByGid(order.getGid());
-			ApiLogger.info((group == null) + " ** 5.2 **" + order.getGid());
 			cacheDao.setGroup(group.getGid(), group);
-			ApiLogger.info(" ** 5.3 **" + order.getGid());
 		}
 		vo.setGroup(group);
 		//
 		//
 		//
-		ApiLogger.info(" ** 6 **");
 		bill.setFeeName(service.getServiceName());
 		bill.setCityName(goods.getCityName());
 		bill.setFeeType(company.getFeeType());
-		ApiLogger.info(" ** 7 **");
 	}
     public void doResQuery(ResQuery resQuery) {
     	ApiLogger.info(">>>GuangdaResponse : doResQuery()");
@@ -292,13 +282,9 @@ public class GuangdaResponse {
     	String tempId = resQuery.head.TrmSeqNum;
     	QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(tempId);
     	if(vo != null && Integer.parseInt(resQuery.tout.totalNum) > 0 ) {
-    		ApiLogger.info(" - 1 -");
 	    		resQuery2Vo(resQuery, vo);
-	    		ApiLogger.info(" - 2 -");
 	    		load_vo_elements(vo);
-	    		ApiLogger.info(" - 3 -");
 	    		cacheDao.setQueryOrderBillVo(tempId, vo);
-	    		ApiLogger.info(" - 4 -");
 	    		//
 	    		noticeApp(vo);
 	    		ApiLogger.info("OK: GuangdaResponse : resQuery()");
