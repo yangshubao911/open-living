@@ -282,9 +282,13 @@ public class GuangdaResponse {
     	String tempId = resQuery.head.TrmSeqNum;
     	QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(tempId);
     	if(vo != null && Integer.parseInt(resQuery.tout.totalNum) > 0 ) {
+    		ApiLogger.info(" - 1 -");
 	    		resQuery2Vo(resQuery, vo);
+	    		ApiLogger.info(" - 2 -");
 	    		load_vo_elements(vo);
+	    		ApiLogger.info(" - 3 -");
 	    		cacheDao.setQueryOrderBillVo(tempId, vo);
+	    		ApiLogger.info(" - 4 -");
 	    		//
 	    		noticeApp(vo);
 	    		ApiLogger.info("OK: GuangdaResponse : resQuery()");
