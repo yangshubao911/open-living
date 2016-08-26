@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.shihui.commons.ApiLogger;
 import com.shihui.openpf.living.io3rd.CheckFile;
 import com.shihui.openpf.living.io3rd.CheckItem;
 import com.shihui.openpf.living.io3rd.RefundeFile;
@@ -21,19 +20,6 @@ public class FileUtil {
 	private static final String CHECKFILE_SUFFIX = "HZKY_*_1.txt";
 	private static final String REFUNDEFILE_SUFFIX = "HZKY*01Refunde.txt";
 
-    
-//    public static CheckRefundeVo getCheckRefundeVo(File checkFile,File refundeFile) {
-//    	CheckRefundeVo vo = new CheckRefundeVo();
-//    	//
-//    	try {
-//        vo.setCheckFile(getCheckFile(checkFile));
-//        vo.setRefundeFile(getRefundeFile(refundeFile));
-//    	} catch(Exception e) {
-//    		vo = null;
-//    	}
-//        //           
-//        return vo;
-//    }
     public static File getCheckFile(String host, String userName, String password, String path) {
     	Calendar calendar = Calendar.getInstance();
     	calendar.setTime(new Date());
@@ -89,7 +75,7 @@ public class FileUtil {
     }
     //
     public static CheckFile analyseCheckFile(InputStream in) throws Exception {
-    	BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+    	BufferedReader br = new BufferedReader(new InputStreamReader(in, "GBK"));
     	CheckFile checkFile = new CheckFile();
 
     	String line1 = br.readLine();
@@ -140,7 +126,7 @@ public class FileUtil {
     	return checkFile;    	
     }
     public static  RefundeFile analyseRefundeFile(InputStream in) throws Exception {
-    	BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+    	BufferedReader br = new BufferedReader(new InputStreamReader(in, "GBK"));
     	RefundeFile refundeFile = new RefundeFile();
     	
     	String line1 = br.readLine();

@@ -120,7 +120,7 @@ public class BillTask {
 		
 		while(!Thread.currentThread().isInterrupted()) {
 			try {
-	    		Thread.sleep(3000);
+	    		Thread.sleep(10*60*1000);
 	    	}catch(Exception e) {
 	    	}
 			if(!cacheDao.checkKeyDateExpired()) {

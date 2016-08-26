@@ -179,19 +179,19 @@ public class BillExecutor {
     					ResHead rh = (ResHead)object;
     					ApiLogger.info("\nExecuteAnalysePacketTask : run() : AnsTranCode:[" + rh.head.AnsTranCode + "] InstId:[" + rh.head.InstId +"] TrmSeqNum:[" +rh.head.TrmSeqNum +"] version:[" + rh.head.version + "]\n");
     					
-    					String ansTranCode = ((ResHead)object).head.AnsTranCode;
-    					if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_PAY) == 0)
+    					String ansTranCode = ((ResHead)object).head.AnsTranCode.trim();
+    					if(ansTranCode.compareToIgnoreCase(PacketHead.ANSTRANCODE_PAY) == 0)//compareTo
     						guangdaResponse.doResPay((ResPay)FastXML.xmlToBean(xml, ResPay.class));
-    					else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_QUERY) == 0)
+    					else if(ansTranCode.compareToIgnoreCase(PacketHead.ANSTRANCODE_QUERY) == 0)
     						guangdaResponse.doResQuery((ResQuery)FastXML.xmlToBean(xml, ResQuery.class));
-						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_ERROR) == 0)
+						else if(ansTranCode.compareToIgnoreCase(PacketHead.ANSTRANCODE_ERROR) == 0)
 							guangdaResponse.doPacketError((PacketError)FastXML.xmlToBean(xml, PacketError.class));
-						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_NOTIFY) == 0)
+						else if(ansTranCode.compareToIgnoreCase(PacketHead.ANSTRANCODE_NOTIFY) == 0)
 							guangdaResponse.doPacketNotify((PacketNotify)FastXML.xmlToBean(xml, PacketNotify.class));
-						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_KEY) == 0)
+						else if(ansTranCode.compareToIgnoreCase(PacketHead.ANSTRANCODE_KEY) == 0)
 							guangdaResponse.doResKey((ResKey)FastXML.xmlToBean(xml, ResKey.class));
 						else 
-							ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : " + ansTranCode);
+							ApiLogger.info("ERR: ExecuteAnalysePacketTask : run() : " + ansTranCode);
 //    					ApiLogger.info("ExecuteAnalysePacketTask : run() : pc.check() : end");
     				}
     			}
