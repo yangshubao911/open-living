@@ -247,6 +247,10 @@ public class PaymentSuccessConsumer implements Consumer {
 						billDao.updateBillStatus(orderId, BillStatusEnum.Close.getValue());
 						cacheDao.delOrderBillVo(orderId);
 					}
+					else if ( status == OrderStatusEnum.PayedCancel) {
+						billDao.updateBillStatus(orderId, BillStatusEnum.Refund.getValue());
+						cacheDao.delOrderBillVo(orderId);
+					}
 				}
 
 				//

@@ -523,7 +523,7 @@ public class TestService {
 			if(checkFile != null) {
 				ArrayList<CheckItem> checkList = checkFile.getCheckList();
 				if(checkList != null && checkList.size() > 0) {
-					check(checkList);
+					billTaskTest.check(checkList);
 					result.put("CheckItem", checkList);
 				}
 			}
