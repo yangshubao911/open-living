@@ -145,21 +145,21 @@ public class ClientService {
 
 	}
 
-//	private JSONArray getBillList(long userId, int count) {
-//		JSONArray ja = new JSONArray();
-//		
-//		List<Bill> billList = billDao.queryTopN(userId, count);
-//		for(Bill bill : billList) {
-//			JSONObject jo = new JSONObject();
-//			jo.put("feeName", bill.getFeeName());
-//			jo.put("userNo", bill.getBillKey());
-//			jo.put("categoryId", bill.getCategoryId());
-//			jo.put("serviceId", bill.getServiceId());
-//			ja.add(jo);
-//		}
-//		return ja;
-//	}
-	public JSONArray getBillList(long userId, int count) {
+	private JSONArray getBillList(long userId, int count) {
+		JSONArray ja = new JSONArray();
+		
+		List<Bill> billList = billDao.queryTopN(userId, count);
+		for(Bill bill : billList) {
+			JSONObject jo = new JSONObject();
+			jo.put("feeName", bill.getFeeName());
+			jo.put("userNo", bill.getBillKey());
+			jo.put("categoryId", bill.getCategoryId());
+			jo.put("serviceId", bill.getServiceId());
+			ja.add(jo);
+		}
+		return ja;
+	}
+	public JSONArray getBillList2(long userId, int count) {
 		List<OrderBillTop5> orderBillTop5List = orderBillTop5Dao.query(userId, count);
 		return orderBillTop5List == null ? null :(JSONArray)JSON.toJSON(orderBillTop5List);
 	}
