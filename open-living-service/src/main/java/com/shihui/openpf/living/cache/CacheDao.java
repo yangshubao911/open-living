@@ -202,15 +202,17 @@ public class CacheDao {
     	try(ShardedJedis jedis = jedisPool.getResource()){
     		Long result = jedis.incr(LIVING_GEN_SERIALNO);
     		String prefix = jedis.get(LIVING_GEN_SERIALNO_PREFIX);
-    		if(prefix == null) 
+    		if(prefix == null) {
     			resetSerialNo();
+    			prefix = jedis.get(LIVING_GEN_SERIALNO_PREFIX);
+    		}
     		return  prefix + String.format("%08d", result);
     	}
     }
     
     public void resetSerialNo() {
     	try(ShardedJedis jedis = jedisPool.getResource()){
-    		jedis.del(LIVING_GEN_SERIALNO);
+//    		jedis.del(LIVING_GEN_SERIALNO);
     		String prefix = new SimpleDateFormat("yyyyMMdd").format(new Date()).toString();
 			jedis.set(LIVING_GEN_SERIALNO_PREFIX,prefix);
     	}

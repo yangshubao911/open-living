@@ -79,6 +79,8 @@ public class BillTask {
 		ApiLogger.info("BillTask: billCheckNotify() : start");
 		
 		if(cacheDao.lockTask()) {
+			//流水号
+			cacheDao.resetSerialNo();
 			//更换密钥
 			guangdaResponse.doReqKey();
 	
@@ -108,8 +110,7 @@ public class BillTask {
 			}
 			
 			completeRestOrder();
-			//
-			cacheDao.resetSerialNo();
+
 		}
 		
 		//
