@@ -151,7 +151,7 @@ public class GuangdaResponse {
     }
 	private void noticeApp(QueryOrderBillVo vo) {
 		JSONObject result = new JSONObject();
-		//
+		//TODO
 		result.put("tempId", vo.getTempId());
 		Bill bill = vo.getBill();
 		Order order = vo.getOrder();
@@ -307,7 +307,16 @@ ApiLogger.info("GuangdaResponse : doResQuery() : groupId:[" +order.getGid()+"] g
 	    			result.put("response", new SimpleResponse(0,QueryErrorCodeEnum.getErrorMessage(packetError.tout.errorCode)));
 	    		else
 	    			result.put("response", new SimpleResponse(3,QueryErrorCodeEnum.getErrorMessage(packetError.tout.errorCode)));
+	    		//
+	    		Bill bill = vo.getBill();
+	    		result.put("feeType", bill.getFeeType());
+	    		result.put("feeName", bill.getFeeName());
+	    		result.put("userNo", bill.getBillKey());
 	    		
+	    		Company company = vo.getCompany();
+	    		result.put("companyName", company.getCompanyName());
+	    		result.put("serviceType", company.getServiceType());
+	    		//
 	    		appNotice.pushQueryResult(vo.getOrder().getUserId(), result);
 	    		cacheDao.delQueryOrderBillVo(tempId);
 //TODO	XXX    		
