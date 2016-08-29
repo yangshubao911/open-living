@@ -60,10 +60,11 @@ public class OperationLogger {
         } else {
             olog.setAction(action);
         }
-        ApiLogger.info(" * 4 - ");
+        ApiLogger.info(" * 4 - " + olog.toJSONObject());
         log.info("TFS LOG:" + olog.toJSONObject());
-        centralLogger.log(action, olog.toJSONObject());    
         ApiLogger.info(" * 5 - ");
+        centralLogger.log(action, olog.toJSONObject());    
+        ApiLogger.info(" * 6 - ");
     }
 
 }
