@@ -14,7 +14,7 @@ import java.util.Map;
  * @author sofn
  * @version 1.0 Created at: 2016-03-25 15:43
  */
-public class OperationLog implements JSONAware {
+public class OperationLog /*implements JSONAware*/ {
 
     private String time;
     private String uid;
@@ -136,13 +136,13 @@ public class OperationLog implements JSONAware {
     public void setExpand(Map<String, String> expand) {
         this.expand = expand;
     }
-
-    @Override
-    public String toJSONString() {
-        return JSONObject.toJSONString(this);
-    }
-
-    public JSONObject toJSONObject() {
-        return (JSONObject) JSONObject.toJSON(this);
-    }
+//
+//    @Override
+//    public String toJSONString() {
+//        return JSONObject.toJSONString(this);
+//    }
+//
+//    public JSONObject toJSONObject() {
+//        return (JSONObject) JSONObject.toJSON(this);
+//    }
 }

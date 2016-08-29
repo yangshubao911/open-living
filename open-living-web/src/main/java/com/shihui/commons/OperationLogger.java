@@ -6,6 +6,8 @@ import me.weimi.api.commons.logger.CentralLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.alibaba.fastjson.JSON;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -60,8 +62,8 @@ public class OperationLogger {
         } else {
             olog.setAction(action);
         }
-        ApiLogger.info(" * 4 - " + olog.toJSONString());
-        log.info("TFS LOG:" + olog.toJSONString());
+        ApiLogger.info(" * 4 - " + JSON.toJSONString(olog)/*olog.toJSONString()*/);
+       // log.info("TFS LOG:" + olog.toJSONString());
         ApiLogger.info(" * 5 - ");
         centralLogger.log(action, olog.toJSONObject());    
         ApiLogger.info(" * 6 - ");
