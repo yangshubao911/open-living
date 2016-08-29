@@ -19,11 +19,11 @@ public class OrderBillTop5{
 	
     @Id
     private Long orderId;
-	private Long userId;
-	private Long gid;
-	private Long mid;
+	private Integer userId;
+	private Integer gid;
+	private Integer mid;
 	private Integer serviceId;
-	private Long goodsId;
+	private Integer goodsId;
 	private Integer goodsVersion;
 	
 	private Integer categoryId;
@@ -41,23 +41,22 @@ public class OrderBillTop5{
 	public void setOrderId(Long orderId) {
 		this.orderId = orderId;
 	}
-	public Long getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
-	public void setUserId(Long userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
-
-	public Long getGid() {
+	public Integer getGid() {
 		return gid;
 	}
-	public void setGid(Long gid) {
+	public void setGid(Integer gid) {
 		this.gid = gid;
 	}
-	public long getMid() {
+	public Integer getMid() {
 		return mid;
 	}
-	public void setMid(long mid) {
+	public void setMid(Integer mid) {
 		this.mid = mid;
 	}
 	public Integer getServiceId() {
@@ -66,10 +65,10 @@ public class OrderBillTop5{
 	public void setServiceId(Integer serviceId) {
 		this.serviceId = serviceId;
 	}
-	public Long getGoodsId() {
+	public Integer getGoodsId() {
 		return goodsId;
 	}
-	public void setGoodsId(Long goodsId) {
+	public void setGoodsId(Integer goodsId) {
 		this.goodsId = goodsId;
 	}
 	public Integer getGoodsVersion() {
@@ -120,5 +119,6 @@ public class OrderBillTop5{
 	public void setBillKeyType(String billKeyType) {
 		this.billKeyType = billKeyType;
 	}
+
 	
 }
