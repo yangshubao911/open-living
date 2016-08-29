@@ -62,7 +62,7 @@ public class ClientController extends BasicController {
 		expand.put("gid", groupId);
 		expand.put("mid", mid);
 		expand.put("url", "http://app.hiwemeet.com/v2/openpf/living/app/homepage");
-		OperationLogger.log("operation.living.home", RequestContext.getRequestContext(), expand);
+		OperationLogger.log("operation.open-living.home", RequestContext.getRequestContext(), expand);
 
 		return clientService.homepage(userId,cityId, historyOrderCount);
 	}
@@ -134,7 +134,7 @@ public class ClientController extends BasicController {
 		expand.put("mid", mid);
 		expand.put("url", "http://app.hiwemeet.com/v2/openpf/living/app/queryBill");
 
-		OperationLogger.log("operation.living.queryFee", RequestContext.getRequestContext(), expand);
+		OperationLogger.log("operation.open-living.queryFee", RequestContext.getRequestContext(), expand);
 
 		return clientService.queryFee(userId, groupId, mid, serviceId, 
 				categoryId, cityId, goodsId, goodsVersion, companyId,/* companyNo,*/ 
