@@ -41,10 +41,7 @@ public class OperationLogger {
             return;
         }
         OperationLog olog = new OperationLog();
-        ApiLogger.info(" * 1 - ");
         olog.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-        ApiLogger.info(" * 2 - ");
-        ApiLogger.info(" * 3 - ");
         olog.setChannel(rc.getClientVersion().channel);
         olog.setClientVersion(rc.getClientVersion().clientVersion + "");
         olog.setDeviceId((String)expand.get("ndeviceid"));
@@ -62,11 +59,8 @@ public class OperationLogger {
         } else {
             olog.setAction(action);
         }
-        ApiLogger.info(" * 4 - " + JSON.toJSONString(olog)/*olog.toJSONString()*/);
-       // log.info("TFS LOG:" + olog.toJSONString());
-        ApiLogger.info(" * 5 - ");
-        centralLogger.log(action, (JSONObject)JSON.toJSON(olog)/*olog.toJSONObject()*/);    
-        ApiLogger.info(" * 6 - ");
+        log.info("TFS LOG:" + JSON.toJSONString(olog));
+        centralLogger.log(action, (JSONObject)JSON.toJSON(olog));    
     }
 
 }

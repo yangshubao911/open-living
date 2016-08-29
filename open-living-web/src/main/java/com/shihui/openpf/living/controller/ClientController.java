@@ -132,7 +132,6 @@ public class ClientController extends BasicController {
 //				+ "companyNo: " + companyNo
 				+ "userNo: " + userNo
 				+ "field2: " + field2 );
-		ApiLogger.info(" - 1 - ");
 		Map<String, Object> expand = new HashMap<>();
 //		expand.put("serviceId", mid);
 //		expand.put("cityId", cityId);
@@ -140,19 +139,13 @@ public class ClientController extends BasicController {
 //		expand.put("mid", mid);
 //		expand.put("url", "http://app.hiwemeet.com/v2/openpf/living/app/queryBill");
 		expand.put("cityId", String.valueOf(cityId));
-		ApiLogger.info(" - 2 - ");
 		expand.put("gid", String.valueOf(groupId));
-		ApiLogger.info(" - 3 - ");
 		expand.put("serviceId", String.valueOf(mid));
-		ApiLogger.info(" - 4 - ");
 //		expand.put("url", "http://app.hiwemeet.com/v2/openpf/living/app/homepage");		
 		expand.put("businessId", String.valueOf(serviceId));
-		ApiLogger.info(" - 5 - ");
 //		expand.put("businessName", service.getServiceName() + "");
 		expand.put("ndeviceid", request.getHeader("ndeviceid"));
-		ApiLogger.info(" - 6 - ");
 		OperationLogger.log("operation.open-living.queryFee", rc, expand);
-		ApiLogger.info(" - 7 - ");
 		return clientService.queryFee(userId, groupId, mid, serviceId, 
 				categoryId, cityId, goodsId, goodsVersion, companyId,/* companyNo,*/ 
 				userNo, field2,
