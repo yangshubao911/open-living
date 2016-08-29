@@ -44,6 +44,9 @@ public class ClientController extends BasicController {
 	public Object homepage(
 			@RequestParam(name="userId", required = true) Long userId,
 			@RequestParam(name="cityId", required = true) Integer cityId,
+			@RequestParam(name = "groupId", required = true) long groupId,
+			@RequestParam(name = "mid", required = true) Long mid,
+
 			@RequestParam(name="historyOrderCount", required = false, defaultValue = "5") int historyOrderCount) {
 		
 		ApiLogger.info("Controller: /v2/openpf/living/app/homepage : homepage() : "
@@ -54,7 +57,9 @@ public class ClientController extends BasicController {
 		Map<String, Object> expand = new HashMap<>();
 		//expand.put("service_id", mid);
 		expand.put("city_id", cityId);
-		//expand.put("gid", groupId);
+		expand.put("gid", groupId);
+		expand.put("mid", mid);
+		expand.put("url", "http://app.hiwemeet.com/v2/openpf/living/app/homepage");
 		OperationLogger.log("operation.living.home", RequestContext.getRequestContext(), expand);
 
 		return clientService.homepage(userId,cityId, historyOrderCount);
@@ -124,6 +129,9 @@ public class ClientController extends BasicController {
 		expand.put("service_id", mid);
 		expand.put("city_id", cityId);
 		expand.put("gid", groupId);
+		expand.put("mid", mid);
+		expand.put("url", "http://app.hiwemeet.com/v2/openpf/living/app/queryBill");
+
 		OperationLogger.log("operation.living.queryFee", RequestContext.getRequestContext(), expand);
 
 		return clientService.queryFee(userId, groupId, mid, serviceId, 

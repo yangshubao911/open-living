@@ -28,7 +28,7 @@ public class OperationLogger {
         data.put("deviceid", rc.getClient().getDeviceId());
         data.putAll(expand);
 
-        ApiLogger.info("central log: " + data.toString());
+        ApiLogger.info("***CENTRAL LOG: action:[" + action + "] data :[" + data.toString()+"]");
         centralLogger.log(action, data);
     }
 
