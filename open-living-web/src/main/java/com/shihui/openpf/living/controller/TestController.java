@@ -194,9 +194,10 @@ public class TestController {
 	@RequestMapping("/top5")
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public Object top5() {
+	public Object top5(
+			@RequestParam(name = "userId", required = true)Integer userId) {
 		JSONArray ja = clientService.getBillList2(37857,5);
 		ApiLogger.info("top5 : " + ja.toJSONString());
-		return clientService.getBillList2(57857,5);
+		return clientService.getBillList2(userId,5);
 	}
 }
