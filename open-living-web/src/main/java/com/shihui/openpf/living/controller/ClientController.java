@@ -52,6 +52,8 @@ public class ClientController extends BasicController {
 		ApiLogger.info("Controller: /v2/openpf/living/app/homepage : homepage() : "
 				+ "userId: " + userId
 				+ "cityId: " + cityId
+				+ "groupId: " + groupId
+				+ "mid: " + mid
 				+ "historyOrderCount: " + historyOrderCount );
 		
 		Map<String, Object> expand = new HashMap<>();
