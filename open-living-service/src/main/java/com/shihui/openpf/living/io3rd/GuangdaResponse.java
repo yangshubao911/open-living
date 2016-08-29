@@ -192,15 +192,9 @@ public class GuangdaResponse {
 	private void load_vo_elements(QueryOrderBillVo vo) {
 		Order order = vo.getOrder();		
 		Bill bill = vo.getBill();
-//		Company company = companyDao.findById(bill.getCompanyId());
-//		Company company = cacheDao.getCompany(bill.getCompanyId());
-//		if(company == null) {
-//			company = companyDao.findById(bill.getCompanyId());
-//			cacheDao.setCompany(bill.getCompanyId(), company);
-//		}
+
 		Company company = vo.getCompany();
 		
-//		vo.setCompany(company);
 		Goods goods = cacheDao.getGoods(bill.getCategoryId(), order.getGoodsId());
 		if( goods == null) {
 			goods = goodsDao.findById(order.getGoodsId());

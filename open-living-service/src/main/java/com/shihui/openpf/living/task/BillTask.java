@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSONObject;
 import com.shihui.api.order.vo.MerchantCancelParam;
+import com.shihui.commons.ApiLogger;
 import com.shihui.openpf.common.dubbo.api.MerchantManage;
 import com.shihui.openpf.common.model.Merchant;
 import com.shihui.openpf.common.tools.StringUtil;
@@ -26,10 +27,8 @@ import com.shihui.openpf.living.dao.OrderDao;
 import com.shihui.openpf.living.entity.Bill;
 import com.shihui.openpf.living.entity.Goods;
 import com.shihui.openpf.living.entity.Order;
-import com.shihui.openpf.living.entity.support.OrderBillVo;
 import com.shihui.openpf.living.io3rd.CheckFile;
 import com.shihui.openpf.living.io3rd.CheckItem;
-import com.shihui.openpf.living.io3rd.CheckRefundeVo;
 import com.shihui.openpf.living.io3rd.Codec;
 import com.shihui.openpf.living.io3rd.GuangdaResponse;
 import com.shihui.openpf.living.io3rd.RefundeFile;
@@ -37,9 +36,6 @@ import com.shihui.openpf.living.io3rd.RefundeItem;
 import com.shihui.openpf.living.io3rd.ResKey;
 import com.shihui.openpf.living.service.OrderSystemService;
 import com.shihui.openpf.living.util.FileUtil;
-
-//import me.weimi.api.commons.util.ApiLogger;
-import com.shihui.commons.ApiLogger;
 
 @Component
 public class BillTask {
@@ -145,15 +141,6 @@ public class BillTask {
 			try {
 				Bill bill = billDao.findByBillNo(ci.getBillNo());
 				Order order = orderDao.findById(bill.getOrderId());
-//				long orderId = billDao.getOrderIdByBillNo(ci.getBillNo());
-//				if( orderId == -1L) {
-//					ApiLogger.info("BillTask : check() : orderId == -1L [" + ci.getBillNo() + "] ");
-//					continue;
-//				}
-//				
-//				OrderBillVo obvo = cacheDao.getOrderBillVo(orderId);
-//				Bill bill = obvo.getBill();
-//				Order order = obvo.getOrder();
 				//
 				Goods goods = cacheDao.getGoods(bill.getCategoryId(), order.getGoodsId());
 				if( goods == null) {
@@ -167,7 +154,7 @@ public class BillTask {
 				}
 	
 		        JSONObject settlementJson = new JSONObject();
-		        settlementJson.put("settlePrice", StringUtil.yuan2hao(goods.getPrice()));
+		        settlementJson.put("settlePrice", StringUtil.yuan2hao(order.getPrice()));//goods.getPrice()
 		        settlementJson.put("settleMerchantId", merchant.getMerchantCode());
 		
 		        boolean payorderchange = orderSystemService.complete(order.getOrderId(), order.getGoodsId(),
@@ -187,16 +174,6 @@ public class BillTask {
 				Bill bill = billDao.findByBillNo(ri.getBillNo());
 				long orderId = bill.getOrderId();
 				Order order = orderDao.findById(orderId);
-//				long orderId = billDao.getOrderIdByBillNo(ri.getBillNo());
-//				if( orderId == -1L) {
-//					ApiLogger.info("BillTask : refunde() : orderId == -1L [" + ri.getBillNo() + "] ");
-//					continue;
-//				}
-//				
-//				OrderBillVo obvo = cacheDao.getOrderBillVo(orderId);
-//				Bill bill = obvo.getBill();
-//				Order order = obvo.getOrder();
-				//
 				//
 		        MerchantCancelParam var = new MerchantCancelParam();
 				Merchant merchant = cacheDao.getMerchant(order.getMerchantId());
