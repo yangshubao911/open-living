@@ -45,7 +45,7 @@ public class ClientController extends BasicController {
 			@RequestParam(name="userId", required = true) Long userId,
 			@RequestParam(name="cityId", required = true) Integer cityId,
 			@RequestParam(name = "groupId", required = true) long groupId,
-			@RequestParam(name = "mid", required = true) Long mid,
+			@RequestParam(name = "mid", required = true, defaultValue="0") Long mid,
 
 			@RequestParam(name="historyOrderCount", required = false, defaultValue = "5") int historyOrderCount) {
 		
