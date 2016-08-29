@@ -175,6 +175,9 @@ public class BillTask {
 				long orderId = bill.getOrderId();
 				Order order = orderDao.findById(orderId);
 				//
+				if(order.getOrderStatus() != com.shihui.api.order.common.enums.OrderStatusEnum.OrderUnStockOut.getValue())
+					continue;
+				//
 		        MerchantCancelParam var = new MerchantCancelParam();
 				Merchant merchant = cacheDao.getMerchant(order.getMerchantId());
 				if(merchant == null) {
