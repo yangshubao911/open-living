@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Context;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,7 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.shihui.api.core.auth.Access;
 import com.shihui.api.core.auth.Access.AccessType;
-import com.shihui.api.core.context.RequestContext;
+//import com.shihui.api.core.context.RequestContext;
+import me.weimi.api.commons.context.RequestContext;
 import com.shihui.commons.OperationLogger;
 import com.shihui.openpf.living.service.ClientService;
 
@@ -42,6 +44,7 @@ public class ClientController extends BasicController {
 	@ResponseBody
 	@Access(type = AccessType.COMMON)
 	public Object homepage(
+			@Context RequestContext rc,
 			@RequestParam(name="userId", required = true) Long userId,
 			@RequestParam(name="cityId", required = true) Integer cityId,
 			@RequestParam(name = "groupId", required = true) Long groupId,
@@ -57,12 +60,14 @@ public class ClientController extends BasicController {
 				+ "historyOrderCount: " + historyOrderCount );
 		
 		Map<String, Object> expand = new HashMap<>();
-		//expand.put("service_id", mid);
-		expand.put("city_id", cityId);
-		expand.put("gid", groupId);
-		expand.put("mid", mid);
-		expand.put("url", "http://app.hiwemeet.com/v2/openpf/living/app/homepage");
-		OperationLogger.log("operation.open-living.home", RequestContext.getRequestContext(), expand);
+		expand.put("cityId", String.valueOf(cityId));
+		expand.put("gid", String.valueOf(groupId));
+		expand.put("serviceId", String.valueOf(mid));
+//		expand.put("url", "http://app.hiwemeet.com/v2/openpf/living/app/homepage");		
+//		expand.put("businessId", serviceId + "");
+//		expand.put("businessName", service.getServiceName() + "");
+		expand.put("ndeviceid", request.getHeader("ndeviceid"));
+		OperationLogger.log("operation.open-living.home", rc, expand);
 
 		return clientService.homepage(userId,cityId, historyOrderCount);
 	}
@@ -101,6 +106,7 @@ public class ClientController extends BasicController {
 	@ResponseBody
 	@Access(type = AccessType.COMMON)
 	public Object queryFee(
+			@Context RequestContext rc,
 			@RequestParam(name="userId", required = true) Integer userId,
 			@RequestParam(name = "groupId", required = true) Long groupId,
 			@RequestParam(name = "mid", required = false) Long mid,
@@ -128,13 +134,19 @@ public class ClientController extends BasicController {
 				+ "field2: " + field2 );
 		
 		Map<String, Object> expand = new HashMap<>();
-		expand.put("service_id", mid);
-		expand.put("city_id", cityId);
-		expand.put("gid", groupId);
-		expand.put("mid", mid);
-		expand.put("url", "http://app.hiwemeet.com/v2/openpf/living/app/queryBill");
-
-		OperationLogger.log("operation.open-living.queryFee", RequestContext.getRequestContext(), expand);
+//		expand.put("serviceId", mid);
+//		expand.put("cityId", cityId);
+//		expand.put("gid", groupId);
+//		expand.put("mid", mid);
+//		expand.put("url", "http://app.hiwemeet.com/v2/openpf/living/app/queryBill");
+		expand.put("cityId", String.valueOf(cityId));
+		expand.put("gid", String.valueOf(groupId));
+		expand.put("serviceId", String.valueOf(mid));
+//		expand.put("url", "http://app.hiwemeet.com/v2/openpf/living/app/homepage");		
+		expand.put("businessId", String.valueOf(serviceId));
+//		expand.put("businessName", service.getServiceName() + "");
+		expand.put("ndeviceid", request.getHeader("ndeviceid"));
+		OperationLogger.log("operation.open-living.queryFee", rc, expand);
 
 		return clientService.queryFee(userId, groupId, mid, serviceId, 
 				categoryId, cityId, goodsId, goodsVersion, companyId,/* companyNo,*/ 
