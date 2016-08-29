@@ -338,7 +338,7 @@ ApiLogger.info("GuangdaResponse : doResQuery() : groupId:[" +order.getGid()+"] g
 	        		Bill bill = vo.getBill();
 	        		bill.setBillStatus(BillStatusEnum.Process.getValue());
 	        		bill.setUpdateTime(new Date());
-	        		billDao.updateBillStatus(bill.getOrderId(), BillStatusEnum.BuyFail.getValue());
+	        		billDao.updateBillStatus(bill.getOrderId(), BillStatusEnum.Process.getValue());//BuyFail
         		} else {
 	        		Bill bill = vo.getBill();
 	        		bill.setBillStatus(BillStatusEnum.BuyFail.getValue());
