@@ -39,10 +39,10 @@ public class OperationLogger {
             return;
         }
         OperationLog olog = new OperationLog();
-        ApiLogger.info(" - 1 - ");
+        ApiLogger.info(" * 1 - ");
         olog.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-        ApiLogger.info(" - 2 - ");
-        ApiLogger.info(" - 3 - ");
+        ApiLogger.info(" * 2 - ");
+        ApiLogger.info(" * 3 - ");
         olog.setChannel(rc.getClientVersion().channel);
         olog.setClientVersion(rc.getClientVersion().clientVersion + "");
         olog.setDeviceId((String)expand.get("ndeviceid"));
@@ -60,10 +60,10 @@ public class OperationLogger {
         } else {
             olog.setAction(action);
         }
-        ApiLogger.info(" - 4 - ");
+        ApiLogger.info(" * 4 - ");
         log.info("TFS LOG:" + olog.toJSONObject());
         centralLogger.log(action, olog.toJSONObject());    
-    
+        ApiLogger.info(" * 5 - ");
     }
 
 }
