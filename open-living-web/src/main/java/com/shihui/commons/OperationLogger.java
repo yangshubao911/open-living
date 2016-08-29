@@ -39,8 +39,10 @@ public class OperationLogger {
             return;
         }
         OperationLog olog = new OperationLog();
+        ApiLogger.info(" - 1 - ");
         olog.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-        olog.setAction(action + "?businessId=" + expand.get("businessId"));
+        ApiLogger.info(" - 2 - ");
+        ApiLogger.info(" - 3 - ");
         olog.setChannel(rc.getClientVersion().channel);
         olog.setClientVersion(rc.getClientVersion().clientVersion + "");
         olog.setDeviceId((String)expand.get("ndeviceid"));
@@ -53,7 +55,12 @@ public class OperationLogger {
             Map<String, String> map = new HashMap<>();
             map.put("businessId",(String)expand.get("businessId"));
             olog.setExpand(map);
+            
+            olog.setAction(action + "?businessId=" + expand.get("businessId"));
+        } else {
+            olog.setAction(action);
         }
+        ApiLogger.info(" - 4 - ");
         log.info("TFS LOG:" + olog.toJSONObject());
         centralLogger.log(action, olog.toJSONObject());    
     

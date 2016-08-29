@@ -60,20 +60,14 @@ public class ClientController extends BasicController {
 				+ "historyOrderCount: " + historyOrderCount );
 		
 		Map<String, Object> expand = new HashMap<>();
-		ApiLogger.info(" - 1 - ");
 		expand.put("cityId", String.valueOf(cityId));
-		ApiLogger.info(" - 2 - ");
 		expand.put("gid", String.valueOf(groupId));
-		ApiLogger.info(" - 3 - ");
 		expand.put("serviceId", String.valueOf(mid));
-		ApiLogger.info(" - 4 - ");
 //		expand.put("url", "http://app.hiwemeet.com/v2/openpf/living/app/homepage");		
 //		expand.put("businessId", serviceId + "");
 //		expand.put("businessName", service.getServiceName() + "");
 		expand.put("ndeviceid", request.getHeader("ndeviceid"));
-		ApiLogger.info(" - 5 - ");
 		OperationLogger.log("operation.open-living.home", rc, expand);
-		ApiLogger.info(" - 6 - ");
 
 		return clientService.homepage(userId,cityId, historyOrderCount);
 	}
