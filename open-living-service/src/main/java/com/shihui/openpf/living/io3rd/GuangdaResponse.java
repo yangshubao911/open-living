@@ -257,7 +257,9 @@ public class GuangdaResponse {
 			cacheDao.setMerchant(merchantId, merchant);
 		}
 		vo.setMerchant(merchant);
+		
 		Group group = cacheDao.getGroup(order.getGid());
+ApiLogger.info("GuangdaResponse : doResQuery() : groupId:[" +order.getGid()+"] group==null :" + (group == null) );
 		if( group == null) {
 			group = groupManage.getGroupInfoByGid(order.getGid());
 			cacheDao.setGroup(group.getGid(), group);
