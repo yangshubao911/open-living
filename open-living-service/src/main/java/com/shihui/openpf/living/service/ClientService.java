@@ -27,12 +27,14 @@ import com.shihui.openpf.common.tools.StringUtil;
 import com.shihui.openpf.living.cache.CacheDao;
 import com.shihui.openpf.living.dao.BannerAdsDao;
 import com.shihui.openpf.living.dao.BillDao;
+import com.shihui.openpf.living.dao.OrderBillTop5Dao;
 import com.shihui.openpf.living.dao.CategoryDao;
 import com.shihui.openpf.living.dao.CompanyDao;
 import com.shihui.openpf.living.dao.GoodsDao;
 import com.shihui.openpf.living.dao.OrderDao;
 import com.shihui.openpf.living.entity.BannerAds;
 import com.shihui.openpf.living.entity.Bill;
+import com.shihui.openpf.living.entity.OrderBillTop5;
 import com.shihui.openpf.living.entity.Category;
 import com.shihui.openpf.living.entity.Company;
 import com.shihui.openpf.living.entity.Goods;
@@ -83,6 +85,8 @@ public class ClientService {
 	private BannerAdsDao bannerAdsDao;
 	@Resource
 	private BillDao billDao;
+	@Resource
+	private OrderBillTop5Dao orderBillTop5Dao;
 
 	@Resource
 	LivingMqProducer mqProducer;
@@ -141,20 +145,25 @@ public class ClientService {
 
 	}
 
-	private JSONArray getBillList(long userId, int count) {
-		JSONArray ja = new JSONArray();
-		
-		List<Bill> billList = billDao.queryTopN(userId, count);
-		for(Bill bill : billList) {
-			JSONObject jo = new JSONObject();
-			jo.put("feeName", bill.getFeeName());
-			jo.put("userNo", bill.getBillKey());
-			jo.put("categoryId", bill.getCategoryId());
-			jo.put("serviceId", bill.getServiceId());
-			ja.add(jo);
-		}
-		return ja;
+//	private JSONArray getBillList(long userId, int count) {
+//		JSONArray ja = new JSONArray();
+//		
+//		List<Bill> billList = billDao.queryTopN(userId, count);
+//		for(Bill bill : billList) {
+//			JSONObject jo = new JSONObject();
+//			jo.put("feeName", bill.getFeeName());
+//			jo.put("userNo", bill.getBillKey());
+//			jo.put("categoryId", bill.getCategoryId());
+//			jo.put("serviceId", bill.getServiceId());
+//			ja.add(jo);
+//		}
+//		return ja;
+//	}
+	public JSONArray getBillList(long userId, int count) {
+		List<OrderBillTop5> orderBillTop5List = orderBillTop5Dao.query(userId, count);
+		return orderBillTop5List == null ? null :(JSONArray)JSON.toJSON(orderBillTop5List);
 	}
+
 	/*
 	 * 
 	 */

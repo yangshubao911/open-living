@@ -189,4 +189,11 @@ public class TestController {
 	public Object billRefund() {
 		return testService.billRefund();
 	}
+	
+	@RequestMapping("/top5")
+	@ResponseBody
+	@Access(type = AccessType.INTERNAL)
+	public Object top5() {
+		return clientService.getBillList(37857,5);
+	}
 }
