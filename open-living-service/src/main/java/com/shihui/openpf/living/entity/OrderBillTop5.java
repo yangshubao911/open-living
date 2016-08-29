@@ -20,8 +20,8 @@ public class OrderBillTop5{
     @Id
     private Long orderId;
 	private Long userId;
-	private Long groupId;
-	private long mid;
+	private Long gid;
+	private Long mid;
 	private Integer serviceId;
 	private Long goodsId;
 	private Integer goodsVersion;
@@ -47,11 +47,12 @@ public class OrderBillTop5{
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-	public Long getGroupId() {
-		return groupId;
+
+	public Long getGid() {
+		return gid;
 	}
-	public void setGroupId(Long groupId) {
-		this.groupId = groupId;
+	public void setGid(Long gid) {
+		this.gid = gid;
 	}
 	public long getMid() {
 		return mid;
