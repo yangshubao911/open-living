@@ -48,7 +48,7 @@ public class ClientController extends BasicController {
 			@RequestParam(name="userId", required = true) Long userId,
 			@RequestParam(name="cityId", required = true) Integer cityId,
 			@RequestParam(name = "groupId", required = true) Long groupId,
-			@RequestParam(name = "mid", required = false, defaultValue="0") Long mid,
+			@RequestParam(name = "mid", required = false, defaultValue="0") long mid,
 
 			@RequestParam(name="historyOrderCount", required = false, defaultValue = "5") int historyOrderCount) {
 		
@@ -109,7 +109,7 @@ public class ClientController extends BasicController {
 			@Context RequestContext rc,
 			@RequestParam(name="userId", required = true) Integer userId,
 			@RequestParam(name = "groupId", required = true) Long groupId,
-			@RequestParam(name = "mid", required = false) Long mid,
+			@RequestParam(name = "mid", required = false) long mid,
 			@RequestParam(name="serviceId", required = true) Integer serviceId,
 			@RequestParam(name="categoryId", required = true) Integer categoryId,
 			@RequestParam(name="cityId", required = true) Integer cityId,
