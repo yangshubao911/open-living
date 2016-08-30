@@ -164,30 +164,15 @@ public class BillExecutor {
 		public ExecuteAnalysePacketTask(String packet) {
 			this.packet = packet;
 		}
-//TODO XXX		
-		@Resource
-		CacheDao cacheDao;
-		private void saveXml(Object res, String xml) {
-			String tempId;
-			if(ResQuery.class.isInstance(res))
-				tempId = ((ResQuery)res).head.TrmSeqNum;
-			else if(ResPay.class.isInstance(res))
-				tempId = ((ReqPay)res).head.TrmSeqNum;
-			if(PacketError.class.isInstance(res))
-				tempId = ((PacketError)res).head.TrmSeqNum;
-			else
-				tempId = null;
-			
-			if(tempId != null && cacheDao.getTestXml(tempId).compareTo("1") == 0) 
-				LivingUtil.log(xml);
-
-		}
 		
 	    @Override
 	    public void run() {
 	    	ApiLogger.info(">>>ExecuteAnalysePacketTask RUNNING");
 	        try {
 				String xml = Codec.decode(packet);
+				//TODO XXX
+				LivingUtil.log(xml);
+				//
 				Object object = FastXML.xmlToBean(xml, ResHead.class);
 				if( object == null ) 
 					ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : object == null \n");
@@ -203,21 +188,12 @@ public class BillExecutor {
     					ApiLogger.info("\nExecuteAnalysePacketTask : run() : AnsTranCode:[" + rh.head.AnsTranCode + "] InstId:[" + rh.head.InstId +"] TrmSeqNum:[" +rh.head.TrmSeqNum +"] version:[" + rh.head.version + "]\n");
 
     					String ansTranCode = ((ResHead)object).head.AnsTranCode.trim();
-    					if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_PAY) == 0) {
-    						ResPay r = (ResPay)FastXML.xmlToBean(xml, ResPay.class);
-        					saveXml(r, xml);
-    						guangdaResponse.doResPay(r);
-    					}
-    					else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_QUERY) == 0) {
-    						ResQuery r = (ResQuery)FastXML.xmlToBean(xml, ResQuery.class);
-    						saveXml(r, xml);
-    						guangdaResponse.doResQuery(r);
-    					}
-						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_ERROR) == 0) {
-							PacketError r = (PacketError)FastXML.xmlToBean(xml, PacketError.class);
-							saveXml(r, xml);
-							guangdaResponse.doPacketError(r);
-						}
+    					if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_PAY) == 0)
+    						guangdaResponse.doResPay((ResPay)FastXML.xmlToBean(xml, ResPay.class));
+    					else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_QUERY) == 0)
+    						guangdaResponse.doResQuery((ResQuery)FastXML.xmlToBean(xml, ResQuery.class));
+						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_ERROR) == 0)
+							guangdaResponse.doPacketError((PacketError)FastXML.xmlToBean(xml, PacketError.class));
 						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_NOTIFY) == 0)
 							guangdaResponse.doPacketNotify((PacketNotify)FastXML.xmlToBean(xml, PacketNotify.class));
 						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_KEY) == 0)
