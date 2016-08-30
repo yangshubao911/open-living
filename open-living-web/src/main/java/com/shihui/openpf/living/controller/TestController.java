@@ -190,14 +190,5 @@ public class TestController {
 	public Object billRefund() {
 		return testService.billRefund();
 	}
-	
-	@RequestMapping("/top5")
-	@ResponseBody
-	@Access(type = AccessType.INTERNAL)
-	public Object top5(
-			@RequestParam(name = "userId", required = true)Integer userId) {
-		JSONArray ja = clientService.getBillList2(37857,5);
-		ApiLogger.info("top5 : " + ja.toJSONString());
-		return clientService.getBillList2(userId,5);
-	}
+
 }

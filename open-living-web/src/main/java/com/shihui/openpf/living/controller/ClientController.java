@@ -63,9 +63,6 @@ public class ClientController extends BasicController {
 		expand.put("cityId", String.valueOf(cityId));
 		expand.put("gid", String.valueOf(groupId));
 		expand.put("serviceId", String.valueOf(mid));
-//		expand.put("url", "http://app.hiwemeet.com/v2/openpf/living/app/homepage");		
-//		expand.put("businessId", serviceId + "");
-//		expand.put("businessName", service.getServiceName() + "");
 		expand.put("ndeviceid", request.getHeader("ndeviceid"));
 		OperationLogger.log("operation.open-living.home", rc, expand);
 
@@ -133,15 +130,9 @@ public class ClientController extends BasicController {
 				+ "userNo: " + userNo
 				+ "field2: " + field2 );
 		Map<String, Object> expand = new HashMap<>();
-//		expand.put("serviceId", mid);
-//		expand.put("cityId", cityId);
-//		expand.put("gid", groupId);
-//		expand.put("mid", mid);
-//		expand.put("url", "http://app.hiwemeet.com/v2/openpf/living/app/queryBill");
 		expand.put("cityId", String.valueOf(cityId));
 		expand.put("gid", String.valueOf(groupId));
 		expand.put("serviceId", String.valueOf(mid));
-//		expand.put("url", "http://app.hiwemeet.com/v2/openpf/living/app/homepage");		
 		expand.put("businessId", String.valueOf(serviceId));
 //		expand.put("businessName", service.getServiceName() + "");
 		expand.put("ndeviceid", request.getHeader("ndeviceid"));

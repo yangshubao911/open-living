@@ -18,12 +18,9 @@ public class OrderBillTop5Dao extends AbstractDao<OrderBillTop5> {
 		sql.append("SELECT a.order_id, a.user_id, a.gid, a.mid, a.service_id, a.goods_id, a.goods_version, b.category_id, b.fee_name, b.city_id, b.company_id, c.company_no, b.bill_key, b.bill_key_type ");
 		sql.append("FROM `order` AS a LEFT JOIN `bill` AS b ON a.order_id = b.order_id ");
 		sql.append("LEFT JOIN `company` AS c ON c.company_id = b.company_id  ");
-//		sql.append("WHERE b.bill_status = ? AND a.user_id = ? ORDER BY b.pay_time DESC  LIMIT ? ");
-		sql.append("WHERE a.user_id = ? ORDER BY b.pay_time DESC  LIMIT ? ");
+		sql.append("WHERE b.bill_status = ? AND a.user_id = ? ORDER BY b.pay_time DESC  LIMIT ? ");
 
-		ApiLogger.info("top5 : sql : " + sql.toString());
-//		return this.queryForList(sql.toString(), new Object[]{BillStatusEnum.CheckSuccess.getValue(),userId, count});
-		return this.queryForList(sql.toString(), new Object[]{userId, count});
+		return this.queryForList(sql.toString(), new Object[]{BillStatusEnum.CheckSuccess.getValue(),userId, count});
 	}
 
 }
