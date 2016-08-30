@@ -270,6 +270,7 @@ public class OrderManage {
 			//result.put("consumeTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(order.getConsumeTime()));
 			result.put("userId", order.getUserId());
 			result.put("price", order.getPrice());
+			result.put("createTime", new DateTime(order.getCreateTime()).toString("yyyy-MM-dd HH:mm:ss"));
 			result.put("orderStatus", OrderStatusEnum.parse(order.getOrderStatus()).getName());
 			//
 			result.put("feeName", bill.getFeeName());

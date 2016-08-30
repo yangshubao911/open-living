@@ -178,7 +178,9 @@ public class GuangdaResponse {
 		
 		Company company = vo.getCompany();
 		result.put("companyName", company.getCompanyName());
-		
+		result.put("payMin", company.getPayMin());
+		result.put("payMax", company.getPayMax());
+
 		result.put("campaignId", order.getCampaignId());
 		result.put("serviceType", company.getServiceType());
 		
