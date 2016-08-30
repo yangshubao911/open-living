@@ -130,6 +130,7 @@ public class GoodsService {
 			ApiLogger.info("【更新】调用创建商品快照接口失败，商品id={"+goods.getGoodsId()+"}");
 			return new SimpleResponse(1,"创建商品快照失败");
 		}
+		ApiLogger.info("@@@result : " + result);
 		JSONObject jo = JSONObject.parseObject(result);
 		boolean status = jo.getBoolean("status");
         if (!status){
