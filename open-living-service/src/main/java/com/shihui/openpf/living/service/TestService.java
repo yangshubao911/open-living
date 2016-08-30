@@ -171,6 +171,7 @@ public class TestService {
 	public boolean xmlTest(int index) {
 //TODO
 		LivingUtil.log("[ " + index + " ]\n");
+		
 		TestData td = xmlQuery(tia[index]);
 		if( td != null) {
 			cacheDao.setTest(td);
@@ -179,6 +180,8 @@ public class TestService {
 				Thread.sleep(1000*60*1);
 			}catch(Exception e) {					
 			}
+			//
+			cacheDao.setTestXml(td.toList.get(0).tempId, "1");
 			//
 			if(tia[index].billStatus == 3) {
 				this.pay();
@@ -195,6 +198,7 @@ public class TestService {
 	}
 	public Object xmlTest() {
 //TODO
+		LivingUtil.log(null);
 		for(int i = 0; i < tia.length; i++) {
 			ApiLogger.info("xmlTEST: ------ " + tia.length + " : " + i);
 			xmlTest(i);
