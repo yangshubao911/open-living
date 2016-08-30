@@ -170,6 +170,7 @@ public class TestService {
 	}
 	public boolean xmlTest(int index) {
 //TODO
+		LivingUtil.log("[ " + index + " ]\n");
 		TestData td = xmlQuery(tia[index]);
 		if( td != null) {
 			cacheDao.setTest(td);

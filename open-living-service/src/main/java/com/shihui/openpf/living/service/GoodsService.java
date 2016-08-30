@@ -124,6 +124,7 @@ public class GoodsService {
 		}
 		oldGoods.setServiceMerchantCode(service.getServiceMerchantId());
 		String result = SnapShotUtil.sendSnapShot(oldGoods);
+		ApiLogger.info("@@@(result == null || result.isEmpty()) : " + (result == null || result.isEmpty()));
 		if(result == null || result.isEmpty()){
 //			log.warn("【更新】调用创建商品快照接口失败，商品id={}", goods.getGoodsId());
 			ApiLogger.info("【更新】调用创建商品快照接口失败，商品id={"+goods.getGoodsId()+"}");
