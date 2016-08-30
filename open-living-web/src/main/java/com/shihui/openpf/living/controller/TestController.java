@@ -191,4 +191,10 @@ public class TestController {
 		return testService.billRefund();
 	}
 
+	@RequestMapping("/xmlTest")
+	@ResponseBody
+	@Access(type = AccessType.INTERNAL)
+	public Object xmlTest() {
+		return testService.xmlTest();
+	}
 }

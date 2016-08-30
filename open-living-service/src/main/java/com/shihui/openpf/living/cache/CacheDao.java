@@ -315,12 +315,12 @@ public class CacheDao {
     	return getObject(TEST, objectClass);
     }
 
-    public void setTestXml(String tempId, Object object){
-    	set(TEST_PREFIX + tempId, object, EXPIRE_TEST);
+    public void setTestXml(String tempId, String xml){
+    	set(TEST_PREFIX + tempId, xml, EXPIRE_TEST);
     }
     
-    public Object getTestXml(String tempId, Class objectClass){
-    	return getObject(TEST_PREFIX + tempId, objectClass);
+    public String getTestXml(String tempId){
+    	return getString(TEST_PREFIX + tempId);
     }
 
     //

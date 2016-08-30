@@ -231,7 +231,11 @@ public class ClientService {
 		JSONObject result = new JSONObject();
 
 		String tempId = LivingUtil.getQueryTrmSeqNum(userId);
-		
+//TODO XXX
+		if(appId == -1000) {
+			cacheDao.setTestXml(tempId, "1");
+		}
+		//
 		ApiLogger.info("Service: queryFee() : "
 						+ "tempId: " + tempId
 						+ ", groupId: " + groupId

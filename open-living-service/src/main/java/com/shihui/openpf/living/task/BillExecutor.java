@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 //import me.weimi.api.commons.util.ApiLogger;
 import com.shihui.commons.ApiLogger;
+import com.shihui.openpf.living.cache.CacheDao;
 import com.shihui.openpf.living.io3rd.Codec;
 import com.shihui.openpf.living.io3rd.FastXML;
 import com.shihui.openpf.living.io3rd.GuangdaResponse;
@@ -21,6 +22,8 @@ import com.shihui.openpf.living.io3rd.PacketCheck;
 import com.shihui.openpf.living.io3rd.PacketError;
 import com.shihui.openpf.living.io3rd.PacketHead;
 import com.shihui.openpf.living.io3rd.PacketNotify;
+import com.shihui.openpf.living.io3rd.ReqPay;
+import com.shihui.openpf.living.io3rd.ReqQuery;
 import com.shihui.openpf.living.io3rd.ResHead;
 import com.shihui.openpf.living.io3rd.ResKey;
 import com.shihui.openpf.living.io3rd.ResPay;
@@ -28,6 +31,7 @@ import com.shihui.openpf.living.io3rd.ResQuery;
 import com.shihui.openpf.living.io3rd.ResponseSocket;
 import com.shihui.openpf.living.io3rd.ServerAIO;
 import com.shihui.openpf.living.mq.LivingMqProducer;
+import com.shihui.openpf.living.util.LivingUtil;
 
 @Component
 public class BillExecutor {
@@ -160,6 +164,25 @@ public class BillExecutor {
 		public ExecuteAnalysePacketTask(String packet) {
 			this.packet = packet;
 		}
+//TODO XXX		
+		@Resource
+		CacheDao cacheDao;
+		private void saveXml(Object res, String xml) {
+			String tempId;
+			if(ResQuery.class.isInstance(res))
+				tempId = ((ResQuery)res).head.TrmSeqNum;
+			else if(ResPay.class.isInstance(res))
+				tempId = ((ReqPay)res).head.TrmSeqNum;
+			if(PacketError.class.isInstance(res))
+				tempId = ((PacketError)res).head.TrmSeqNum;
+			else
+				tempId = null;
+			
+			if(tempId != null && cacheDao.getTestXml(tempId).compareTo("1") == 0) 
+				LivingUtil.log(xml);
+
+		}
+		
 	    @Override
 	    public void run() {
 	    	ApiLogger.info(">>>ExecuteAnalysePacketTask RUNNING");
@@ -178,14 +201,23 @@ public class BillExecutor {
     					
     					ResHead rh = (ResHead)object;
     					ApiLogger.info("\nExecuteAnalysePacketTask : run() : AnsTranCode:[" + rh.head.AnsTranCode + "] InstId:[" + rh.head.InstId +"] TrmSeqNum:[" +rh.head.TrmSeqNum +"] version:[" + rh.head.version + "]\n");
-    					
+
     					String ansTranCode = ((ResHead)object).head.AnsTranCode.trim();
-    					if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_PAY) == 0)
-    						guangdaResponse.doResPay((ResPay)FastXML.xmlToBean(xml, ResPay.class));
-    					else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_QUERY) == 0)
-    						guangdaResponse.doResQuery((ResQuery)FastXML.xmlToBean(xml, ResQuery.class));
-						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_ERROR) == 0)
-							guangdaResponse.doPacketError((PacketError)FastXML.xmlToBean(xml, PacketError.class));
+    					if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_PAY) == 0) {
+    						ResPay r = (ResPay)FastXML.xmlToBean(xml, ResPay.class);
+//        					saveXml(r, xml);
+    						guangdaResponse.doResPay(r);
+    					}
+    					else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_QUERY) == 0) {
+    						ResQuery r = (ResQuery)FastXML.xmlToBean(xml, ResQuery.class);
+    						saveXml(r, xml);
+    						guangdaResponse.doResQuery(r);
+    					}
+						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_ERROR) == 0) {
+							PacketError r = (PacketError)FastXML.xmlToBean(xml, PacketError.class);
+//							saveXml(r, xml);
+							guangdaResponse.doPacketError(r);
+						}
 						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_NOTIFY) == 0)
 							guangdaResponse.doPacketNotify((PacketNotify)FastXML.xmlToBean(xml, PacketNotify.class));
 						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_KEY) == 0)
