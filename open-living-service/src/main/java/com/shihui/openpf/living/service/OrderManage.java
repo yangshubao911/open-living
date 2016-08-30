@@ -293,7 +293,8 @@ public class OrderManage {
 				if(payType!=null)
 					result.put("payType", payType.getValue());
 				result.put("transId", String.valueOf(order_vo.getTransId()));
-				result.put("payTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(order_vo.getPaymentTime())));
+				if(order_vo.getPaymentTime() > 0)
+					result.put("payTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(order_vo.getPaymentTime())));
 				if (order.getOrderStatus() == OrderStatusEnum.OrderHadReceived.getValue()) {
 					result.put("consumeTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(order.getUpdateTime()));
 				}
