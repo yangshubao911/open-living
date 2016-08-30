@@ -55,7 +55,6 @@ public class BillTask {
 	@Resource
 	GuangdaResponse guangdaResponse;
 
-
 	@Value("${sftp_url}")
 	String url;
 	@Value("${sftp_port}")

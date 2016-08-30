@@ -304,6 +304,7 @@ public class CacheDao {
 
     //
 	private String TEST = CACHE_PREFIX + "test";	
+	private String TEST_PREFIX = CACHE_PREFIX + "test" + Constants.REDIS_KEY_SEPARATOR;
 	private int EXPIRE_TEST = 12*60*60;
 
     public void setTest(Object object){
@@ -312,6 +313,14 @@ public class CacheDao {
     
     public Object getTest(Class objectClass){
     	return getObject(TEST, objectClass);
+    }
+
+    public void setTestXml(String tempId, Object object){
+    	set(TEST_PREFIX + tempId, object, EXPIRE_TEST);
+    }
+    
+    public Object getTestXml(String tempId, Class objectClass){
+    	return getObject(TEST_PREFIX + tempId, objectClass);
     }
 
     //

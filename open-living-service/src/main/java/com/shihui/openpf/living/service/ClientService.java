@@ -226,7 +226,7 @@ public class ClientService {
 	 */
 	public Object queryFee(int userId, long groupId, Long mid,
 			int serviceId, int categoryId, int cityId, long goodsId, int goodsVersion, 
-			int companyId, /*String companyNo, */String userNo, String field2,
+			int companyId, String userNo, String field2,
 			String deviceId, int appId) {
 		JSONObject result = new JSONObject();
 
@@ -267,8 +267,6 @@ public class ClientService {
 		//TODO
 		QueryOrderBillVo vo = new QueryOrderBillVo();
 		vo.setTempId(tempId);
-//		vo.setCompanyNo(companyNo);
-//		vo.setCategoryId(categoryId);
 		vo.setCompany(company);
 		
 		Order order = new Order();
