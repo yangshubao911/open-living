@@ -45,7 +45,7 @@ public class LivingUtil {
 	    	try {
 	    		fw = new FileWriter(LOG_FILE_PATH, true);
 	    		fw.write(log);
-	    		fw.write("\n");
+	    		fw.write("\n\n");
 	    	}catch(Exception E) {
 	    	}finally {
 	    		if(fw != null) {

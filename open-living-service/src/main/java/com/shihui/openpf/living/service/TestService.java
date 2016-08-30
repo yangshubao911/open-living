@@ -184,6 +184,7 @@ public class TestService {
 			cacheDao.setTestXml(td.toList.get(0).tempId, "1");
 			//
 			if(tia[index].billStatus == 3) {
+				LivingUtil.log("\n");
 				this.pay();
 				try{
 					Thread.sleep(1000*30*1);
