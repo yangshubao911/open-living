@@ -177,7 +177,7 @@ public class TestService {
 			cacheDao.setTest(td);
 //
 			try{
-				Thread.sleep(1000*60*1);
+				Thread.sleep(1000*30*1);
 			}catch(Exception e) {					
 			}
 			//
@@ -186,7 +186,7 @@ public class TestService {
 			if(tia[index].billStatus == 3) {
 				this.pay();
 				try{
-					Thread.sleep(1000*60*1);
+					Thread.sleep(1000*30*1);
 				}catch(Exception e) {					
 				}
 			}

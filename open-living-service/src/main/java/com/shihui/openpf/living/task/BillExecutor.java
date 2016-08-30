@@ -205,7 +205,7 @@ public class BillExecutor {
     					String ansTranCode = ((ResHead)object).head.AnsTranCode.trim();
     					if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_PAY) == 0) {
     						ResPay r = (ResPay)FastXML.xmlToBean(xml, ResPay.class);
-//        					saveXml(r, xml);
+        					saveXml(r, xml);
     						guangdaResponse.doResPay(r);
     					}
     					else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_QUERY) == 0) {
@@ -215,7 +215,7 @@ public class BillExecutor {
     					}
 						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_ERROR) == 0) {
 							PacketError r = (PacketError)FastXML.xmlToBean(xml, PacketError.class);
-//							saveXml(r, xml);
+							saveXml(r, xml);
 							guangdaResponse.doPacketError(r);
 						}
 						else if(ansTranCode.compareTo(PacketHead.ANSTRANCODE_NOTIFY) == 0)

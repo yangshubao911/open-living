@@ -38,7 +38,7 @@ public class GuangdaDao {
 		String xml = FastXML.beanToXml(req);
 		//
 		//
-//		saveXml(req, xml);
+		saveXml(req, xml);
 		//
 		//
 		try {
