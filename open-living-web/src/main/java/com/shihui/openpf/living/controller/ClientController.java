@@ -117,8 +117,8 @@ public class ClientController extends BasicController {
 			@RequestParam(name="userNo", required = true) String userNo,
 			@RequestParam(name="field2", required = true) String field2) {
 //TODO XXX
-if(true)
-	return null;
+//if(true)
+//	return null;
 		ApiLogger.info("Controller: /v2/openpf/living/app/queryFee : queryFee() : "
 				+ "userId: " + userId
 				+ "groupId: " + groupId
@@ -170,8 +170,8 @@ if(true)
 			@RequestParam(name="tempId", required = true) String tempId,
 			@RequestParam(name="costSh", required = true) Integer costSh) {
 //TODO XXX
-if(true)
-	return null;
+//if(true)
+//	return null;
 		ApiLogger.info("Controller: /v2/openpf/living/app/createOrder : createOrder() : "
 				+ "userId: " + userId
 				+ "tempId: " + tempId
