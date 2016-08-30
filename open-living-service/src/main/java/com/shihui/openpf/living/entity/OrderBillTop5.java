@@ -34,6 +34,7 @@ public class OrderBillTop5{
 	@JSONField(name="userNo")
 	private String billKey;
 	private String billKeyType;
+	private Integer feeType;
 	
 	public Long getOrderId() {
 		return orderId;
@@ -118,6 +119,12 @@ public class OrderBillTop5{
 	}
 	public void setBillKeyType(String billKeyType) {
 		this.billKeyType = billKeyType;
+	}
+	public Integer getFeeType() {
+		return feeType;
+	}
+	public void setFeeType(Integer feeType) {
+		this.feeType = feeType;
 	}
 
 	
