@@ -1,7 +1,8 @@
 package com.shihui.commons;
 
 
-import me.weimi.api.commons.context.RequestContext;
+//import me.weimi.api.commons.context.RequestContext;
+import com.shihui.api.core.context.RequestContext;
 import me.weimi.api.commons.logger.CentralLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,13 +43,13 @@ public class OperationLogger {
         }
         OperationLog olog = new OperationLog();
         olog.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-        olog.setChannel(rc.getClientVersion().channel);
-        olog.setClientVersion(rc.getClientVersion().clientVersion + "");
+        olog.setChannel("kuyue");
+        olog.setClientVersion(rc.getClient().getClientVersion().toString());
         olog.setDeviceId((String)expand.get("ndeviceid"));
         olog.setCityId((String)expand.get("cityId"));
         olog.setGid((String)expand.get("gid"));
         olog.setServiceId((String)expand.get("serviceId"));
-        olog.setUid(rc.getCurrentUid() + "");
+        olog.setUid(String.valueOf(rc.getUid()));
         olog.setIp(rc.getIp());
         if(expand.get("businessId")!=null) {
             Map<String, String> map = new HashMap<>();

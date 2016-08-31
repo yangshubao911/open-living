@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.shihui.api.core.auth.Access;
 import com.shihui.api.core.auth.Access.AccessType;
-//import com.shihui.api.core.context.RequestContext;
-import me.weimi.api.commons.context.RequestContext;
+import com.shihui.api.core.context.RequestContext;
+//import me.weimi.api.commons.context.RequestContext;
 import com.shihui.commons.OperationLogger;
 import com.shihui.openpf.living.service.ClientService;
 

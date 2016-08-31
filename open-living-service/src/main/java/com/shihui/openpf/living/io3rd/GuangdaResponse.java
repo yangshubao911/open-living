@@ -178,7 +178,7 @@ public class GuangdaResponse {
 		if(userAddress == null || userAddress.length() < 8)
 			userAddress = " ";
 		else
-			userAddress = userAddress.substring(0, 2) + "*******" + userAddress.substring(userAddress.length() - 6);
+			userAddress = userAddress.substring(0, 2) + "******" + userAddress.substring(userAddress.length() - 6);
 		result.put("userAddress", userAddress);
 		
 		String userName = bill.getUserName();
