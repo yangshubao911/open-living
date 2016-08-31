@@ -102,7 +102,6 @@ public class ClientController extends BasicController {
 	@ResponseBody
 	@Access(type = AccessType.COMMON)
 	public Object queryFee(
-			@Context RequestContext rc,
 			@RequestParam(name="userId", required = true) Integer userId,
 			@RequestParam(name = "groupId", required = true) Long groupId,
 			@RequestParam(name = "mid", required = false, defaultValue="0") long mid,
@@ -136,8 +135,8 @@ public class ClientController extends BasicController {
 		expand.put("serviceId", String.valueOf(mid));
 		expand.put("businessId", String.valueOf(serviceId));
 //		expand.put("businessName", service.getServiceName() + "");
-		expand.put("ndeviceid", request.getHeader("ndeviceid"));
-		OperationLogger.log("operation.open-living.queryFee", rc, expand);
+//		expand.put("ndeviceid", request.getHeader("ndeviceid"));
+		OperationLogger.log("operation.open-living.queryFee", RequestContext.getRequestContext(), expand);
 		return clientService.queryFee(userId, groupId, mid, serviceId, 
 				categoryId, cityId, goodsId, goodsVersion, companyId,/* companyNo,*/ 
 				userNo, field2,
