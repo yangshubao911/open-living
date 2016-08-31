@@ -176,14 +176,14 @@ public class GuangdaResponse {
 		//
 		String userAddress = bill.getUserAddress();
 		if(userAddress == null || userAddress.length() < 8)
-			userAddress = "*******";
+			userAddress = " ";
 		else
 			userAddress = userAddress.substring(0, 2) + "*******" + userAddress.substring(userAddress.length() - 6);
 		result.put("userAddress", userAddress);
 		
 		String userName = bill.getUserName();
 		if(userName == null || userName.length() < 2)
-			userName = "****";
+			userName = " ";
 		else
 			userName = "***" + userName.substring( userName.length() -1);
 		result.put("userName", userName);
