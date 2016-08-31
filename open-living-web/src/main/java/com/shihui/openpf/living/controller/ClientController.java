@@ -44,7 +44,6 @@ public class ClientController extends BasicController {
 	@ResponseBody
 	@Access(type = AccessType.COMMON)
 	public Object homepage(
-			@Context RequestContext rc,
 			@RequestParam(name="userId", required = true) Long userId,
 			@RequestParam(name="cityId", required = true) Integer cityId,
 			@RequestParam(name = "groupId", required = true) Long groupId,
@@ -64,7 +63,7 @@ public class ClientController extends BasicController {
 		expand.put("gid", String.valueOf(groupId));
 		expand.put("serviceId", String.valueOf(mid));
 //		expand.put("ndeviceid", request.getHeader("ndeviceid"));
-		OperationLogger.log("operation.open-living.home", rc, expand);
+		OperationLogger.log("operation.open-living.home", RequestContext.getRequestContext(), expand);
 
 		return clientService.homepage(userId,cityId, historyOrderCount);
 	}
