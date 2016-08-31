@@ -46,7 +46,7 @@ public class OperationLogger {
         olog.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         ApiLogger.info(" -  2 -");
         olog.setChannel("kuyue");
-        ApiLogger.info(" -  3 - : " + (rc.getClient() == null));
+        ApiLogger.info(" -  3 - : " + (rc.getClient().getClientVersion() == null));
         olog.setClientVersion( rc.getClient().getClientVersion().toString());
         ApiLogger.info(" -  4 - ");
         olog.setDeviceId(rc.getClient().getDeviceId());
