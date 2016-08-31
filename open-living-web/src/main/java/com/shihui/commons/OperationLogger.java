@@ -1,9 +1,6 @@
 package com.shihui.commons;
 
-
-//import me.weimi.api.commons.context.RequestContext;
 import com.shihui.api.core.context.RequestContext;
-//import me.weimi.api.commons.logger.CentralLogger;
 import com.shihui.common.logger.CentralLogger;
 import com.shihui.commons.ApiLogger;
 
@@ -20,7 +17,6 @@ import java.util.Map;
  */
 public class OperationLogger {
 	private static CentralLogger centralLogger = CentralLogger.getLogger();
-//    private static Logger log = LoggerFactory.getLogger(OperationLogger.class);
 
     public static void log(String action, RequestContext rc, Map<String, Object> expand) {
 //        Map<String, Object> data = new HashMap<>();
@@ -42,47 +38,26 @@ public class OperationLogger {
 //            return;
 //        }
         OperationLog olog = new OperationLog();
-        ApiLogger.info(" -  1 -");
         olog.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-        ApiLogger.info(" -  2 -");
         olog.setChannel("kuyue");
-        ApiLogger.info(" -  3 - : " + (rc.getClient().getClientVersion() == null));
         olog.setClientVersion( rc.getClient().getClientVersion().toString());
-        ApiLogger.info(" -  4 - ");
         olog.setDeviceId(rc.getClient().getDeviceId());
-        ApiLogger.info(" -  5 -");
         olog.setCityId((String)expand.get("cityId"));
-        ApiLogger.info(" -  6 -");
         olog.setGid((String)expand.get("gid"));
-        ApiLogger.info(" -  7 -");
         olog.setServiceId((String)expand.get("serviceId"));
-        ApiLogger.info(" -  8 -");
         olog.setUid(String.valueOf(rc.getUid()));
-        ApiLogger.info(" -  9 -");
         olog.setIp(rc.getIp());
-        ApiLogger.info(" -  10 -");
         if(expand.get("businessId")!=null) {
             Map<String, String> map = new HashMap<>();
-            ApiLogger.info(" -  11 -");
             map.put("businessId",(String)expand.get("businessId"));
             olog.setExpand(map);
-            ApiLogger.info(" -  12 -");
             
             olog.setAction(action + "?businessId=" + expand.get("businessId"));
-            ApiLogger.info(" -  13 -");
-
         } else {
-            ApiLogger.info(" -  14 -");
-
             olog.setAction(action);
-            ApiLogger.info(" -  15 -");
-
         }
-//        log.info("TFS LOG:" + JSON.toJSONString(olog));
-      ApiLogger.info("***CENTRAL LOG: action:[" + action + "] data :[" + JSON.toJSONString(olog)+"]");
+        ApiLogger.info("***CENTRAL LOG: action:[" + action + "] data :[" + JSON.toJSONString(olog)+"]");
         centralLogger.log(action, (JSONObject)JSON.toJSON(olog));   
-        ApiLogger.info(" -  16 -");
-
     }
 
 }
