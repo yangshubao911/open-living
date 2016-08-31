@@ -27,7 +27,6 @@
 			<artifactId>frame-parent</artifactId>
 			<version>${swarm.version}</version>
 		</dependency>
-		
 	</dependencies>
 
   <dependencyManagement>

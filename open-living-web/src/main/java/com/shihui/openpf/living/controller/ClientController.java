@@ -8,7 +8,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.Context;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -20,12 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.shihui.api.core.auth.Access;
 import com.shihui.api.core.auth.Access.AccessType;
 import com.shihui.api.core.context.RequestContext;
-//import me.weimi.api.commons.context.RequestContext;
+import com.shihui.commons.ApiLogger;
 import com.shihui.commons.OperationLogger;
 import com.shihui.openpf.living.service.ClientService;
-
-//import me.weimi.api.commons.util.ApiLogger;
-import com.shihui.commons.ApiLogger;
 /**
  * @author zhouqisheng
  *
@@ -62,7 +58,6 @@ public class ClientController extends BasicController {
 		expand.put("cityId", String.valueOf(cityId));
 		expand.put("gid", String.valueOf(groupId));
 		expand.put("serviceId", String.valueOf(mid));
-//		expand.put("ndeviceid", request.getHeader("ndeviceid"));
 		OperationLogger.log("operation.open-living.home", RequestContext.getRequestContext(), expand);
 
 		return clientService.homepage(userId,cityId, historyOrderCount);
@@ -126,7 +121,6 @@ public class ClientController extends BasicController {
 				+ "goodsId: " + goodsId
 				+ "goodsVersion: " + goodsVersion
 				+ "companyId: " + companyId
-//				+ "companyNo: " + companyNo
 				+ "userNo: " + userNo
 				+ "field2: " + field2 );
 		Map<String, Object> expand = new HashMap<>();
@@ -135,7 +129,6 @@ public class ClientController extends BasicController {
 		expand.put("serviceId", String.valueOf(mid));
 		expand.put("businessId", String.valueOf(serviceId));
 //		expand.put("businessName", service.getServiceName() + "");
-//		expand.put("ndeviceid", request.getHeader("ndeviceid"));
 		OperationLogger.log("operation.open-living.queryFee", RequestContext.getRequestContext(), expand);
 		return clientService.queryFee(userId, groupId, mid, serviceId, 
 				categoryId, cityId, goodsId, goodsVersion, companyId,/* companyNo,*/ 

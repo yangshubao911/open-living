@@ -1,15 +1,14 @@
 package com.shihui.commons;
 
-import com.shihui.api.core.context.RequestContext;
-import com.shihui.common.logger.CentralLogger;
-import com.shihui.commons.ApiLogger;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.shihui.api.core.context.RequestContext;
+import com.shihui.common.logger.CentralLogger;
 
 /**
  * @author sofn
@@ -19,28 +18,10 @@ public class OperationLogger {
 	private static CentralLogger centralLogger = CentralLogger.getLogger();
 
     public static void log(String action, RequestContext rc, Map<String, Object> expand) {
-//        Map<String, Object> data = new HashMap<>();
-//        data.put("time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-//        data.put("action", action);
-//        data.put("uid", rc.getUid());
-//        data.put("ip", rc.getIp());
-////        data.put("client_version", rc.getClient().getVersion());
-//        data.put("client_version", rc.getClient().getClientVersion().toString());
-//        data.put("channel", "kuyue");
-//        data.put("deviceid", rc.getClient().getDeviceId());
-//        data.putAll(expand);
-//
-//        ApiLogger.info("***CENTRAL LOG: action:[" + action + "] data :[" + data.toString()+"]");
-//        centralLogger.log(action, data);
-
-//        if (rc == null) {
-//            log.warn("RequestContext not got");
-//            return;
-//        }
         OperationLog olog = new OperationLog();
         olog.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         olog.setChannel("kuyue");
-        olog.setClientVersion( rc.getClient().getClientVersion().toString());
+        olog.setClientVersion( rc.getClient().getVersion()/*rc.getClient().getClientVersion().toString()*/);
         olog.setDeviceId(rc.getClient().getDeviceId());
         olog.setCityId((String)expand.get("cityId"));
         olog.setGid((String)expand.get("gid"));
