@@ -7,12 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
-import com.shihui.openpf.living.entity.Goods;
-
-import me.weimi.api.commons.http.ApacheHttpClient;
-import me.weimi.api.commons.http.ApiHttpClient;
+import com.shihui.commons.ApacheHttpClient;
+import com.shihui.commons.ApiHttpClient;
 //import me.weimi.api.commons.util.ApiLogger;
 import com.shihui.commons.ApiLogger;
+import com.shihui.openpf.living.entity.Goods;
 /**
  * Created by zhoutc on 2015/9/6.
  */

@@ -3,10 +3,13 @@
  */
 package com.shihui.openpf.living.controller;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 
 import javax.annotation.Resource;
-import javax.ws.rs.core.Response;
+import javax.servlet.http.HttpServletResponse;
 
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
@@ -23,6 +26,7 @@ import com.shihui.api.core.auth.Access.AccessType;
 import com.shihui.commons.ApiLogger;
 import com.shihui.openpf.common.tools.StringUtil;
 import com.shihui.openpf.living.entity.support.ConditionVo;
+import com.shihui.openpf.living.exception.SimpleRuntimeException;
 import com.shihui.openpf.living.service.OrderManage;
 /**
  * @author zhouqisheng
@@ -31,7 +35,7 @@ import com.shihui.openpf.living.service.OrderManage;
  */
 @Controller
 @RequestMapping(path = "/v2/openpf/living/order", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-public class OrderController {
+public class OrderController extends BasicController{
 //	private Logger log = LoggerFactory.getLogger(getClass());
 
 	@Resource
@@ -185,14 +189,23 @@ public class OrderController {
 	@RequestMapping(path = "/unusualOrder/export", produces = { "application/vnd.ms-excel; charset=UTF-8" })
 	@ResponseBody
 	@Access(type = AccessType.INTERNAL)
-	public Response export( ) {
+	public void export(HttpServletResponse response ) {
 		String fileName = orderManage.exportUnusual();
+		
+		response.addHeader("Content-Disposition", "attachment; filename=\"unusualOrder.xlsx\"");
+		response.addHeader("content-transfer-encoding", "binary");
 		File file = new File(fileName);
-		Response.ResponseBuilder response = Response.ok((Object) file);
-		response.header("Content-Disposition", "attachment; filename=\"unusualOrder.xlsx\"");
-		response.header("content-transfer-encoding", "binary");
-
-		return response.build();
+		byte[] buff = new byte[2048];  
+		try(BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))){
+			try(BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream())){
+				int bytesRead;  
+		        while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) {  
+		            bos.write(buff, 0, bytesRead);  
+		        }  
+			}
+		} catch (Exception e) {
+			ApiLogger.error("导出文件异常", e);
+		}
 	}
 
 	
