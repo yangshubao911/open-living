@@ -171,23 +171,23 @@ public class TestController {
 		return testService.queryExc1();
 	}
 	
-	@RequestMapping("/sftp")
-	@ResponseBody
-	@Access(type = AccessType.INTERNAL)
-	public Object sftp() {
-		return testService.sftp();
-	}	
-	@RequestMapping("/sftpFile")
-	@ResponseBody
-	@Access(type = AccessType.INTERNAL)
-	public Object sftpFile() {
-		ApiLogger.info(" SftpUtil.download() : " 
-		+
-		SftpUtil.download("172.16.88.98", "guangdabank", "FKo7QOrVgxY9", "/home/guangdabank/order/HZKY_20160823_1.txt", "/home/guangdabank/order/HZKY_20160823_1.txt")
-
-				);
-		return JSONObject.toJSON(new SimpleResponse(0,"OK"));
-	}	
+//	@RequestMapping("/sftp")
+//	@ResponseBody
+//	@Access(type = AccessType.INTERNAL)
+//	public Object sftp() {
+//		return testService.sftp();
+//	}	
+//	@RequestMapping("/sftpFile")
+//	@ResponseBody
+//	@Access(type = AccessType.INTERNAL)
+//	public Object sftpFile() {
+//		ApiLogger.info(" SftpUtil.download() : " 
+//		+
+//		SftpUtil.download("172.16.88.98", "guangdabank", "FKo7QOrVgxY9", "/home/guangdabank/order/HZKY_20160823_1.txt", "/home/guangdabank/order/HZKY_20160823_1.txt")
+//
+//				);
+//		return JSONObject.toJSON(new SimpleResponse(0,"OK"));
+//	}	
 	
 	@RequestMapping("/billCheck")
 	@ResponseBody
