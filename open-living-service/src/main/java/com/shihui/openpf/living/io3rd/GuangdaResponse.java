@@ -173,8 +173,21 @@ public class GuangdaResponse {
 		result.put("feeType", bill.getFeeType());
 		result.put("feeName", bill.getFeeName());
 		result.put("userNo", bill.getBillKey());
-		result.put("userAddress", bill.getUserAddress());
-		result.put("userName", bill.getUserName());
+		//
+		String userAddress = bill.getUserAddress();
+		if(userAddress == null || userAddress.length() < 8)
+			userAddress = "*******";
+		else
+			userAddress = userAddress.substring(0, 2) + "*******" + userAddress.substring(userAddress.length() - 6);
+		result.put("userAddress", userAddress);
+		
+		String userName = bill.getUserName();
+		if(userName == null || userName.length() < 2)
+			userName = "****";
+		else
+			userName = "***" + userName.substring( userName.length() -1);
+		result.put("userName", userName);
+		//
 		
 		Company company = vo.getCompany();
 		result.put("companyName", company.getCompanyName());
