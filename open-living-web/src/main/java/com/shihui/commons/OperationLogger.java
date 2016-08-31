@@ -3,7 +3,8 @@ package com.shihui.commons;
 
 //import me.weimi.api.commons.context.RequestContext;
 import com.shihui.api.core.context.RequestContext;
-import me.weimi.api.commons.logger.CentralLogger;
+//import me.weimi.api.commons.logger.CentralLogger;
+import com.shihui.common.logger.CentralLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
