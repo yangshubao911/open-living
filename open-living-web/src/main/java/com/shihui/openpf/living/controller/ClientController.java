@@ -63,7 +63,7 @@ public class ClientController extends BasicController {
 		expand.put("cityId", String.valueOf(cityId));
 		expand.put("gid", String.valueOf(groupId));
 		expand.put("serviceId", String.valueOf(mid));
-		expand.put("ndeviceid", request.getHeader("ndeviceid"));
+//		expand.put("ndeviceid", request.getHeader("ndeviceid"));
 		OperationLogger.log("operation.open-living.home", rc, expand);
 
 		return clientService.homepage(userId,cityId, historyOrderCount);
