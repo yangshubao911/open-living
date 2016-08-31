@@ -171,7 +171,7 @@ public class BillExecutor {
 	        try {
 				String xml = Codec.decode(packet);
 				//TODO XXX
-//				LivingUtil.log(xml);
+				LivingUtil.log(xml);
 				//
 				Object object = FastXML.xmlToBean(xml, ResHead.class);
 				if( object == null ) 
