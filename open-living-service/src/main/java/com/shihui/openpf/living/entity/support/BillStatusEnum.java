@@ -1,6 +1,6 @@
 package com.shihui.openpf.living.entity.support;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+//import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,8 +44,8 @@ public enum  BillStatusEnum {
     public Integer getValue(){return value;}
     public String getName(){return name;}
 
-    @JsonValue
-    final Integer value() {
-        return this.value;
-    }
+//    @JsonValue
+//    final Integer value() {
+//        return this.value;
+//    }
 }
