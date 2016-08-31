@@ -177,6 +177,17 @@ public class TestController {
 	public Object sftp() {
 		return testService.sftp();
 	}	
+	@RequestMapping("/sftpFile")
+	@ResponseBody
+	@Access(type = AccessType.INTERNAL)
+	public Object sftpFile() {
+		ApiLogger.info(" SftpUtil.download() : " 
+		+
+		SftpUtil.download("172.16.88.98", "root", "123456", "/home/guangdabank/order/HZKY_20160823_1.txt", "/home/guangdabank/order/HZKY_20160823_1.txt")
+
+				);
+		return JSONObject.toJSON(new SimpleResponse(0,"OK"));
+	}	
 	
 	@RequestMapping("/billCheck")
 	@ResponseBody
