@@ -17,7 +17,7 @@ public class GuangdaDao {
 	public boolean sendRequest(Object req) {
 		String xml = FastXML.beanToXml(req);
 		//TODO XXX
-		LivingUtil.log(xml);
+//		LivingUtil.log(xml);
 		//
 		try {
 		return RequestSocket.sendPacket(remoteIp, remotePort, 
