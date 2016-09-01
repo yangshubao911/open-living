@@ -231,13 +231,13 @@ public class ClientService {
 		JSONObject result = new JSONObject();
 
 		//
-//		Calendar calendar = Calendar.getInstance();
-//		calendar.setTime(new Date());
-//		int hour = calendar.get(Calendar.HOUR);
-//		if( hour >= 20 || hour <= 4) {
-//			result.put("response", new SimpleResponse(2,"不在服务时间") );
-//			return result;
-//		}
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		if( hour >= 20 || hour <= 4) {
+			result.put("response", new SimpleResponse(2,"不在服务时间") );
+			return result;
+		}
 		//
 		
 		String tempId = LivingUtil.getQueryTrmSeqNum(userId);

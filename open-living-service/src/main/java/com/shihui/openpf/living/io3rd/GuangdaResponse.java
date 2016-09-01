@@ -155,7 +155,8 @@ public class GuangdaResponse {
 		result.put("tempId", vo.getTempId());
 		Bill bill = vo.getBill();
 		Order order = vo.getOrder();
-		result.put("billDate", bill.getBillDate());
+		String billDate = bill.getBillDate();
+		result.put("billDate", billDate.substring(0, 4)+"年"+billDate.substring(4)+"月");
 		
 		Goods goods = vo.getGoods();
 		result.put("shOffSet", goods.getShOffSet());
