@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import com.shihui.api.order.common.enums.OrderStatusEnum;
 import com.shihui.openpf.living.entity.Order;
+import com.shihui.openpf.living.entity.support.BillStatusEnum;
 
 /**
  * @author zhouqisheng
@@ -49,7 +50,9 @@ public class OrderDao extends AbstractDao<Order> {
 	}
 
 	public List<Order> queryOrderUnStockOut() {
-		return this.queryForList( "SELECT * FROM `order` WHERE order_status = ? ORDER BY update_time ASC", new Object[]{OrderStatusEnum.OrderUnStockOut.getValue()});
+//		return this.queryForList( "SELECT * FROM `order` WHERE order_status = ? ORDER BY update_time ASC", new Object[]{OrderStatusEnum.OrderUnStockOut.getValue()});
+			return this.queryForList( "SELECT a.* FROM `order` AS a INNER JOIN `bill` AS b ON a.order_id = b.order_id WHERE a.order_status = ? AND b.bill_status != ? AND b.bill_status != ?",
+					new Object[]{OrderStatusEnum.OrderUnStockOut.getValue(), BillStatusEnum.BuySuccess.getValue(), BillStatusEnum.Process.getValue()});
 	}
 	
 	public List<Order> queryOrder(Order order, String startTime, String endTime, Integer page, Integer size) {
@@ -196,6 +199,6 @@ public class OrderDao extends AbstractDao<Order> {
 	}
 	
 	public boolean isFirstBill(int userId) {
-		return this.queryCount("select user_id from `order` where user_id = ? Limit 1", new Object[]{userId}) > 0;
+		return this.queryCount("SELECT user_id FROM `order` WHERE user_id = ? LIMIT 1", new Object[]{userId}) > 0;
 	}
 }
