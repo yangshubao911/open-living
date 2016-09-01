@@ -22,10 +22,8 @@ import com.shihui.api.core.context.RequestContext;
 import com.shihui.commons.ApiLogger;
 import com.shihui.commons.OperationLogger;
 import com.shihui.openpf.living.service.ClientService;
-/**
- * @author zhouqisheng
- *
- */
+
+
 @Controller
 @RequestMapping(path = "/v2/openpf/living/app", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 public class ClientController extends BasicController {
@@ -109,9 +107,7 @@ public class ClientController extends BasicController {
 			@RequestParam(name="companyNo", required = false) String companyNo,
 			@RequestParam(name="userNo", required = true) String userNo,
 			@RequestParam(name="field2", required = true) String field2) {
-//TODO XXX
-//if(true)
-//	return null;
+
 		ApiLogger.info("Controller: /v2/openpf/living/app/queryFee : queryFee() : "
 				+ "userId: " + userId
 				+ "groupId: " + groupId
@@ -160,9 +156,7 @@ public class ClientController extends BasicController {
 			@RequestParam(name="userId", required = true) Integer userId,
 			@RequestParam(name="tempId", required = true) String tempId,
 			@RequestParam(name="costSh", required = true) Integer costSh) {
-//TODO XXX
-//if(true)
-//	return null;
+
 		ApiLogger.info("Controller: /v2/openpf/living/app/createOrder : createOrder() : "
 				+ "userId: " + userId
 				+ "tempId: " + tempId

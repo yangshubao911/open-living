@@ -37,7 +37,7 @@ public class OperationLogger {
         } else {
             olog.setAction(action);
         }
-        ApiLogger.info("***CENTRAL LOG: action:[" + action + "] data :[" + JSON.toJSONString(olog)+"]");
+//        ApiLogger.info("***CENTRAL LOG: action:[" + action + "] data :[" + JSON.toJSONString(olog)+"]");
         centralLogger.log(action, (JSONObject)JSON.toJSON(olog));   
     }
 
