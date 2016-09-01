@@ -6,7 +6,7 @@ package com.shihui.openpf.living.service;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-
+import java.util.Calendar;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -230,6 +230,16 @@ public class ClientService {
 			String deviceId, int appId) {
 		JSONObject result = new JSONObject();
 
+		//
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		int hour = calendar.get(Calendar.HOUR);
+		if( hour >= 20 || hour <= 4) {
+			result.put("response", new SimpleResponse(2,"不在服务时间") );
+			return result;
+		}
+		//
+		
 		String tempId = LivingUtil.getQueryTrmSeqNum(userId);
 
 		ApiLogger.info("Service: queryFee() : "
