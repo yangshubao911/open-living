@@ -53,7 +53,7 @@ public class ClientController extends BasicController {
 				+ "groupId: " + groupId
 				+ "mid: " + mid
 				+ "historyOrderCount: " + historyOrderCount );
-		
+ApiLogger.info("REQUEST : " + request.getRequestURL().toString());
 		Map<String, Object> expand = new HashMap<>();
 		expand.put("cityId", String.valueOf(cityId));
 		expand.put("gid", String.valueOf(groupId));

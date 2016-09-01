@@ -124,6 +124,7 @@ public class BillTask {
 				if(resKey != null) {
 					try {
 						Codec.writeKey(resKey.tout.keyValue, resKey.tout.verifyValue, resKey.tout.keyValue1, resKey.tout.verifyValue1);
+						break;
 					} catch(Exception e) {
 						ApiLogger.info("!!!BillTask : billCheckNotify() : Codec.writeKey() : " + e.getMessage());
 					}
