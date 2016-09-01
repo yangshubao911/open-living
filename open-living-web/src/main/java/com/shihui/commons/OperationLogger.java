@@ -21,8 +21,7 @@ public class OperationLogger {
         OperationLog olog = new OperationLog();
         olog.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         olog.setChannel("kuyue");
-        //olog.setClientVersion( rc.getClient().getClientVersion().getMajor() +"." + rc.getClient().getClientVersion().getMinor() + "." + rc.getClient().getClientVersion().getRevision());
-        olog.setClientVersion( rc.getClient().getClientVersion().toString());
+        olog.setClientVersion(rc.getClient().getClientVersion().getMinor());
         olog.setDeviceId(rc.getClient().getDeviceId());
         olog.setCityId((String)expand.get("cityId"));
         olog.setGid((String)expand.get("gid"));
