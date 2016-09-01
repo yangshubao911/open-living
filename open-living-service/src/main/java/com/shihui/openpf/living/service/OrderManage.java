@@ -138,7 +138,7 @@ public class OrderManage {
 			ob.setOrderStatusMsg(OrderStatusEnum.parse(ob.getOrderStatus()).getName());
 			ob.setOrderIdString(String.valueOf(ob.getOrderId()));
 		}
-		result.put("orders", JSON.toJSON(orderList));
+		result.put("orders", orderList);
 
 		return result;
 	}
