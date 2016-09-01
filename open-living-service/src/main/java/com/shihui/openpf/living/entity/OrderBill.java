@@ -26,6 +26,7 @@ public class OrderBill implements Serializable {
 
 	private String price;
 
+	@JSONField(name = "payTime", format = "yyyy-MM-dd HH:mm:ss")
     private Date payTime;
 
 	private Integer orderStatus;

@@ -178,7 +178,7 @@ public class OrderManage {
 			list.add(order.getUserName());
 			list.add(order.getUserId());
 			list.add(order.getPrice());
-			list.add(order.getPayTime());
+			list.add(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(order.getPayTime()));
 			list.add(OrderStatusEnum.parse(order.getOrderStatus()).getName());
 			list.add(order.getBillStatus() == BillStatusEnum.Refund.getValue() ? "已退款" : "");
 			data.add(list);
