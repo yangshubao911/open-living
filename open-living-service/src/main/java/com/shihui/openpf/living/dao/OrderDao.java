@@ -194,4 +194,8 @@ public class OrderDao extends AbstractDao<Order> {
 	public int updateOrderStatus(long orderId, int status) {
 		return this.jdbcTemplate.update("UPDATE `order` SET order_status = ?, update_time = ? WHERE order_id = ?", new Object[]{status, new Date(), orderId});
 	}
+	
+	public boolean isFirstBill(int userId) {
+		return this.queryCount("select user_id from `order` where user_id = ? Limit 1", new Object[]{userId}) > 0;
+	}
 }

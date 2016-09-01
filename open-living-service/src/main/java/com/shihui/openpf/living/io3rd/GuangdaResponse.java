@@ -20,6 +20,7 @@ import com.shihui.openpf.common.service.api.GroupManage;
 import com.shihui.openpf.common.service.api.ServiceService;
 import com.shihui.openpf.living.cache.CacheDao;
 import com.shihui.openpf.living.dao.BillDao;
+import com.shihui.openpf.living.dao.OrderDao;
 import com.shihui.openpf.living.dao.CompanyDao;
 import com.shihui.openpf.living.dao.GoodsDao;
 import com.shihui.openpf.living.entity.Bill;
@@ -54,6 +55,8 @@ public class GuangdaResponse {
 	AppNotice appNotice;
 	@Resource
 	BillDao billDao;
+	@Resource
+	OrderDao orderDao;
 	@Resource
 	LivingMqProducer mqProducer;
 	@Resource
@@ -208,6 +211,10 @@ public class GuangdaResponse {
 	private void load_vo_elements(QueryOrderBillVo vo) {
 		Order order = vo.getOrder();		
 		Bill bill = vo.getBill();
+		
+		//
+		vo.setFirstBill(orderDao.isFirstBill(vo.getOrder().getUserId()));
+		//
 
 		Company company = vo.getCompany();
 		

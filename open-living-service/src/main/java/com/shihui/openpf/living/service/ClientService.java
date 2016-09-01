@@ -323,7 +323,8 @@ public class ClientService {
 		
 		Date now = new Date();
 		Campaign campaign = vo.getCampaign();
-		if (campaign != null 
+		if (vo.isFirstBill() 
+				&& campaign != null 
 				&& campaign.getStatus() == 1
 				&& now.getTime() <= campaign.getEndTime().getTime()
 				&& now.getTime() >= campaign.getStartTime().getTime()) {

@@ -17,6 +17,7 @@ public class QueryOrderBillVo {
 	private String shGold;
 	private Integer merchantId;
 	private String ErrorCode;
+	private boolean firstBill;
 
 	private Order order;
 	private Bill bill;
@@ -143,6 +144,14 @@ public class QueryOrderBillVo {
 
 	public void setErrorCode(String errorCode) {
 		ErrorCode = errorCode;
+	}
+
+	public boolean isFirstBill() {
+		return firstBill;
+	}
+
+	public void setFirstBill(boolean firstBill) {
+		this.firstBill = firstBill;
 	}
 
 }
