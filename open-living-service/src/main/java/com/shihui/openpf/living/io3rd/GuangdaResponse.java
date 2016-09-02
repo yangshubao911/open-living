@@ -159,7 +159,10 @@ public class GuangdaResponse {
 		Bill bill = vo.getBill();
 		Order order = vo.getOrder();
 		String billDate = bill.getBillDate();
-		result.put("billDate", billDate.substring(0, 4)+"年"+billDate.substring(4)+"月");
+		if(billDate != null && billDate.length() == 6)
+			result.put("billDate", billDate.substring(0, 4)+"年"+billDate.substring(4)+"月");
+		else
+			result.put("billDate", billDate);
 		
 		Goods goods = vo.getGoods();
 		result.put("shOffSet", goods.getShOffSet());
