@@ -176,6 +176,9 @@ public class GuangdaResponse {
 		} else {
 			result.put("balance", bill.getBalance());
 		}
+		
+		String billKeyType = bill.getBillKeyType();
+		result.put("billKeyTypeName", billKeyType.compareTo("1") == 0 ? "条形码" : "户号");
 
 		result.put("feeType", bill.getFeeType());
 		result.put("feeName", bill.getFeeName());
