@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import com.shihui.commons.ApiLogger;
-import com.shihui.openpf.living.util.LivingUtil;
 
 @Repository
 public class GuangdaDao {
@@ -16,12 +15,9 @@ public class GuangdaDao {
 	
 	public boolean sendRequest(Object req) {
 		String xml = FastXML.beanToXml(req);
-		//TODO XXX
-//		LivingUtil.log(xml);
-		//
 		try {
-		return RequestSocket.sendPacket(remoteIp, remotePort, 
-				(req.getClass() == ReqKey.class) ? Codec.encodeNoMac(xml) : Codec.encode(xml) );
+			return RequestSocket.sendPacket(remoteIp, remotePort, 
+					(req.getClass() == ReqKey.class) ? Codec.encodeNoMac(xml) : Codec.encode(xml) );
 		}catch(Exception e) {
 			ApiLogger.info("!!!GuangdaDao : Exception : " + e.getMessage());
 		}

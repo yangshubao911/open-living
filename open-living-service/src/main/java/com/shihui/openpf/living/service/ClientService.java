@@ -97,7 +97,7 @@ public class ClientService {
 		String info = cacheDao.getUserHome(userId);
 		ApiLogger.info("Service: homepage() : info != null : " + (info!=null) + " : userId:[" + userId + "] : "+ info);
 		if(info != null) {
-			ApiLogger.info("Service: homepage() : info != null : " + info);
+//			ApiLogger.info("Service: homepage() : info != null : " + info);
 			return JSON.parse(info);
 		}
 		//
@@ -114,7 +114,7 @@ public class ClientService {
 		result.put("billList", getBillList(userId, historyOrderCount));
 		
 		//
-		ApiLogger.info("Service: homepage() : " + result.toJSONString());
+//		ApiLogger.info("Service: homepage() : " + result.toJSONString());
 		cacheDao.setUserHome(userId, result.toJSONString());
 		return result;
 
@@ -139,7 +139,7 @@ public class ClientService {
 			jo.put("productId", category.getProductId());	
 			ja.add(jo);
 		}	
-		ApiLogger.info("Service: getCategoryList() : " + ja.toJSONString());
+//		ApiLogger.info("Service: getCategoryList() : " + ja.toJSONString());
 		cacheDao.setCategory(ja.toJSONString());
 		return ja;
 

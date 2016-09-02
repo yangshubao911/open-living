@@ -207,7 +207,6 @@ public class GuangdaResponse {
 		result.put("response", new SimpleResponse(1,"查询成功") );
 		//
 		ApiLogger.info("@@@@GuangdaResponse : noticeApp() : userId :[" + order.getUserId() + "] result : " + result.toJSONString());
-//		ApiLogger.info("@@@@GuangdaResponse : noticeApp() : vo : " + result.toJSONString());
 		//
 		appNotice.pushQueryResult(order.getUserId(), result);
 	}
@@ -228,22 +227,6 @@ public class GuangdaResponse {
 		}
 		vo.setGoods(goods);
 		//
-//		Campaign campaign;
-//		List<Campaign> campaigns = cacheDao.getCampaignList(goods.getServiceId());
-//		if(campaigns == null) {
-//			campaign = new Campaign();
-//			campaign.setServiceId(goods.getServiceId());
-//			campaigns = campaignService.findByCondition(campaign);
-//			cacheDao.setCampaignList(goods.getServiceId(), campaigns);
-//		}
-//		if (campaigns != null && campaigns.size() > 0) {
-//			// 默认活动就一个首单优惠
-//			campaign = campaigns.get(0);
-//			Date now = new Date();
-//			if (campaign.getStatus() == 1 && campaign.getStartTime().before(now) && campaign.getEndTime().after(now)) {
-//				vo.setCampaign(campaign);
-//			}
-//		}
 		Campaign campaign = cacheDao.getCampaign(goods.getServiceId());
 		if( campaign == null) {
 			campaign = new Campaign();
@@ -285,7 +268,6 @@ public class GuangdaResponse {
 		vo.setMerchant(merchant);
 		
 		Group group = cacheDao.getGroup(order.getGid());
-ApiLogger.info("GuangdaResponse : doResQuery() : groupId:[" +order.getGid()+"] group==null :" + (group == null) );
 		if( group == null) {
 			group = groupManage.getGroupInfoByGid(order.getGid());
 			cacheDao.setGroup(group.getGid(), group);
@@ -300,7 +282,7 @@ ApiLogger.info("GuangdaResponse : doResQuery() : groupId:[" +order.getGid()+"] g
 	}
     public void doResQuery(ResQuery resQuery) {
     	ApiLogger.info(">>>GuangdaResponse : doResQuery()");
-//    	ApiLogger.info("GuangdaResponse : doResQuery() : " + JSON.toJSONString(resQuery));
+
     	String tempId = resQuery.head.TrmSeqNum;
     	QueryOrderBillVo vo = cacheDao.getQueryOrderBillVo(tempId);
     	if(vo != null && Integer.parseInt(resQuery.tout.totalNum) > 0 ) {
@@ -309,7 +291,7 @@ ApiLogger.info("GuangdaResponse : doResQuery() : groupId:[" +order.getGid()+"] g
 	    		cacheDao.setQueryOrderBillVo(tempId, vo);
 	    		//
 	    		noticeApp(vo);
-	    		ApiLogger.info("OK: GuangdaResponse : resQuery()");
+//	    		ApiLogger.info("OK: GuangdaResponse : resQuery()");
     	} else {
     		ApiLogger.info("ERR: GuangdaResponse : resQuery() : {vo != null && Integer.parseInt(resQuery.tout.totalNum) > 0}");
     	}
@@ -318,7 +300,6 @@ ApiLogger.info("GuangdaResponse : doResQuery() : groupId:[" +order.getGid()+"] g
     
     public void doPacketError(PacketError packetError) {
     	ApiLogger.info(">>>GuangdaResponse : doPacketError()");
-//    	ApiLogger.info("GuangdaResponse : doPacketError() : " + JSON.toJSONString(packetError));
     	
     	String tempId = packetError.head.TrmSeqNum;
     	int packetType = Integer.parseInt(tempId.substring(0,1));
@@ -374,12 +355,12 @@ ApiLogger.info("GuangdaResponse : doResQuery() : groupId:[" +order.getGid()+"] g
         		cacheDao.setOrderBillVo(tempId, vo);
 //        		ApiLogger.info("OK: GuangdaResponse : doPacketError() : RECHARGE");
         	} else {
-        		ApiLogger.info("GuangdaResponse : doPacketError() : KEY");
+//        		ApiLogger.info("GuangdaResponse : doPacketError() : KEY");
         		ApiLogger.info("ERR: GuangdaResponse : doPacketError() : RECHARGE : OrderBillVo vo == null");
         	}
 //TODO	XXX    		
     		cacheDao.setErrorCode(String.valueOf(vo.getOrder().getOrderId()), packetError.tout.errorCode);
-    		ApiLogger.info("GuangdaResponse : doPacketError() : RECHARGE : tempId :[" + tempId + "] errorCode:[" + packetError.tout.errorCode + "]");
+//    		ApiLogger.info("GuangdaResponse : doPacketError() : RECHARGE : tempId :[" + tempId + "] errorCode:[" + packetError.tout.errorCode + "]");
 
     	} else if(packetType == PacketTypeEnum.KEY.getType()) {
     		doReqKey();
@@ -389,7 +370,6 @@ ApiLogger.info("GuangdaResponse : doResQuery() : groupId:[" +order.getGid()+"] g
     
     public void doPacketNotify(PacketNotify packetNotify) {
     	ApiLogger.info(">>>GuangdaResponse : doPacketNotify()");
-//    	ApiLogger.info("GuangdaResponse : doPacketNotify() : " + JSON.toJSONString(packetNotify));
     	
     	cacheDao.setPacketNotify(packetNotify);
     	ApiLogger.info("<<<GuangdaResponse : doPacketNotify() : OK");
@@ -400,14 +380,14 @@ ApiLogger.info("GuangdaResponse : doResQuery() : groupId:[" +order.getGid()+"] g
     	
     	synchronized(this) {
 	    	if(cacheDao.checkKeyDateExpired()) {
-//	    		ApiLogger.info("GuangdaResponse : doResKey() : cacheDao.checkKeyDateExpired() == true");
+
 		    	for(int i=0; i< 3; i++) {
 			    	try {
 			    		Codec.writeKey(resKey.tout.keyValue, resKey.tout.verifyValue, resKey.tout.keyValue1, resKey.tout.verifyValue1);
 			    		cacheDao.setResKey(resKey);
 			    		cacheDao.setKeyDate();
-			    		ApiLogger.info("OK: GuangdaResponse doResKey()");
-			    		return;
+//			    		ApiLogger.info("OK: GuangdaResponse doResKey()");
+			    		break;
 			    	}catch(Exception e) {
 			    		ApiLogger.info("ERR: GuangdaResponse Exception : doResKey() : " + e.getMessage());
 			    	}

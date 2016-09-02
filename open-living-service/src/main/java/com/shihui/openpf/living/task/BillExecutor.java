@@ -170,9 +170,6 @@ public class BillExecutor {
 	    	ApiLogger.info(">>>ExecuteAnalysePacketTask RUNNING");
 	        try {
 				String xml = Codec.decode(packet);
-				//TODO XXX
-//				LivingUtil.log(xml);
-				//
 				Object object = FastXML.xmlToBean(xml, ResHead.class);
 				if( object == null ) 
 					ApiLogger.info("!!!ExecuteAnalysePacketTask : run() : object == null \n");

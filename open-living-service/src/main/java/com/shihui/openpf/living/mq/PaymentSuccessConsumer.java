@@ -118,7 +118,7 @@ public class PaymentSuccessConsumer implements Consumer {
 			billUpdate.setSerialNo(reqPay.tin.billNo);
 			billUpdate.setPayTime(reqPay.tin.payDate);
 			billDao.update(billUpdate);
-			ApiLogger.info("PaymentSuccessConsumer : doReqPay() : mqProducer.sendRechargeRequest() : billKey:[" + reqPay.tin.billKey +"] payAmount:["+ reqPay.tin.payAmount+"]");
+//			ApiLogger.info("PaymentSuccessConsumer : doReqPay() : mqProducer.sendRechargeRequest() : billKey:[" + reqPay.tin.billKey +"] payAmount:["+ reqPay.tin.payAmount+"]");
 		}
 	}
 	
@@ -168,7 +168,7 @@ public class PaymentSuccessConsumer implements Consumer {
 				return true;
 			} else {
 //				log.info("消费订单状态变更消息 topic:"+ topic +",key:"+ key + ",msg:"+ msg);
-				ApiLogger.info("PaymentSuccessConsumer : 消费订单状态变更消息 topic:" + topic + ", key:" +key + ", msg:" + msg);
+//				ApiLogger.info("PaymentSuccessConsumer : 消费订单状态变更消息 topic:" + topic + ", key:" +key + ", msg:" + msg);
 
 				// 更新订单状态
 				orderService.updateOrderStatus(orderId, status.getValue());

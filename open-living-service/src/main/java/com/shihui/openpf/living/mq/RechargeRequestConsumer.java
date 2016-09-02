@@ -39,7 +39,7 @@ public class RechargeRequestConsumer implements Consumer {
 					return true;
 				
 				boolean b= guangdaDao.sendRequest(reqKey);
-				ApiLogger.info("### guangdaDao.sendRequest(reqKey) = " + b);
+//				ApiLogger.info("### guangdaDao.sendRequest(reqKey) = " + b);
 				return b;
 
 			} else {
@@ -48,7 +48,7 @@ public class RechargeRequestConsumer implements Consumer {
 					return true;
 	
 				boolean b = guangdaDao.sendRequest(reqPay);
-				ApiLogger.info("### guangdaDao.sendRequest(reqPay) = " + b);
+//				ApiLogger.info("### guangdaDao.sendRequest(reqPay) = " + b);
 				return b;
 			}
 			
