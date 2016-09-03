@@ -73,7 +73,7 @@ public class BillTask {
 
 	}
 
-	@Scheduled(cron = "0 20 9 * * ?")
+	@Scheduled(cron = "0 28 9 * * ?")
 	public void billCheckNotify() {
 		ApiLogger.info("BillTask: billCheckNotify() : start");
 //TODO XXX		
@@ -88,7 +88,7 @@ public class BillTask {
 			//PacketNotify packetNotify = cacheDao.getNotify();
 
 			File file = FileUtil.getCheckFile(url, username, password, checkPath);
-			ApiLogger.info("BillTask: billCheckNotify() : file != null : " + (file != null));
+			ApiLogger.info("BillTask: billCheckNotify() : getCheckFile file != null : " + (file != null));
 			if(file != null) {
 				CheckFile checkFile = FileUtil.getCheckFile(file);
 				ApiLogger.info("BillTask: billCheckNotify() : checkFile != null : " + (checkFile != null));
@@ -99,6 +99,7 @@ public class BillTask {
 				}
 			}
 			file = FileUtil.getRefundeFile(url, username, password, refundePath);
+			ApiLogger.info("BillTask: billCheckNotify() : getRefundeFile file != null : " + (file != null));
 			if(file != null) {
 				RefundeFile refundeFile = FileUtil.getRefundeFile(file);
 				ApiLogger.info("BillTask: billCheckNotify() : refundeFile != null : " + (refundeFile != null));

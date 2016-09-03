@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.shihui.commons.ApiLogger;
 import com.shihui.openpf.living.io3rd.CheckFile;
 import com.shihui.openpf.living.io3rd.CheckItem;
 import com.shihui.openpf.living.io3rd.RefundeFile;
@@ -32,7 +33,7 @@ public class FileUtil {
     		return null;
     	
     	File file = new File(filePath);
-    	
+    	ApiLogger.info("FileUtil: getCheckFile() : file.exists() && file.isFile() : " + (file.exists() && file.isFile()));
     	return file.exists() && file.isFile() ? file : null;
     }
     public static File getRefundeFile(String host, String userName, String password, String path) {

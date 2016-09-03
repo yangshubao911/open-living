@@ -1,5 +1,7 @@
 package com.shihui.openpf.living.util;
 
+import com.shihui.commons.ApiLogger;
+
 import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.sftp.SFTPClient;
 import net.schmizz.sshj.xfer.FileSystemFile;
@@ -28,6 +30,7 @@ public class SftpUtil {
 	        }catch(Exception e) {
 	        }
         }
+        ApiLogger.info("SftpUtil: download() : ret : " + ret);
         return ret;
     }
 }
