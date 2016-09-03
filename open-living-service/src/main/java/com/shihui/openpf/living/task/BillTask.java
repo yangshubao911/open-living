@@ -73,7 +73,7 @@ public class BillTask {
 
 	}
 
-	@Scheduled(cron = "0 55 8 * * ?")
+	@Scheduled(cron = "0 60 8 * * ?")
 	public void billCheckNotify() {
 		ApiLogger.info("BillTask: billCheckNotify() : start");
 //TODO XXX		
