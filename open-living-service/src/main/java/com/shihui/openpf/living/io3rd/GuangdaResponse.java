@@ -161,6 +161,8 @@ public class GuangdaResponse {
 		String billDate = bill.getBillDate();
 		if(billDate != null && billDate.length() == 6)
 			result.put("billDate", billDate.substring(0, 4)+"年"+billDate.substring(4)+"月");
+		else if(billDate != null && billDate.length() == 4)
+			result.put("billDate", billDate.substring(0, 2)+"年"+billDate.substring(2)+"月");
 		else
 			result.put("billDate", billDate);
 		

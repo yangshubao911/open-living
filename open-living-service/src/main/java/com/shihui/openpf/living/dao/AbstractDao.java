@@ -36,7 +36,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
-import com.shihui.commons.ApiLogger;
+//import com.shihui.commons.ApiLogger;
 
 /**
  * 基于jpa注解简单实现几个常用方法
@@ -187,7 +187,7 @@ public abstract class AbstractDao<T> {
 
 			sql.deleteCharAt(sql.length()-1).append(") values(").append(valueStr.deleteCharAt(valueStr.length()-1))
 					.append(")");
-			ApiLogger.info("jdbcTemplate : save() : [" + sql.toString() + "] : " + valus.toString());
+//			ApiLogger.info("jdbcTemplate : save() : [" + sql.toString() + "] : " + valus.toString());
 			return this.jdbcTemplate.update(sql.toString(), valus.toArray());
 		} catch (RuntimeException e) {
 			throw e;
