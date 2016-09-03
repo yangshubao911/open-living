@@ -73,11 +73,12 @@ public class BillTask {
 
 	}
 
-	@Scheduled(cron = "0 40 8 * * ?")
+	@Scheduled(cron = "0 50 8 * * ?")
 	public void billCheckNotify() {
 		ApiLogger.info("BillTask: billCheckNotify() : start");
-		
-		if(cacheDao.lockTask()) {
+//TODO XXX		
+//		if(cacheDao.lockTask()) {
+		if(!cacheDao.lockTask()) {
 			//流水号
 			//cacheDao.resetSerialNo();
 			//更换密钥
@@ -87,6 +88,7 @@ public class BillTask {
 			//PacketNotify packetNotify = cacheDao.getNotify();
 
 			File file = FileUtil.getCheckFile(url, username, password, checkPath);
+			ApiLogger.info("BillTask: billCheckNotify() : file != null : " + (file != null));
 			if(file != null) {
 				CheckFile checkFile = FileUtil.getCheckFile(file);
 				ApiLogger.info("BillTask: billCheckNotify() : checkFile != null : " + (checkFile != null));
