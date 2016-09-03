@@ -105,7 +105,7 @@ public class OrderController extends BasicController{
 			@RequestParam(name="endTime",		required = false)	String endTime,
 			@RequestParam(name="cityId",		required = false)	String cityId,
 			@RequestParam(name="userAddress",	required = false)	String userAddress,
-			@RequestParam(name="company_id",	required = false)	String companyId,
+			@RequestParam(name="companyId",		required = false)	String companyId,
 			@RequestParam(name="userNo",		required = false)	String userNo,
 			@RequestParam(name="userName",		required = false)	String userName,
 			@RequestParam(name="orderId",		required = false)	String orderId,
