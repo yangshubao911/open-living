@@ -23,7 +23,7 @@ public class FileUtil {
     public static File getCheckFile(String host, String userName, String password, String path) {
     	Calendar calendar = Calendar.getInstance();
     	calendar.setTime(new Date());
-    	calendar.add(Calendar.DAY_OF_MONTH, -2);
+    	calendar.add(Calendar.DAY_OF_MONTH, -1);
     	String date = new SimpleDateFormat("yyyyMMdd").format(calendar.getTime());
     	String fileName = CHECKFILE_SUFFIX.replace("*", date);
     	String filePath = path + fileName;
