@@ -31,7 +31,7 @@ public class FileUtil {
     	
     	if(!SftpUtil.download(host, userName, password, filePath, filePath))
     		return null;
-    	
+    	ApiLogger.info("FileUtil: getCheckFile() : file...");
     	File file = new File(filePath);
     	ApiLogger.info("FileUtil: getCheckFile() : file.exists() && file.isFile() : " + (file.exists() && file.isFile()));
     	return file.exists() && file.isFile() ? file : null;
