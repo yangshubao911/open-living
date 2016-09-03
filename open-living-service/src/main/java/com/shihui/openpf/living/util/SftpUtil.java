@@ -17,10 +17,12 @@ public class SftpUtil {
             ssh.connect(host);
             ssh.authPassword(userName, password);
             sftp = ssh.newSFTPClient();
+            ApiLogger.info("SftpUtil: download() : get...");
             sftp.get(filePath, new FileSystemFile(localPath));
 	        ret = true;
 	        ApiLogger.info("SftpUtil: download() : OK");
         } catch(Exception e) {
+        	ApiLogger.info("SftpUtil: download() : Exception : " + e.getMessage());
         }  finally {
         	ApiLogger.info("SftpUtil: download() : finally : start");
 	        try {
