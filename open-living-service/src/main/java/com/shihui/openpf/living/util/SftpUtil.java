@@ -17,8 +17,8 @@ public class SftpUtil {
             ssh.connect(host);
             ssh.authPassword(userName, password);
             sftp = ssh.newSFTPClient();
-	        ret = true;
             sftp.get(filePath, new FileSystemFile(localPath));
+	        ret = true;
         } catch(Exception e) {
         }  finally {
 	        try {

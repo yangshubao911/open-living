@@ -73,16 +73,15 @@ public class BillTask {
 
 	}
 
-	@Scheduled(cron = "0 37 9 * * ?")
+	@Scheduled(cron = "0 0 1 * * ?")
 	public void billCheckNotify() {
 		ApiLogger.info("BillTask: billCheckNotify() : start");
-//TODO XXX		
-//		if(cacheDao.lockTask()) {
-		if(!cacheDao.lockTask()) {
+
+		if(cacheDao.lockTask()) {
 			//流水号
-			//cacheDao.resetSerialNo();
+			cacheDao.resetSerialNo();
 			//更换密钥
-			//guangdaResponse.doReqKey();
+			guangdaResponse.doReqKey();
 	
 			//处理对账
 			//PacketNotify packetNotify = cacheDao.getNotify();
