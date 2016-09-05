@@ -116,7 +116,7 @@ ApiLogger.info("OrderBillDao : query : " + sql.toString() + " : " + valueList.to
 	public int queryCount(ConditionVo vo) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT count(*) ");
-		sql.append("FROM `livingorder` AS a LEFT JOIN `bill` AS b ON a.order_id = b.order_id ");
+		sql.append("FROM `living_order` AS a LEFT JOIN `bill` AS b ON a.order_id = b.order_id ");
 		sql.append("LEFT JOIN `goods` AS c ON a.goods_id = c.goods_id ");
 		sql.append("WHERE 1=1 ");
 		
