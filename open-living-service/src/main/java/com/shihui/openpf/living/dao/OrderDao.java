@@ -46,18 +46,18 @@ public class OrderDao extends AbstractDao<Order> {
 	}
 
 	public List<Order> queryTopN(int count) {
-		return this.queryForList( "SELECT * FROM `order` WHERE order_status = ? ORDER BY update_time DESC  LIMIT ?", new Object[]{OrderStatusEnum.OrderHadReceived.getValue(),count});
+		return this.queryForList( "SELECT * FROM `livingorder` WHERE order_status = ? ORDER BY update_time DESC  LIMIT ?", new Object[]{OrderStatusEnum.OrderHadReceived.getValue(),count});
 	}
 
 	public List<Order> queryOrderUnStockOut() {
-//		return this.queryForList( "SELECT * FROM `order` WHERE order_status = ? ORDER BY update_time ASC", new Object[]{OrderStatusEnum.OrderUnStockOut.getValue()});
-			return this.queryForList( "SELECT a.* FROM `order` AS a INNER JOIN `bill` AS b ON a.order_id = b.order_id WHERE a.order_status = ? AND b.bill_status != ? AND b.bill_status != ?",
+//		return this.queryForList( "SELECT * FROM `livingorder` WHERE order_status = ? ORDER BY update_time ASC", new Object[]{OrderStatusEnum.OrderUnStockOut.getValue()});
+			return this.queryForList( "SELECT a.* FROM `livingorder` AS a INNER JOIN `bill` AS b ON a.order_id = b.order_id WHERE a.order_status = ? AND b.bill_status != ? AND b.bill_status != ?",
 					new Object[]{OrderStatusEnum.OrderUnStockOut.getValue(), BillStatusEnum.BuySuccess.getValue(), BillStatusEnum.Process.getValue()});
 	}
 	
 	public List<Order> queryOrder(Order order, String startTime, String endTime, Integer page, Integer size) {
 		StringBuilder sql = new StringBuilder(
-				"select a.*,b.request_id,c.service_start_time from (`order`a left join `request` b on a.order_id = b.order_id) left join `contact` as c on a.order_id = c.order_id where 1 = 1 ");
+				"select a.*,b.request_id,c.service_start_time from (`livingorder`a left join `request` b on a.order_id = b.order_id) left join `contact` as c on a.order_id = c.order_id where 1 = 1 ");
 
 		Field[] fields = Order.class.getDeclaredFields();
 		try {
@@ -102,7 +102,7 @@ public class OrderDao extends AbstractDao<Order> {
 	}
 
 	public int countQueryOrder(Order order, String startTime, String endTime) {
-		StringBuilder sql = new StringBuilder("select count(*) from `order` where 1 = 1 ");
+		StringBuilder sql = new StringBuilder("select count(*) from `livingorder` where 1 = 1 ");
 		Field[] fields = Order.class.getDeclaredFields();
 		try {
 			ArrayList<Object> valus = new ArrayList<Object>();
@@ -150,7 +150,7 @@ public class OrderDao extends AbstractDao<Order> {
 	 * @return 订单详情
 	 */
 	public Order queryOrder(long orderId) {
-		String sql = "select * from `order` where order_id = ?";
+		String sql = "select * from `livingorder` where order_id = ?";
 		try {
 			return super.queryForObject(sql, orderId);
 		} catch (Exception e) {
@@ -165,7 +165,7 @@ public class OrderDao extends AbstractDao<Order> {
 	 * @return 异常订单数量
 	 */
 	public int countUnusual() {
-		return super.queryCount("SELECT count(*) FROM `order` WHERE order_status = ? AND update_time < DATE_ADD(NOW(), INTERVAL -24*3 HOUR) ", 
+		return super.queryCount("SELECT count(*) FROM `livingorder` WHERE order_status = ? AND update_time < DATE_ADD(NOW(), INTERVAL -24*3 HOUR) ", 
 				OrderStatusEnum.OrderUnStockOut.getValue());
 	}
 
@@ -175,7 +175,7 @@ public class OrderDao extends AbstractDao<Order> {
 	 * @return 异常订单数量
 	 */
 	public List<Order> queryUnusual() {
-		return super.queryForList("SELECT * FROM `order` WHERE order_status = ? AND update_time < DATE_ADD(NOW(), INTERVAL -24*3 HOUR) ORDER BY update_time DESC ", 
+		return super.queryForList("SELECT * FROM `livingorder` WHERE order_status = ? AND update_time < DATE_ADD(NOW(), INTERVAL -24*3 HOUR) ORDER BY update_time DESC ", 
 				OrderStatusEnum.OrderUnStockOut.getValue());
 	}
 
@@ -187,7 +187,7 @@ public class OrderDao extends AbstractDao<Order> {
 	 * @return 订单数量
 	 */
 	public int countOrders(long userId, int serviceId, String deviceId) {
-		String sql = "select count(*) from `order` where (user_id = ? or device_id=?) and service_id = ? and order_status in ("
+		String sql = "select count(*) from `livingorder` where (user_id = ? or device_id=?) and service_id = ? and order_status in ("
 				+ OrderStatusEnum.OrderUnpaid.getValue() + "," + OrderStatusEnum.OrderUnConfirm.getValue() + ","
 				+ OrderStatusEnum.OrderUnStockOut.getValue() + "," + OrderStatusEnum.OrderDistribute.getValue() + ","
 				+ OrderStatusEnum.OrderHadReceived.getValue() + ")";
@@ -195,10 +195,10 @@ public class OrderDao extends AbstractDao<Order> {
 	}
 	
 	public int updateOrderStatus(long orderId, int status) {
-		return this.jdbcTemplate.update("UPDATE `order` SET order_status = ?, update_time = ? WHERE order_id = ?", new Object[]{status, new Date(), orderId});
+		return this.jdbcTemplate.update("UPDATE `livingorder` SET order_status = ?, update_time = ? WHERE order_id = ?", new Object[]{status, new Date(), orderId});
 	}
 	
 	public boolean isFirstBill(int userId) {
-		return this.queryCount("SELECT user_id FROM `order` WHERE user_id = ? LIMIT 1", new Object[]{userId}) > 0;
+		return this.queryCount("SELECT user_id FROM `livingorder` WHERE user_id = ? LIMIT 1", new Object[]{userId}) > 0;
 	}
 }
