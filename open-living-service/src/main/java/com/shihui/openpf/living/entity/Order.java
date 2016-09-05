@@ -13,7 +13,7 @@ import com.alibaba.fastjson.annotation.JSONField;
  * The persistent class for the order database table.
  * 
  */
-@Entity(name = "livingorder")
+@Entity(name = "living_order")
 public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 

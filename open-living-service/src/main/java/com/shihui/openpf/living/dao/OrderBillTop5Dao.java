@@ -15,7 +15,7 @@ public class OrderBillTop5Dao extends AbstractDao<OrderBillTop5> {
 	public List<OrderBillTop5> query(long userId, int count) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT a.order_id, a.user_id, a.gid, a.mid, a.service_id, a.goods_id, a.goods_version, b.category_id, b.fee_name, b.city_id, b.company_id, c.company_no, b.bill_key, b.bill_key_type, c.fee_type ");
-		sql.append("FROM `livingorder` AS a LEFT JOIN `bill` AS b ON a.order_id = b.order_id ");
+		sql.append("FROM `living_order` AS a LEFT JOIN `bill` AS b ON a.order_id = b.order_id ");
 		sql.append("LEFT JOIN `company` AS c ON c.company_id = b.company_id  ");
 		sql.append("WHERE b.bill_status = ? AND a.user_id = ? ORDER BY b.pay_time DESC  LIMIT ? ");
 

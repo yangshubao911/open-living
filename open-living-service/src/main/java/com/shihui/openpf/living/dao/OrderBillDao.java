@@ -20,7 +20,7 @@ public class OrderBillDao extends AbstractDao<OrderBill> {
 	public List<OrderBill> query(ConditionVo vo) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT a.order_id,a.user_id,a.price,a.pay_time,a.order_status,b.fee_name,c.city_name,b.bill_key,b.user_address,b.bill_status,b.user_name ");
-		sql.append("FROM `livingorder` AS a LEFT JOIN `bill` AS b ON a.order_id = b.order_id ");
+		sql.append("FROM `living_order` AS a LEFT JOIN `bill` AS b ON a.order_id = b.order_id ");
 		sql.append("LEFT JOIN `goods` AS c ON a.goods_id = c.goods_id ");
 		sql.append("WHERE 1=1 ");
 		

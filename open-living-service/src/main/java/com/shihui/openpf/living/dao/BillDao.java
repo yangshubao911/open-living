@@ -16,7 +16,7 @@ public class BillDao extends AbstractDao<Bill> {
 
 	public List<Bill> queryTopN(long userId, int count) {
 		return this.queryForList( "SELECT * FROM `bill` WHERE bill_status = ? "
-								+" AND order_id in (SELECT order_id FROM `order` WHERE user_id = ? )"
+								+" AND order_id in (SELECT order_id FROM `living_order` WHERE user_id = ? )"
 								+" ORDER BY pay_time DESC  LIMIT ? ",
 				new Object[]{BillStatusEnum.CheckSuccess.getValue(),userId, count});
 	}
