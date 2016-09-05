@@ -97,7 +97,7 @@ public class ClientService {
 		String info = cacheDao.getUserHome(userId);
 		ApiLogger.info("Service: homepage() : info != null : " + (info!=null) + " : userId:[" + userId + "] : "+ info);
 		if(info != null) {
-//			ApiLogger.info("Service: homepage() : info != null : " + info);
+			ApiLogger.info("Service: homepage() : info != null : " + info);
 			return JSON.parse(info);
 		}
 		//
