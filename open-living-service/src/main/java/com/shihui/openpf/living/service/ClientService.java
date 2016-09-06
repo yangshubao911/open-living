@@ -258,6 +258,9 @@ public class ClientService {
 		}
 		ReqQuery reqQuery;
 		if( company.getQueryMode() == QueryModeEnum.ShangHaiChenNanShuiWu.getMode()) {
+			if(!ShangHaiChenNanShuiWuUtil.checkUserNo(userNo)) {
+				result.put("response", new SimpleResponse(0,"条形码输入有误") );
+			}
 			reqQuery = ReqQuery.instance( 
 					tempId, 
 					userNo, 
