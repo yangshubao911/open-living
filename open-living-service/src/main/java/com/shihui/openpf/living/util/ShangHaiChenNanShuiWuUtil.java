@@ -29,7 +29,7 @@ public class ShangHaiChenNanShuiWuUtil {
 			+ Integer.valueOf(userNo.charAt(17)) 
 			+ Integer.valueOf(userNo.charAt(19)) 
 			+ Integer.valueOf(userNo.charAt(21))
-			)
+			)%10
 			);
 			if( str.charAt(str.length() - 1) == userNo.charAt(userNo.length() - 1))
 					return true;
