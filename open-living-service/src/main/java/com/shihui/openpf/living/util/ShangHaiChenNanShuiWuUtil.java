@@ -1,11 +1,13 @@
 package com.shihui.openpf.living.util;
 
+import com.shihui.commons.ApiLogger;
+
 public class ShangHaiChenNanShuiWuUtil {
 
 	public static boolean checkUserNo(String userNo) {
 		if(userNo.length() == 24) {
 			String str = String.valueOf(
-					10 - (
+					10 - ((
 			(Integer.valueOf(userNo.charAt(0)) 
 			+ Integer.valueOf(userNo.charAt(2)) 
 			+ Integer.valueOf(userNo.charAt(4)) 
@@ -29,8 +31,9 @@ public class ShangHaiChenNanShuiWuUtil {
 			+ Integer.valueOf(userNo.charAt(17)) 
 			+ Integer.valueOf(userNo.charAt(19)) 
 			+ Integer.valueOf(userNo.charAt(21))
-			)%10
+			))%10
 			);
+			ApiLogger.info("checkUserNo: " + str);
 			if( str.charAt(str.length() - 1) == userNo.charAt(userNo.length() - 1))
 					return true;
 		}
