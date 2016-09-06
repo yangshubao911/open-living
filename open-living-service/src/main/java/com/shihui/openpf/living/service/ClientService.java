@@ -257,9 +257,7 @@ public class ClientService {
 			cacheDao.setCompany(companyId, company);
 		}
 		ReqQuery reqQuery;
-		ApiLogger.info("Service: queryFee() : getMode :" + company.getQueryMode());
 		if( company.getQueryMode() == QueryModeEnum.ShangHaiChenNanShuiWu.getMode()) {
-			ApiLogger.info("Service: queryFee() : checkUserNo :" + ShangHaiChenNanShuiWuUtil.checkUserNo(userNo));
 			if(!ShangHaiChenNanShuiWuUtil.checkUserNo(userNo)) {
 				result.put("response", new SimpleResponse(0,"条形码输入有误") );
 				return result;

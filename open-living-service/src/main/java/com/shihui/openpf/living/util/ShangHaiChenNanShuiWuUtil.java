@@ -1,7 +1,5 @@
 package com.shihui.openpf.living.util;
 
-import com.shihui.commons.ApiLogger;
-
 public class ShangHaiChenNanShuiWuUtil {
 
 	public static boolean checkUserNo(String userNo) {
