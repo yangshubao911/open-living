@@ -5,6 +5,7 @@ public class ShangHaiChenNanShuiWuUtil {
 	public static boolean checkUserNo(String userNo) {
 		if(userNo.length() == 24) {
 			String str = String.valueOf(
+					10 - (
 			(Integer.valueOf(userNo.charAt(0)) 
 			+ Integer.valueOf(userNo.charAt(2)) 
 			+ Integer.valueOf(userNo.charAt(4)) 
@@ -27,7 +28,9 @@ public class ShangHaiChenNanShuiWuUtil {
 			+ Integer.valueOf(userNo.charAt(15)) 
 			+ Integer.valueOf(userNo.charAt(17)) 
 			+ Integer.valueOf(userNo.charAt(19)) 
-			+ Integer.valueOf(userNo.charAt(21)));
+			+ Integer.valueOf(userNo.charAt(21))
+			)
+			);
 			if( str.charAt(str.length() - 1) == userNo.charAt(userNo.length() - 1))
 					return true;
 		}
