@@ -10,11 +10,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.shihui.commons.ApiLogger;
+import com.shihui.commons.tools.EnvUtil;
 import com.shihui.openpf.living.io3rd.CheckFile;
 import com.shihui.openpf.living.io3rd.CheckItem;
 import com.shihui.openpf.living.io3rd.RefundeFile;
 import com.shihui.openpf.living.io3rd.RefundeItem;
+
 
 public class FileUtil {
 	private static final String SPLIT = "\\|";
@@ -29,17 +30,12 @@ public class FileUtil {
     	String fileName = CHECKFILE_SUFFIX.replace("*", date);
     	String filePath = path + fileName;
     	
-//    	if(!SftpUtil.download(host, userName, password, filePath, filePath))
-//    		return null;
-//    	File file = new File(filePath);
-//    	return file.exists() && file.isFile() ? file : null;
+    	if(EnvUtil.getEnv() != EnvUtil.Env.prod) {
+	    	if(!SftpUtil.download(host, userName, password, filePath, filePath))
+	    		return null;
+    	}
+    	
     	File file = new File(filePath);
-    	if(file.exists() && file.isFile())
-    		return file;
-    	
-    	if(!SftpUtil.download(host, userName, password, filePath, filePath))
-    		return null;
-    	
     	return file.exists() && file.isFile() ? file : null;
     }
     public static File getRefundeFile(String host, String userName, String password, String path) {
@@ -50,17 +46,12 @@ public class FileUtil {
     	String fileName = REFUNDEFILE_SUFFIX.replace("*", date);
     	String filePath = path + fileName;
     	
-//    	if(!SftpUtil.download(host, userName, password, filePath, filePath))
-//    		return null;	
-//    	File file = new File(filePath);
-//    	return file.exists() && file.isFile() ? file : null;
+    	if(EnvUtil.getEnv() != EnvUtil.Env.prod) {
+	    	if(!SftpUtil.download(host, userName, password, filePath, filePath))
+	    		return null;	
+    	}
+    	
     	File file = new File(filePath);
-    	if(file.exists() && file.isFile())
-    		return file;
-    	
-    	if(!SftpUtil.download(host, userName, password, filePath, filePath))
-    		return null;
-    	
     	return file.exists() && file.isFile() ? file : null;
     }    
    
