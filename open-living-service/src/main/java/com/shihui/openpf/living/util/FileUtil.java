@@ -29,11 +29,17 @@ public class FileUtil {
     	String fileName = CHECKFILE_SUFFIX.replace("*", date);
     	String filePath = path + fileName;
     	
+//    	if(!SftpUtil.download(host, userName, password, filePath, filePath))
+//    		return null;
+//    	File file = new File(filePath);
+//    	return file.exists() && file.isFile() ? file : null;
+    	File file = new File(filePath);
+    	if(file.exists() && file.isFile())
+    		return file;
+    	
     	if(!SftpUtil.download(host, userName, password, filePath, filePath))
     		return null;
-//    	ApiLogger.info("FileUtil: getCheckFile() : file...");
-    	File file = new File(filePath);
-//    	ApiLogger.info("FileUtil: getCheckFile() : file.exists() && file.isFile() : " + (file.exists() && file.isFile()));
+    	
     	return file.exists() && file.isFile() ? file : null;
     }
     public static File getRefundeFile(String host, String userName, String password, String path) {
@@ -44,10 +50,16 @@ public class FileUtil {
     	String fileName = REFUNDEFILE_SUFFIX.replace("*", date);
     	String filePath = path + fileName;
     	
+//    	if(!SftpUtil.download(host, userName, password, filePath, filePath))
+//    		return null;	
+//    	File file = new File(filePath);
+//    	return file.exists() && file.isFile() ? file : null;
+    	File file = new File(filePath);
+    	if(file.exists() && file.isFile())
+    		return file;
+    	
     	if(!SftpUtil.download(host, userName, password, filePath, filePath))
     		return null;
-   	
-    	File file = new File(filePath);
     	
     	return file.exists() && file.isFile() ? file : null;
     }    

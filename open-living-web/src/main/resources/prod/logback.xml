@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration scan="true" scanPeriod="60 seconds" debug="false">
-	<property name="log_root_path" value="../logs/openpf-living" />
+<configuration scan="false" scanPeriod="60 seconds" debug="false">
+	<property name="log_root_path" value="../logs/open-living" />
 
 	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
