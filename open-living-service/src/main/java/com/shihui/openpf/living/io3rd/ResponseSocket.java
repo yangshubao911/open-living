@@ -14,6 +14,9 @@ import java.util.concurrent.TimeoutException;
 
 import com.shihui.commons.ApiLogger;
 
+/*
+ * 接收光大返回报文的Socket封装
+ */
 public class ResponseSocket {
 
 	private static final int PACKET_LENGTH_MAX = 1024*1024;

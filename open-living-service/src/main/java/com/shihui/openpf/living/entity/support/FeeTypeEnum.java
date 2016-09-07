@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by zhoutc on 2015/12/16.
+ * 缴费类型
  */
 public enum FeeTypeEnum {
     Default(0,"月结"),

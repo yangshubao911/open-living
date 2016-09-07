@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
 
+/*
+ * 光大返回查询缴费单报文的JavaObject
+ */
 @XmlRootElement(name = "out")
 public class ResQuery implements PacketCheck{
 

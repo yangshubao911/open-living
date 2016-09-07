@@ -9,6 +9,9 @@ import com.shihui.openpf.living.entity.Order;
 import com.shihui.openpf.common.model.Merchant;
 import com.shihui.openpf.common.model.Service;
 
+/*
+ * 缴费单查询临时VO，仅用于查询
+ */
 public class QueryOrderBillVo {
 	
 	private String tempId;

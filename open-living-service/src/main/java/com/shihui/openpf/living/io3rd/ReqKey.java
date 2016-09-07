@@ -4,6 +4,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/*
+ * 密钥交换请求报文的JavaObject
+ */
 @XmlRootElement(name="in")
 public class ReqKey {
 

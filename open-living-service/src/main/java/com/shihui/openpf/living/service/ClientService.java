@@ -348,7 +348,8 @@ public class ClientService {
 		if(bdOffSetMax.compareTo(bdZero) > 0)
 			t = t.min(bdOffSetMax);
 		long balance = accountDubbo.getUserSHGlodAmount(order.getUserId());
-		BigDecimal bdBalance = new BigDecimal(balance).divide(new BigDecimal("10000"));
+		if(balance < 0) balance = 0;
+		BigDecimal bdBalance = new BigDecimal(balance).divide(new BigDecimal("10000")).setScale(2, BigDecimal.ROUND_HALF_UP);
 		vo.setShGold(bdBalance.toString());
 		t =  balance > 0 ? (bdBalance.compareTo(t) >= 0 
 				? t : bdZero)

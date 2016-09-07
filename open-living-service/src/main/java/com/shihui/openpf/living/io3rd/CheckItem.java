@@ -1,5 +1,8 @@
 package com.shihui.openpf.living.io3rd;
 
+/*
+ * 对账交易信息
+ */
 public class CheckItem {
 	private String billNo;
 	private String pay;

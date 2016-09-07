@@ -9,6 +9,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.nio.channels.ClosedChannelException;
 
+/*
+ * 监听光大报文返回的Socket封装
+ */
 public class ServerAIO {
 	
 	private static final int SOCKET_RECV_BUFFER_LENGTH = 4096;

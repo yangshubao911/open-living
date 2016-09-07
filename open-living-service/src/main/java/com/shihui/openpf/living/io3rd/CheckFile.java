@@ -3,7 +3,9 @@ package com.shihui.openpf.living.io3rd;
 import java.util.ArrayList;
 
 import com.shihui.openpf.living.io3rd.CheckItem;
-
+/*
+ * 对账文件
+ */
 public class CheckFile {
 	private String bjceg;
 	private int totalMoney;

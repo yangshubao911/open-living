@@ -5,6 +5,9 @@ import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+/*
+ * 光大销账报文的JavaObject
+ */
 @XmlRootElement(name = "in")
 public class ReqPay {
 

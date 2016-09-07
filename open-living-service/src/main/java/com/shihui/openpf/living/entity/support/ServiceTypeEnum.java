@@ -6,7 +6,7 @@ import java.util.Map;
 import com.shihui.api.order.common.enums.OrderTypeEnum;
 
 /**
- * Created by zhoutc on 2015/12/16.
+ * 费用类型
  */
 public enum ServiceTypeEnum {
     WaterRate(303,"水费"),//OrderTypeEnum.Convenient_WFee

@@ -4,6 +4,9 @@ import com.shihui.commons.ApiLogger;
 
 import cebenc.softenc.SoftEnc;
 
+/*
+ * 光大报文加解密
+ */
 public class Codec {
 	private static final String LOCK = "cebenc.softenc.SoftEnc";
 	private static int PREFIX_LENGTH = 6;

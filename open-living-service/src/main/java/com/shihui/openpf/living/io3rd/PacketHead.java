@@ -2,6 +2,9 @@ package com.shihui.openpf.living.io3rd;
 
 import javax.xml.bind.annotation.XmlElement;
 
+/*
+ * 光大报文的报文头JavaObject定义
+ */
 public class PacketHead {
 
 	public static final String INSTID				= "100000000000156";

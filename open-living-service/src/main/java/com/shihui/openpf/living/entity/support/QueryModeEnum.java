@@ -4,7 +4,7 @@
 package com.shihui.openpf.living.entity.support;
 
 /**
- * @author zhouqisheng
+ * 查询模式定义，上海城投水务需要计算条形码
  *
  */
 public enum QueryModeEnum {

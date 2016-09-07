@@ -2,6 +2,9 @@ package com.shihui.openpf.living.io3rd;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+/*
+ * 光大返回交换密钥的报文JavaObject
+ */
 @XmlRootElement(name="out")
 public class ResKey implements PacketCheck {
 

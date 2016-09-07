@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by zhoutc on 2015/11/12.
+ * 光大缴费单状态
  */
 public enum  BillStatusEnum {
     UnPaid(0,"未付款"),

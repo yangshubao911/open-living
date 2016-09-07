@@ -1,5 +1,8 @@
 package com.shihui.openpf.living.io3rd;
 
+/*
+ *  光大退款文件的退款交易的JavaObject
+ */
 public class RefundeItem {
 	private int serial;
 	private String payDate;

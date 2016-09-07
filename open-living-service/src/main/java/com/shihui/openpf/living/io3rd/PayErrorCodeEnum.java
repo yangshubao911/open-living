@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author zhouqisheng
+ * 光大销账返回错误定义
  *
  */
 public enum PayErrorCodeEnum {

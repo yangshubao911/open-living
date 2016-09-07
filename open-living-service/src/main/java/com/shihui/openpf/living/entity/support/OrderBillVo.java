@@ -4,6 +4,9 @@ import com.shihui.openpf.living.entity.Bill;
 import com.shihui.openpf.living.entity.Company;
 import com.shihui.openpf.living.entity.Order;
 
+/*
+ * 订单内容的ＶＯ，用于下单与缴费
+ */
 public class OrderBillVo {
 	
 	private Order order;

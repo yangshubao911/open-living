@@ -1,7 +1,9 @@
 package com.shihui.openpf.living.io3rd;
 
 import java.util.ArrayList;
-
+/*
+ * 弃用
+ */
 public class CheckRefundeVo {
 	
 	private CheckFile checkFile;

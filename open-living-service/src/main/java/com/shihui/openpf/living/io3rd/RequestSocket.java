@@ -17,6 +17,9 @@ import java.util.concurrent.TimeoutException;
 //import me.weimi.api.commons.util.ApiLogger;
 import com.shihui.commons.ApiLogger;
 
+/*
+ * 给交大发送报文的Socket封闭
+ */
 public class RequestSocket {
 
 	private static final int SOCKET_SEND_BUFFER_LENGTH = 2048;

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import com.shihui.openpf.living.io3rd.RefundeItem;
 
+/*
+ * 光大退款文件的JavaObject
+ */
 public class RefundeFile {
 	private int totalMoney;
 	private int totalAmount;

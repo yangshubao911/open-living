@@ -5,6 +5,10 @@ import org.springframework.stereotype.Repository;
 
 import com.shihui.commons.ApiLogger;
 
+/*
+ * 发送报文至光大服务器
+ */
+
 @Repository
 public class GuangdaDao {
 

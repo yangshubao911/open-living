@@ -8,7 +8,9 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-
+/*
+ * 光大报文XML互转JavaObject
+ */
 
 public class FastXML {
 	

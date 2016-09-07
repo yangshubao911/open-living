@@ -46,6 +46,10 @@ import org.springframework.beans.factory.annotation.Value;
 //import me.weimi.api.commons.util.ApiLogger;
 import com.shihui.commons.ApiLogger;
 
+/*
+ * 处理光大返回报文
+ */
+
 @Component
 public class GuangdaResponse {
 

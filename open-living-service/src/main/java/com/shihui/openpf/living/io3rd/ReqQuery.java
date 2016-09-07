@@ -2,6 +2,9 @@ package com.shihui.openpf.living.io3rd;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+/*
+ * 光大查询缴费单报文的JavaObject
+ */
 @XmlRootElement(name="in")
 public class ReqQuery {
 
