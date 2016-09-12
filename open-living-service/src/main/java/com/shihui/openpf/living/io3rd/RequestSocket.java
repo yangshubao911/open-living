@@ -1,21 +1,18 @@
 package com.shihui.openpf.living.io3rd;
 
+import com.shihui.commons.ApiLogger;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.SocketTimeoutException;
 import java.net.StandardSocketOptions;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
-import java.nio.channels.WritePendingException;
 import java.nio.channels.NotYetConnectedException;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.nio.channels.WritePendingException;
+import java.util.concurrent.*;
 
 //import me.weimi.api.commons.util.ApiLogger;
-import com.shihui.commons.ApiLogger;
 
 /*
  * 给交大发送报文的Socket封闭
@@ -103,5 +100,7 @@ public class RequestSocket {
 
 		return ret;
 	}
+
+
 
 }
