@@ -19,23 +19,6 @@ public class GuangdaDao {
 	
 	public boolean sendRequest(Object req) {
 		String xml = FastXML.beanToXml(req);
-
-
-		ApiLogger.info("光大xml:" + xml);
-		if(req.getClass() == ReqKey.class) {
-			try {
-				Codec.encodeNoMac(xml);
-			} catch (Exception e) {
-				ApiLogger.info("exception1: " + e.getMessage());
-			}
-		}else {
-			try {
-				Codec.encode(xml);
-			} catch (Exception e) {
-				ApiLogger.info("exception2: " + e.getMessage());
-			}
-		}
-
 		try {
 			return RequestSocket.sendPacket(remoteIp, remotePort, (req.getClass() == ReqKey.class) ? Codec.encodeNoMac(xml) : Codec.encode(xml) );
 		}catch(Exception e) {
