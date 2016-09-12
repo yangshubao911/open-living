@@ -14,7 +14,7 @@
         <constructor-arg index="0">
             <list>
             	<ref bean="paymentSuccessConsumer"/>
-            	<ref bean="queryConsumerRequest"/>
+            	<ref bean="queryRequestConsumer"/>
             	<ref bean="rechargeRequestConsumer"/>
             	<ref bean="responseConsumer"/>
             </list>

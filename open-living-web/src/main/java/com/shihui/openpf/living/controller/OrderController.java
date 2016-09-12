@@ -3,31 +3,28 @@
  */
 package com.shihui.openpf.living.controller;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSON;
 import com.shihui.api.core.auth.Access;
 import com.shihui.api.core.auth.Access.AccessType;
 import com.shihui.commons.ApiLogger;
 import com.shihui.openpf.common.tools.StringUtil;
 import com.shihui.openpf.living.entity.support.ConditionVo;
-import com.shihui.openpf.living.exception.SimpleRuntimeException;
 import com.shihui.openpf.living.service.OrderManage;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 /**
  * @author zhouqisheng
  *
@@ -111,7 +108,7 @@ public class OrderController extends BasicController{
 			@RequestParam(name="orderId",		required = false)	String orderId,
 			@RequestParam(name="userId",		required = false)	String userId,
 			@RequestParam(name="serviceId",		required = false)	String serviceId,
-			@RequestParam(name="order_status",	required = false)	String orderStatus) {
+			@RequestParam(name="orderStatus",	required = false)	String orderStatus) {
 
 		ConditionVo vo = new ConditionVo();
 		

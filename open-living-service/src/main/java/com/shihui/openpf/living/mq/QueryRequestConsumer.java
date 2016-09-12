@@ -1,21 +1,20 @@
 package com.shihui.openpf.living.mq;
 
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Component;
-
 import com.alibaba.fastjson.JSONObject;
+import com.shihui.commons.ApiLogger;
 import com.shihui.commons.mq.annotation.ConsumerConfig;
 import com.shihui.commons.mq.api.Consumer;
 import com.shihui.commons.mq.api.Topic;
+import com.shihui.openpf.living.cache.CacheDao;
 import com.shihui.openpf.living.io3rd.GuangdaDao;
 import com.shihui.openpf.living.io3rd.ReqQuery;
-import com.shihui.openpf.living.cache.CacheDao;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 //import me.weimi.api.commons.util.ApiLogger;
-import com.shihui.commons.ApiLogger;
 
-@Component("queryConsumerRequest")
+@Component("queryRequestConsumer")
 @ConsumerConfig(consumerName = "livingQueryRequestConsumer", topic = Topic.Open_Living_Guangda, tag=LivingMqProducer.TAG_QUERY_REQUEST)
 public class QueryRequestConsumer implements Consumer {
 
@@ -29,7 +28,7 @@ public class QueryRequestConsumer implements Consumer {
 
 	@Override
 	public boolean doit(String topic, String tags, String key, String msg) {
-//		ApiLogger.info("QueryRequestConsumer : topic[" + topic + "] tags[" + tags + "] key[" + key + "] msg=" + msg);
+		ApiLogger.info("QueryRequestConsumer : topic[" + topic + "] tags[" + tags + "] key[" + key + "] msg=" + msg);
 
 		try {			
 			ReqQuery reqQuery;
