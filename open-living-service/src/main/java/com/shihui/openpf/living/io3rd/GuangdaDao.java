@@ -16,7 +16,7 @@ public class GuangdaDao {
 	private String remoteIp;
 	@Value("${guangda_destination_host_port}")
 	private int remotePort;
-	
+
 	public boolean sendRequest(Object req) {
 		String xml = FastXML.beanToXml(req);
 		try {

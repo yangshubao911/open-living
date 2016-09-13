@@ -61,7 +61,7 @@ public class OrderController extends BasicController{
 			if (!StringUtil.isEmpty(startTime))
 				vo.setStartTime(startTime);
 			if (!StringUtil.isEmpty(endTime))
-				vo.setStartTime(endTime);
+				vo.setEndTime(endTime);
 			if (!StringUtil.isEmpty(cityId))
 				vo.setCityId(Integer.parseInt(cityId));
 			if (!StringUtil.isEmpty(userAddress))
