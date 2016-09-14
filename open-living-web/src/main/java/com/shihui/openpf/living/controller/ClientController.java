@@ -3,12 +3,12 @@
  */
 package com.shihui.openpf.living.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
+import com.shihui.api.core.auth.Access;
+import com.shihui.api.core.auth.Access.AccessType;
+import com.shihui.api.core.context.RequestContext;
+import com.shihui.commons.ApiLogger;
+import com.shihui.commons.OperationLogger;
+import com.shihui.openpf.living.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -16,12 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.shihui.api.core.auth.Access;
-import com.shihui.api.core.auth.Access.AccessType;
-import com.shihui.api.core.context.RequestContext;
-import com.shihui.commons.ApiLogger;
-import com.shihui.commons.OperationLogger;
-import com.shihui.openpf.living.service.ClientService;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Controller
@@ -108,17 +106,6 @@ public class ClientController extends BasicController {
 			@RequestParam(name="userNo", required = true) String userNo,
 			@RequestParam(name="field2", required = true) String field2) {
 
-		ApiLogger.info("Controller: /v2/openpf/living/app/queryFee : queryFee() : "
-				+ "userId: " + userId
-				+ "groupId: " + groupId
-				+ "mid: " + mid
-				+ "serviceId: " + serviceId
-				+ "categoryId: " + categoryId
-				+ "goodsId: " + goodsId
-				+ "goodsVersion: " + goodsVersion
-				+ "companyId: " + companyId
-				+ "userNo: " + userNo
-				+ "field2: " + field2 );
 		Map<String, Object> expand = new HashMap<>();
 		expand.put("cityId", String.valueOf(cityId));
 		expand.put("gid", String.valueOf(groupId));

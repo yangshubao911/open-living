@@ -88,13 +88,13 @@ public class RequestSocket {
 			}
 			
 		}catch(Exception e) {
-			e.printStackTrace();
+			ApiLogger.info("RequestSocket error=====================" + e.getMessage());
 		}
 
 		try {
 			cs.close();
 		}catch(Exception e) {
-			e.printStackTrace();
+			ApiLogger.info("RequestSocket error=====================" + e.getMessage());
 		}
 		cs = null;
 
