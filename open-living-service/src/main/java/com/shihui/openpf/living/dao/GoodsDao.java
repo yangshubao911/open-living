@@ -4,10 +4,9 @@
 package com.shihui.openpf.living.dao;
 
 import com.shihui.openpf.living.entity.Goods;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
-import org.springframework.stereotype.Repository;
 
 /**
  * @author zhouqisheng
@@ -31,7 +30,7 @@ public class GoodsDao extends AbstractDao<Goods> {
 				new Object[]{serviceId});
 	}
 	public List<Goods> queryByCategory(Integer categoryId){
-		return this.queryForList("SELECT * FROM `goods` WHERE goods_status = 1 and category_id = ?  ORDER BY city_id ASC ", 
+		return this.queryForList("c ",
 				new Object[]{categoryId});
 	}
 }

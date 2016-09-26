@@ -1,17 +1,17 @@
 package com.shihui.openpf.living.mq;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-//import me.weimi.api.commons.util.ApiLogger;
+import com.alibaba.fastjson.JSONObject;
+import com.shihui.commons.ApacheHttpClient;
+import com.shihui.commons.ApiHttpClient;
 import com.shihui.commons.ApiLogger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSONObject;
-import com.shihui.commons.ApacheHttpClient;
-import com.shihui.commons.ApiHttpClient;
+import javax.annotation.PostConstruct;
+import java.util.HashMap;
+import java.util.Map;
+
+//import me.weimi.api.commons.util.ApiLogger;
 
 @Component("appNotice")
 public class AppNotice {
@@ -64,7 +64,7 @@ public class AppNotice {
 
 			String result = httpClient.buildPost(appPushUrl).withHeader("X-Matrix-UID", "1000").withParam(param).execute();
 			
-//			ApiLogger.info("AppNotice : pushQueryResult() : uid:["+userId+"] result: ["+result+"]");
+			ApiLogger.info("AppNotice : pushQueryResult() : uid:["+userId+"] result: ["+result+"]");
 		} catch (Exception e) {
 			ApiLogger.error("AppNotice : pushQueryResult() : push app消息异常", e);
 		}
