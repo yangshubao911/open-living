@@ -34,7 +34,7 @@ public class ClientController extends BasicController {
 
 	@RequestMapping("/homepage")
 	@ResponseBody
-	@Access(type = AccessType.INTERNAL)
+	@Access(type = AccessType.COMMON)
 	public Object homepage(
 			@RequestParam(name="userId", required = true) Long userId,
 			@RequestParam(name="cityId", required = true) Integer cityId,
@@ -61,7 +61,7 @@ public class ClientController extends BasicController {
 
 	@RequestMapping("/listCity")
 	@ResponseBody
-	@Access(type = AccessType.INTERNAL)
+	@Access(type = AccessType.COMMON)
 	public Object queryCity(
 			@RequestParam(name="serviceId", required = true) Integer serviceId,
 			@RequestParam(name="categoryId", required = true) Integer categoryId) {
@@ -74,7 +74,7 @@ public class ClientController extends BasicController {
 
 	@RequestMapping("/listCompany")
 	@ResponseBody
-	@Access(type = AccessType.INTERNAL)
+	@Access(type = AccessType.COMMON)
 	public Object queryCompany(
 			@RequestParam(name="serviceId", required = true) Integer serviceId,
 			@RequestParam(name="categoryId", required = true) Integer categoryId,
@@ -91,7 +91,7 @@ public class ClientController extends BasicController {
 	 */
 	@RequestMapping("/queryBill")
 	@ResponseBody
-	@Access(type = AccessType.INTERNAL)
+	@Access(type = AccessType.COMMON)
 	public Object queryFee(
 			@RequestParam(name="userId", required = true) Integer userId,
 			@RequestParam(name = "groupId", required = true) Long groupId,
@@ -122,7 +122,7 @@ public class ClientController extends BasicController {
 	
 	@RequestMapping("/confirmOrder")
 	@ResponseBody
-	@Access(type = AccessType.INTERNAL)
+	@Access(type = AccessType.COMMON)
 	public Object confirmOrder(
 			@RequestParam(name="userId", required = true) Integer userId,
 			@RequestParam(name="tempId", required = true) String tempId,
@@ -138,7 +138,7 @@ public class ClientController extends BasicController {
 	
 	@RequestMapping("/createOrder")
 	@ResponseBody
-	@Access(type = AccessType.INTERNAL)
+	@Access(type = AccessType.COMMON)
 	public Object createOrder(
 			@RequestParam(name="userId", required = true) Integer userId,
 			@RequestParam(name="tempId", required = true) String tempId,
