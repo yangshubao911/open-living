@@ -106,6 +106,13 @@ public class ClientController extends BasicController {
 			@RequestParam(name="userNo", required = true) String userNo,
 			@RequestParam(name="field2", required = true) String field2) {
 
+//		int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+//		if(hour < 4 || 20 < hour) {
+//			JSONObject result = new JSONObject();
+//			result.put("response", new SimpleResponse(0,"请在04:00到20:00之间缴费") );
+//			return result;
+//		}
+
 		Map<String, Object> expand = new HashMap<>();
 		expand.put("cityId", String.valueOf(cityId));
 		expand.put("gid", String.valueOf(groupId));
