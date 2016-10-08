@@ -1,14 +1,14 @@
 package com.shihui.commons;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.shihui.api.core.context.RequestContext;
 import com.shihui.common.logger.CentralLogger;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author sofn
@@ -21,7 +21,8 @@ public class OperationLogger {
         OperationLog olog = new OperationLog();
         olog.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         olog.setChannel("kuyue");
-        olog.setClientVersion(rc.getClient().getClientVersion().getMinor());
+//        olog.setClientVersion(rc.getClient().getClientVersion().getMinor());
+        olog.setClientVersion(rc.getClient().getVersion());
         olog.setDeviceId(rc.getClient().getDeviceId());
         olog.setCityId((String)expand.get("cityId"));
         olog.setGid((String)expand.get("gid"));
