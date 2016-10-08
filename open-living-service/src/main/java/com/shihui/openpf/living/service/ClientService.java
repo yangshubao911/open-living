@@ -101,11 +101,11 @@ public class ClientService {
 	}
 	
 	private JSONArray getCategoryList() {
-		String info = cacheDao.getCategory();
-		if(info != null) {
-			ApiLogger.info("Service: getCategoryList() : info != null : " + info);
-			return (JSONArray)JSON.parse(info);
-		}
+//		String info = cacheDao.getCategory();
+//		if(info != null) {
+//			ApiLogger.info("Service: getCategoryList() : info != null : " + info);
+//			return (JSONArray)JSON.parse(info);
+//		}
 		//
 		JSONArray ja = new JSONArray();
 		List<Category> categoryList = categoryDao.findAll();
@@ -119,7 +119,7 @@ public class ClientService {
 			jo.put("productId", category.getProductId());	
 			ja.add(jo);
 		}	
-//		ApiLogger.info("Service: getCategoryList() : " + ja.toJSONString());
+		ApiLogger.info("Service: getCategoryList() : " + ja.toJSONString());
 		cacheDao.setCategory(ja.toJSONString());
 		return ja;
 
