@@ -3,14 +3,6 @@
  */
 package com.shihui.openpf.living.service;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Calendar;
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -18,6 +10,7 @@ import com.shihui.api.order.common.enums.OrderStatusEnum;
 import com.shihui.api.order.common.enums.OrderTypeEnum;
 import com.shihui.api.order.vo.ApiResult;
 import com.shihui.api.order.vo.SingleGoodsCreateOrderParam;
+import com.shihui.commons.ApiLogger;
 import com.shihui.openpf.common.model.Campaign;
 import com.shihui.openpf.common.model.Group;
 import com.shihui.openpf.common.model.Merchant;
@@ -25,36 +18,24 @@ import com.shihui.openpf.common.service.api.CampaignService;
 import com.shihui.openpf.common.service.api.ServiceService;
 import com.shihui.openpf.common.tools.StringUtil;
 import com.shihui.openpf.living.cache.CacheDao;
-import com.shihui.openpf.living.dao.BannerAdsDao;
-import com.shihui.openpf.living.dao.BillDao;
-import com.shihui.openpf.living.dao.OrderBillTop5Dao;
-import com.shihui.openpf.living.dao.CategoryDao;
-import com.shihui.openpf.living.dao.CompanyDao;
-import com.shihui.openpf.living.dao.GoodsDao;
-import com.shihui.openpf.living.dao.OrderDao;
-import com.shihui.openpf.living.entity.BannerAds;
-import com.shihui.openpf.living.entity.Bill;
-import com.shihui.openpf.living.entity.OrderBillTop5;
-import com.shihui.openpf.living.entity.Category;
-import com.shihui.openpf.living.entity.Company;
-import com.shihui.openpf.living.entity.Goods;
-import com.shihui.openpf.living.entity.Order;
-import com.shihui.openpf.living.entity.support.BannerAdsEnum;
-import com.shihui.openpf.living.entity.support.BillStatusEnum;
-import com.shihui.openpf.living.entity.support.FeeTypeEnum;
-import com.shihui.openpf.living.entity.support.OrderBillVo;
-import com.shihui.openpf.living.entity.support.QueryModeEnum;
-import com.shihui.openpf.living.entity.support.QueryOrderBillVo;
+import com.shihui.openpf.living.dao.*;
+import com.shihui.openpf.living.entity.*;
+import com.shihui.openpf.living.entity.support.*;
 import com.shihui.openpf.living.io3rd.GuangdaDao;
 import com.shihui.openpf.living.io3rd.ReqQuery;
 import com.shihui.openpf.living.mq.LivingMqProducer;
 import com.shihui.openpf.living.util.LivingUtil;
+import com.shihui.openpf.living.util.ShangHaiChenNanShuiWuUtil;
 import com.shihui.openpf.living.util.SimpleResponse;
 import com.shihui.tradingcenter.commons.dispatcher.currency.AccountDubbo;
-import com.shihui.openpf.living.util.ShangHaiChenNanShuiWuUtil;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 //import me.weimi.api.commons.util.ApiLogger;
-import com.shihui.commons.ApiLogger;
 
 @Service
 public class ClientService {
@@ -69,10 +50,8 @@ public class ClientService {
 	AccountDubbo accountDubbo;
 	@Resource
 	private CategoryDao categoryDao;
-	
 	@Resource
 	private GoodsDao goodsDao;
-	
 	@Resource
 	private CompanyDao companyDao;
 	@Resource
@@ -94,12 +73,13 @@ public class ClientService {
 	 * 
 	 */
 	public Object homepage(Long userId, Integer cityId, Integer historyOrderCount) {
-		String info = cacheDao.getUserHome(userId);
-		ApiLogger.info("Service: homepage() : info != null : " + (info!=null) + " : userId:[" + userId + "] : "+ info);
-		if(info != null) {
-			ApiLogger.info("Service: homepage() : info != null : " + info);
-			return JSON.parse(info);
-		}
+//		String info = cacheDao.getUserHome(userId);
+//		ApiLogger.info("Service: homepage() : info != null : " + (info!=null) + " : userId:[" + userId + "] : "+ info);
+//		if(info != null) {
+//			ApiLogger.info("Service: homepage() : info != null : " + info);
+//			return JSON.parse(info);
+//		}
+
 		//
 		JSONObject result = new JSONObject();
 		
