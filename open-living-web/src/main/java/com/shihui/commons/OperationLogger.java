@@ -22,6 +22,7 @@ public class OperationLogger {
         olog.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         olog.setChannel("kuyue");
 //        olog.setClientVersion(rc.getClient().getClientVersion().getMinor());
+
         olog.setClientVersion(rc.getClient().getVersion());
         olog.setDeviceId(rc.getClient().getDeviceId());
         olog.setCityId((String)expand.get("cityId"));
