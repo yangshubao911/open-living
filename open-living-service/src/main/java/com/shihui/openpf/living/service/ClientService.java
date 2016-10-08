@@ -365,7 +365,7 @@ public class ClientService {
 			result.put("desc", desc);
 			//TODO??
 			result.put("billDate", bill.getBillDate());	
-			if( bill.getFeeType() == FeeTypeEnum.Prepayment.getValue() ) {
+			if( FeeTypeEnum.Prepayment.getValue().equals(bill.getFeeType())) {
 				order.setPrice(price);
 			}
 			//
