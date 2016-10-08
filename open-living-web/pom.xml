@@ -12,7 +12,7 @@
 	  <dependency>
 		  <groupId>com.shihui.commons</groupId>
 		  <artifactId>core</artifactId>
-		  <version>2.0.3-RELEASE</version>
+		  <version>2.0.820-SNAPSHOT</version>
 	  </dependency>
 		<dependency>
 			<groupId>com.shihui.openpf</groupId>
