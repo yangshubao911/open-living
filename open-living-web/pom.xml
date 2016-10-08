@@ -9,6 +9,11 @@
   <packaging>war</packaging>
   
   <dependencies>
+	  <dependency>
+		  <groupId>com.shihui.commons</groupId>
+		  <artifactId>core</artifactId>
+		  <version>2.0.3-RELEASE</version>
+	  </dependency>
 		<dependency>
 			<groupId>com.shihui.openpf</groupId>
 			<artifactId>open-living-service</artifactId>
