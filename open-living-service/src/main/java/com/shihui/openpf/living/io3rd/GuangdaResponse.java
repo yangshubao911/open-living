@@ -1,50 +1,39 @@
 package com.shihui.openpf.living.io3rd;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Component;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.shihui.commons.ApiLogger;
 import com.shihui.openpf.common.dubbo.api.MerchantManage;
 import com.shihui.openpf.common.dubbo.api.ServiceManage;
 import com.shihui.openpf.common.model.Campaign;
 import com.shihui.openpf.common.model.Group;
+import com.shihui.openpf.common.model.Merchant;
 import com.shihui.openpf.common.service.api.CampaignService;
 import com.shihui.openpf.common.service.api.GroupManage;
 import com.shihui.openpf.common.service.api.ServiceService;
 import com.shihui.openpf.living.cache.CacheDao;
-import com.shihui.openpf.living.dao.BillDao;
-import com.shihui.openpf.living.dao.OrderDao;
-import com.shihui.openpf.living.dao.CompanyDao;
-import com.shihui.openpf.living.dao.GoodsDao;
+import com.shihui.openpf.living.dao.*;
 import com.shihui.openpf.living.entity.Bill;
 import com.shihui.openpf.living.entity.Company;
 import com.shihui.openpf.living.entity.Goods;
 import com.shihui.openpf.living.entity.Order;
-import com.shihui.openpf.living.entity.support.BillStatusEnum;
-import com.shihui.openpf.living.entity.support.FeeTypeEnum;
-import com.shihui.openpf.living.entity.support.OrderBillVo;
-import com.shihui.openpf.living.entity.support.QueryModeEnum;
-import com.shihui.openpf.living.entity.support.QueryOrderBillVo;
+import com.shihui.openpf.living.entity.support.*;
 import com.shihui.openpf.living.mq.AppNotice;
 import com.shihui.openpf.living.mq.LivingMqProducer;
 import com.shihui.openpf.living.util.LivingUtil;
 import com.shihui.openpf.living.util.PacketTypeEnum;
 import com.shihui.openpf.living.util.ShangHaiChenNanShuiWuUtil;
 import com.shihui.openpf.living.util.SimpleResponse;
-import com.shihui.openpf.common.model.Merchant;
-import com.shihui.openpf.living.entity.MerchantGoods;
-import com.shihui.openpf.living.dao.MerchantGoodsDao;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 //import me.weimi.api.commons.util.ApiLogger;
-import com.shihui.commons.ApiLogger;
 
 /*
  * 处理光大返回报文
@@ -261,19 +250,19 @@ public class GuangdaResponse {
 		}
 		//
 		//
-		com.shihui.openpf.common.model.Service service = cacheDao.getService(order.getServiceId());
-		if(service == null) {
-			service = serviceManage.findById(order.getServiceId());
-			cacheDao.setService(order.getServiceId(), service);
-		}
+//		com.shihui.openpf.common.model.Service service = cacheDao.getService(order.getServiceId());
+//		if(service == null) {
+			com.shihui.openpf.common.model.Service service = serviceManage.findById(order.getServiceId());
+//			cacheDao.setService(order.getServiceId(), service);
+//		}
 		vo.setService(service);
-		Merchant merchant = cacheDao.getMerchant(goods.getServiceId(), goods.getCategoryId(), goods.getGoodsId());
-		if(merchant == null) {
+//		Merchant merchant = cacheDao.getMerchant(goods.getServiceId(), goods.getCategoryId(), goods.getGoodsId());
+//		if(merchant == null) {
 			Integer merchantId = merchantGoodsDao.queryMerchantId(goods.getServiceId(), goods.getCategoryId(), goods.getGoodsId());
-			merchant = merchantManage.getById(merchantId);
-			cacheDao.setMerchant(goods.getServiceId(), goods.getCategoryId(), goods.getGoodsId(), merchant);
-			cacheDao.setMerchant(merchantId, merchant);
-		}
+			Merchant merchant = merchantManage.getById(merchantId);
+//			cacheDao.setMerchant(goods.getServiceId(), goods.getCategoryId(), goods.getGoodsId(), merchant);
+//			cacheDao.setMerchant(merchantId, merchant);
+//		}
 		vo.setMerchant(merchant);
 		
 		Group group = cacheDao.getGroup(order.getGid());
