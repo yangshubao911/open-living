@@ -85,14 +85,14 @@ public class OrderManage {
 	MerchantGoodsDao merchantGoodsDao;
 	@Resource
 	OrderHistoryDao orderHistoryDao;
-
 	@Resource
 	OrderSystemService orderSystemService;
 	@Resource
 	MerchantManage merchantManage;
 	@Resource
 	ServiceManage serviceManage;
-	
+	@Resource
+	private OrderService orderService;
 	//
 	private CloseableHttpClient httpClient;
 //	private Logger log;
@@ -165,7 +165,7 @@ public class OrderManage {
 		title.add("订单提交时间");
 		title.add("充值状态");
 		title.add("退款状态");
-
+		title.add("服务社id");
 		List<List<Object>> data = new ArrayList<>();
 		if(orderList!=null && orderList.size()>0)
 		for(OrderBill order : orderList){
@@ -181,6 +181,8 @@ public class OrderManage {
 			list.add(order.getPayTime() == null ? "" : new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(order.getPayTime()));
 			list.add(OrderStatusEnum.parse(order.getOrderStatus()).getName());
 			list.add(order.getBillStatus() == BillStatusEnum.Refund.getValue() ? "已退款" : "");
+			Order od = orderService.queryOrder(order.getOrderId());
+			list.add(od == null ? "" : od.getMid());
 			data.add(list);
 		}
 		String fileName = null;

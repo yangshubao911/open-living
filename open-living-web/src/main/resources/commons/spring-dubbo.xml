@@ -35,5 +35,4 @@
      <dubbo:reference id="userServicenew" interface="com.shihui.rpc.user.service.api.UserService" check="false"/>
     <!-- 实惠现金接口-->
     <dubbo:reference id="accountDubbo" interface="com.shihui.tradingcenter.commons.dispatcher.currency.AccountDubbo" check="false"/> 
-
 </beans>

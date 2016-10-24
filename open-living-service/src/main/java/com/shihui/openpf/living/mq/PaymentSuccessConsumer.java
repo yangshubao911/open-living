@@ -1,13 +1,18 @@
 package com.shihui.openpf.living.mq;
 
 import java.math.BigDecimal;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
@@ -17,29 +22,28 @@ import com.shihui.api.order.common.enums.OrderTypeEnum;
 import com.shihui.api.order.common.enums.PayTypeEnum;
 import com.shihui.api.order.service.OpenService;
 import com.shihui.api.order.vo.SimpleResult;
+import com.shihui.commons.ApiLogger;
 import com.shihui.commons.mq.annotation.ConsumerConfig;
 import com.shihui.commons.mq.api.Consumer;
 import com.shihui.commons.mq.api.Topic;
-import com.shihui.openpf.common.dubbo.api.MerchantManage;
 import com.shihui.openpf.common.dubbo.api.ServiceManage;
 import com.shihui.openpf.common.model.Service;
 import com.shihui.openpf.living.cache.CacheDao;
 import com.shihui.openpf.living.dao.BillDao;
+import com.shihui.openpf.living.dao.CategoryDao;
+import com.shihui.openpf.living.dao.CompanyDao;
+import com.shihui.openpf.living.dao.OrderDao;
+import com.shihui.openpf.living.entity.Bill;
+import com.shihui.openpf.living.entity.Category;
 import com.shihui.openpf.living.entity.Order;
 import com.shihui.openpf.living.entity.support.BillStatusEnum;
 import com.shihui.openpf.living.entity.support.OrderBillVo;
 import com.shihui.openpf.living.entity.support.QueryModeEnum;
-import com.shihui.openpf.living.service.GoodsService;
-import com.shihui.openpf.living.service.OrderService;
 import com.shihui.openpf.living.io3rd.ReqPay;
-import com.shihui.openpf.living.dao.CompanyDao;
-import com.shihui.openpf.living.entity.Bill;
+import com.shihui.openpf.living.service.OrderService;
+import com.shihui.openpf.living.util.HttpUtil;
 import com.shihui.openpf.living.util.LivingUtil;
-
-//import me.weimi.api.commons.util.ApiLogger;
-import com.shihui.commons.ApiLogger;
-
-import com.shihui.openpf.living.mq.LivingMqProducer;
+import com.shihui.rpc.user.service.api.UserService;
 /**
  * Created by zhoutc on 2016/3/3.
  */
@@ -50,16 +54,12 @@ import com.shihui.openpf.living.mq.LivingMqProducer;
 @Component("paymentSuccessConsumer")
 @ConsumerConfig(consumerName = "livingOrderConsumer", topic = Topic.UPDATE_ORDER_STATUS)
 public class PaymentSuccessConsumer implements Consumer {
-//	private Logger log = LoggerFactory.getLogger(getClass());
+	private Logger log = LoggerFactory.getLogger(getClass());
 
 	@Resource
 	private OrderService orderService;
 	@Resource
 	private ServiceManage serviceManage;
-	@Resource
-	private GoodsService goodsService;
-	@Resource
-	private MerchantManage merchantManage;
 	@Resource
 	private BillDao billDao;
 	@Resource
@@ -72,6 +72,14 @@ public class PaymentSuccessConsumer implements Consumer {
 	CompanyDao companyDao;
 	@Resource
 	LivingMqProducer mqProducer;
+	@Resource
+	private UserService userServicenew;
+	@Resource
+	private OrderDao orderDao;
+	@Resource
+	private CategoryDao  categoryDao ;
+	@Value(value="${sms.url}")
+	private URL smsUrl;
 
 	
 	public PaymentSuccessConsumer(){
@@ -195,6 +203,27 @@ public class PaymentSuccessConsumer implements Consumer {
 						order.setPayTime(orderUpdate.getPayTime());
 						order.setTransId(orderUpdate.getTransId());
 						order.setUpdateTime(orderUpdate.getUpdateTime());
+						//20160830 孙兆英站在内信
+						try{
+	                        com.shihui.rpc.user.model.User user = userServicenew.getUser(order_vo.getUserId());
+	                        long to = user.getUserIdx().getPhone().getNumber();
+	                        //                    
+	                        Order orderPo = orderDao.findById(orderId);
+	                        Integer serviceId = orderPo.getServiceId();
+	                        Category category = new Category();
+	                        category.setServiceId(serviceId);
+	                        List<Category> categories = categoryDao.findByCondition(category);
+	                        String categoryName = categories.get(0).getName();
+	                        Map<String, String> param = new HashMap<String, String>();
+	                        param.put("from", "生活缴费");
+	                        param.put("to", to+"");
+	                        param.put("type", "0");
+	                        param.put("hash", "1");
+	                        param.put("msg", "您的" + categoryName + ":" +order_vo.getPrice()+ "元，小惠已收到您的付款，正火速帮您缴费中，预计1-3个工作日内到账。若本月已缴纳，本次缴费金额将自动退款至您支付账号。");
+	                        HttpUtil.doPost(smsUrl, param);
+	                    }catch (Exception e) {
+	                        log.error(e.getMessage());
+	                    }
 					}
 
 					//Goods goods = goodsService.findById(order.getGoodsId());
@@ -220,6 +249,7 @@ public class PaymentSuccessConsumer implements Consumer {
 					//
 					doReqPay(obvo);
 				} else if(status == OrderStatusEnum.OrderHadReceived){
+				    
 					//更新订单消费时间
 				    Order orderUpdate = new Order();
 				    orderUpdate.setOrderId(orderId);
@@ -236,6 +266,28 @@ public class PaymentSuccessConsumer implements Consumer {
 					
 					//cacheDao.setOrderBillVo(orderId, obvo);
 					cacheDao.delOrderBillVo(orderId);
+					
+					//20160830 孙兆英站在内信
+					try{
+    					com.shihui.rpc.user.model.User user = userServicenew.getUser(order_vo.getUserId());
+    					long to = user.getUserIdx().getPhone().getNumber();
+    				    //                    
+                        Order orderPo = orderDao.findById(orderId);
+                        Integer serviceId = orderPo.getServiceId();
+                        Category category = new Category();
+                        category.setServiceId(serviceId);
+                        List<Category> categories = categoryDao.findByCondition(category);
+                        String categoryName = categories.get(0).getName();
+                        Map<String, String> param = new HashMap<String, String>();
+                        param.put("from", "生活缴费");
+                        param.put("to", to+"");
+                        param.put("type", "0");
+                        param.put("hash", "1");
+                        param.put("msg", "您的" + categoryName + ":" +order_vo.getPrice()+ "元，已成功缴纳。感谢您的使用。");
+                        HttpUtil.doPost(smsUrl, param);
+					}catch (Exception e) {
+					    log.error(e.getMessage());
+                    }
 				}
 				else {
 					//TODO
@@ -250,6 +302,28 @@ public class PaymentSuccessConsumer implements Consumer {
 					else if ( status == OrderStatusEnum.PayedCancel) {
 						billDao.updateBillStatus(orderId, BillStatusEnum.Refund.getValue());
 						cacheDao.delOrderBillVo(orderId);
+		                  //20160830 孙兆英站在内信
+	                    try{
+	                        com.shihui.rpc.user.model.User user = userServicenew.getUser(order_vo.getUserId());
+	                        long to = user.getUserIdx().getPhone().getNumber();
+	                        //                    
+	                        Order orderPo = orderDao.findById(orderId);
+	                        Integer serviceId = orderPo.getServiceId();
+	                        Category category = new Category();
+	                        category.setServiceId(serviceId);
+	                        List<Category> categories = categoryDao.findByCondition(category);
+	                        String categoryName = categories.get(0).getName();
+	                        Map<String, String> param = new HashMap<String, String>();
+	                        param.put("from", "生活缴费");
+	                        param.put("to", to+"");
+	                        param.put("type", "0");
+	                        param.put("hash", "1");
+	                        param.put("msg", "您的" + categoryName + ":" +order_vo.getPrice()+ "元缴纳失败。已退款至您的支付账号。具体到账时间以微信（支付宝）平台为准。");
+	                        HttpUtil.doPost(smsUrl, param);
+	                    }catch (Exception e) {
+	                        log.error(e.getMessage());
+	                    }
+
 					}
 				}
 

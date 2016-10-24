@@ -45,7 +45,7 @@ public class ClientController extends BasicController {
 		
 		ApiLogger.info("Controller: /v2/openpf/living/app/homepage : homepage() : "
 				+ "userId: " + userId
-				+ "cityId: " + cityId
+				+ "cityId: " + cityId 
 				+ "groupId: " + groupId
 				+ "mid: " + mid
 				+ "historyOrderCount: " + historyOrderCount );
@@ -68,6 +68,12 @@ public class ClientController extends BasicController {
 
 		ApiLogger.info("Controller: /v2/openpf/living/app/queryCity : queryCity() : "
 				+ "categoryId: " + categoryId);
+		//
+//		Map<String, Object> expand = new HashMap<>();
+//        expand.put("cityId", String.valueOf(cityId));
+//        expand.put("gid", String.valueOf(groupId));
+//        expand.put("serviceId", String.valueOf(mid));
+//		OperationLogger.log("operation.open-living.city", RequestContext.getRequestContext(), expand);
 		
 		return clientService.queryCity(serviceId, categoryId);
 	}
