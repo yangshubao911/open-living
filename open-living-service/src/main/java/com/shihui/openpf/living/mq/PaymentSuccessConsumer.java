@@ -219,7 +219,7 @@ public class PaymentSuccessConsumer implements Consumer {
 	                        param.put("to", to+"");
 	                        param.put("type", "0");
 	                        param.put("hash", "1");
-	                        param.put("msg", "您的" + categoryName + ":" +order_vo.getPrice()+ "元，小惠已收到您的付款，正火速帮您缴费中，预计1-3个工作日内到账。若本月已缴纳，本次缴费金额将自动退款至您支付账号。");
+	                        param.put("msg", "您的" + categoryName + ":" + order.getPay() + "元，小惠已收到您的付款，正火速帮您缴费中，预计1-3个工作日内到账。若本月已缴纳，本次缴费金额将自动退款至您支付账号。");
 	                        HttpUtil.doPost(smsUrl, param);
 	                    }catch (Exception e) {
 	                        log.error(e.getMessage());
