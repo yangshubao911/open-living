@@ -182,7 +182,7 @@ public class OrderManage {
 			list.add(OrderStatusEnum.parse(order.getOrderStatus()).getName());
 			list.add(order.getBillStatus() == BillStatusEnum.Refund.getValue() ? "已退款" : "");
 			Order od = orderService.queryOrder(order.getOrderId());
-			list.add(od == null || od.getMid() == -1 ? "" : od.getMid());
+			list.add(od == null || od.getMid() <=0 ? "" : od.getMid());
 			data.add(list);
 		}
 		String fileName = null;
