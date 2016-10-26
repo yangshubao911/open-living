@@ -283,7 +283,8 @@ public class PaymentSuccessConsumer implements Consumer {
                         param.put("to", to+"");
                         param.put("type", "0");
                         param.put("hash", "1");
-                        param.put("msg", "您的" + categoryName + ":" +order_vo.getPrice()+ "元，已成功缴纳。感谢您的使用。");
+                        
+                        param.put("msg", "您的" + categoryName + ":" +order.getPay()+ "元，已成功缴纳。感谢您的使用。");
                         HttpUtil.doPost(smsUrl, param);
 					}catch (Exception e) {
 					    log.error(e.getMessage());
@@ -318,7 +319,7 @@ public class PaymentSuccessConsumer implements Consumer {
 	                        param.put("to", to+"");
 	                        param.put("type", "0");
 	                        param.put("hash", "1");
-	                        param.put("msg", "您的" + categoryName + ":" +order_vo.getPrice()+ "元缴纳失败。已退款至您的支付账号。具体到账时间以微信（支付宝）平台为准。");
+	                        param.put("msg", "您的" + categoryName + ":" +order.getPay()+ "元缴纳失败。已退款至您的支付账号。具体到账时间以微信（支付宝）平台为准。");
 	                        HttpUtil.doPost(smsUrl, param);
 	                    }catch (Exception e) {
 	                        log.error(e.getMessage());
